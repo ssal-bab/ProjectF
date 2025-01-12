@@ -1,0 +1,2 @@
+# ProjectF
+project idle-farming

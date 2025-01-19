@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼 데이터 POST 요청</title>
+</head>
+<body>
+    <h1>폼 데이터 POST 요청 보내기</h1>
+    <form id="myForm">
+        <button type="button" onclick="sendPostRequest()">전송</button>
+    </form>
+
+    <script>
+        function sendPostRequest() {
+            const url = 'https://localhost:7161/ranking/ranking_list'; // 원하는 URL로 변경하세요.
+            const body = {
+                req: null
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // JSON 형식 명시
+                },
+                body: JSON.stringify(body),
+            })
+            .then(response => console.log(response)) // JSON 응답을 처리
+            .then(result => {
+                console.log('응답 결과:', result);
+            })
+            .catch(error => {
+                console.error('요청 중 오류 발생:', error);
+            });
+        }
+    </script>
+</body>
+</html>

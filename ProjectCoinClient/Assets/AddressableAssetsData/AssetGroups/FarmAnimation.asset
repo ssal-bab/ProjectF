@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: FarmAnimation
+  m_EditorClassIdentifier: 
+  m_GroupName: FarmAnimation
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 22f8b9c63ede0438e97d7b0e4835aaed
+  m_SerializeEntries:
+  - m_GUID: cc1c65a26e5b942b89ccf37a34f0477f
+    m_Address: Lift
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af96545add01a4a91a986f771bb63a01
+    m_Address: Plow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 274b0d650bc904ad2a589732c1839250
+    m_Address: Water
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 665b6205905584eb0aabcce770fe4440
+    m_Address: Load
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8fbbc3a89b91746edb8dc0e17d448080
+    m_Address: Harvest
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ac882ab2f5ba4c84ad16398bbd9c630
+    m_Address: Move
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc868b294cce44a378f7c69cd1c97eb8
+    m_Address: Idle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1cad159d808354b89ad965780241f5d3
+    m_Address: Plant
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 517ac1e1ec47244c79ecfee18295429d
+    m_Address: Farmer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3939ca5c5b1234d0d96aa1714eca6aec, type: 2}
+    - {fileID: 11400000, guid: c966b1f0be02c45888e31781b6c31df8, type: 2}

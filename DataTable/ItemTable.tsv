@@ -1,0 +1,36 @@
+id	itemType	nameLocalKey	// desc	// desc
+int	EItemType	string		
+0	Crop	crop_name_strawberry	딸기	봄
+1	Crop	crop_name_radish	무	봄
+2	Crop	crop_name_carrot	당근	봄
+3	Crop	crop_name_potato	감자	봄
+4	Crop	crop_name_tomato	토마토	여름
+5	Crop	crop_name_watermelon	수박	여름
+6	Crop	crop_name_pumpkin	호박	여름
+7	Crop	crop_name_pepper	고추	여름
+8	Crop	crop_name_bean	콩	가을
+9	Crop	crop_name_sweetpotato	고구마	가을
+10	Crop	crop_name_beatroot	비트	가을
+11	Crop	crop_name_onion	양파	가을
+12	Crop	crop_name_garlic	마늘	겨울
+13	Crop	crop_name_spinach	시금치	겨울
+14	Crop	crop_name_cauliflower	콜리플라워	겨울
+15	Crop	crop_name_cabbage	양배추	겨울
+16	Egg	crop_name_test_egg	테스트 알	-
+100	Seed	asd	-	-
+101	Seed	asd	-	-
+102	Seed	asd	-	-
+103	Seed	asd	-	-
+104	Seed	asd	-	-
+105	Seed	asd	-	-
+106	Seed	asd	-	-
+107	Seed	asd	-	-
+108	Seed	asd	-	-
+109	Seed	asd	-	-
+110	Seed	asd	-	-
+111	Seed	asd	-	-
+112	Seed	asd	-	-
+113	Seed	asd	-	-
+114	Seed	asd	-	-
+115	Seed	asd	-	-
+116	Seed	asd	-	-

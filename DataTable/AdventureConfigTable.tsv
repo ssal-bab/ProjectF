@@ -1,0 +1,9 @@
+id	key	value
+int	string	float
+0	LootItem1Probability	0.75
+1	LootItem2Probability	0.2
+2	LootItem3Probability	0.045
+3	LootItem4Probability	0.005
+4	LootSeed1Probability	0.45
+5	LootSeed2Probability	0.3
+6	LootSeed3Probability	0.25

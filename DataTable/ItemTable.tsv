@@ -1,36 +1,74 @@
 id	itemType	nameLocalKey	// desc	// desc
 int	EItemType	string		
-0	Crop	crop_name_strawberry	딸기	봄
-1	Crop	crop_name_radish	무	봄
-2	Crop	crop_name_carrot	당근	봄
-3	Crop	crop_name_potato	감자	봄
-4	Crop	crop_name_tomato	토마토	여름
-5	Crop	crop_name_watermelon	수박	여름
-6	Crop	crop_name_pumpkin	호박	여름
-7	Crop	crop_name_pepper	고추	여름
-8	Crop	crop_name_bean	콩	가을
-9	Crop	crop_name_sweetpotato	고구마	가을
-10	Crop	crop_name_beatroot	비트	가을
-11	Crop	crop_name_onion	양파	가을
-12	Crop	crop_name_garlic	마늘	겨울
-13	Crop	crop_name_spinach	시금치	겨울
-14	Crop	crop_name_cauliflower	콜리플라워	겨울
-15	Crop	crop_name_cabbage	양배추	겨울
-16	Egg	crop_name_test_egg	테스트 알	-
-100	Seed	asd	-	-
-101	Seed	asd	-	-
-102	Seed	asd	-	-
-103	Seed	asd	-	-
-104	Seed	asd	-	-
-105	Seed	asd	-	-
-106	Seed	asd	-	-
-107	Seed	asd	-	-
-108	Seed	asd	-	-
-109	Seed	asd	-	-
-110	Seed	asd	-	-
-111	Seed	asd	-	-
-112	Seed	asd	-	-
-113	Seed	asd	-	-
-114	Seed	asd	-	-
-115	Seed	asd	-	-
-116	Seed	asd	-	-
+101	Crop	crop_name_strawberry	딸기	봄
+102	Crop	crop_name_radish	무	봄
+103	Crop	crop_name_carrot	당근	봄
+104	Crop	crop_name_potato	감자	봄
+105	Crop	crop_name_tomato	토마토	여름
+106	Crop	crop_name_watermelon	수박	여름
+107	Crop	crop_name_pumpkin	호박	여름
+108	Crop	crop_name_pepper	고추	여름
+109	Crop	crop_name_bean	콩	가을
+110	Crop	crop_name_sweetpotato	고구마	가을
+111	Crop	crop_name_beatroot	비트	가을
+112	Crop	crop_name_onion	양파	가을
+113	Crop	crop_name_garlic	마늘	겨울
+114	Crop	crop_name_spinach	시금치	겨울
+115	Crop	crop_name_cauliflower	콜리플라워	겨울
+116	Crop	crop_name_cabbage	양배추	겨울
+117	Crop	crop_name_test_egg	테스트 알	-
+118	Crop	asd	-	-
+119	Crop	asd	-	-
+120	Crop	asd	-	-
+121	Crop	asd	-	-
+122	Crop	asd	-	-
+123	Crop	asd	-	-
+124	Crop	asd	-	-
+201	Egg	egg_name_1	-	-
+202	Egg	egg_name_2	-	-
+203	Egg	egg_name_3	-	-
+204	Egg	egg_name_4	-	-
+205	Egg	egg_name_5	-	-
+206	Egg	egg_name_6	-	-
+301	Seed	seed_name_1	-	-
+302	Seed	seed_name_2	-	-
+303	Seed	seed_name_3	-	-
+304	Seed	seed_name_4	-	-
+305	Seed	seed_name_5		
+306	Seed	seed_name_6		
+307	Seed	seed_name_7		
+308	Seed	seed_name_8		
+309	Seed	seed_name_9		
+310	Seed	seed_name_10		
+311	Seed	seed_name_11		
+312	Seed	seed_name_12		
+313	Seed	seed_name_13		
+314	Seed	seed_name_14		
+315	Seed	seed_name_15		
+316	Seed	seed_name_16		
+317	Seed	seed_name_17		
+318	Seed	seed_name_18		
+319	Seed	seed_name_19		
+320	Seed	seed_name_20		
+321	Seed	seed_name_21		
+322	Seed	seed_name_22		
+323	Seed	seed_name_23		
+324	Seed	seed_name_24		
+401	Material	material_name_1		
+402	Material	material_name_2		
+403	Material	material_name_3		
+404	Material	material_name_4		
+405	Material	material_name_5		
+406	Material	material_name_6		
+407	Material	material_name_7		
+408	Material	material_name_8		
+409	Material	material_name_9		
+410	Material	material_name_10		
+411	Material	material_name_11		
+412	Material	material_name_12		
+413	Material	material_name_13		
+414	Material	material_name_14		
+415	Material	material_name_15		
+416	Material	material_name_16		
+417	Material	material_name_17		
+418	Material	material_name_18		

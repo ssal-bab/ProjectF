@@ -1,0 +1,54 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "ServerBuild",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/ProjectFServer.csproj",
+                "/property:GenerateFullPaths=true"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "PublishSharedCode",
+            "type": "shell",
+            "windows": {
+                "command": [
+                    "./BuildScripts/PublishSharedCode.ps1"
+                ]
+            },
+            "osx": {
+                "command": [
+                    "./BuildScripts/PublishSharedCode.sh"
+                ]
+            }
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/PrincessServer.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Build",
+            "dependsOn": [
+                "ServerBuild",
+                "PublishSharedCode"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

@@ -5,9 +5,9 @@ namespace ProjectF.Datas
         public string userID = null;
         public UserFarmData farmData = null;
 
-        public UserData() 
+        public UserData(string userID) 
         { 
-            userID = "";
+            this.userID = userID;
             farmData = new UserFarmData();
         }
     }

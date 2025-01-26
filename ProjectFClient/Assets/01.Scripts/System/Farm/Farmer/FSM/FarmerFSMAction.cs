@@ -1,6 +1,6 @@
 using H00N.FSM;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public abstract class FarmerFSMAction : FSMAction
     {

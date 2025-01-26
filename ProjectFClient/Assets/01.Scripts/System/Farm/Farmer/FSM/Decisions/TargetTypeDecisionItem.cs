@@ -1,6 +1,6 @@
-using ProjectCoin.Farms;
+using ProjectF.Farms;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class TargetTypeDecisionItem : TargetTypeDecisionBase<Item> { }
 }

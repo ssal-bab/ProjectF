@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ProjectCoin
+namespace ProjectF
 {
     public class DateManager : MonoBehaviour
     {

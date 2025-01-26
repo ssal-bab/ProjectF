@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public partial class FarmerAnimator
     {

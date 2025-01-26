@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class InnerDistanceDecision : FarmerFSMDecision
     {

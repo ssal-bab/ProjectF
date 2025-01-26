@@ -1,4 +1,4 @@
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public abstract class TargetTypeDecisionBase<T> : FarmerFSMDecision where T : FarmerTargetableBehaviour
     {

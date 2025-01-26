@@ -1,6 +1,6 @@
-using ProjectCoin.Datas;
+using ProjectF.Datas;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class FarmerHarvestAction : FarmerAnimationAction
     {

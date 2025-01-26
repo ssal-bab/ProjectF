@@ -4,10 +4,10 @@ using H00N.DataTables;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using Newtonsoft.Json;
-using ProjectCoin.Networks;
+using ProjectF.Networks;
 using UnityEngine;
 
-namespace ProjectCoin
+namespace ProjectF
 {
     public class GameManager : MonoBehaviour
     {

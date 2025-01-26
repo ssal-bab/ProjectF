@@ -1,7 +1,7 @@
-using ProjectCoin.Datas;
+using ProjectF.Datas;
 using UnityEngine;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public class FieldVisual : MonoBehaviour
     {

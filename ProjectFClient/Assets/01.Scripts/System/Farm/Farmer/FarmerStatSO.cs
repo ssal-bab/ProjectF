@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using H00N.DataTables;
 using H00N.Stats;
-using ProjectCoin.DataTables;
+using ProjectF.DataTables;
 using UnityEngine;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     [CreateAssetMenu(menuName = "SO/Farm/FarmerStat")]
     public class FarmerStatSO : DataTableSO<FarmerTable, FarmerTableRow>

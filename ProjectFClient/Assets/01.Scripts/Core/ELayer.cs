@@ -1,4 +1,4 @@
-namespace ProjectCoin
+namespace ProjectF
 {
     public enum ELayer : int
     {

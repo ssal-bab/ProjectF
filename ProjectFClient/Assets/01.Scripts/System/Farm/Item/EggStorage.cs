@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public class EggStorage : ItemStorage
     {

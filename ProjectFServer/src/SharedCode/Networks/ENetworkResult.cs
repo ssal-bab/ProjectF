@@ -4,7 +4,6 @@ namespace ProjectF.Networks
     {
         None,
         Success,
-        Fail,
         DBError,
         DataNotFound,
         Timeout,

@@ -3,7 +3,7 @@ using H00N.Extensions;
 using H00N.Geometry2D;
 using UnityEngine;
 
-namespace ProjectCoin.Tests
+namespace ProjectF.Tests
 {
     public class TDelaunayTriangle : MonoBehaviour
     {

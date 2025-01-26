@@ -1,6 +1,6 @@
 using H00N.Resources.Pools;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public class CropStorage : ItemStorage
     {

@@ -1,21 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjectF.Networks.Payloads;
+using ProjectF.Networks.DataBases;
+using ProjectF.Networks.Packets;
+using RedLockNet;
 
 namespace ProjectF.Networks.Controllers
 {
-    [ApiController]
     [Route(NetworkDefine.STANDARD_ROUTE)]
-    public class StandardController : ControllerBase
+    public class StandardController : PacketControllerBase
     {
-        [HttpPost(ServerConnectionRequest.POST)]
-        public async Task<ActionResult<ServerConnectionResponse>> ServerConnectionRequestPost([FromBody]RankingListRequest req)
-        {
-            ServerConnectionResponse response = new ServerConnectionResponse() {
-                networkResult = ENetworkResult.Success,
-                connection = true,
-            };
+        public StandardController(DBManager dbManager, IDistributedLockFactory redLockFactory) : base(dbManager, redLockFactory) { }
 
-            return response;
+        [HttpPost(ServerConnectionRequest.POST)]
+        public async Task<ActionResult<ServerConnectionResponse>> ServerConnectionRequestPost([FromBody]ServerConnectionRequest req)
+        {
+            ServerConnectionProcessor processor = new ServerConnectionProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
+
+        [HttpPost(LoginRequest.POST)]
+        public async Task<ActionResult<LoginResponse>> LoginRequestPost([FromBody]LoginRequest req)
+        {
+            LoginProcessor processor = new LoginProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
         }
     }
 }

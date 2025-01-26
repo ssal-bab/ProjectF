@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace ProjectCoin.Units
+namespace ProjectF.Units
 {
     public class UnitMovement : MonoBehaviour
     {

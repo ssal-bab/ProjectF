@@ -2,7 +2,7 @@ using H00N.FSM;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class FarmerAnimationAction : FarmerFSMAction
     {

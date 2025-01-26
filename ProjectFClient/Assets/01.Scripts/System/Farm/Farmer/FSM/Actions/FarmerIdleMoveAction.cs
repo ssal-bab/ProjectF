@@ -1,7 +1,7 @@
 using H00N.Extensions;
 using UnityEngine;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class FarmerIdleMoveAction : FarmerFSMAction
     {

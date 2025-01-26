@@ -1,7 +1,7 @@
-using ProjectCoin.Datas;
+using ProjectF.Datas;
 using UnityEngine;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class FarmerFarmingAction : FarmerAnimationAction
     {

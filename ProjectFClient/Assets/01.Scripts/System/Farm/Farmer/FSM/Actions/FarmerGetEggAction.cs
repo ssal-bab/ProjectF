@@ -1,12 +1,12 @@
 using H00N.Resources;
 using H00N.DataTables;
 using H00N.FSM;
-using ProjectCoin.Datas;
-using ProjectCoin.DataTables;
-using ProjectCoin.Farms.Helpers;
+using ProjectF.Datas;
+using ProjectF.DataTables;
+using ProjectF.Farms.Helpers;
 using UnityEngine;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class FarmerGetEggAction : FarmerFSMAction
     {

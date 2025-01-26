@@ -1,8 +1,8 @@
 using Cysharp.Threading.Tasks;
 using H00N.Resources;
-using ProjectCoin.Datas;
+using ProjectF.Datas;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public abstract class Item : FarmerTargetableBehaviour
     {

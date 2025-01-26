@@ -1,6 +1,6 @@
-using ProjectCoin.Networks.Payloads;
+using ProjectF.Networks.Packets;
 
-namespace ProjectCoin.Networks
+namespace ProjectF.Networks
 {
     public class ServerConnection : Connection
     {
@@ -8,14 +8,19 @@ namespace ProjectCoin.Networks
 
         public override void CheckConnection()
         {
-            ServerConnectionRequest payload = new ServerConnectionRequest();
-            NetworkManager.Instance.SendWebRequest<ServerConnectionResponse>(this, payload, HandleServerConnectionResponse);
+            CheckConnectionInternalAsync();
         }
 
-        private void HandleServerConnectionResponse(ServerConnectionResponse response)
+        private async void CheckConnectionInternalAsync()
         {
-            if(response.networkResult != ENetworkResult.Success)
+            ServerConnectionRequest payload = new ServerConnectionRequest();
+            ServerConnectionResponse response = await NetworkManager.Instance.SendWebRequestAsync<ServerConnectionResponse>(this, payload);
+
+            if(response == null || response.result != ENetworkResult.Success)
+            {
+                SetConnection(false);
                 return;
+            }
 
             SetConnection(response.connection);
         }

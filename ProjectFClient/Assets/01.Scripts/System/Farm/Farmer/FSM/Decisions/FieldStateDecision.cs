@@ -1,8 +1,8 @@
-using ProjectCoin.Datas;
-using ProjectCoin.Farms.AI;
+using ProjectF.Datas;
+using ProjectF.Farms.AI;
 using UnityEngine;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public class FieldStateDecision : FarmerFSMDecision
     {

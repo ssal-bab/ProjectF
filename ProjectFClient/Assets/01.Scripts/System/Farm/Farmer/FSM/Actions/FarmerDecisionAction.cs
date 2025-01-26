@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using H00N.Extensions;
-using ProjectCoin.Datas;
+using ProjectF.Datas;
 using UnityEngine;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class FarmerDecisionAction : FarmerFSMAction
     {
@@ -50,7 +50,7 @@ namespace ProjectCoin.Farms.AI
 
         private void SetIdle()
         {
-            float range = (DEFINE.IQ_STAT_MAX - aiData.farmerStat[EFarmerStatType.IQ]) / DEFINE.IQ_STAT_MIN * 2f;
+            float range = (DataDefine.IQ_STAT_MAX - aiData.farmerStat[EFarmerStatType.IQ]) / DataDefine.IQ_STAT_MIN * 2f;
             float idleDuration = Random.Range(0f, range) + 1f;
             idleTimer = idleDuration;
         }
@@ -69,7 +69,7 @@ namespace ProjectCoin.Farms.AI
             }
 
             int targetCount = targets.Count;
-            float theta = (aiData.farmerStat[EFarmerStatType.IQ] - DEFINE.IQ_STAT_MIN) / (DEFINE.IQ_STAT_MAX - DEFINE.IQ_STAT_MIN);
+            float theta = (aiData.farmerStat[EFarmerStatType.IQ] - DataDefine.IQ_STAT_MIN) / (DataDefine.IQ_STAT_MAX - DataDefine.IQ_STAT_MIN);
             int shuffleCount = targetCount - Mathf.RoundToInt(targetCount * theta);
             
             targets.Sort(transform.DistanceCompare);

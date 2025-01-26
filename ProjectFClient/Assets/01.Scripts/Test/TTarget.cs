@@ -1,7 +1,7 @@
-using ProjectCoin.Farms.AI;
+using ProjectF.Farms.AI;
 using UnityEngine;
 
-namespace ProjectCoin.Tests
+namespace ProjectF.Tests
 {
     public class TTarget : FarmerFSMAction
     {

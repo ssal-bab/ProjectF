@@ -1,14 +1,7 @@
-using System;
-using System.Collections;
-using System.Text;
-using Newtonsoft.Json;
-using ProjectCoin.Networks;
-using ProjectCoin.Networks.Payloads;
-using TMPro;
+using ProjectF.Networks;
 using UnityEngine;
-using UnityEngine.Networking;
 
-namespace ProjectCoin.Tests
+namespace ProjectF.Tests
 {
     public class TServer : MonoBehaviour
     {
@@ -19,20 +12,20 @@ namespace ProjectCoin.Tests
             new NetworkManager();
         }
 
-        public void SendRequest()
-        {
-            RankingListRequest payload = new RankingListRequest(10, 200);
-            ServerConnection tempConnection = new ServerConnection(BASE_URL);
-            NetworkManager.Instance.SendWebRequest<RankingListResponse>(
-                tempConnection, 
-                payload,
-                HandleRankingListResponse
-            );
-        }
+        // public void SendRequest()
+        // {
+        //     RankingListRequest payload = new RankingListRequest(10, 200);
+        //     ServerConnection tempConnection = new ServerConnection(BASE_URL);
+        //     NetworkManager.Instance.SendWebRequest<RankingListResponse>(
+        //         tempConnection, 
+        //         payload,
+        //         HandleRankingListResponse
+        //     );
+        // }
 
-        private void HandleRankingListResponse(RankingListResponse response)
-        {
-            Debug.Log($"Request Responsed! : {response.networkResult}");
-        }
+        // private void HandleRankingListResponse(RankingListResponse response)
+        // {
+        //     Debug.Log($"Request Responsed! : {response.networkResult}");
+        // }
     }
 }

@@ -1,10 +1,10 @@
 using H00N.FSM;
 using H00N.Resources.Pools;
-using ProjectCoin.Datas;
-using ProjectCoin.Farms.Helpers;
+using ProjectF.Datas;
+using ProjectF.Farms.Helpers;
 using UnityEngine;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class FarmerPlantDecisionAction : FarmerFSMAction
     {

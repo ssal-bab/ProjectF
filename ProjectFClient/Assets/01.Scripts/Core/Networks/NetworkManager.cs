@@ -1,7 +1,8 @@
 using System;
-using ProjectCoin.Networks.Payloads;
+using Cysharp.Threading.Tasks;
+using ProjectF.Networks.Packets;
 
-namespace ProjectCoin.Networks
+namespace ProjectF.Networks
 {
     public class NetworkManager
     {
@@ -25,16 +26,26 @@ namespace ProjectCoin.Networks
             serverConnection = connection;
         }
 
-        public void SendWebRequest<TResponse>(RequestPayload payload, Action<TResponse> handler) where TResponse : ResponsePayload
+        public async UniTask<TResponse> SendWebRequestAsync<TResponse>(RequestPacket packet) where TResponse : ResponsePacket
         {
-            payload.userID = "";
-            new WebRequest<TResponse>(serverConnection, payload, handler).RequestAsync();
+            return await SendWebRequestAsync<TResponse>(serverConnection, packet);
         }
 
-        public void SendWebRequest<TResponse>(Connection connection, RequestPayload payload, Action<TResponse> handler) where TResponse : ResponsePayload
+        public async UniTask<TResponse> SendWebRequestAsync<TResponse>(Connection connection, RequestPacket packet) where TResponse : ResponsePacket
         {
-            payload.userID = "";
-            new WebRequest<TResponse>(connection, payload, handler).RequestAsync();
+            return await new WebRequest<TResponse>(connection, packet).RequestAsync();
         }
+
+        // 우선 callback은 숨겨둔다. 필요할 때 활성화 함.
+        // await문 활용하여 response를 핸들링하도록 한다.
+        // public async UniTask<TResponse> SendWebRequestAsync<TResponse>(RequestPacket packet, Action<TResponse> handler = null) where TResponse : ResponsePacket
+        // {
+        //     return await SendWebRequestAsync(serverConnection, packet, handler);
+        // }
+
+        // public async UniTask<TResponse> SendWebRequestAsync<TResponse>(Connection connection, RequestPacket packet, Action<TResponse> handler = null) where TResponse : ResponsePacket
+        // {
+        //     return await new WebRequest<TResponse>(connection, packet, handler).RequestAsync();
+        // }
     }
 }

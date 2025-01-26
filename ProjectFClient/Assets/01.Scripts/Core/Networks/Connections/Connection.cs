@@ -1,6 +1,6 @@
 using System;
 
-namespace ProjectCoin.Networks
+namespace ProjectF.Networks
 {
     public class Connection
     {

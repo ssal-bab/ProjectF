@@ -1,6 +1,6 @@
-using ProjectCoin.Farms.Helpers;
+using ProjectF.Farms.Helpers;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public class Egg : Item
     {

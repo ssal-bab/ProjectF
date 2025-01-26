@@ -2,11 +2,13 @@ namespace ProjectF.Datas
 {
     public class UserData
     {
-        public string userID = "";
+        public string userID = null;
+        public UserFarmData farmData = null;
 
-        public string profileImageUrl = "";
-        public string userName = "";
-
-        public UserData() { }
+        public UserData(string userID) 
+        { 
+            this.userID = userID;
+            farmData = new UserFarmData();
+        }
     }
 }

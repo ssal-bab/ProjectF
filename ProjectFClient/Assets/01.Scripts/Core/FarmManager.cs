@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProjectCoin
+namespace ProjectF
 {
     public class FarmManager : MonoBehaviour
     {

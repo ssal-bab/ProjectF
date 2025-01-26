@@ -3,7 +3,7 @@ using H00N.Resources;
 using H00N.Resources.Pools;
 using UnityEngine;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     public class FarmerGetSeedAction : FarmerFSMAction
     {

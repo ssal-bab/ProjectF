@@ -1,4 +1,4 @@
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public enum EFarmerStatType
     {

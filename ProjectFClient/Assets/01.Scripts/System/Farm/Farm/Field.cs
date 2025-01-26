@@ -2,15 +2,15 @@ using System;
 using Cysharp.Threading.Tasks;
 using H00N.DataTables;
 using H00N.Resources.Pools;
-using ProjectCoin.Datas;
-using ProjectCoin.DataTables;
-using ProjectCoin.Farms.Helpers;
-using ProjectCoin.Networks;
-using ProjectCoin.Networks.Payloads;
+using ProjectF.Datas;
+using ProjectF.DataTables;
+using ProjectF.Farms.Helpers;
+using ProjectF.Networks;
+using ProjectF.Networks.Packets;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public class Field : FarmerTargetableBehaviour
     {
@@ -51,21 +51,23 @@ namespace ProjectCoin.Farms
             ChangeState(EFieldState.Fallow);
         }
 
-        public void Plant(CropSO cropData)
+        public async void Plant(CropSO cropData)
         {
             if (requestWaiting)
                 return;
 
             currentCropData = cropData;
-            PlantRequest payload = new PlantRequest(currentCropData.id, fieldID);
-            NetworkManager.Instance.SendWebRequest<PlantResponse>(payload, HandlePlantResponse);
             requestWaiting = true;
+
+            PlantRequest request = new PlantRequest(currentCropData.id, fieldID);
+            PlantResponse response = await NetworkManager.Instance.SendWebRequestAsync<PlantResponse>(request);
+            HandlePlantResponse(response);
         }
 
         private void HandlePlantResponse(PlantResponse res)
         {
             requestWaiting = false;
-            if (res.networkResult != ENetworkResult.Success)
+            if (res.result != ENetworkResult.Success)
                 return;
 
             growth = -1;
@@ -75,22 +77,23 @@ namespace ProjectCoin.Farms
             DateManager.Instance.OnTickCycleEvent += HandleTickCycleEvent;
         }
 
-        public void Harvest()
+        public async void Harvest()
         {
             if (requestWaiting)
                 return;
 
             DateManager.Instance.OnTickCycleEvent -= HandleTickCycleEvent;
-
-            HarvestRequest payload = new HarvestRequest(fieldID);
-            NetworkManager.Instance.SendWebRequest<HarvestResponse>(payload, HandleHarvestResponse);
             requestWaiting = true;
+
+            HarvestRequest request = new HarvestRequest(fieldID);
+            HarvestResponse response = await NetworkManager.Instance.SendWebRequestAsync<HarvestResponse>(request);
+            HandleHarvestResponse(response);
         }
 
         private async void HandleHarvestResponse(HarvestResponse res)
         {
             requestWaiting = false;
-            if (res.networkResult != ENetworkResult.Success)
+            if (res.result != ENetworkResult.Success)
                 return;
 
             UniTask task = CurrentCropData.TableRow.cropType switch {

@@ -1,9 +1,9 @@
 using H00N.Resources;
 using H00N.Resources.Pools;
-using ProjectCoin.Farms;
+using ProjectF.Farms;
 using UnityEngine;
 
-namespace ProjectCoin.Tests
+namespace ProjectF.Tests
 {
     public class TFarmerSpawner : MonoBehaviour
     {

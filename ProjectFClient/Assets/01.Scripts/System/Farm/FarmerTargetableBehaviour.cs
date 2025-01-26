@@ -1,7 +1,7 @@
 using H00N.Resources.Pools;
 using UnityEngine;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public class FarmerTargetableBehaviour : PoolReference
     {

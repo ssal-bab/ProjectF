@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using H00N.FSM;
-using ProjectCoin.Units;
+using ProjectF.Units;
 using UnityEngine;
 
-namespace ProjectCoin.Farms.AI
+namespace ProjectF.Farms.AI
 {
     [CreateAssetMenu(menuName = "SO/Farm/FarmerAIData")]
     public class FarmerAIDataSO : FSMParamSO

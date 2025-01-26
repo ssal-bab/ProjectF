@@ -1,11 +1,11 @@
 using H00N.FSM;
 using H00N.Resources;
 using H00N.Resources.Pools;
-using ProjectCoin.Farms.AI;
-using ProjectCoin.Units;
+using ProjectF.Farms.AI;
+using ProjectF.Units;
 using UnityEngine;
 
-namespace ProjectCoin.Farms
+namespace ProjectF.Farms
 {
     public class Farmer : PoolReference
     {

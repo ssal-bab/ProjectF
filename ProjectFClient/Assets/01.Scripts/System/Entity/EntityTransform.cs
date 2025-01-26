@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProjectCoin.Entities
+namespace ProjectF.Entities
 {
     public class EntityTransform : MonoBehaviour
     {

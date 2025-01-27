@@ -1,9 +1,6 @@
 using H00N.Resources;
-using H00N.DataTables;
 using H00N.FSM;
 using ProjectF.Datas;
-using ProjectF.DataTables;
-using ProjectF.Farms.Helpers;
 using UnityEngine;
 
 namespace ProjectF.Farms.AI

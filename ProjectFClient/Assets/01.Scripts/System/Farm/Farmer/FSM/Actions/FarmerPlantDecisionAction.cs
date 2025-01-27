@@ -1,7 +1,6 @@
 using H00N.FSM;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
-using ProjectF.Farms.Helpers;
 using UnityEngine;
 
 namespace ProjectF.Farms.AI
@@ -35,13 +34,13 @@ namespace ProjectF.Farms.AI
             }
 
             Farm currentFarm = new GetBelongsFarm(aiData.farmer.transform).currentFarm;
-            if(currentFarm == null || currentFarm.CropQueueValid == false)
+            if(currentFarm == null || currentFarm.CropQueue.CropQueueValid == false)
             {
                 brain.SetAsDefaultState();
                 return;
             }
 
-            CropSO targetCropData = currentFarm.DequeueCropData();
+            CropSO targetCropData = currentFarm.CropQueue.DequeueCropData();
             aiData.currentSeedData = targetCropData;
 
             ItemStorage target = targetCropData.TableRow.cropType switch {

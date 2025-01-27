@@ -4,7 +4,6 @@ using H00N.DataTables;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
 using ProjectF.DataTables;
-using ProjectF.Farms.Helpers;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 using UnityEngine;
@@ -14,41 +13,50 @@ namespace ProjectF.Farms
 {
     public class Field : FarmerTargetableBehaviour
     {
-        [SerializeField] int fieldID = 0;
-
         public event Action<EFieldState> OnStateChangedEvent = null;
         public event Action<int> OnGrowUpEvent = null;
 
         private CropSO currentCropData = null;
         public CropSO CurrentCropData => currentCropData;
 
-        // 나중엔 유저 정보에 갖고 있게 해야함
-        private EFieldState currentState = EFieldState.None;
-        public EFieldState CurrentState => currentState;
+        private FieldData fieldData = null;
+        public FieldData FieldData => fieldData;
 
-        private Farm currentFarm = null;
+        private bool isDirty = false;
+        public bool IsDirty => isDirty;
 
-        private bool requestWaiting = false;
-        private bool postponeTick = false;
-        private int growth = 0;
-
+        public EFieldState CurrentState => fieldData.fieldState;
         public override bool TargetEnable {
             get {
                 if(requestWaiting)
                     return false;
 
                 if(CurrentState == EFieldState.Empty)
-                    return currentFarm.CropQueueValid;
+                    return currentFarm.CropQueue.CropQueueValid;
 
                 return CurrentState != EFieldState.Growing;
             }
         }
 
-        protected override void Awake()
+        private Farm currentFarm = null;
+        private bool requestWaiting = false;
+        private bool postponeTick = false;
+        private int growth = 0;
+
+        public void Initialize(FieldData data)
         {
-            base.Awake();
+            fieldData = data;
+
+            // 이미 심어져 있는 식물이 있는 경우 (작물 정보, 성장 상태)를 복원한다
+            if(fieldData.currentCropID != -1)
+            {
+                currentCropData = new GetCropData(fieldData.currentCropID).currentData;
+                growth = fieldData.currentGrowthStep * currentCropData.TableRow.growthRate;                
+                OnGrowUpEvent?.Invoke(fieldData.currentGrowthStep);
+            }
+
             currentFarm = new GetBelongsFarm(transform).currentFarm;
-            ChangeState(EFieldState.Fallow);
+            ChangeState(fieldData.fieldState);
         }
 
         public async void Plant(CropSO cropData)
@@ -59,18 +67,18 @@ namespace ProjectF.Farms
             currentCropData = cropData;
             requestWaiting = true;
 
-            PlantRequest request = new PlantRequest(currentCropData.id, fieldID);
+            PlantRequest request = new PlantRequest(currentCropData.id, fieldData.fieldID);
             PlantResponse response = await NetworkManager.Instance.SendWebRequestAsync<PlantResponse>(request);
-            HandlePlantResponse(response);
-        }
-
-        private void HandlePlantResponse(PlantResponse res)
-        {
+            
             requestWaiting = false;
-            if (res.result != ENetworkResult.Success)
+            if (response.result != ENetworkResult.Success)
                 return;
 
+            fieldData.currentCropID = response.cropID;
+            SetDirty();
+
             growth = -1;
+
             ChangeState(EFieldState.Dried);
             GrowUp();
 
@@ -85,16 +93,15 @@ namespace ProjectF.Farms
             DateManager.Instance.OnTickCycleEvent -= HandleTickCycleEvent;
             requestWaiting = true;
 
-            HarvestRequest request = new HarvestRequest(fieldID);
+            HarvestRequest request = new HarvestRequest(fieldData.fieldID);
             HarvestResponse response = await NetworkManager.Instance.SendWebRequestAsync<HarvestResponse>(request);
-            HandleHarvestResponse(response);
-        }
 
-        private async void HandleHarvestResponse(HarvestResponse res)
-        {
             requestWaiting = false;
-            if (res.result != ENetworkResult.Success)
+            if (response.result != ENetworkResult.Success)
                 return;
+
+            fieldData.currentGrowthStep = 0;
+            SetDirty();
 
             UniTask task = CurrentCropData.TableRow.cropType switch {
                 ECropType.Crop => SpawnCrop(),
@@ -132,7 +139,7 @@ namespace ProjectF.Farms
                 return;
             }
 
-            if (currentState != EFieldState.Growing)
+            if (CurrentState != EFieldState.Growing)
                 return;
 
             ChangeState(EFieldState.Dried);
@@ -148,18 +155,35 @@ namespace ProjectF.Farms
             int currentStep = growth / currentCropData.TableRow.growthRate;
             OnGrowUpEvent?.Invoke(currentStep);
 
+            fieldData.currentGrowthStep = currentStep;
+            SetDirty();
+
             if (currentStep >= currentCropData.TableRow.growthStep - 1)
                 ChangeState(EFieldState.Fruition);
         }
 
         public void ChangeState(EFieldState targetState)
         {
-            EFieldState prevState = currentState;
-            currentState = targetState;
-            if (prevState != currentState)
-                OnStateChangedEvent?.Invoke(currentState);
+            EFieldState prevState = CurrentState;
+            fieldData.fieldState = targetState;
+
+            if (prevState != CurrentState)
+            {
+                OnStateChangedEvent?.Invoke(fieldData.fieldState);
+                SetDirty();
+            }
 
             postponeTick = true;
+        }
+
+        public void SetDirty()
+        {
+            isDirty = true;
+        }
+
+        public void ClearDirty()
+        {
+            isDirty = false;
         }
     }
 }

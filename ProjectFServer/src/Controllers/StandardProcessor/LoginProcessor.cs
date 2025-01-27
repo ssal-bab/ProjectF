@@ -16,14 +16,16 @@ namespace ProjectF.Networks.Controllers
             ENetworkResult result = ENetworkResult.None;
 
             string userID = request.userID;
-            if (request.userID == DataDefine.NO_USER_ID)
+            bool twoWayWrite = false;
+            if (userID == DataDefine.NO_USER_ID)
             {
                 // 새 데이터를 생성한다. 굳이 sql에 저장하진 않는다.
                 // 어차피 값의 변화가 일어나면 write할 것이고, 그렇지 않다면 빈 데이터일 테니 저장하지 않아도 된다.
-                userData = new UserData(CreateNewUserID());
+                userID = CreateNewUserID();
+                userData = new UserData(userID);
+                
                 result = ENetworkResult.Success;
-
-                await UploadDataIntoCachedDBAsync(userData, true);
+                twoWayWrite = true;
             }
             else
             {
@@ -35,21 +37,42 @@ namespace ProjectF.Networks.Controllers
                 if (procedure.Result == ENetworkResult.Success)
                 {
                     userData = procedure.UserData;
-                    result = ENetworkResult.Success;
 
-                    await UploadDataIntoCachedDBAsync(userData, false);
+                    result = ENetworkResult.Success;
+                    twoWayWrite = false;
                 }
                 else if (procedure.Result == ENetworkResult.DataNotFound)
                 {
-                    userData = new UserData(CreateNewUserID());
-                    result = ENetworkResult.Success;
+                    userID = CreateNewUserID();
+                    userData = new UserData(userID);
 
-                    await UploadDataIntoCachedDBAsync(userData, true);
+                    result = ENetworkResult.Success;
+                    twoWayWrite = true;
                 }
                 else if (procedure.Result == ENetworkResult.DBError)
                 {
                     userData = null;
                     result = ENetworkResult.Error;
+                }
+            }
+
+            if(result == ENetworkResult.Success)
+            {
+                UserDataInfo userDataInfo = new UserDataInfo(dbManager.CurrentDB, userID);
+                userDataInfo.Data = userData;
+
+                using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
+                {
+                    new UserDataChecker(userData);
+                    await userDataInfo.WriteAsync(twoWayWrite);
+                    if(userDataInfo.Result != ENetworkResult.Success)
+                    {
+                        return new LoginResponse() {
+                            result = userDataInfo.Result
+                        };
+                    }
+
+                    await dbManager.AddUserDataInfoIntoCache(userID, userDataInfo);
                 }
             }
 
@@ -62,17 +85,6 @@ namespace ProjectF.Networks.Controllers
         private string CreateNewUserID()
         {
             return Guid.NewGuid().ToString();
-        }
-
-        private async Task UploadDataIntoCachedDBAsync(UserData userData, bool twoWayWrite)
-        {
-            UserDataInfo userDataInfo = new UserDataInfo(dbManager.CurrentDB, userData.userID);
-            userDataInfo.Data = userData;
-
-            using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
-            {
-                await userDataInfo.WriteAsync(twoWayWrite);
-            }
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProjectF.Farms.Helpers
+namespace ProjectF.Farms
 {
     public struct GetBelongsFarm
     {

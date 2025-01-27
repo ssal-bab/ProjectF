@@ -8,8 +8,8 @@ namespace ProjectF.Networks.Controllers
     [ApiController]
     public abstract class PacketControllerBase : ControllerBase
     {
-        protected DBManager dbManager = null;
-        protected IDistributedLockFactory redLockFactory;
+        protected readonly DBManager dbManager = null;
+        protected readonly IDistributedLockFactory redLockFactory;
 
         public PacketControllerBase(DBManager dbManager, IDistributedLockFactory redLockFactory)
         {

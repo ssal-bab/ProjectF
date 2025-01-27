@@ -33,6 +33,7 @@ namespace ProjectF.Networks
 
         public async UniTask<TResponse> SendWebRequestAsync<TResponse>(Connection connection, RequestPacket packet) where TResponse : ResponsePacket
         {
+            packet.userID = GameDefine.CurrentLoginUserID;
             return await new WebRequest<TResponse>(connection, packet).RequestAsync();
         }
 

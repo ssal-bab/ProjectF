@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+
 namespace ProjectF.Datas
 {
     public class UserFarmData
     {
-        public int farmLevel = 0;
+        public Dictionary<int, FieldGroupData> fieldGroupDatas = null;
     }
 }

@@ -6,9 +6,9 @@ namespace ProjectF.Networks.Controllers
 {
     public abstract class PacketProcessorBase<TReq, TRes> where TReq : RequestPacket where TRes : ResponsePacket
     {
-        protected DBManager dbManager = null;
-        protected IDistributedLockFactory redLockFactory;
-        protected TReq request = null;
+        protected readonly DBManager dbManager = null;
+        protected readonly IDistributedLockFactory redLockFactory;
+        protected readonly TReq request = null;
 
         public TRes Response = null;
         public ENetworkResult Result = ENetworkResult.None;

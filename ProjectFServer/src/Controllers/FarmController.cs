@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjectF.Datas;
 using ProjectF.Networks.DataBases;
 using ProjectF.Networks.Packets;
 using RedLockNet;
@@ -24,6 +23,14 @@ namespace ProjectF.Networks.Controllers
         public async Task<ActionResult<HarvestResponse>> HarvestRequestPost([FromBody]HarvestRequest req)
         {
             HarvestProcessor processor = new HarvestProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
+
+        [HttpPost(UpdateFarmRequest.POST)]
+        public async Task<ActionResult<UpdateFarmResponse>> UpdateFarmRequestPost([FromBody]UpdateFarmRequest req)
+        {
+            UpdateFarmProcessor processor = new UpdateFarmProcessor(dbManager, redLockFactory, req);
             await processor.ProcessAsync();
             return processor.Response;
         }

@@ -12,6 +12,7 @@ namespace ProjectF
         [SerializeField] int dayCycleTickCount = 43;
 
         public event Action OnTickCycleEvent = null;
+        public event Action OnLateTickCycleEvent = null;
         public event Action OnDateCycleEvent = null;
 
         private float timer = 0f;
@@ -65,6 +66,7 @@ namespace ProjectF
 
             tickCounter++;
             OnTickCycleEvent?.Invoke();
+            OnLateTickCycleEvent?.Invoke();
         }
     }
 }

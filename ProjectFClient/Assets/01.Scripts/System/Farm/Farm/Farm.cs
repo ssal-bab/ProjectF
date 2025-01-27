@@ -1,52 +1,72 @@
 using System.Collections.Generic;
+using ProjectF.Datas;
+using ProjectF.Networks;
+using ProjectF.Networks.Packets;
 using UnityEngine;
 
 namespace ProjectF.Farms
 {
     public class Farm : MonoBehaviour
     {
+        [SerializeField] List<FieldGroup> fieldGroups = null;
+
         [SerializeField] EggStorage eggStorage = null;
         public EggStorage EggStorage => eggStorage;
         
         [SerializeField] CropStorage cropStorage = null;
         public CropStorage CropStorage => cropStorage;
-        
-        private Dictionary<CropSO, int> cropJobInfo = null;
-        private Queue<CropSO> cropQueue = null;
 
-        public bool CropQueueValid => cropQueue.Count > 0;
+        private CropQueue cropQueue = null;
+        public CropQueue CropQueue => cropQueue;
 
         private void Awake()
         {
-            cropJobInfo = new Dictionary<CropSO, int>();
-            cropQueue = new Queue<CropSO>();
+            cropQueue = new CropQueue();
         }
 
-        public void EnqueueCropData(CropSO cropData)
+        private void Start()
         {
-            if(cropJobInfo.ContainsKey(cropData) == false)
+            UserData mainUser = GameDefine.MainUser;
+            for (int i = 0; i < fieldGroups.Count; ++i)
             {
-                cropQueue.Enqueue(cropData);
-                cropJobInfo.Add(cropData, 0);
+                FieldGroup fieldGroup = fieldGroups[i];
+                if(mainUser.farmData.fieldGroupDatas.TryGetValue(i, out FieldGroupData fieldGroupData) == false)
+                    continue;
+
+                fieldGroup.Initialize(fieldGroupData);
             }
 
-            cropJobInfo[cropData]++;
+            DateManager.Instance.OnLateTickCycleEvent += HandleLateTickCycleEvent;
         }
 
-        public CropSO DequeueCropData()
+        private async void HandleLateTickCycleEvent()
         {
-            if(CropQueueValid == false)
-                return null;
-
-            CropSO cropData = cropQueue.Peek();
-            cropJobInfo[cropData]--;
-            if(cropJobInfo[cropData] <= 0)
+            Dictionary<int, Dictionary<int, FieldData>> dirtiedFields = new Dictionary<int, Dictionary<int, FieldData>>();
+            foreach(FieldGroup fieldGroup in fieldGroups)
             {
-                cropJobInfo.Remove(cropData);
-                cropQueue.Dequeue();
+                int fieldGroupID = fieldGroup.FieldGroupData.fieldGroupID;
+                foreach(Field field in fieldGroup.Fields)
+                {
+                    if(field.IsDirty == false)
+                        continue;
+
+                    if(dirtiedFields.TryGetValue(fieldGroupID, out Dictionary<int, FieldData> fields) == false)
+                    {
+                        fields = new Dictionary<int, FieldData>();
+                        dirtiedFields.Add(fieldGroupID, fields);
+                    }
+
+                    FieldData fieldData = field.FieldData;
+                    fields.Add(fieldData.fieldID, fieldData);
+                }
             }
 
-            return cropData;
+            Debug.Log($"[Farm::HandleLateTickCycleEvent] dirtedFields.Count : {dirtiedFields.Count}");
+            if(dirtiedFields.Count <= 0)
+                return;
+
+            UpdateFarmRequest request = new UpdateFarmRequest(dirtiedFields);
+            UpdateFarmResponse response = await NetworkManager.Instance.SendWebRequestAsync<UpdateFarmResponse>(request);
         }
     }
 }

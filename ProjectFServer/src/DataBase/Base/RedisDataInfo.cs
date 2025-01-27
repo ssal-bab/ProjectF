@@ -71,8 +71,8 @@ namespace ProjectF.Networks.DataBases
                 if(twoWayWrite)
                     SideWayWrite();
 
-                bool success = await db.HashSetAsync(tableKey, rowKey, Data);
-                Result = success ? ENetworkResult.Success : ENetworkResult.Error;
+                await db.HashSetAsync(tableKey, rowKey, Data);
+                Result = ENetworkResult.Success;
             }
             catch(RedisTimeoutException _)
             {

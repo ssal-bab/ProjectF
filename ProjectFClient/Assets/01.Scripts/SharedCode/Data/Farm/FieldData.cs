@@ -1,4 +1,4 @@
-namespace ProjectF.Datas 
+namespace ProjectF.Datas
 {
     public class FieldData
     {

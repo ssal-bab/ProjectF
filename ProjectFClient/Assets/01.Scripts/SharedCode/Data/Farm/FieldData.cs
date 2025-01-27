@@ -1,6 +1,5 @@
 namespace ProjectF.Datas
 {
-    [System.Serializable]
     public class FieldData
     {
         public int fieldID = 0;

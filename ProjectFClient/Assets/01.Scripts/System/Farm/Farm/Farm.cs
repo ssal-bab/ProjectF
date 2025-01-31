@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using ProjectF.Datas;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
@@ -35,11 +36,9 @@ namespace ProjectF.Farms
 
                 fieldGroup.Initialize(fieldGroupData);
             }
-
-            DateManager.Instance.OnLateTickCycleEvent += HandleLateTickCycleEvent;
         }
 
-        private async void HandleLateTickCycleEvent()
+        public Dictionary<int, Dictionary<int, FieldData>> FlushDirtiedFields()
         {
             Dictionary<int, Dictionary<int, FieldData>> dirtiedFields = new Dictionary<int, Dictionary<int, FieldData>>();
             foreach(FieldGroup fieldGroup in fieldGroups)
@@ -58,15 +57,11 @@ namespace ProjectF.Farms
 
                     FieldData fieldData = field.FieldData;
                     fields.Add(fieldData.fieldID, fieldData);
+                    field.ClearDirty();
                 }
             }
 
-            Debug.Log($"[Farm::HandleLateTickCycleEvent] dirtedFields.Count : {dirtiedFields.Count}");
-            if(dirtiedFields.Count <= 0)
-                return;
-
-            UpdateFarmRequest request = new UpdateFarmRequest(dirtiedFields);
-            UpdateFarmResponse response = await NetworkManager.Instance.SendWebRequestAsync<UpdateFarmResponse>(request);
+            return dirtiedFields;
         }
     }
 }

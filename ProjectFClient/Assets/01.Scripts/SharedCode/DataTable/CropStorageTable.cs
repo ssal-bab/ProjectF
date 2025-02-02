@@ -4,14 +4,11 @@ using H00N.DataTables;
 namespace ProjectF.DataTables
 {
     [Serializable]
-    public class CropStorageTableRow : DataTableRow
+    public class CropStorageTableRow : FacilityTableRowBase
     {
         public int level;
         public int storeLimit;
         public float priceMultiplier;
-        public int upgradeGold;
-        public int materialItemID;
-        public int materialItemCount;        					
     }
 
     public class CropStorageTable : DataTable<CropStorageTableRow> { }

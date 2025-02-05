@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace ProjectF.Datas
 {
-    public class UserFarmData
+    public class UserFieldData
     {
         public Dictionary<int, FieldGroupData> fieldGroupDatas = null;
     }

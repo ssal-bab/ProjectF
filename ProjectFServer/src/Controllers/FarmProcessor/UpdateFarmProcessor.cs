@@ -17,7 +17,7 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                UserFarmData farmData = userDataInfo.Data.farmData;
+                UserFieldData farmData = userDataInfo.Data.fieldData;
                 foreach(var dirtiedFieldGroup in request.dirtiedFields)
                 {
                     Dictionary<int, FieldData> fieldGroupData = dirtiedFieldGroup.Value;

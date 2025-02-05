@@ -4,7 +4,8 @@ namespace ProjectF.Datas
     {
         public UserDataChecker(UserData userData)
         {
-            new UserFarmDataChecker(userData);
+            new UserFieldDataChecker(userData);
+            new UserCropStorageDataChecker(userData);
         }
     }
 }

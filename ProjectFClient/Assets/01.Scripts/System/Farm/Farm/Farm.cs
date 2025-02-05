@@ -31,7 +31,7 @@ namespace ProjectF.Farms
             for (int i = 0; i < fieldGroups.Count; ++i)
             {
                 FieldGroup fieldGroup = fieldGroups[i];
-                if(mainUser.farmData.fieldGroupDatas.TryGetValue(i, out FieldGroupData fieldGroupData) == false)
+                if(mainUser.fieldData.fieldGroupDatas.TryGetValue(i, out FieldGroupData fieldGroupData) == false)
                     continue;
 
                 fieldGroup.Initialize(fieldGroupData);

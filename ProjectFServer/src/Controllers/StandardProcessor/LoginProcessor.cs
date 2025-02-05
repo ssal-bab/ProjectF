@@ -22,8 +22,8 @@ namespace ProjectF.Networks.Controllers
                 // 새 데이터를 생성한다. 굳이 sql에 저장하진 않는다.
                 // 어차피 값의 변화가 일어나면 write할 것이고, 그렇지 않다면 빈 데이터일 테니 저장하지 않아도 된다.
                 userID = CreateNewUserID();
-                userData = new UserData(userID);
-                
+                userData = new UserData() { userID = userID };
+
                 result = ENetworkResult.Success;
                 twoWayWrite = true;
             }
@@ -44,7 +44,7 @@ namespace ProjectF.Networks.Controllers
                 else if (procedure.Result == ENetworkResult.DataNotFound)
                 {
                     userID = CreateNewUserID();
-                    userData = new UserData(userID);
+                    userData = new UserData() { userID = userID };
 
                     result = ENetworkResult.Success;
                     twoWayWrite = true;

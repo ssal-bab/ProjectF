@@ -1,12 +1,12 @@
 namespace ProjectF.Datas
 {
-    public struct UserFarmDataChecker
+    public struct UserFieldDataChecker
     {
-        public UserFarmDataChecker(UserData userData)
+        public UserFieldDataChecker(UserData userData)
         {
-            userData.farmData ??= new UserFarmData();
+            userData.fieldData ??= new UserFieldData();
 
-            userData.farmData.fieldGroupDatas ??= new Dictionary<int, FieldGroupData>();
+            userData.fieldData.fieldGroupDatas ??= new Dictionary<int, FieldGroupData>();
             CheckFieldGroupData(userData);
         }
 
@@ -14,14 +14,14 @@ namespace ProjectF.Datas
         {
             for(int i = 0; i < 6; ++i)
             {
-                if(userData.farmData.fieldGroupDatas.TryGetValue(i, out FieldGroupData fieldGroupData) == false)
+                if(userData.fieldData.fieldGroupDatas.TryGetValue(i, out FieldGroupData fieldGroupData) == false)
                 {
                     fieldGroupData = new FieldGroupData() {
                         fieldGroupID = i,
                         fieldDatas = new Dictionary<int, FieldData>()
                     };
 
-                    userData.farmData.fieldGroupDatas.Add(i, fieldGroupData);
+                    userData.fieldData.fieldGroupDatas.Add(i, fieldGroupData);
                 }
 
                 for (int j = 0; j < 4; ++j)

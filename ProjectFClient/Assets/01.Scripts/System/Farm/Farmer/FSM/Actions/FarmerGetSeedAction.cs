@@ -14,7 +14,7 @@ namespace ProjectF.Farms.AI
             base.EnterState();
 
             CropSO targetSeedData = aiData.currentSeedData;
-            Seed seed = PoolManager.Spawn("Seed") as Seed;
+            Seed seed = PoolManager.Spawn<Seed>("Seed");
             seed.Initialize(targetSeedData.TableRow.seedItemID);
             seed.transform.position = brain.transform.position;
 

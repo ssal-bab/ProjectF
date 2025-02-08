@@ -16,7 +16,7 @@ namespace ProjectF.Tests
 
         private void Start()
         {
-            Farmer farmer = PoolManager.Spawn(farmerPrefab.Key) as Farmer;
+            Farmer farmer = PoolManager.Spawn<Farmer>(farmerPrefab.Key);
             farmer?.InitializeAsync(0);
         }
     }

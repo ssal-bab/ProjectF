@@ -30,17 +30,17 @@ namespace H00N.Resources
             initialized = false;
         }
 
-        public static async UniTask<ResourceHandle> LoadResourceHandleAsync(string resourceName)
-            => await LoadResourceHandleInternal(resourceName, true);
+        public static async UniTask<ResourceHandle> LoadResourceHandleAsync<T>(string resourceName) where T : Object
+            => await LoadResourceHandleInternal<T>(resourceName, true);
 
-        public static ResourceHandle LoadResourceHandle(string resourceName) 
-            => LoadResourceHandleInternal(resourceName, false).GetAwaiter().GetResult();
+        public static ResourceHandle LoadResourceHandle<T>(string resourceName) where T : Object
+            => LoadResourceHandleInternal<T>(resourceName, false).GetAwaiter().GetResult();
 
-        private static async UniTask<ResourceHandle> LoadResourceHandleInternal(string resourceName, bool isAsync)
+        private static async UniTask<ResourceHandle> LoadResourceHandleInternal<T>(string resourceName, bool isAsync) where T : Object
         {
             if (resourceCache.TryGetValue(resourceName, out ResourceHandle resourceHandle) == false)
             {
-                resourceHandle = isAsync ? await resourceLoader.LoadResourceAsync(resourceName) : resourceLoader.LoadResource(resourceName);
+                resourceHandle = isAsync ? await resourceLoader.LoadResourceAsync<T>(resourceName) : resourceLoader.LoadResource<T>(resourceName);
                 if (resourceHandle == null)
                     Debug.LogWarning($"[Resource] Resource not found. : {resourceName}");
 
@@ -58,7 +58,7 @@ namespace H00N.Resources
 
         private static async UniTask<T> LoadResourceInternal<T>(string resourceName, bool isAsync) where T : Object
         {
-            ResourceHandle resourceHandle = isAsync ? await LoadResourceHandleAsync(resourceName) : LoadResourceHandle(resourceName);
+            ResourceHandle resourceHandle = isAsync ? await LoadResourceHandleAsync<T>(resourceName) : LoadResourceHandle<T>(resourceName);
             if(resourceHandle == null)
                 return null;
 
@@ -91,7 +91,7 @@ namespace H00N.Resources
 
         public static async UniTask<T> LoadResourceWithoutCachingInternal<T>(string resourceName, bool isAsync) where T : Object
         {
-            ResourceHandle handle = isAsync ? await resourceLoader.LoadResourceAsync(resourceName) : resourceLoader.LoadResource(resourceName);
+            ResourceHandle handle = isAsync ? await resourceLoader.LoadResourceAsync<T>(resourceName) : resourceLoader.LoadResource<T>(resourceName);
             if(handle == null)
             {
                 Debug.LogWarning($"[Resource] Resource not found. : {resourceName}");

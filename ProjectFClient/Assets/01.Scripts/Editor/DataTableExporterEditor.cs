@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -9,48 +10,72 @@ namespace H00N.DataTables.Editors
     public class DataTableExporterEditor : EditorWindow
     {
         private string inputFolderPath = "";  
-        private string outputFolderPath = "";  
+        private List<string> outputFolderPathList = new List<string>();
 
         [MenuItem("Tools/Data Table Exporter")]
         public static void ShowWindow()
         {
-            GetWindow<DataTableExporterEditor>("Data Table Exporter");
+            DataTableExporterEditor window = GetWindow<DataTableExporterEditor>("Data Table Exporter");
+            window.minSize = new Vector2(600, 300);
+            window.maxSize = new Vector2(1000, 500);
         }
 
         private void OnEnable()
         {
             inputFolderPath = EditorPrefs.GetString("DataTableExporter/InputFolderPathCache", "");
-            outputFolderPath = EditorPrefs.GetString("DataTableExporter/OutputFolderPathCache", "");
+            outputFolderPathList = EditorPrefs.GetString("DataTableExporter/OutputFolderPathCache", "").Split(";").ToList();
         }
 
         private void OnGUI()
         {
-            GUILayout.Label("Data Table Exporter", EditorStyles.boldLabel);
-
-            // 입력 폴더 선택 버튼
-            if (GUILayout.Button("Select TSV Folder"))
+            GUILayout.Label("Selected TSV Folder:", EditorStyles.boldLabel);
+            
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(inputFolderPath);
+            if (GUILayout.Button("Select TSV Folder", GUILayout.Width(150)))
             {
                 inputFolderPath = EditorUtility.OpenFolderPanel("Select TSV Folder", "", "");
                 EditorPrefs.SetString("DataTableExporter/InputFolderPathCache", inputFolderPath);
             }
+            GUILayout.EndHorizontal();
 
-            GUILayout.Label("Selected TSV Folder: " + inputFolderPath);
-
-            // 출력 폴더 선택 버튼
-            if (GUILayout.Button("Select Output Folder"))
+            GUILayout.Space(10);
+            GUILayout.Label("Output Folders:", EditorStyles.boldLabel);
+        
+            // 출력 폴더 리스트
+            for (int i = 0; i < outputFolderPathList.Count; i++)
             {
-                outputFolderPath = EditorUtility.OpenFolderPanel("Select Output Folder", "", "");
-                EditorPrefs.SetString("DataTableExporter/OutputFolderPathCache", outputFolderPath);
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(outputFolderPathList[i]);
+                if (GUILayout.Button("Remove", GUILayout.Width(150)))
+                {
+                    outputFolderPathList.RemoveAt(i);
+                    EditorPrefs.SetString("DataTableExporter/OutputFolderPathCache", string.Join(";", outputFolderPathList));
+                    GUILayout.EndHorizontal();
+                    break;
+                }
+                GUILayout.EndHorizontal();
             }
 
-            GUILayout.Label("Selected Output Folder: " + outputFolderPath);
+            // 출력 폴더 추가 버튼
+            if (GUILayout.Button("Add Output Folder"))
+            {
+                string newPath = EditorUtility.OpenFolderPanel("Select Output Folder", "", "");
+                if (!string.IsNullOrEmpty(newPath) && !outputFolderPathList.Contains(newPath))
+                {
+                    outputFolderPathList.Add(newPath);
+                    EditorPrefs.SetString("DataTableExporter/OutputFolderPathCache", string.Join(";", outputFolderPathList));
+                }
+            }
+
+            GUILayout.Space(10);
 
             // 변환 버튼
             if (GUILayout.Button("Export Table"))
             {
-                if (!string.IsNullOrEmpty(inputFolderPath) && !string.IsNullOrEmpty(outputFolderPath))
+                if (!string.IsNullOrEmpty(inputFolderPath) && outputFolderPathList.Count > 0)
                 {
-                    ExportTable(inputFolderPath, outputFolderPath);
+                    ExportTable(inputFolderPath, outputFolderPathList);
                 }
                 else
                 {
@@ -59,7 +84,7 @@ namespace H00N.DataTables.Editors
             }
         }
 
-        private void ExportTable(string folderPath, string outputPath)
+        private void ExportTable(string folderPath, List<string> outputPathList)
         {
             string[] tsvFilePaths = Directory.GetFiles(folderPath, "*.tsv");
             var allJsonData = new Dictionary<string, string>();  // 모든 TSV 파일의 데이터를 저장할 리스트
@@ -119,12 +144,20 @@ namespace H00N.DataTables.Editors
 
             foreach(var row in allJsonData)
             {
-                string path = Path.Combine(outputPath, $"{row.Key}.json");
-                File.WriteAllText(path, row.Value);
+                foreach(string outputPath in outputPathList)
+                {
+                    if(string.IsNullOrEmpty(outputPath))
+                        continue;
+
+                    string path = Path.Combine(outputPath, $"{row.Key}.json");
+                    File.WriteAllText(path, row.Value);
+                }
             }
 
-            if (!string.IsNullOrEmpty(outputPath))
+            foreach (string outputPath in outputPathList)
             {
+                if (string.IsNullOrEmpty(outputPath))
+                    continue;
                 string path = Path.Combine(outputPath, $"DataTableJson.json");
                 File.WriteAllText(path, jsonOutput);
                 Debug.Log("JSON file saved to: " + path);

@@ -1,9 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace H00N.DataTables
 {
-    public abstract class DataTable<TRow> : IDataTable where TRow : DataTableRow
+    public abstract class DataTable<TRow> : IDataTable, IEnumerable<TRow> where TRow : DataTableRow
     {
         protected Dictionary<int, TRow> table = null;
 
@@ -24,5 +25,8 @@ namespace H00N.DataTables
 
             return row;
         }
+
+        public IEnumerator<TRow> GetEnumerator() => table.Values.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

@@ -1,3 +1,4 @@
+using H00N.DataTables;
 using Newtonsoft.Json;
 using ProjectF.Networks.DataBases;
 using StackExchange.Redis.Extensions.Core;
@@ -17,6 +18,13 @@ public class Program
         builder.Services
             .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
             .AddNewtonsoftJson(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Include);
+
+        // DataTableManager
+        // 데이터 데이블이 없으면 서버가 켜져선 안 된다. 에러를 뱉도록 예외처리 하지 않는다.
+        string dataTableJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "DataTable", "DataTableJson.json");
+        string jsonString = File.ReadAllText(dataTableJsonPath);
+        Dictionary<string, string> jsonDatas = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
+        DataTableManager.Initialize(jsonDatas);
 
         // Redis
         builder.Services.AddSingleton(new CreateRedisConfiguration().configuration);

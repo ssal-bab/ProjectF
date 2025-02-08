@@ -5,7 +5,7 @@ namespace H00N.Resources
 {
     public interface IResourceLoader
     {
-        public ResourceHandle LoadResource(string resourceName);
-        public UniTask<ResourceHandle> LoadResourceAsync(string resourceName);
+        public ResourceHandle LoadResource<T>(string resourceName) where T : Object;
+        public UniTask<ResourceHandle> LoadResourceAsync<T>(string resourceName) where T : Object;
     }
 }

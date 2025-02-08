@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using H00N.Resources;
 using UnityEngine;
 
-namespace ProjectF.Farms
+namespace ProjectF.UI.Farms
 {
     public struct GetStorageIcon
     {

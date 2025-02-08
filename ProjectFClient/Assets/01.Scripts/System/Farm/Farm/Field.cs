@@ -126,7 +126,7 @@ namespace ProjectF.Farms
             Vector3 randomOffset = Random.insideUnitCircle * 3f;
             Vector3 itemPosition = TargetPosition + randomOffset;
 
-            Item item = await PoolManager.SpawnAsync(tableRow.itemType.ToString()) as Item;
+            Item item = await PoolManager.SpawnAsync<Item>(tableRow.itemType.ToString());
             item.transform.position = itemPosition;
             item.Initialize(tableRow.id);
         }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using H00N.Resources.Pools;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace H00N.Extensions
 {
@@ -24,6 +26,17 @@ namespace H00N.Extensions
                 if (recursive)
                     child.GetComponentsInChildren(result, false, true);
             }            
+        }
+
+        public static void DespawnAllChildren(this Transform transform)
+        {
+            foreach(Transform child in transform)
+            {
+                if(child.TryGetComponent<PoolReference>(out PoolReference poolReference) == false)
+                    Object.Destroy(child.gameObject);
+                else
+                    PoolManager.Despawn(poolReference);
+            }
         }
     }
 }

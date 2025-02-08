@@ -30,17 +30,29 @@ namespace H00N.Resources.Pools
             initialized = false;
         }
 
-        public static PoolReference Spawn(string resourceName, Transform parent = null)
-            => SpawnInternal(resourceName, parent, false).GetAwaiter().GetResult();
+        public static T Spawn<T>(string resourceName, Transform parent = null) where T : Component
+        {
+            PoolReference instance = SpawnInternal(resourceName, parent, false).GetAwaiter().GetResult();
+            if(instance is T)
+                return instance as T;
 
-        public static async UniTask<PoolReference> SpawnAsync(string resourceName, Transform parent = null)
-            => await SpawnInternal(resourceName, parent, true);
+            return instance.GetComponent<T>();
+        }
+
+        public static async UniTask<T> SpawnAsync<T>(string resourceName, Transform parent = null) where T : Component
+        {
+            PoolReference instance = await SpawnInternal(resourceName, parent, true);
+            if(instance is T)
+                return instance as T;
+
+            return instance.GetComponent<T>();
+        }
 
         private static async UniTask<PoolReference> SpawnInternal(string resourceName, Transform parent, bool isAsync)
         {
             if(poolTable.TryGetValue(resourceName, out Pool pool) == false)
             {
-                ResourceHandle resourceHandle = isAsync ? await ResourceManager.LoadResourceHandleAsync(resourceName) : ResourceManager.LoadResourceHandle(resourceName);
+                ResourceHandle resourceHandle = isAsync ? await ResourceManager.LoadResourceHandleAsync<GameObject>(resourceName) : ResourceManager.LoadResourceHandle<GameObject>(resourceName);
                 if(resourceHandle == null)
                 {
                     Debug.LogWarning($"[Pool] Resource not found. : {resourceName}");

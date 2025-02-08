@@ -5,6 +5,7 @@ namespace ProjectF.Datas
         None,
         Crop,
         Egg,
-        Seed
+        Seed,
+        Material
     }
 }

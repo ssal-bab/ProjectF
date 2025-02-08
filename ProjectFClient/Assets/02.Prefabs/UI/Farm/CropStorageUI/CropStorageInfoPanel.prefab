@@ -935,5 +935,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storageIconImage: {fileID: 1415654311655651391}
   nameText: {fileID: 3490676195542696156}
-  limitQuantityText: {fileID: 7535695976140480130}
-  usedQuantityText: {fileID: 275162387687358401}
+  limitCountText: {fileID: 7535695976140480130}
+  usedCountText: {fileID: 275162387687358401}

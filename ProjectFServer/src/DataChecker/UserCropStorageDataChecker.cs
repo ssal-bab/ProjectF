@@ -16,7 +16,7 @@ namespace ProjectF.Datas
             if(cropStorageData.level == 0)
                 cropStorageData.level = 1;
 
-            cropStorageData.cropStorage ??= new Dictionary<int, Dictionary<int, int>>();
+            cropStorageData.cropStorage ??= new Dictionary<int, Dictionary<ECropGrade, int>>();
             cropStorageData.materialStorage ??= new Dictionary<int, int>();
             foreach(var tableRow in DataTableManager.GetTable<ItemTable>())
             {
@@ -40,11 +40,11 @@ namespace ProjectF.Datas
                 return;
 
             // 총 4단계가 있다. 노별, 똥별, 은별, 금별
-            cropStorageData.cropStorage.Add(tableRow.id, new Dictionary<int, int>() {
-                [0] = 0,
-                [1] = 0,
-                [2] = 0,
-                [3] = 0,
+            cropStorageData.cropStorage.Add(tableRow.id, new Dictionary<ECropGrade, int>() {
+                [ECropGrade.None] = 0,
+                [ECropGrade.Bronze] = 0,
+                [ECropGrade.Silver] = 0,
+                [ECropGrade.Gold] = 0,
             });
         }
 

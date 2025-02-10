@@ -7,7 +7,7 @@ namespace ProjectF.UI.Farms
     {
         [SerializeField] CanvasGroup canvasGroup = null;
 
-        public virtual void Initialize(UserCropStorageData userCropStorageData) { }
+        public virtual void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer) { }
 
         public void Show()
         {

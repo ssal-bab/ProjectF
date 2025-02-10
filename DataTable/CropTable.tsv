@@ -1,20 +1,20 @@
-id	cropType	seedItemID	growthStep	growthRate	productCropID	nameLocalKey	// desc	// desc
-int	ECropType	int	int	int	int	string		
-0	Crop	100	1	3	0	crop_name_strawberry	딸기	봄
-1	Crop	101	4	10	1	crop_name_radish	무	봄
-2	Crop	102	4	15	2	crop_name_carrot	당근	봄
-3	Crop	103	4	15	3	crop_name_potato	감자	봄
-4	Crop	104	4	30	4	crop_name_tomato	토마토	여름
-5	Crop	105	4	20	5	crop_name_watermelon	수박	여름
-6	Crop	106	4	20	6	crop_name_pumpkin	호박	여름
-7	Crop	107	4	20	7	crop_name_pepper	고추	여름
-8	Crop	108	4	40	8	crop_name_bean	콩	가을
-9	Crop	109	3	40	9	crop_name_sweetpotato	고구마	가을
-10	Crop	110	4	30	10	crop_name_beatroot	비트	가을
-11	Crop	111	4	50	11	crop_name_onion	양파	가을
-12	Crop	112	4	60	12	crop_name_garlic	마늘	겨울
-13	Crop	113	4	20	13	crop_name_spinach	시금치	겨울
-14	Crop	114	4	40	14	crop_name_cauliflower	콜리플라워	겨울
-15	Crop	115	4	20	15	crop_name_cabbage	양배추	겨울
-16	Crop	116	2	3	16	crop_name_test_egg_crop	테스트 알 작물	-
-17	Egg	16	2	3	-1	crop_name_test_egg	테스트 알	-
+id	cropType	seedItemID	growthStep	growthRate	productCropID	basePrice	nameLocalKey	// desc	// desc
+int	ECropType	int	int	int	int	int	string		
+0	Crop	100	1	3	0	10	crop_name_strawberry	딸기	봄
+1	Crop	101	4	10	1	10	crop_name_radish	무	봄
+2	Crop	102	4	15	2	10	crop_name_carrot	당근	봄
+3	Crop	103	4	15	3	10	crop_name_potato	감자	봄
+4	Crop	104	4	30	4	10	crop_name_tomato	토마토	여름
+5	Crop	105	4	20	5	10	crop_name_watermelon	수박	여름
+6	Crop	106	4	20	6	10	crop_name_pumpkin	호박	여름
+7	Crop	107	4	20	7	10	crop_name_pepper	고추	여름
+8	Crop	108	4	40	8	10	crop_name_bean	콩	가을
+9	Crop	109	3	40	9	10	crop_name_sweetpotato	고구마	가을
+10	Crop	110	4	30	10	10	crop_name_beatroot	비트	가을
+11	Crop	111	4	50	11	10	crop_name_onion	양파	가을
+12	Crop	112	4	60	12	10	crop_name_garlic	마늘	겨울
+13	Crop	113	4	20	13	10	crop_name_spinach	시금치	겨울
+14	Crop	114	4	40	14	10	crop_name_cauliflower	콜리플라워	겨울
+15	Crop	115	4	20	15	10	crop_name_cabbage	양배추	겨울
+16	Crop	116	2	3	16	10	crop_name_test_egg_crop	테스트 알 작물	-
+17	Egg	16	2	3	-1	10	crop_name_test_egg	테스트 알	-

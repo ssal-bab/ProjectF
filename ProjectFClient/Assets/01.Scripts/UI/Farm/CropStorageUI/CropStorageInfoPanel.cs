@@ -17,7 +17,7 @@ namespace ProjectF.UI.Farms
         private CropStorageTableRow storageData = null;
         private int usedCount = 0;
         
-        public void Initialize(UserCropStorageData userCropStorageData)
+        public void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer)
         {
             CropStorageTable cropStorageTable = DataTableManager.GetTable<CropStorageTable>();
             storageData = cropStorageTable.GetRowByLevel(userCropStorageData.level);;
@@ -31,7 +31,7 @@ namespace ProjectF.UI.Farms
             if(storageData == null)
                 return;
 
-            storageIconImage.sprite = new GetStorageIcon(storageData.id).sprite;
+            storageIconImage.sprite = ResourceUtility.GetStorageIcon(storageData.id);
             nameText.text = $"Lv. {storageData.level} Storage{storageData.level}"; // 나중에 localizing 적용해야 함
             limitCountText.text = $"Max : {storageData.storeLimit}";
             usedCountText.text = $"Used : {usedCount}";

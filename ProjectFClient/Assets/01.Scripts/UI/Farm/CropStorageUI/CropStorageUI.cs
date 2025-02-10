@@ -13,28 +13,35 @@ namespace ProjectF.UI.Farms
         }
 
         [SerializeField] CropStorageInfoPanel cropStorageInfoPanel = null;
-        [SerializeField] CropStorageViewPanel[] cropStorageViewPanels = new CropStorageViewPanel[2];
+        [SerializeField] CropStorageViewPanel[] cropStorageViewPanels = new CropStorageViewPanel[(int)ECropStorageViewType.TOTAL_COUNT];
 
-        private UserCropStorageData cropStorageData = null;
+        private UserCropStorageData userCropStorageData = null;
+        private CropStorageUICallbackContainer callbackContainer = null;
 
+        #region Debug
         private void Start()
         {
-            Initialize(GameDefine.MainUser.cropStorageData);
+            Initialize(GameDefine.MainUser.cropStorageData, new CropStorageUICallbackContainer(
+                id => Debug.Log($"Sell Crop!! id : {id}")
+            ));
         }
+        #endregion
 
-        public void Initialize(UserCropStorageData userCropStorageData)
+        public void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer)
         {
             Initialize();
 
-            cropStorageData = userCropStorageData;            
-            cropStorageInfoPanel.Initialize(cropStorageData);
+            this.userCropStorageData = userCropStorageData;
+            this.callbackContainer = callbackContainer;
+
+            cropStorageInfoPanel.Initialize(this.userCropStorageData, this.callbackContainer);
             SetView(ECropStorageViewType.Crop);
         }
 
         protected override void Release()
         {
             base.Release();
-            cropStorageData = null;
+            userCropStorageData = null;
         }
 
         public void OnTouchCropViewButton()
@@ -56,7 +63,7 @@ namespace ProjectF.UI.Farms
                 CropStorageViewPanel ui = cropStorageViewPanels[i];
                 if(i == targetIndex)
                 {
-                    ui.Initialize(cropStorageData);
+                    ui.Initialize(userCropStorageData, callbackContainer);
                     ui.Show();
                 }
                 else

@@ -19,9 +19,9 @@ namespace ProjectF.UI.Farms
             elementPrefab.Initialize();
         }
 
-        public override void Initialize(UserCropStorageData userCropStorageData)
+        public override void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer)
         {
-            base.Initialize(userCropStorageData);
+            base.Initialize(userCropStorageData, callbackContainer);
             if(userCropStorageData == null)
             {
                 containerTransform.DespawnAllChildren();

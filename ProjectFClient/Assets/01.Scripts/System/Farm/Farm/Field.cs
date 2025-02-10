@@ -50,7 +50,7 @@ namespace ProjectF.Farms
             // 이미 심어져 있는 식물이 있는 경우 (작물 정보, 성장 상태)를 복원한다
             if(fieldData.currentCropID != -1)
             {
-                currentCropData = new GetCropData(fieldData.currentCropID).currentData;
+                currentCropData = ResourceUtility.GetCropData(fieldData.currentCropID);
                 growth = fieldData.currentGrowthStep * currentCropData.TableRow.growthRate;                
                 OnGrowUpEvent?.Invoke(fieldData.currentGrowthStep);
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using H00N.Extensions;
@@ -22,9 +23,9 @@ namespace ProjectF.UI.Farms
             elementPrefab.Initialize();
         }
 
-        public override void Initialize(UserCropStorageData userCropStorageData)
+        public override void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer)
         {
-            base.Initialize(userCropStorageData);
+            base.Initialize(userCropStorageData, callbackContainer);
 
             // 토글 초기화
             orderToggleUI.SetToggle(true);
@@ -36,21 +37,21 @@ namespace ProjectF.UI.Farms
                 return;
             }
             
-            RefreshUIAsync(userCropStorageData.cropStorage);
+            RefreshUIAsync(userCropStorageData.cropStorage, callbackContainer.SellCropCallback);
         }
 
-        private async void RefreshUIAsync(Dictionary<int, Dictionary<int, int>> storageData)
+        private async void RefreshUIAsync(Dictionary<int, Dictionary<ECropGrade, int>> storageData, Action<int> sellCropCallback)
         {
             containerTransform.DespawnAllChildren();
 
             foreach(var category in storageData)
             {
                 foreach(var item in category.Value)
-                    await AddToContainerAsync(category.Key, item.Key, item.Value);
+                    await AddToContainerAsync(category.Key, item.Key, item.Value, sellCropCallback);
             }
         }
 
-        private async UniTask AddToContainerAsync(int id, int grade, int count)
+        private async UniTask AddToContainerAsync(int id, ECropGrade grade, int count, Action<int> sellCropCallback)
         {
             if (filterToggleUI.ToggleValue == false && count <= 0)
                 return;
@@ -60,7 +61,7 @@ namespace ProjectF.UI.Farms
             if (orderToggleUI.ToggleValue == false)
                 ui.transform.SetAsFirstSibling();
 
-            ui.Initialize(id, grade, count);
+            ui.Initialize(id, grade, count, sellCropCallback);
         }
     }
 }

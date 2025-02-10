@@ -3262,6 +3262,37 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2701526680113586340, guid: 3415443e3cc354f69ab46ba3e64b6bfe, type: 3}
   m_PrefabInstance: {fileID: 784547943}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &816508893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 816508894}
+  m_Layer: 0
+  m_Name: TFarmerManagement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &816508894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816508893}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832129813
 GameObject:
   m_ObjectHideFlags: 0
@@ -6504,6 +6535,7 @@ SceneRoots:
   - {fileID: 1696150774}
   - {fileID: 1452475804}
   - {fileID: 544737049}
+  - {fileID: 816508894}
   - {fileID: 947159455}
   - {fileID: 122883538}
   - {fileID: 1780241469}

@@ -23,8 +23,11 @@ namespace ProjectF.UI
             toggleValue = toggle;
             OnValueChangedEvent?.Invoke(toggleValue);
 
-            toggleObjectOption[!toggleValue]?.SetActive(false);
-            toggleObjectOption[toggleValue]?.SetActive(true);
+            if(toggleObjectOption[!toggleValue] != null)
+                toggleObjectOption[!toggleValue].SetActive(false);
+
+            if(toggleObjectOption[toggleValue] != null)
+                toggleObjectOption[toggleValue].SetActive(true);
         }
 
         #if UNITY_EDITOR

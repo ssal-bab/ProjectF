@@ -18,11 +18,13 @@ namespace ProjectF.UI
                 if(i == index)
                 {
                     currentFocusedUI = ui;
-                    ui?.SetToggle(true);
+                    if(ui != null)
+                        ui.SetToggle(true);
                 }
                 else
                 {
-                    ui?.SetToggle(false);
+                    if(ui != null)
+                        ui.SetToggle(false);
                 }
             }
         }
@@ -34,7 +36,10 @@ namespace ProjectF.UI
 
             currentFocusedUI = toggleUI;
             foreach(ToggleUI ui in toggleUIList)
-                ui?.SetToggle(ui == currentFocusedUI);
+            {
+                if(ui != null)
+                    ui.SetToggle(ui == currentFocusedUI);
+            }
         }
 
         #if UNITY_EDITOR

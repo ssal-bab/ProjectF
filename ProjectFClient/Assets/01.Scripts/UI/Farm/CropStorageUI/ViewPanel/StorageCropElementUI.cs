@@ -42,7 +42,7 @@ namespace ProjectF.UI.Farms
             priceText.text = (cropTableRow.basePrice * count).ToString();
         }
 
-        public void OnSellButtonClicked()
+        public void OnTouchSellButton()
         {
             sellCropCallback?.Invoke(id);
         }

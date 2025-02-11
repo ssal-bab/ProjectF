@@ -7,6 +7,7 @@ namespace ProjectF.DataTables
     public class FacilityTableRowBase : DataTableRow
     {
         public int upgradeGold;
+        public int skipGem;
         public int costItemID;
         public int costItemCount;
     }

@@ -25,6 +25,7 @@ namespace ProjectF.UI.Farms
                 id => Debug.Log($"Sell Crop!! id : {id}"),
                 id => true,
                 id => true,
+                id => true,
                 id => Debug.Log($"Upgrade Storage!! id : {id}")
             ));
         }

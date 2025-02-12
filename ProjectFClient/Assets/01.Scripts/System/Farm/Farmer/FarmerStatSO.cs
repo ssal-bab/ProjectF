@@ -60,5 +60,13 @@ namespace ProjectF.Farms
             this[statType]?.RemoveModifier(modifierType, value);
             OnStatChangedEvent?.Invoke();
         }
+
+        /// <summary>
+        /// 2025.02.11 SetBaseValue 추가. baseValue 수정 기능
+        /// </summary>
+        public void SetBaseValue(EFarmerStatType statType, float value)
+        {
+            this[statType]?.SetBaseValue(value);
+        }
     }
 }

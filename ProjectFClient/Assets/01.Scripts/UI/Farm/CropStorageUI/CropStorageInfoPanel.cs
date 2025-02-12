@@ -31,8 +31,8 @@ namespace ProjectF.UI.Farms
         {
             int targetIndex = (int)infoUIType;
             CropStorageInfoUI ui = cropStorageInfoUIList[targetIndex];
-            ui.Initialize(userCropStorageData, callbackContainer, this);
             infoUIToggleGroupUI.SetToggle(ui);
+            ui.Initialize(userCropStorageData, callbackContainer, this);
         }
     }
 }

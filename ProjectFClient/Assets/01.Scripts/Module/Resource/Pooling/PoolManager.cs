@@ -77,7 +77,11 @@ namespace H00N.Resources.Pools
                 await UniTask.Yield();
 
             PoolReference instance = pool.Spawn();
-            instance?.transform.SetParent(parent);
+            if(instance == null)
+                return null;
+
+            instance.gameObject.SetActive(true);
+            instance.transform.SetParent(parent);
             return instance;
         }
 
@@ -89,8 +93,14 @@ namespace H00N.Resources.Pools
 
         private static async UniTask DespawnInternal(PoolReference instance, bool isAsync)
         {
-            if(instance == null || instance.Handle == null)
+            if(instance == null)
                 return;
+
+            if(instance.Handle == null)
+            {
+                Object.Destroy(instance.gameObject);
+                return;
+            }
 
             string resourceName = instance.Handle.ResourceName;
             if(poolTable.TryGetValue(resourceName, out Pool pool) == false)
@@ -105,8 +115,11 @@ namespace H00N.Resources.Pools
             if(isAsync)
                 await UniTask.Yield();
 
-            instance?.gameObject.SetActive(false);
-            instance?.transform.SetParent(poolParent);
+            if(instance == null)
+                return;
+
+            instance.gameObject.SetActive(false);
+            instance.transform.SetParent(poolParent);
         }
     }
 }

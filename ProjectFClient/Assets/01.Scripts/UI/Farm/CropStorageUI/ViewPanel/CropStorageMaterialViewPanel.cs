@@ -5,12 +5,13 @@ using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
     public class CropStorageMaterialViewPanel : CropStorageViewPanel
     {
-        [SerializeField] Transform containerTransform = null;
+        [SerializeField] ScrollRect scrollView = null;
         [SerializeField] AddressableAsset<StorageMaterialElementUI> elementPrefab = null;
 
         protected override void Awake()
@@ -24,7 +25,7 @@ namespace ProjectF.UI.Farms
             base.Initialize(userCropStorageData, callbackContainer);
             if(userCropStorageData == null)
             {
-                containerTransform.DespawnAllChildren();
+                scrollView.content.DespawnAllChildren();
                 return;
             }
 
@@ -33,16 +34,20 @@ namespace ProjectF.UI.Farms
 
         private async void RefreshUIAsync(Dictionary<int, int> storageData)
         {
-            containerTransform.DespawnAllChildren();
+            scrollView.gameObject.SetActive(false);
+            scrollView.content.DespawnAllChildren();
 
             foreach(var category in storageData)
                 await AddToContainerAsync(category.Key, category.Value);
+
+            scrollView.verticalNormalizedPosition = 1;
+            scrollView.gameObject.SetActive(true);
         }
 
         private async UniTask AddToContainerAsync(int id, int count)
         {
             StorageMaterialElementUI ui = await PoolManager.SpawnAsync<StorageMaterialElementUI>(elementPrefab.Key);
-            ui.transform.SetParent(containerTransform);
+            ui.transform.SetParent(scrollView.content);
             ui.Initialize(id, count);
         }
     }

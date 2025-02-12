@@ -21,13 +21,19 @@ namespace ProjectF.UI.Farms
         #region Debug
         private void Start()
         {
-            Initialize(GameDefine.MainUser.cropStorageData, new CropStorageUICallbackContainer(
+            CropStorageUICallbackContainer hi = null;
+            hi = new CropStorageUICallbackContainer(
                 id => Debug.Log($"Sell Crop!! id : {id}"),
                 id => true,
                 id => true,
                 id => true,
-                id => Debug.Log($"Upgrade Storage!! id : {id}")
-            ));
+                id => {
+                    Debug.Log($"Upgrade Storage!! id : {id}");
+                    Initialize(GameDefine.MainUser.cropStorageData, hi);
+                }
+            );
+            
+            Initialize(GameDefine.MainUser.cropStorageData, hi);
         }
         #endregion
 

@@ -25,13 +25,28 @@ namespace ProjectF.UI.Farms
 
             ItemTableRow itemTableRow = DataTableManager.GetTable<ItemTable>().GetRow(id);
             if(itemTableRow == null)
+            {
+                ResetUI();
                 return;
+            }
 
             CropTableRow cropTableRow = DataTableManager.GetTable<CropTable>().GetRowByProductID(id);
             if(cropTableRow == null)
+            {
+                ResetUI();
                 return;
+            }
 
             RefreshUI(itemTableRow, cropTableRow, grade, count);
+        }
+
+        private void ResetUI()
+        {
+            itemIconImage.color = new Color(0, 0, 0, 0);
+            gradeIconImage.color = new Color(0, 0, 0, 0);
+            itemCountText.text = "";
+            priceText.text = "";
+            sellCropCallback = null;
         }
 
         private void RefreshUI(ItemTableRow itemTableRow, CropTableRow cropTableRow, ECropGrade grade, int count)

@@ -30,7 +30,10 @@ namespace ProjectF.UI.Farms
             CropStorageTable cropStorageTable = DataTableManager.GetTable<CropStorageTable>();
             CropStorageTableRow tableRow = cropStorageTable.GetRowByLevel(userCropStorageData.level + 1); // max level 처리해야 함
             if(tableRow == null)
+            {
+                panel.SetInfoUI(ECropStorageInfoUIType.Default);
                 return;
+            }
 
             targetID = tableRow.id;
             RefreshUI(tableRow);
@@ -38,7 +41,7 @@ namespace ProjectF.UI.Farms
 
         private void RefreshUI(CropStorageTableRow tableRow)
         {
-            storageIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
+            // storageIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
             nameText.text = $"Lv. {tableRow.level} Storage{tableRow.level}"; // 나중에 localizing 적용해야 함
             upgradeGoldText.text = $"{tableRow.upgradeGold}";
             skipGemText.text = $"{tableRow.skipGem}";

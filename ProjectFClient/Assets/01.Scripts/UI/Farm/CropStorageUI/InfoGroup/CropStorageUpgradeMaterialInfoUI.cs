@@ -29,12 +29,18 @@ namespace ProjectF.UI.Farms
             CropStorageTable cropStorageTable = DataTableManager.GetTable<CropStorageTable>();
             CropStorageTableRow cropStoragetableRow = cropStorageTable.GetRowByLevel(userCropStorageData.level + 1); // max level 처리해야 함
             if(cropStoragetableRow == null)
+            {
+                panel.SetInfoUI(ECropStorageInfoUIType.UpgradeCost); // 다시 돌려주자
                 return;
+            }
 
             ItemTable itemTable = DataTableManager.GetTable<ItemTable>();
             ItemTableRow costItemTableRow = itemTable.GetRow(cropStoragetableRow.costItemID);
             if(costItemTableRow == null)
+            {
+                panel.SetInfoUI(ECropStorageInfoUIType.UpgradeCost); // 다시 돌려주자
                 return;
+            }
 
             targetID = cropStoragetableRow.id;
             RefreshUI(cropStoragetableRow, costItemTableRow);
@@ -42,7 +48,7 @@ namespace ProjectF.UI.Farms
 
         private void RefreshUI(CropStorageTableRow cropStoragetableRow, ItemTableRow costItemTableRow)
         {
-            storageIconImage.sprite = ResourceUtility.GetStorageIcon(cropStoragetableRow.id);
+            // storageIconImage.sprite = ResourceUtility.GetStorageIcon(cropStoragetableRow.id);
             nameText.text = $"Lv. {cropStoragetableRow.level} Storage{cropStoragetableRow.level}"; // 나중에 localizing 적용해야 함
             limitCountText.text = $"Max : {cropStoragetableRow.storeLimit}";
             // materialCountText.text = $"{cropStoragetableRow.costItemCount} {costItemTableRow.nameLocalKey}";

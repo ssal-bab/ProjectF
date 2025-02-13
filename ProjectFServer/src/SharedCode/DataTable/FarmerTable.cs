@@ -7,11 +7,9 @@ namespace ProjectF.DataTables
     public class FarmerTableRow : DataTableRow
     {
         public float moveSpeed; // 최고 이동 속도
-        public float iq; // ai 지능
-        public float strength; // 한 번에 들 수 있는 정도
-        public float luck; // 더 높은 등급의 작물이 나올 확률
+        public float health; // 쉬지않고 일할수 있는 양
         public float farmingSkill; // 한 번에 줄 수 있는 물의 정도
-        public float harvestingSkill; // 더 많은 작물이 나올 확률
+        public float adventureSkill; // 탐험에서 더 많은 아이템을 얻을 확률
         public string nameLocalKey;
     }
 

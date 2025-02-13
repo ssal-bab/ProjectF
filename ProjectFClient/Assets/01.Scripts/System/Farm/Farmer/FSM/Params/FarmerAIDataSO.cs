@@ -29,7 +29,8 @@ namespace ProjectF.Farms.AI
         {
             targetStack = new Stack<FarmerTargetableBehaviour>();
 
-            farmerStat = farmer.StatData;
+            // 2025.02.13 farmer 코드에 FarmerStatSO대신 FarmerStat 추가하면서 주석처리
+            //farmerStat = farmer.StatData;
             movement = farmer.GetComponent<UnitMovement>();
 
             this.farmer = farmer;

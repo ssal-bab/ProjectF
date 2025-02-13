@@ -1,56 +1,78 @@
-using System.Collections;
-using System.Collections.Generic;
+using H00N.Resources;
 using UnityEngine;
+using System.Collections.Generic;
+using H00N.Stats;
+using System;
 
 namespace ProjectF.Farms
 {
     public class FarmerManagement : MonoBehaviour
     {
+        private Dictionary<int, FarmerIncreaseStatSO> increaseStatDataDictionary = new();
+        
         /// <summary>
-        /// 농사 스탯 테이블 SO list
+        /// 일꾼의 ID 입력 시 해당 일꾼의 증가 스탯 정보를 로드
         /// </summary>
-        [SerializeField] private List<object> increaseFarmingStatTableList = new();
-        private Dictionary<int, object> increaseFarmingStatTableDictionary;
-
-        private void Start()
+        public async void InitializeFarmerIncreaseStatAsync(int id)
         {
-            // increaseFarmingStatTableList.ForEach(x => increaseFarmingStatTableDictionary.Add(x.id, x));
+            if(!increaseStatDataDictionary.ContainsKey(id))
+            {
+                var incData = await ResourceManager.LoadResourceAsync<FarmerIncreaseStatSO>($"FarmerIncreaseStat_{id}");
+                increaseStatDataDictionary.Add(id, incData);
+                return;
+            }
+
+            Debug.LogWarning($"Warning:{id} has already registered");
         }
 
         /// <summary>
-        /// 게임 재시작 시 보유중인 일꾼 스탯 재설정
+        /// 일꾼 레벨 변경, farmer = 변경할 일꾼, currentLevel = 현재 농사 레벨, targetLevel = 목표 농사 레벨
+        /// 현재 일꾼의 currentLevel을 받아올 수 없어 매개변수로 받음
         /// </summary>
-        public void GenerateFarmerStat()
+        public void ChangeFarmingLevel(Farmer farmer, int id, int targetLevel, int currentLevel)
         {
-            /// <summary>
-            /// 보유중인 일꾼들 데어터 테이블을 어디선가 가져옴
-            /// foreach loop를 돌며 데이터 테이블을 참조해 일꾼들의 레벨당 스탯을 재설정
-            /// 여기서 농사 스탯, 탐험 스탯 전부 초기화 함
-            /// </summary>
+            CalculateLevelDifference(farmer, id, targetLevel, currentLevel, (delta, theta) =>
+            {
+                FarmerStatAdjustmentModifier(farmer.Stat, id, delta, theta, 
+                                             EFarmerStatType.MoveSpeed, 
+                                             EFarmerStatType.Health, 
+                                             EFarmerStatType.FarmingSkill);
+            });
         }
 
         /// <summary>
-        /// 일꾼 레벨 변경, target = 변경할 일꾼, level = 목표 레벨
+        /// 일꾼 레벨 변경, farmer = 변경할 일꾼, currentLevel = 현재 모험 레벨, targetLevel = 목표 모험 레벨
+        /// 현재 일꾼의 currentLevel을 받아올 수 없어 매개변수로 받음
         /// </summary>
-        public void ChangeFarmingLevel(Farmer target, int level)
+        public void ChangeAdventureLevel(Farmer farmer, int id, int targetLevel, int currentLevel)
         {
-            /// <summary>
-            /// 1. 타겟의 ID 뽑아와서 스탯 데이터 테이블 찾기
-            /// 2. 데이터 테이블의 내장 함수로 레벨의 스탯들 튜플로 받아오기
-            /// 3. FarmerStatSO에 값 수정하기
-            /// </summary>
+            CalculateLevelDifference(farmer, id, targetLevel, currentLevel, (delta, theta) =>
+            {
+                FarmerStatAdjustmentModifier(farmer.Stat, id, delta, theta, EFarmerStatType.AdventureSkill);
+            });
         }
 
-        /// <summary>
-        /// 일꾼 레벨 변경, target = 변경할 일꾼, level = 목표 레벨
-        /// </summary>
-        public void ChangeAdventureLevel(Farmer target, int level)
+        private void CalculateLevelDifference(Farmer farmer, int id, int targetLevel, int currentLevel, Action<int, int> applyStats)
         {
-            /// <summary>
-            /// 1. 타겟의 ID 뽑아와서 스탯 데이터 테이블 찾기
-            /// 2. 데이터 테이블의 내장 함수로 레벨의 스탯들 튜플로 받아오기
-            /// 3. FarmerStatSO에 값 수정하기
-            /// </summary>
+            int delta = targetLevel - currentLevel;
+            if (delta == 0) return;
+
+            int theta = Mathf.Abs(delta);
+            applyStats?.Invoke(delta, theta);
+        }
+
+        private void FarmerStatAdjustmentModifier(FarmerStat stat, int id, int delta, int theta, params EFarmerStatType[] statTypes)
+        {
+            var incData = increaseStatDataDictionary[id];
+
+            Action<EFarmerStatType> modifyStat = delta > 0 ? 
+            (t => stat.AddModifier(t, EStatModifierType.Addend, incData[t] * theta)) : 
+            (t => stat.RemoveModifier(t, EStatModifierType.Addend, incData[t] * theta));
+
+            foreach (EFarmerStatType t in statTypes)
+            {
+                modifyStat(t);
+            }
         }
     }
 }

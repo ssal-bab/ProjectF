@@ -46,15 +46,6 @@ namespace H00N.Stats
             CalculateValue();
         }
 
-        /// <summary>
-        /// 2025.02.11 SetBaseValue 추가. baseValue 수정 기능
-        /// </summary>
-        public void SetBaseValue(float value)
-        {
-            baseValue = value;
-            CalculateValue();
-        }
-
         public static implicit operator float(Stat left) => left.CurrentValue;
         public static implicit operator int(Stat left) => (int)left.CurrentValue;
     }

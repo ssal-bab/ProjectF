@@ -50,7 +50,7 @@ namespace ProjectF.Farms.AI
 
         private void SetIdle()
         {
-            float range = (DataDefine.IQ_STAT_MAX - aiData.farmerStat[EFarmerStatType.IQ]) / DataDefine.IQ_STAT_MIN * 2f;
+            float range = (DataDefine.IQ_STAT_MAX/* - aiData.farmerStat[EFarmerStatType.IQ]*/) / DataDefine.IQ_STAT_MIN * 2f;
             float idleDuration = Random.Range(0f, range) + 1f;
             idleTimer = idleDuration;
         }
@@ -68,12 +68,17 @@ namespace ProjectF.Farms.AI
                 return;
             }
 
-            int targetCount = targets.Count;
-            float theta = (aiData.farmerStat[EFarmerStatType.IQ] - DataDefine.IQ_STAT_MIN) / (DataDefine.IQ_STAT_MAX - DataDefine.IQ_STAT_MIN);
-            int shuffleCount = targetCount - Mathf.RoundToInt(targetCount * theta);
+            ///<sumarry>
+            /// 2025.02.13
+            /// IQ 스탯 삭제시에 따른 코드 수정 필요. 기존 코드는 주석처리 해놓았음.
+            ///</sumarry>
+            //int targetCount = targets.Count;
+            //float theta = (aiData.farmerStat[EFarmerStatType.IQ] - DataDefine.IQ_STAT_MIN) / (DataDefine.IQ_STAT_MAX - DataDefine.IQ_STAT_MIN);
+            //int shuffleCount = targetCount - Mathf.RoundToInt(targetCount * theta);
             
-            targets.Sort(transform.DistanceCompare);
-            targets.PickShuffle(shuffleCount);
+            //targets.Sort(transform.DistanceCompare);
+            //targets.PickShuffle(shuffleCount);
+
             aiData.PushTarget(targets[0].GetComponent<FarmerTargetableBehaviour>());
 
             fieldDecided = true;

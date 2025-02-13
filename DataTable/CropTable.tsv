@@ -17,4 +17,3 @@ int	ECropType	int	int	int	int	int	string
 14	Crop	114	4	40	14	10	crop_name_cauliflower	콜리플라워	겨울
 15	Crop	115	4	20	15	10	crop_name_cabbage	양배추	겨울
 16	Crop	116	2	3	16	10	crop_name_test_egg_crop	테스트 알 작물	-
-17	Egg	16	2	3	-1	10	crop_name_test_egg	테스트 알	-

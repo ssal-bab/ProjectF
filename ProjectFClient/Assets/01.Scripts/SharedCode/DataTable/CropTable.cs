@@ -8,11 +8,10 @@ namespace ProjectF.DataTables
     [Serializable]
     public class CropTableRow : DataTableRow
     {
-        public ECropType cropType;
         public int seedItemID;
+        public int cropItemID;
         public int growthStep;
         public int growthRate;
-        public int productCropID;
         public int basePrice;
         public string nameLocalKey;
     }
@@ -28,10 +27,10 @@ namespace ProjectF.DataTables
             tableByProductID = new Dictionary<int, CropTableRow>();
             foreach(var tableRow in table.Values)
             {
-                if(tableByProductID.ContainsKey(tableRow.productCropID))
+                if(tableByProductID.ContainsKey(tableRow.cropItemID))
                     continue;
 
-                tableByProductID.Add(tableRow.productCropID, tableRow);
+                tableByProductID.Add(tableRow.cropItemID, tableRow);
             }
         }
 

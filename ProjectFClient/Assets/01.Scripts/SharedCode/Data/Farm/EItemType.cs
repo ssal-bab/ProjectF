@@ -4,7 +4,6 @@ namespace ProjectF.Datas
     {
         None,
         Crop,
-        Egg,
         Seed,
         Material
     }

@@ -24,12 +24,6 @@ int	EItemType	string
 122	Crop	asd	-	-
 123	Crop	asd	-	-
 124	Crop	asd	-	-
-201	Egg	egg_name_1	-	-
-202	Egg	egg_name_2	-	-
-203	Egg	egg_name_3	-	-
-204	Egg	egg_name_4	-	-
-205	Egg	egg_name_5	-	-
-206	Egg	egg_name_6	-	-
 301	Seed	seed_name_1	-	-
 302	Seed	seed_name_2	-	-
 303	Seed	seed_name_3	-	-

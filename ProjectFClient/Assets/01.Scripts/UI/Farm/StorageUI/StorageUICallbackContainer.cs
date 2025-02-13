@@ -2,7 +2,7 @@ using System;
 
 namespace ProjectF.UI.Farms
 {
-    public class CropStorageUICallbackContainer : UICallbackContainer
+    public class StorageUICallbackContainer : UICallbackContainer
     {
         // <CropItemID>
         public Action<int> SellCropCallback = null;
@@ -19,7 +19,7 @@ namespace ProjectF.UI.Farms
         // <TargetCropStorageID, result>
         public Action<int> UpgradeCallback = null;
 
-        public CropStorageUICallbackContainer(Action<int> sellCropCallback, Func<int, bool> upgradeGoldCheckCallback, Func<int, bool> forceUpgradeCheckCallback, Func<int, bool> upgradeMaterialCheckCallback, Action<int> upgradeCallback)
+        public StorageUICallbackContainer(Action<int> sellCropCallback, Func<int, bool> upgradeGoldCheckCallback, Func<int, bool> forceUpgradeCheckCallback, Func<int, bool> upgradeMaterialCheckCallback, Action<int> upgradeCallback)
         {
             SellCropCallback = sellCropCallback;
             UpgradeGoldCheckCallback = upgradeGoldCheckCallback;

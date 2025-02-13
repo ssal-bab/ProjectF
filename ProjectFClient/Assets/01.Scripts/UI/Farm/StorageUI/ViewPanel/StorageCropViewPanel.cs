@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class CropStorageCropViewPanel : CropStorageViewPanel
+    public class StorageCropViewPanel : StorageViewPanel
     {
         [SerializeField] ScrollRect scrollView = null;
         [SerializeField] AddressableAsset<StorageCropElementUI> elementPrefab = null;
@@ -19,7 +19,7 @@ namespace ProjectF.UI.Farms
         [SerializeField] ToggleUI orderToggleUI = null; // true => asc / false => desc
         [SerializeField] ToggleUI filterToggleUI = null; // true => all / false => own
 
-        private Dictionary<int, Dictionary<ECropGrade, int>> storageData = null;
+        private Dictionary<int, Dictionary<ECropGrade, int>> cropStorageData = null;
         private Action<int> sellCropCallback = null;
         
         protected override void Awake()
@@ -28,28 +28,28 @@ namespace ProjectF.UI.Farms
             elementPrefab.Initialize();
         }
 
-        public override void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer)
+        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer)
         {
-            base.Initialize(userCropStorageData, callbackContainer);
+            base.Initialize(userStorageData, callbackContainer);
 
             // 토글 초기화
             orderToggleUI.SetToggle(true);
             filterToggleUI.SetToggle(true);
 
-            if(userCropStorageData == null)
+            if(userStorageData == null)
             {
                 scrollView.content.DespawnAllChildren();
                 return;
             }
             
-            storageData = userCropStorageData.cropStorage;
+            cropStorageData = userStorageData.cropStorage;
             sellCropCallback = callbackContainer.SellCropCallback;
-            RefreshUIAsync(storageData, sellCropCallback);
+            RefreshUIAsync(cropStorageData, sellCropCallback);
         }
 
         public void RefreshSelf()
         {
-            RefreshUIAsync(storageData, sellCropCallback);
+            RefreshUIAsync(cropStorageData, sellCropCallback);
         }
 
         private async void RefreshUIAsync(Dictionary<int, Dictionary<ECropGrade, int>> storageData, Action<int> sellCropCallback)

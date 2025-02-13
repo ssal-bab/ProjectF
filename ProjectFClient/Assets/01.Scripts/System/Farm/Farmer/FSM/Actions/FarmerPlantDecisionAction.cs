@@ -43,7 +43,7 @@ namespace ProjectF.Farms.AI
             CropSO targetCropData = currentFarm.CropQueue.DequeueCropData();
             aiData.currentSeedData = targetCropData;
 
-            aiData.PushTarget(currentFarm.CropStorage);
+            aiData.PushTarget(currentFarm.Storage);
             brain.ChangeState(moveState);
         }
     }

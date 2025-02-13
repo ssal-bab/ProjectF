@@ -11,11 +11,8 @@ namespace ProjectF.Farms
     {
         [SerializeField] List<FieldGroup> fieldGroups = null;
 
-        [SerializeField] EggStorage eggStorage = null;
-        public EggStorage EggStorage => eggStorage;
-        
-        [SerializeField] CropStorage cropStorage = null;
-        public CropStorage CropStorage => cropStorage;
+        [SerializeField] Storage storage = null;
+        public Storage Storage => storage;
 
         private CropQueue cropQueue = null;
         public CropQueue CropQueue => cropQueue;

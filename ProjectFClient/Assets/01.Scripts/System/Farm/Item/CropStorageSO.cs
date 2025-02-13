@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ProjectF.Farms
 {
     [CreateAssetMenu(menuName = "SO/Buildings/CropStorageData")]
-    public class CropStorageSO : DataTableSO<CropStorageTable, CropStorageTableRow>
+    public class CropStorageSO : DataTableSO<StorageTable, StorageTableRow>
     {
         public Sprite cropStorageSprite = null;
     }

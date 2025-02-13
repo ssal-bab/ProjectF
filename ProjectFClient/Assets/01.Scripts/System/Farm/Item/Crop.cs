@@ -5,7 +5,7 @@ namespace ProjectF.Farms
         protected override FarmerTargetableBehaviour GetDeliveryTarget()
         {
             Farm farm = new GetBelongsFarm(transform).currentFarm;
-            return farm.CropStorage;
+            return farm.Storage;
         }
     }
 }

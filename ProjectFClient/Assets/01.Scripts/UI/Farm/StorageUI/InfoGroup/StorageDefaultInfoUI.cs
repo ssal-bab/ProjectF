@@ -7,31 +7,31 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    using ECropStorageInfoUIType = CropStorageInfoPanel.ECropStorageInfoUIType;
+    using EStorageInfoUIType = StorageInfoPanel.EStorageInfoUIType;
 
-    public class CropStorageDefaultInfoUI : CropStorageInfoUI
+    public class CropStorageDefaultInfoUI : StorageInfoUI
     {
         [SerializeField] Image storageIconImage = null;
         [SerializeField] TMP_Text nameText = null;
         [SerializeField] TMP_Text limitCountText = null;
         [SerializeField] TMP_Text usedCountText = null;
 
-        private CropStorageInfoPanel panel = null;
+        private StorageInfoPanel panel = null;
 
-        public override void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer, CropStorageInfoPanel panel)
+        public override void Initialize(UserStorageData userCropStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanel panel)
         {
             base.Initialize();
             this.panel = panel;
 
-            CropStorageTable cropStorageTable = DataTableManager.GetTable<CropStorageTable>();
-            CropStorageTableRow tableRow = cropStorageTable.GetRowByLevel(userCropStorageData.level);;
+            StorageTable cropStorageTable = DataTableManager.GetTable<StorageTable>();
+            StorageTableRow tableRow = cropStorageTable.GetRowByLevel(userCropStorageData.level);;
             if(tableRow == null)
                 return;
 
-            RefreshUI(tableRow, new GetCropStorageUsedCount(userCropStorageData).usedCount);
+            RefreshUI(tableRow, new GetStorageUsedCount(userCropStorageData).storageUsedCount);
         }
 
-        private void RefreshUI(CropStorageTableRow tableRow, int usedCount)
+        private void RefreshUI(StorageTableRow tableRow, int usedCount)
         {
             storageIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
             nameText.text = $"Lv. {tableRow.level} Storage{tableRow.level}"; // 나중에 localizing 적용해야 함
@@ -41,7 +41,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchUpgradeButton()
         {
-            panel.SetInfoUI(ECropStorageInfoUIType.UpgradeCost);
+            panel.SetInfoUI(EStorageInfoUIType.UpgradeCost);
         }
     }
 }

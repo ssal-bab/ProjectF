@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ProjectF.UI.Farms
 {
-    public abstract class CropStorageViewPanel : MonoBehaviourUI
+    public abstract class StorageViewPanel : MonoBehaviourUI
     {
         [SerializeField] CanvasGroup canvasGroup = null;
 
-        public virtual void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer) { }
+        public virtual void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer) { }
 
         public void Show()
         {

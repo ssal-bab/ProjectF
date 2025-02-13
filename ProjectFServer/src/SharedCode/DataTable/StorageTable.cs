@@ -5,22 +5,22 @@ using H00N.DataTables;
 namespace ProjectF.DataTables
 {
     [Serializable]
-    public class CropStorageTableRow : FacilityTableRowBase
+    public class StorageTableRow : FacilityTableRowBase
     {
         public int level;
         public int storeLimit;
         public float priceMultiplier;
     }
 
-    public class CropStorageTable : DataTable<CropStorageTableRow> 
+    public class StorageTable : DataTable<StorageTableRow> 
     { 
-        private Dictionary<int, CropStorageTableRow> tableByLevel = null;
+        private Dictionary<int, StorageTableRow> tableByLevel = null;
 
         protected override void OnTableCreated()
         {
             base.OnTableCreated();
 
-            tableByLevel = new Dictionary<int, CropStorageTableRow>();
+            tableByLevel = new Dictionary<int, StorageTableRow>();
             foreach(var tableRow in table.Values)
             {
                 if(tableByLevel.ContainsKey(tableRow.level))
@@ -30,9 +30,9 @@ namespace ProjectF.DataTables
             }
         }
 
-        public CropStorageTableRow GetRowByLevel(int level)
+        public StorageTableRow GetRowByLevel(int level)
         {
-            tableByLevel.TryGetValue(level, out CropStorageTableRow tableRow);
+            tableByLevel.TryGetValue(level, out StorageTableRow tableRow);
             return tableRow;
         }
     }

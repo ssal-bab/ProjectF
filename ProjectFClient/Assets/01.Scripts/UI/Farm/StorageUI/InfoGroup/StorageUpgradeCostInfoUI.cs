@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    using ECropStorageInfoUIType = CropStorageInfoPanel.ECropStorageInfoUIType;
+    using EStorageInfoUIType = StorageInfoPanel.EStorageInfoUIType;
 
-    public class CropStorageUpgradeCostInfoUI : CropStorageInfoUI
+    public class CropStorageUpgradeCostInfoUI : StorageInfoUI
     {
         [SerializeField] Image storageIconImage = null;
         [SerializeField] TMP_Text nameText = null;
@@ -18,20 +18,20 @@ namespace ProjectF.UI.Farms
         [SerializeField] TMP_Text skipGemText = null;
 
         private int targetID = 0;
-        private CropStorageInfoPanel panel = null;
-        private CropStorageUICallbackContainer callbackContainer = null;
+        private StorageInfoPanel panel = null;
+        private StorageUICallbackContainer callbackContainer = null;
 
-        public override void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer, CropStorageInfoPanel panel)
+        public override void Initialize(UserStorageData userCropStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanel panel)
         {
             base.Initialize();
             this.panel = panel;
             this.callbackContainer = callbackContainer;
 
-            CropStorageTable cropStorageTable = DataTableManager.GetTable<CropStorageTable>();
-            CropStorageTableRow tableRow = cropStorageTable.GetRowByLevel(userCropStorageData.level + 1); // max level 처리해야 함
+            StorageTable cropStorageTable = DataTableManager.GetTable<StorageTable>();
+            StorageTableRow tableRow = cropStorageTable.GetRowByLevel(userCropStorageData.level + 1); // max level 처리해야 함
             if(tableRow == null)
             {
-                panel.SetInfoUI(ECropStorageInfoUIType.Default);
+                panel.SetInfoUI(EStorageInfoUIType.Default);
                 return;
             }
 
@@ -39,7 +39,7 @@ namespace ProjectF.UI.Farms
             RefreshUI(tableRow);
         }
 
-        private void RefreshUI(CropStorageTableRow tableRow)
+        private void RefreshUI(StorageTableRow tableRow)
         {
             // storageIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
             nameText.text = $"Lv. {tableRow.level} Storage{tableRow.level}"; // 나중에 localizing 적용해야 함
@@ -52,7 +52,7 @@ namespace ProjectF.UI.Farms
             if(callbackContainer.UpgradeGoldCheckCallback.Invoke(targetID) == false)
                 return;
 
-            panel.SetInfoUI(ECropStorageInfoUIType.UpgradeMaterial);
+            panel.SetInfoUI(EStorageInfoUIType.UpgradeMaterial);
         }
 
         public void OnTouchSkipButton()
@@ -67,7 +67,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchCancelButton()
         {
-            panel.SetInfoUI(ECropStorageInfoUIType.Default);
+            panel.SetInfoUI(EStorageInfoUIType.Default);
         }
     }
 }

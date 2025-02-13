@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class CropStorageMaterialViewPanel : CropStorageViewPanel
+    public class StorageMaterialViewPanel : StorageViewPanel
     {
         [SerializeField] ScrollRect scrollView = null;
         [SerializeField] AddressableAsset<StorageMaterialElementUI> elementPrefab = null;
@@ -20,16 +20,16 @@ namespace ProjectF.UI.Farms
             elementPrefab.Initialize();
         }
 
-        public override void Initialize(UserCropStorageData userCropStorageData, CropStorageUICallbackContainer callbackContainer)
+        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer)
         {
-            base.Initialize(userCropStorageData, callbackContainer);
-            if(userCropStorageData == null)
+            base.Initialize(userStorageData, callbackContainer);
+            if(userStorageData == null)
             {
                 scrollView.content.DespawnAllChildren();
                 return;
             }
 
-            RefreshUIAsync(userCropStorageData.materialStorage);
+            RefreshUIAsync(userStorageData.materialStorage);
         }
 
         private async void RefreshUIAsync(Dictionary<int, int> storageData)

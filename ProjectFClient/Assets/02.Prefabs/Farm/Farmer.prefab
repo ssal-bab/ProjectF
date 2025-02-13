@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3728408450762439668}
   - component: {fileID: 836220823378652715}
-  - component: {fileID: 806903102397919286}
+  - component: {fileID: 2904085535718704457}
   m_Layer: 0
   m_Name: Transition_GetSeed
   m_TagString: Untagged
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetState: {fileID: 6063009656666098279}
---- !u!114 &806903102397919286
+--- !u!114 &2904085535718704457
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1562576652016595803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e68b118656ecf41a9a4692c7d3d699a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 16e2334bff6154709bfe94be0ab63824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isReverse: 0

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace ProjectF.Datas
 {
-    public class UserCropStorageData
+    public class UserStorageData
     {
         public int level;
 

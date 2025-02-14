@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 7657119788738084214}
   - component: {fileID: 1512387950808333281}
   m_Layer: 5
-  m_Name: CropStorageMaterialViewPanel
+  m_Name: StorageMaterialViewPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

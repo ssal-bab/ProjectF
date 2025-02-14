@@ -8,30 +8,29 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    using EStorageInfoUIType = StorageInfoPanel.EStorageInfoUIType;
+    using ENestInfoUIType = NestInfoPanel.ENestInfoUIType;
 
-    public class CropStorageUpgradeCostInfoUI : StorageInfoUI
+    public class CropNestUpgradeCostInfoUI : NestInfoUI
     {
-        [SerializeField] Image storageIconImage = null;
+        [SerializeField] Image nestIconImage = null;
         [SerializeField] TMP_Text nameText = null;
         [SerializeField] TMP_Text upgradeGoldText = null;
         [SerializeField] TMP_Text skipGemText = null;
 
         private int targetID = 0;
-        private StorageInfoPanel panel = null;
-        private StorageUICallbackContainer callbackContainer = null;
+        private NestInfoPanel panel = null;
+        private NestUICallbackContainer callbackContainer = null;
 
-        public override void Initialize(UserStorageData userCropStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanel panel)
+        public override void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer, NestInfoPanel panel)
         {
             base.Initialize();
             this.panel = panel;
             this.callbackContainer = callbackContainer;
 
-            StorageTable cropStorageTable = DataTableManager.GetTable<StorageTable>();
-            StorageTableRow tableRow = cropStorageTable.GetRowByLevel(userCropStorageData.level + 1); // max level 처리해야 함
+            NestTableRow tableRow = DataTableManager.GetTable<NestTable>().GetRowByLevel(userNestData.level + 1); // max level 처리해야 함
             if(tableRow == null)
             {
-                panel.SetInfoUI(EStorageInfoUIType.Default);
+                panel.SetInfoUI(ENestInfoUIType.Default);
                 return;
             }
 
@@ -39,10 +38,10 @@ namespace ProjectF.UI.Farms
             RefreshUI(tableRow);
         }
 
-        private void RefreshUI(StorageTableRow tableRow)
+        private void RefreshUI(NestTableRow tableRow)
         {
-            // storageIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
-            nameText.text = $"Lv. {tableRow.level} Storage{tableRow.level}"; // 나중에 localizing 적용해야 함
+            nestIconImage.sprite = ResourceUtility.GetNestIcon(tableRow.id);
+            nameText.text = $"Lv. {tableRow.level} Nest{tableRow.level}"; // 나중에 localizing 적용해야 함
             upgradeGoldText.text = $"{tableRow.upgradeGold}";
             skipGemText.text = $"{tableRow.skipGem}";
         }
@@ -52,7 +51,7 @@ namespace ProjectF.UI.Farms
             if(callbackContainer.UpgradeGoldCheckCallback.Invoke(targetID) == false)
                 return;
 
-            panel.SetInfoUI(EStorageInfoUIType.UpgradeMaterial);
+            panel.SetInfoUI(ENestInfoUIType.UpgradeMaterial);
         }
 
         public void OnTouchSkipButton()
@@ -67,7 +66,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchCancelButton()
         {
-            panel.SetInfoUI(EStorageInfoUIType.Default);
+            panel.SetInfoUI(ENestInfoUIType.Default);
         }
     }
 }

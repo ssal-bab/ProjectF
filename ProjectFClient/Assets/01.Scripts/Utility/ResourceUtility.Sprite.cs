@@ -13,6 +13,7 @@ namespace ProjectF
             SpriteNameCache = new Dictionary<string, Dictionary<int, string>>();
         }
 
+        public static Sprite GetNestIcon(int id) => GetSprite("NestIcon", id);
         public static Sprite GetStorageIcon(int id) => GetSprite("StorageIcon", id);
         public static Sprite GetItemIcon(int id) => GetSprite("ItemIcon", id);
         public static Sprite GetCropGradeIcon(int id) => GetSprite("CropGradeIcon", id);

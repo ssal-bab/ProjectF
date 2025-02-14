@@ -9,7 +9,7 @@ namespace ProjectF.UI.Farms
 {
     using EStorageInfoUIType = StorageInfoPanel.EStorageInfoUIType;
 
-    public class CropStorageDefaultInfoUI : StorageInfoUI
+    public class StorageDefaultInfoUI : StorageInfoUI
     {
         [SerializeField] Image storageIconImage = null;
         [SerializeField] TMP_Text nameText = null;
@@ -18,17 +18,17 @@ namespace ProjectF.UI.Farms
 
         private StorageInfoPanel panel = null;
 
-        public override void Initialize(UserStorageData userCropStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanel panel)
+        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanel panel)
         {
             base.Initialize();
             this.panel = panel;
 
-            StorageTable cropStorageTable = DataTableManager.GetTable<StorageTable>();
-            StorageTableRow tableRow = cropStorageTable.GetRowByLevel(userCropStorageData.level);;
+            StorageTable storageTable = DataTableManager.GetTable<StorageTable>();
+            StorageTableRow tableRow = storageTable.GetRowByLevel(userStorageData.level);;
             if(tableRow == null)
                 return;
 
-            RefreshUI(tableRow, new GetStorageUsedCount(userCropStorageData).storageUsedCount);
+            RefreshUI(tableRow, new GetStorageUsedCount(userStorageData).storageUsedCount);
         }
 
         private void RefreshUI(StorageTableRow tableRow, int usedCount)

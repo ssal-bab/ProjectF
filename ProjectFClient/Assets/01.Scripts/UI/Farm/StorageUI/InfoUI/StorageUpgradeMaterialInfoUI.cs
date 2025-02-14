@@ -46,10 +46,10 @@ namespace ProjectF.UI.Farms
 
         private void RefreshUI(StorageTableRow storagetableRow, ItemTableRow costItemTableRow)
         {
-            // storageIconImage.sprite = ResourceUtility.GetStorageIcon(cropStoragetableRow.id);
+            storageIconImage.sprite = ResourceUtility.GetStorageIcon(storagetableRow.id);
             nameText.text = $"Lv. {storagetableRow.level} Storage{storagetableRow.level}"; // 나중에 localizing 적용해야 함
             limitCountText.text = $"Max : {storagetableRow.storeLimit}";
-            // materialCountText.text = $"{cropStoragetableRow.costItemCount} {costItemTableRow.nameLocalKey}";
+            // materialCountText.text = $"{storagetableRow.costItemCount} {costItemTableRow.nameLocalKey}";
         }
 
         public void OnTouchUpgradeButton()

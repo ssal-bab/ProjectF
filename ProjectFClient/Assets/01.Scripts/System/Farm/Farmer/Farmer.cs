@@ -11,8 +11,12 @@ namespace ProjectF.Farms
     {
         [SerializeField] Transform grabPosition = null;
 
-        private FarmerStatSO statData = null;
-        public FarmerStatSO StatData => statData;
+        // FarmerStat 추가하면서 주석처리
+        //private FarmerStatSO statData = null;
+        //public FarmerStatSO StatData => statData;
+
+        private FarmerStat stat;
+        public FarmerStat Stat => stat;
 
         private FSMBrain fsmBrain = null;
         private UnitMovement unitMovement = null;
@@ -33,8 +37,10 @@ namespace ProjectF.Farms
 
         public async void InitializeAsync(int id)
         {
-            statData = await ResourceManager.LoadResourceAsync<FarmerStatSO>($"FarmerStat_{id}");
-            unitMovement.SetMaxSpeed(statData[EFarmerStatType.MoveSpeed]);
+            var loadedStatData = await ResourceManager.LoadResourceAsync<FarmerStatSO>($"FarmerStat_{id}");
+            stat = new FarmerStat(loadedStatData.TableRow);
+
+            unitMovement.SetMaxSpeed(stat[EFarmerStatType.MoveSpeed]);
             unitMovement.SetDestination(transform.position);
 
             fsmBrain.Initialize();

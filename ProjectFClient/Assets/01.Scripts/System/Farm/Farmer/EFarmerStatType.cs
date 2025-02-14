@@ -4,10 +4,8 @@ namespace ProjectF.Farms
     {
         None,
         MoveSpeed,
-        IQ,
-        Strength,
-        Luck,
+        Health,
         FarmingSkill,
-        HarvestingSkill
+        AdventureSkill
     }
 }

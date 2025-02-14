@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using H00N.DataTables;
 using H00N.Stats;
 using ProjectF.DataTables;
 using UnityEngine;
 
 namespace ProjectF.Farms
 {
-    [CreateAssetMenu(menuName = "SO/Farm/FarmerStat")]
-    public class FarmerStatSO : DataTableSO<FarmerTable, FarmerTableRow>
+    public class FarmerStat
     {
         private Dictionary<EFarmerStatType, Stat> statDictionary;
         public Stat this[EFarmerStatType indexer]
@@ -27,16 +25,14 @@ namespace ProjectF.Farms
 
         public event Action OnStatChangedEvent = null;
 
-        protected override void OnTableInitialized()
+        public FarmerStat(FarmerTableRow tableRow)
         {
-            base.OnTableInitialized();
-
             statDictionary = new Dictionary<EFarmerStatType, Stat>();
-            
-            AddStat(EFarmerStatType.MoveSpeed, TableRow.moveSpeed);
-            AddStat(EFarmerStatType.Health, TableRow.health);
-            AddStat(EFarmerStatType.FarmingSkill, TableRow.farmingSkill);
-            AddStat(EFarmerStatType.AdventureSkill, TableRow.adventureSkill);
+
+            AddStat(EFarmerStatType.MoveSpeed, tableRow.moveSpeed);
+            AddStat(EFarmerStatType.Health, tableRow.health);
+            AddStat(EFarmerStatType.FarmingSkill, tableRow.farmingSkill);
+            AddStat(EFarmerStatType.AdventureSkill, tableRow.adventureSkill);
 
             OnStatChangedEvent?.Invoke();
         }

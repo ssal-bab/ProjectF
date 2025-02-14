@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using H00N.Stats;
 using System;
+using ProjectF.Datas;
 
 namespace ProjectF.Farms
 {
@@ -73,6 +74,18 @@ namespace ProjectF.Farms
             {
                 modifyStat(t);
             }
+        }
+
+        /// <summary>
+        /// farmer = ∆» ¿œ≤€, farmingLevel = farmer¿« ≥ÛªÁ ∑π∫ß, adventureLevel = farmer¿« ∏«Ë ∑π∫ß
+        /// </summary>
+        public int FarmerSell(Farmer farmer, /*EFarmerGrade grade*/ int farmingLevel, int adventureLevel)
+        {
+            float farmingMultiplier = farmingLevel * DataDefine.Farming_Level_Sales_Multiplier;
+            float adventureMultiplier = adventureLevel * DataDefine.Adventure_Level_Sales_Multiplier;
+            /*float gradeMultiplier = grade * DataDefine.Faemer_Grade_Sales_Multiplier;*/
+
+            return Mathf.FloorToInt(farmingMultiplier + adventureMultiplier /*+ gradeMultiplier*/);
         }
     }
 }

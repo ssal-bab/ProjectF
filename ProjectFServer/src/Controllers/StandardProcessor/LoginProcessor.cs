@@ -78,7 +78,8 @@ namespace ProjectF.Networks.Controllers
 
             return new LoginResponse() {
                 result = result,
-                userData = userData
+                userData = userData,
+                serverTime = ServerInstance.ServerTime
             };
         }
 

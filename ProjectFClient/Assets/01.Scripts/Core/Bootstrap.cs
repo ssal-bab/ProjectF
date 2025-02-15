@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
@@ -52,6 +53,9 @@ namespace ProjectF
                 Debug.LogError($"Login rejected. Result : {response.result}");
                 return;
             }
+
+            GameInstance.ServerTime = response.serverTime;
+            ServerTimeUpdator.Start(DateTime.UtcNow);
 
             GameInstance.MainUser = response.userData;
             GameInstance.CurrentLoginUserID = response.userData.userID;

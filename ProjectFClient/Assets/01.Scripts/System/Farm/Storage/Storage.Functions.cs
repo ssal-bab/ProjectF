@@ -9,7 +9,7 @@ namespace ProjectF.Farms
         {
             // 우선은 StorageData도 백업 용도로만 사용한다.
             // 그러니 바로바로 UserData에 접근해서 사용하자.
-            UserStorageData storageData = GameDefine.MainUser.storageData;
+            UserStorageData storageData = GameInstance.MainUser.storageData;
             if (storageData.cropStorage.TryGetValue(id, out Dictionary<ECropGrade, int> slot) == false)
                 return false;
 
@@ -27,7 +27,7 @@ namespace ProjectF.Farms
         {
             // 우선은 StorageData도 백업 용도로만 사용한다.
             // 그러니 바로바로 UserData에 접근해서 사용하자.
-            UserStorageData storageData = GameDefine.MainUser.storageData;
+            UserStorageData storageData = GameInstance.MainUser.storageData;
             if (storageData.cropStorage.TryGetValue(id, out Dictionary<ECropGrade, int> slot) == false)
                 return;
 

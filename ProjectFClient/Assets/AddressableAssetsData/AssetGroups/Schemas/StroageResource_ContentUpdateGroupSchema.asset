@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
-  m_Name: CropStorageUI_ContentUpdateGroupSchema
+  m_Name: StroageResource_ContentUpdateGroupSchema
   m_EditorClassIdentifier: 
-  m_Group: {fileID: 11400000, guid: 328ed257e25a949e088c0c882e0ce31e, type: 2}
+  m_Group: {fileID: 11400000, guid: d2ddd16a644c84b6c9e105fdcf09c03c, type: 2}
   m_StaticContent: 0

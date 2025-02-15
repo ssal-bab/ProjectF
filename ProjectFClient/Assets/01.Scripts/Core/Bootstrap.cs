@@ -45,7 +45,7 @@ namespace ProjectF
         // 게임 서버 로그인
         public async UniTask LogInGameServerAsync()
         {
-            LoginRequest request = new LoginRequest(GameDefine.LastLoginUserID);
+            LoginRequest request = new LoginRequest(GameSetting.LastLoginUserID);
             LoginResponse response = await NetworkManager.Instance.SendWebRequestAsync<LoginResponse>(request);
             if(response.result != ENetworkResult.Success)
             {
@@ -53,9 +53,9 @@ namespace ProjectF
                 return;
             }
 
-            GameDefine.MainUser = response.userData;
-            GameDefine.CurrentLoginUserID = response.userData.userID;
-            GameDefine.LastLoginUserID = GameDefine.CurrentLoginUserID;
+            GameInstance.MainUser = response.userData;
+            GameInstance.CurrentLoginUserID = response.userData.userID;
+            GameSetting.LastLoginUserID = GameInstance.CurrentLoginUserID;
 
             SceneManager.LoadScene(ongoingSceneName);
             DateManager.Instance.SetEnable(true);

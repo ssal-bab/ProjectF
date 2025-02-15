@@ -20,12 +20,12 @@ namespace ProjectF.UI.Farms
                 id => true,
                 id => true,
                 id => {
-                    Debug.Log($"Upgrade Storage!! id : {id}");
-                    Initialize(GameDefine.MainUser.nestData, hi);
+                    Debug.Log($"Upgrade Nest!! id : {id}");
+                    Initialize(GameInstance.MainUser.nestData, hi);
                 }
             );
 
-            Initialize(GameDefine.MainUser.nestData, hi);
+            Initialize(GameInstance.MainUser.nestData, hi);
         }
         #endregion
 

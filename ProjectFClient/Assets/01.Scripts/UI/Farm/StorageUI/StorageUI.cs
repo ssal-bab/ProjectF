@@ -29,11 +29,11 @@ namespace ProjectF.UI.Farms
                 id => true,
                 id => {
                     Debug.Log($"Upgrade Storage!! id : {id}");
-                    Initialize(GameDefine.MainUser.storageData, hi);
+                    Initialize(GameInstance.MainUser.storageData, hi);
                 }
             );
             
-            Initialize(GameDefine.MainUser.storageData, hi);
+            Initialize(GameInstance.MainUser.storageData, hi);
         }
         #endregion
 

@@ -31,7 +31,7 @@ namespace ProjectF.UI.Farms
         private void RefreshUI(NestTableRow tableRow)
         {
             nestIconImage.sprite = ResourceUtility.GetNestIcon(tableRow.id);
-            nameText.text = $"Lv. {tableRow.level} Storage{tableRow.level}"; // 나중에 localizing 적용해야 함
+            nameText.text = $"Lv. {tableRow.level} Nest{tableRow.level}"; // 나중에 localizing 적용해야 함
         }
 
         public void OnTouchUpgradeButton()

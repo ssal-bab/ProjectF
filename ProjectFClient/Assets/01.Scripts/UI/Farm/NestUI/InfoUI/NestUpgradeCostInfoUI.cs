@@ -10,7 +10,7 @@ namespace ProjectF.UI.Farms
 {
     using ENestInfoUIType = NestInfoPanel.ENestInfoUIType;
 
-    public class CropNestUpgradeCostInfoUI : NestInfoUI
+    public class NestUpgradeCostInfoUI : NestInfoUI
     {
         [SerializeField] Image nestIconImage = null;
         [SerializeField] TMP_Text nameText = null;

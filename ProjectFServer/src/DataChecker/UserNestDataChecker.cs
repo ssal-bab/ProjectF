@@ -16,7 +16,7 @@ namespace ProjectF.Datas
             if(nestData.level == 0)
                 nestData.level = 1;
 
-            nestData.hatchingEggs ??= new List<EggHatchingData>();
+            nestData.hatchingEggList ??= new List<EggHatchingData>();
         }
     }
 }

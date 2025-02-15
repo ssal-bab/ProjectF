@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: CropStroageResource
+  m_Name: NestUI
   m_EditorClassIdentifier: 
-  m_GroupName: CropStroageResource
+  m_GroupName: NestUI
   m_Data:
     m_SerializedData: []
-  m_GUID: c15ae33be31c44b27972a0b6c7b75999
+  m_GUID: 55dd606d07dad4db4875577e96effa35
   m_SerializeEntries:
-  - m_GUID: 406d2a45514e440d98bc13f1d72632c1
-    m_Address: StorageIcon_0
+  - m_GUID: 79436415e2ac24028a0ae4593c77cb29
+    m_Address: NestSlotElementUI
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
@@ -27,5 +27,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 1c2979cc3867d447c8b5e08564208e85, type: 2}
-    - {fileID: 11400000, guid: 37035035b72074bf8b353c4c389e8b88, type: 2}
+    - {fileID: 11400000, guid: 438ce466582054cddb891874c28c9c84, type: 2}
+    - {fileID: 11400000, guid: 1650ee8f513a74613a9a0dc8731e95df, type: 2}

@@ -192,6 +192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfbb372009ce4904ae7f18ebc8628c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollView: {fileID: 152184415990614890}
+  elementPrefab:
+    reference: {fileID: 5499012533009796809, guid: 79436415e2ac24028a0ae4593c77cb29, type: 3}
+    key: NestSlotElementUI
 --- !u!1 &6420690247494520116
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,9 +364,9 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 75
-    m_Bottom: 75
-  m_ChildAlignment: 1
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 225, y: 225}

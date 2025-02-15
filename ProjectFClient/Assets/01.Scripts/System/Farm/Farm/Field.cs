@@ -103,23 +103,13 @@ namespace ProjectF.Farms
             fieldData.currentGrowthStep = 0;
             SetDirty();
 
-            UniTask task = CurrentCropData.TableRow.cropType switch {
-                ECropType.Crop => SpawnCrop(),
-                ECropType.Egg => SpawnFarmer(),
-            };
-
-            await task;
+            await SpawnCropAsync();
             ChangeState(EFieldState.Fallow);
         }
 
-        private async UniTask SpawnFarmer()
+        private async UniTask SpawnCropAsync()
         {
-            Debug.Log($"We've got a new farmer!! : {currentCropData.TableRow.productCropID}");
-        }
-
-        private async UniTask SpawnCrop()
-        {
-            ItemTableRow tableRow = DataTableManager.GetTable<ItemTable>().GetRow(currentCropData.TableRow.productCropID);
+            ItemTableRow tableRow = DataTableManager.GetTable<ItemTable>().GetRow(currentCropData.TableRow.cropItemID);
             if (tableRow == null)
                 return;
 

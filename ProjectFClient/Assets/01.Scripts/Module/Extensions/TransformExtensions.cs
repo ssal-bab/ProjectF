@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using H00N.Resources.Pools;
 using UnityEngine;
@@ -30,8 +29,9 @@ namespace H00N.Extensions
 
         public static void DespawnAllChildren(this Transform transform)
         {
-            foreach(Transform child in transform)
+            for (int i = transform.childCount - 1; i >= 0; i--)
             {
+                Transform child = transform.GetChild(i);
                 if(child.TryGetComponent<PoolReference>(out PoolReference poolReference) == false)
                     Object.Destroy(child.gameObject);
                 else

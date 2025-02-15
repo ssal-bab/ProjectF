@@ -23,7 +23,10 @@ namespace H00N.Resources.Pools
 
         public void Spawn()
         {
-            poolableBehaviours.ForEach(i => i?.OnSpawned());
+            poolableBehaviours.ForEach(i => {
+                if(i != null)
+                    i.OnSpawned();
+            });
             OnSpawned();
         }
 
@@ -31,7 +34,10 @@ namespace H00N.Resources.Pools
 
         public void Despawn()
         {
-            poolableBehaviours.ForEach(i => i?.OnDespawn());
+            poolableBehaviours.ForEach(i => {
+                if(i != null)
+                    i.OnDespawn();
+            });
             DespawnInternal();
         }
 

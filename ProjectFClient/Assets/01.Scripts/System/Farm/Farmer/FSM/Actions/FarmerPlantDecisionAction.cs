@@ -43,12 +43,7 @@ namespace ProjectF.Farms.AI
             CropSO targetCropData = currentFarm.CropQueue.DequeueCropData();
             aiData.currentSeedData = targetCropData;
 
-            ItemStorage target = targetCropData.TableRow.cropType switch {
-                ECropType.Egg => currentFarm.EggStorage,
-                ECropType.Crop => currentFarm.CropStorage,
-            };
-
-            aiData.PushTarget(target);
+            aiData.PushTarget(currentFarm.Storage);
             brain.ChangeState(moveState);
         }
     }

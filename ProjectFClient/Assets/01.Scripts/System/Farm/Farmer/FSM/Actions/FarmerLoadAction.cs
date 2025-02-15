@@ -2,13 +2,13 @@ namespace ProjectF.Farms.AI
 {
     public class FarmerLoadAction : FarmerAnimationAction
     {
-        private ItemStorage currentStorage = null;
+        private Storage currentStorage = null;
 
         public override void EnterState()
         {
             base.EnterState();
 
-            currentStorage = aiData.CurrentTarget as ItemStorage;
+            currentStorage = aiData.CurrentTarget as Storage;
             if(currentStorage == null)
                 brain.SetAsDefaultState();
         }
@@ -18,7 +18,7 @@ namespace ProjectF.Farms.AI
             base.OnHandleAnimationTrigger();
 
             Item item = Farmer.HoldItem;
-            currentStorage.StoreItem(item);
+            currentStorage.StoreCrop(item.ItemData.id, Datas.ECropGrade.None, 1);
             Farmer.ReleaseItem();
         }
 

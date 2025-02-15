@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectF.Farms;
+using ProjectF.Datas;
 
 namespace ProjectF.Quests
 {
-    public class StoreItemQuest<T>  : Quest where T : ItemSO
+    public class StoreItemQuest : Quest
     {
         private int targetQuantity;
         private int currentQuantity;
@@ -13,19 +14,19 @@ namespace ProjectF.Quests
         public int TargetQuantity => targetQuantity;
         public int CurrentQuantity => currentQuantity;
 
-        private ItemStorage targetStorage;
+        private EItemType itemType;
 
-        public StoreItemQuest(ItemStorage targetStorage, int targetQuantity)
+        public StoreItemQuest(EItemType itemType, int targetQuantity)
         {
             this.targetQuantity = targetQuantity;
-            this.targetStorage = targetStorage;
+            this.itemType = itemType;
         }
 
         public override void OnMakeQuest()
         {
             base.OnMakeQuest();
 
-            targetStorage.OnStoreItem += OnStoreItem;
+            //아이템 획득시 작업
         }
 
         protected override bool CheckQuestClear()
@@ -43,13 +44,11 @@ namespace ProjectF.Quests
         public override void OnClearQuest()
         {
             base.OnClearQuest();
-
-            targetStorage.OnStoreItem -= OnStoreItem;
         }
 
         protected override void MakeReward()
         {
-            
+
         }
 
         protected virtual void OnStoreItem(ItemSO itemData, int quantity)

@@ -5,6 +5,7 @@ using H00N.Resources;
 using H00N.Resources.Pools;
 using Newtonsoft.Json;
 using ProjectF.Networks;
+using ProjectF.Quests;
 using UnityEngine;
 
 namespace ProjectF
@@ -27,7 +28,6 @@ namespace ProjectF
         {
             ResourceManager.Initialize(new AddressableResourceLoader());
             PoolManager.Initialize(transform);
-            QuestManager.Initialize();
 
             TextAsset dataTableJsonData = await ResourceManager.LoadResourceAsync<TextAsset>("DataTableJson");
             Dictionary<string, string> jsonDatas = JsonConvert.DeserializeObject<Dictionary<string, string>>(dataTableJsonData.text);
@@ -35,6 +35,11 @@ namespace ProjectF
 
             // GetComponent<FarmManager>().Initialize();
             new NetworkManager().Initialize();
+        }
+
+        public void OnLoginGameServer()
+        {
+            QuestManager.Initialize();
         }
 
         private void OnApplicationQuit()

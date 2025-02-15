@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using ProjectF.Datas;
 using ProjectF.Quests;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.LowLevel;
 
 namespace ProjectF
 {
@@ -15,14 +19,32 @@ namespace ProjectF
 
         public static void Initialize()
         {
-            quests = new List<Quest>();
+            quests = new();
             OnMakeQuest = null;
             OnClearQuest = null;
+
+            UserQuestData questData = GameInstance.MainUser.questData;
+            if(questData != null)
+            {
+                foreach(var pair in questData.quests)
+                {
+                    foreach(var value in pair.Value)
+                    {
+                        QuestManager.quests.Add(Convert.ChangeType(JsonConvert.DeserializeObject(value), pair.Key) as Quest);
+                    }
+                }
+
+                // foreach(var quest in quests)
+                // {
+                //     Debug.Log(quest);
+                // }
+            }
         }
 
         public static void Release()
         {
-            quests.Clear();
+            quests?.Clear();
+            quests = null;
             OnMakeQuest = null;
             OnClearQuest = null;
         }
@@ -32,6 +54,7 @@ namespace ProjectF
             quests.Add(newQuest);
             newQuest.OnMakeQuest();
             OnMakeQuest?.Invoke(newQuest);
+            Debug.Log(newQuest);
         }
 
         public static void ClearQuest(Quest clearedQuest)

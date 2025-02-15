@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ namespace ProjectF.Farms
         public override Vector3 TargetPosition => entranceTransform.position;
 
         public override bool TargetEnable => Watcher != null;
+
+        public event Action<ItemSO, int> OnStoreItem;
 
         private Dictionary<ItemSO, int> storage = null;
 
@@ -41,6 +44,8 @@ namespace ProjectF.Farms
                 storage.Add(itemData, 0);
 
             storage[itemData]++;
+
+            OnStoreItem?.Invoke(itemData, storage[itemData]);
         }
 
         #if UNITY_EDITOR

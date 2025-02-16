@@ -1,3 +1,3 @@
 id	moveSpeed	health	farmingSkill	adventureSkill	nameLocalKey
-float	float	float	float	float	string
+int	float	float	float	float	string
 0	1	1	1	1	farmer_name_0

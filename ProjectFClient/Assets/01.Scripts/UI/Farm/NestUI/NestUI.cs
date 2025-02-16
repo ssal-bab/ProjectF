@@ -12,30 +12,6 @@ namespace ProjectF.UI.Farms
         private UserNestData userNestData = null;
         private NestUICallbackContainer callbackContainer = null;
 
-        #region Debug
-        private void Start()
-        {
-            NestUICallbackContainer hi = null;
-            hi = new NestUICallbackContainer(
-                async index => {
-                    await UniTask.Delay(100);
-                    GameInstance.MainUser.nestData.hatchingEggList.RemoveAt(index);
-                    Initialize(GameInstance.MainUser.nestData, hi);
-                    return 1;
-                },
-                id => true,
-                id => true,
-                id => true,
-                id => {
-                    Debug.Log($"Upgrade Nest!! id : {id}");
-                    Initialize(GameInstance.MainUser.nestData, hi);
-                }
-            );
-
-            Initialize(GameInstance.MainUser.nestData, hi);
-        }
-        #endregion
-
         public void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer)
         {
             base.Initialize();

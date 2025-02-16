@@ -8,7 +8,6 @@ namespace ProjectF.Farms.AI
     [CreateAssetMenu(menuName = "SO/Farm/FarmerAIData")]
     public class FarmerAIDataSO : FSMParamSO
     {
-        public FarmerStatSO farmerStat = null;
         public UnitMovement movement = null;
         public Farmer farmer = null;
 
@@ -29,7 +28,7 @@ namespace ProjectF.Farms.AI
         {
             targetStack = new Stack<FarmerTargetableBehaviour>();
 
-            // 2025.02.13 farmer ÄÚµå¿¡ FarmerStatSO´ë½Å FarmerStat Ãß°¡ÇÏ¸é¼­ ÁÖ¼®Ã³¸®
+            // 2025.02.13 farmer ï¿½Úµå¿¡ FarmerStatSOï¿½ï¿½ï¿½ FarmerStat ï¿½ß°ï¿½ï¿½Ï¸é¼­ ï¿½Ö¼ï¿½Ã³ï¿½ï¿½
             //farmerStat = farmer.StatData;
             movement = farmer.GetComponent<UnitMovement>();
 

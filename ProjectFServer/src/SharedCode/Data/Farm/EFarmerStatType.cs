@@ -1,4 +1,4 @@
-namespace ProjectF.Farms
+namespace ProjectF.Datas
 {
     public enum EFarmerStatType
     {

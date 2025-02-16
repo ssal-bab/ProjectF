@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using H00N.Stats;
+using ProjectF.Datas;
 using ProjectF.DataTables;
 using UnityEngine;
 
@@ -25,14 +26,14 @@ namespace ProjectF.Farms
 
         public event Action OnStatChangedEvent = null;
 
-        public FarmerStat(FarmerTableRow tableRow)
+        public FarmerStat(FarmerStatTableRow tableRow)
         {
             statDictionary = new Dictionary<EFarmerStatType, Stat>();
 
-            AddStat(EFarmerStatType.MoveSpeed, tableRow.moveSpeed);
-            AddStat(EFarmerStatType.Health, tableRow.health);
-            AddStat(EFarmerStatType.FarmingSkill, tableRow.farmingSkill);
-            AddStat(EFarmerStatType.AdventureSkill, tableRow.adventureSkill);
+            AddStat(EFarmerStatType.MoveSpeed, tableRow.moveSpeedBaseValue);
+            AddStat(EFarmerStatType.Health, tableRow.healthBaseValue);
+            AddStat(EFarmerStatType.FarmingSkill, tableRow.farmingSkillBaseValue);
+            AddStat(EFarmerStatType.AdventureSkill, tableRow.adventureSkillBaseValue);
 
             OnStatChangedEvent?.Invoke();
         }

@@ -62,10 +62,7 @@ namespace ProjectF.UI.Farms
 
             int bornFarmerID = await hatchCallback.Invoke(currentIndex);
             Debug.Log($"Farmer wad born. ID : {bornFarmerID}");
-            
-            // 여기다 팝업 띄우고
-            // 팝업 종료됐을 때 RefreshUI 를 호출한다.
-            // 아직은 결과 팝업이 없으니 그냥 쌩으로 호출
+
             RefreshUI();
         }
 

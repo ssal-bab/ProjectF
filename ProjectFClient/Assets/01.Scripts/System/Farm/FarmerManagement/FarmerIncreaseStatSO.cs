@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using H00N.DataTables;
 using H00N.Stats;
+using ProjectF.Datas;
 using ProjectF.DataTables;
 using ProjectF.Farms;
 using UnityEngine;

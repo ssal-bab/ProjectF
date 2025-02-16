@@ -1,6 +1,9 @@
+using H00N.DataTables;
 using H00N.FSM;
 using H00N.Resources;
 using H00N.Resources.Pools;
+using ProjectF.Datas;
+using ProjectF.DataTables;
 using ProjectF.Farms.AI;
 using ProjectF.Units;
 using UnityEngine;
@@ -11,7 +14,7 @@ namespace ProjectF.Farms
     {
         [SerializeField] Transform grabPosition = null;
 
-        // FarmerStat Ãß°¡ÇÏ¸é¼­ ÁÖ¼®Ã³¸®
+        // FarmerStat ï¿½ß°ï¿½ï¿½Ï¸é¼­ ï¿½Ö¼ï¿½Ã³ï¿½ï¿½
         //private FarmerStatSO statData = null;
         //public FarmerStatSO StatData => statData;
 
@@ -37,8 +40,8 @@ namespace ProjectF.Farms
 
         public async void InitializeAsync(int id)
         {
-            var loadedStatData = await ResourceManager.LoadResourceAsync<FarmerStatSO>($"FarmerStat_{id}");
-            stat = new FarmerStat(loadedStatData.TableRow);
+            FarmerStatTableRow statTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(id);
+            stat = new FarmerStat(statTableRow);
 
             unitMovement.SetMaxSpeed(stat[EFarmerStatType.MoveSpeed]);
             unitMovement.SetDestination(transform.position);

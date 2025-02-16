@@ -1,6 +1,8 @@
 using System;
 using Cysharp.Threading.Tasks;
 using H00N.Resources;
+using H00N.Resources.Pools;
+using ProjectF.Datas;
 using ProjectF.Farms;
 using ProjectF.UI.Farms;
 using UnityEngine;
@@ -18,6 +20,11 @@ namespace ProjectF.Tests
             SlideDown();
         }
 
+        private void Start()
+        {
+            SetNestUI();
+        }
+
         private void Update()
         {
             if(Input.GetKey(KeyCode.LeftControl) == false)
@@ -25,33 +32,60 @@ namespace ProjectF.Tests
 
             if(Input.GetKeyDown(KeyCode.E))
             {
-                GameInstance.MainUser.nestData.level = 2;
-                GameInstance.MainUser.nestData.hatchingEggList.Add(new Datas.EggHatchingData() {
-                    eggID = 0,
-                    hatchingStartTime = GameInstance.ServerTime
-                });
-                
-                NestUI ui = FindObjectOfType<NestUI>();
-                NestUICallbackContainer hi = null;
-                hi = new NestUICallbackContainer(
-                    async index => {
-                        await UniTask.Delay(100);
-                        GameInstance.MainUser.nestData.hatchingEggList.RemoveAt(index);
-                        ui.Initialize(GameInstance.MainUser.nestData, hi);
-                        return 1;
-                    },
-                    id => true,
-                    id => true,
-                    id => true,
-                    id =>
-                    {
-                        Debug.Log($"Upgrade Nest!! id : {id}");
-                        ui.Initialize(GameInstance.MainUser.nestData, hi);
-                    }
-                );
-
-                ui.Initialize(GameInstance.MainUser.nestData, hi);
+                SetNestUI();
             }
+        }
+
+        private void SetNestUI()
+        {
+            GameInstance.MainUser.nestData.level = 2;
+            GameInstance.MainUser.nestData.hatchingEggList.Add(new Datas.EggHatchingData() {
+                eggID = 0,
+                hatchingStartTime = GameInstance.ServerTime
+            });
+            
+            NestUI ui = FindObjectOfType<NestUI>();
+            NestUICallbackContainer hi = null;
+            hi = new NestUICallbackContainer(
+                async index => {
+                    await UniTask.Delay(100);
+                    GameInstance.MainUser.nestData.hatchingEggList.RemoveAt(index);
+
+                    FarmerData farmerData = new FarmerData() {
+                        farmerID = 0,
+                        farmerUUID = Guid.NewGuid().ToString(),
+                        nickname = ""
+                    };
+                    GameInstance.MainUser.farmerData.farmerList.Add(farmerData.farmerUUID, farmerData);
+
+                    FarmerGainPopupUICallbackContainer callbackContainer = new FarmerGainPopupUICallbackContainer(
+                        (uuid, name) => {
+                            GameInstance.MainUser.farmerData.farmerList[uuid].nickname = name;
+                        },
+                        uuid => {
+                            GameInstance.MainUser.farmerData.farmerList.Remove(uuid);
+                        },
+                        uuid => {
+                            Debug.Log($"Book Open. Focus : {uuid}");
+                        }
+                    );
+                    FarmerGainPopupUI popupUI = PoolManager.Spawn<FarmerGainPopupUI>("FarmerGainPopupUI");
+                    popupUI.Initialize(farmerData.farmerUUID, farmerData.farmerID, callbackContainer);
+
+                    ui.Initialize(GameInstance.MainUser.nestData, hi);
+                    return 1;
+                },
+                id => true,
+                id => true,
+                id => true,
+                id =>
+                {
+                    Debug.Log($"Upgrade Nest!! id : {id}");
+                    ui.Initialize(GameInstance.MainUser.nestData, hi);
+                }
+            );
+
+            ui.Initialize(GameInstance.MainUser.nestData, hi);
         }
 
         public void SlideUp()

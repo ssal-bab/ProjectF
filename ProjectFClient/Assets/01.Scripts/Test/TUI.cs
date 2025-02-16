@@ -1,5 +1,8 @@
+using System;
+using Cysharp.Threading.Tasks;
 using H00N.Resources;
 using ProjectF.Farms;
+using ProjectF.UI.Farms;
 using UnityEngine;
 
 namespace ProjectF.Tests
@@ -13,6 +16,42 @@ namespace ProjectF.Tests
         private void Awake()
         {
             SlideDown();
+        }
+
+        private void Update()
+        {
+            if(Input.GetKey(KeyCode.LeftControl) == false)
+                return;
+
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                GameInstance.MainUser.nestData.level = 2;
+                GameInstance.MainUser.nestData.hatchingEggList.Add(new Datas.EggHatchingData() {
+                    eggID = 0,
+                    hatchingStartTime = GameInstance.ServerTime
+                });
+                
+                NestUI ui = FindObjectOfType<NestUI>();
+                NestUICallbackContainer hi = null;
+                hi = new NestUICallbackContainer(
+                    async index => {
+                        await UniTask.Delay(100);
+                        GameInstance.MainUser.nestData.hatchingEggList.RemoveAt(index);
+                        ui.Initialize(GameInstance.MainUser.nestData, hi);
+                        return 1;
+                    },
+                    id => true,
+                    id => true,
+                    id => true,
+                    id =>
+                    {
+                        Debug.Log($"Upgrade Nest!! id : {id}");
+                        ui.Initialize(GameInstance.MainUser.nestData, hi);
+                    }
+                );
+
+                ui.Initialize(GameInstance.MainUser.nestData, hi);
+            }
         }
 
         public void SlideUp()

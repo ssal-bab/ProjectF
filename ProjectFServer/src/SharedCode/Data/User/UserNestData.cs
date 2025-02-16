@@ -5,6 +5,6 @@ namespace ProjectF.Datas
     public class UserNestData
     {
         public int level = 0;
-        public Dictionary<int, NestSlotData> nestSlotDatas = null;
+        public List<EggHatchingData> hatchingEggList = null;
     }
 }

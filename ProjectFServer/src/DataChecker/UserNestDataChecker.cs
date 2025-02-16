@@ -16,22 +16,7 @@ namespace ProjectF.Datas
             if(nestData.level == 0)
                 nestData.level = 1;
 
-            nestData.nestSlotDatas = new Dictionary<int, NestSlotData>();
-
-            NestTableRow tableRow = DataTableManager.GetTable<NestTable>().GetRowByLevel(nestData.level);
-            if(tableRow == null)
-                return;
-
-            for(int i = 0; i < tableRow.eggStoreLimit; ++i)
-            {
-                if(nestData.nestSlotDatas.ContainsKey(i))
-                    continue;
-
-                nestData.nestSlotDatas.Add(i, new NestSlotData() {
-                    eggID = -1,
-                    hatchingStartTime = DateTime.MinValue
-                });
-            }
+            nestData.hatchingEggList ??= new List<EggHatchingData>();
         }
     }
 }

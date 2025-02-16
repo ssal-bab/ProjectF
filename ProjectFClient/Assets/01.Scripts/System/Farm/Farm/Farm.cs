@@ -24,7 +24,7 @@ namespace ProjectF.Farms
 
         private void Start()
         {
-            UserData mainUser = GameDefine.MainUser;
+            UserData mainUser = GameInstance.MainUser;
             for (int i = 0; i < fieldGroups.Count; ++i)
             {
                 FieldGroup fieldGroup = fieldGroups[i];

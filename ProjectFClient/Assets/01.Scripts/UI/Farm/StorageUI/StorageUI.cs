@@ -29,18 +29,17 @@ namespace ProjectF.UI.Farms
                 id => true,
                 id => {
                     Debug.Log($"Upgrade Storage!! id : {id}");
-                    Initialize(GameDefine.MainUser.storageData, hi);
+                    Initialize(GameInstance.MainUser.storageData, hi);
                 }
             );
             
-            Initialize(GameDefine.MainUser.storageData, hi);
+            Initialize(GameInstance.MainUser.storageData, hi);
         }
         #endregion
 
         public void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer)
         {
-            Initialize();
-
+            base.Initialize();
             this.userStorageData = userStorageData;
             this.callbackContainer = callbackContainer;
 

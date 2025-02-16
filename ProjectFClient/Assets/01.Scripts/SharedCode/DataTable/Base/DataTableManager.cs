@@ -49,8 +49,13 @@ namespace H00N.DataTables
                 IEnumerable<Type> dataTableTypes = GetDataTableTypes();
                 foreach(Type dataTableType in dataTableTypes)
                 {
-                    IDataTable dataTable = dataTableFactory.Invoke(dataTableType);
-                    tableDictionary.Add(dataTableType, dataTable);
+                    try {
+                        IDataTable dataTable = dataTableFactory.Invoke(dataTableType);
+                        tableDictionary.Add(dataTableType, dataTable);
+
+                    } catch(Exception err) {
+                        Console.WriteLine(err);
+                    }
                 }
             } catch (Exception err) {
                 Console.WriteLine(err);

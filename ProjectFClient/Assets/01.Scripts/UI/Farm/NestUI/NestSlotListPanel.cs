@@ -13,9 +13,15 @@ namespace ProjectF.UI.Farms
 {
     public class NestSlotListPanel : MonoBehaviourUI
     {
+        [SerializeField] AddressableAsset<NestDetailInfoPopupUI> detailInfoPopupUIPrefab = null;
+
+        [Space(10f)]
         [SerializeField] ScrollRect scrollView = null;
         [SerializeField] AddressableAsset<NestSlotElementUI> elementPrefab = null;
         private List<NestSlotElementUI> slotElementUIList = null;
+
+        private NestUICallbackContainer callbackContainer = null;
+        private UserNestData userNestData = null;
 
         protected override void Awake()
         {
@@ -25,6 +31,10 @@ namespace ProjectF.UI.Farms
 
         public void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer)
         {
+            base.Initialize();
+            this.userNestData = userNestData;
+            this.callbackContainer = callbackContainer;
+
             NestTableRow tableRow = DataTableManager.GetTable<NestTable>().GetRowByLevel(userNestData.level); ;
             if (tableRow == null)
                 return;
@@ -40,10 +50,13 @@ namespace ProjectF.UI.Farms
             for(int i = 0; i < slotElementUIList.Count; ++i)
             {
                 NestSlotElementUI ui = slotElementUIList[i];
-                if(hatchingEggList.Count < i)
-                    ui.Initialize(hatchingEggList[i]);
+                if(hatchingEggList.Count > i)
+                {
+                    int currentIndex = i;   
+                    ui.Initialize(hatchingEggList[currentIndex], () => OpenDetailInfoPopup(currentIndex));
+                }
                 else
-                    ui.Initialize(null);
+                    ui.Initialize(null, null);
             }
         }
 
@@ -62,6 +75,16 @@ namespace ProjectF.UI.Farms
             }
 
             scrollView.gameObject.SetActive(true);
+        }
+
+        private async void OpenDetailInfoPopup(int index)
+        {
+            if(userNestData.hatchingEggList.Count <= 0)
+                return;
+
+            NestDetailInfoPopupUI ui = await PoolManager.SpawnAsync<NestDetailInfoPopupUI>(detailInfoPopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            ui.StretchUI();
+            ui.Initialize(userNestData, index, callbackContainer.HatchCallback);
         }
     }
 }

@@ -39,8 +39,7 @@ namespace ProjectF.UI.Farms
 
         public void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer)
         {
-            Initialize();
-
+            base.Initialize();
             this.userStorageData = userStorageData;
             this.callbackContainer = callbackContainer;
 

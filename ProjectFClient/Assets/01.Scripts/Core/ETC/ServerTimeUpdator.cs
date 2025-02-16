@@ -8,10 +8,9 @@ namespace ProjectF
     public static class ServerTimeUpdator
     {
         private const int UPDATE_DELAY_MILLISECONDS = 100;
-        private static DateTime lastUpdateTime = DateTime.MinValue;
         private static CancellationTokenSource cancellationTokenSource = null;
 
-        public static void Start(DateTime startTime)
+        public static void Start()
         {
             if(cancellationTokenSource != null)
             {
@@ -19,7 +18,6 @@ namespace ProjectF
                 return;
             }
 
-            lastUpdateTime = startTime;
             cancellationTokenSource = new CancellationTokenSource();
 
             _ = UniTask.RunOnThreadPool(UpdateLoop);
@@ -36,13 +34,10 @@ namespace ProjectF
         {
             while(true)
             {
+                DateTime lastUpdateTime = DateTime.UtcNow;
                 await UniTask.Delay(UPDATE_DELAY_MILLISECONDS, cancellationToken: cancellationTokenSource.Token);
-
-                DateTime nowTime = DateTime.UtcNow;
-                TimeSpan difference = nowTime - lastUpdateTime;
-
+                TimeSpan difference = DateTime.UtcNow - lastUpdateTime;
                 GameInstance.ServerTime = GameInstance.ServerTime.Add(difference);
-                lastUpdateTime = nowTime;
             }
         }
     }

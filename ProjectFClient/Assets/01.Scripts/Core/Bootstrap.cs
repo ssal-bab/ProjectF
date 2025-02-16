@@ -55,7 +55,7 @@ namespace ProjectF
             }
 
             GameInstance.ServerTime = response.serverTime;
-            ServerTimeUpdator.Start(DateTime.UtcNow);
+            ServerTimeUpdator.Start();
 
             GameInstance.MainUser = response.userData;
             GameInstance.CurrentLoginUserID = response.userData.userID;

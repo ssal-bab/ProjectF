@@ -27,10 +27,10 @@ namespace ProjectF
 
         private static string GetTimeStringInternal(ETimeStringType timeStringType, double totalDays, double totalHours, double totalMinutes, double totalSeconds)
         {
-            double days = Math.Floor(totalDays);
-            double hours = Math.Floor(totalHours % 24);
-            double minutes = Math.Floor(totalMinutes % 60);
-            double seconds = Math.Floor(totalSeconds % 60);
+            int days = (int)Math.Floor(totalDays);
+            int hours = (int)Math.Floor(totalHours % 24);
+            int minutes = (int)Math.Floor(totalMinutes % 60);
+            int seconds = (int)Math.Floor(totalSeconds % 60);
 
             return timeStringType switch {
                 ETimeStringType.None => "",
@@ -40,13 +40,13 @@ namespace ProjectF
                 ETimeStringType.MinutesSeconds => string.Format("{0:D2}:{1:D2}", minutes, seconds),
                 ETimeStringType.Seconds => string.Format("{0:D2}", seconds),
 
-                ETimeStringType.TotalHoursAndMinutesSeconds => string.Format("{0}:{1:D2}:{2:D2}", totalHours, minutes, seconds),
-                ETimeStringType.TotalMinutesAndSeconds => string.Format("{0}:{1:D2}", totalMinutes, seconds),
+                ETimeStringType.TotalHoursAndMinutesSeconds => string.Format("{0:F0}:{1:D2}:{2:D2}", totalHours, minutes, seconds),
+                ETimeStringType.TotalMinutesAndSeconds => string.Format("{0:F0}:{1:D2}", totalMinutes, seconds),
 
-                ETimeStringType.TotalDays => string.Format("{0}", totalDays),
-                ETimeStringType.TotalHours => string.Format("{0}", totalHours),
-                ETimeStringType.TotalMinutes => string.Format("{0}", totalMinutes),
-                ETimeStringType.TotalSeconds => string.Format("{0}", totalSeconds),
+                ETimeStringType.TotalDays => string.Format("{0:F0}", totalDays),
+                ETimeStringType.TotalHours => string.Format("{0:F0}", totalHours),
+                ETimeStringType.TotalMinutes => string.Format("{0:F0}", totalMinutes),
+                ETimeStringType.TotalSeconds => string.Format("{0:F0}", totalSeconds),
 
                 _ => "InvalidType",
             };

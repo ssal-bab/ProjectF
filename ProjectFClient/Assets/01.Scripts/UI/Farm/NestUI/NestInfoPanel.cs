@@ -21,6 +21,7 @@ namespace ProjectF.UI.Farms
 
         public void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer)
         {
+            base.Initialize();
             this.userNestData = userNestData;
             this.callbackContainer = callbackContainer;
 

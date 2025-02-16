@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using ProjectF.Datas;
 using UnityEngine;
 
@@ -16,6 +17,12 @@ namespace ProjectF.UI.Farms
         {
             NestUICallbackContainer hi = null;
             hi = new NestUICallbackContainer(
+                async index => {
+                    await UniTask.Delay(100);
+                    GameInstance.MainUser.nestData.hatchingEggList.RemoveAt(index);
+                    Initialize(GameInstance.MainUser.nestData, hi);
+                    return 1;
+                },
                 id => true,
                 id => true,
                 id => true,
@@ -31,8 +38,7 @@ namespace ProjectF.UI.Farms
 
         public void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer)
         {
-            Initialize();
-
+            base.Initialize();
             this.userNestData = userNestData;
             this.callbackContainer = callbackContainer;
 

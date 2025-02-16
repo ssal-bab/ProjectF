@@ -5,6 +5,7 @@ using H00N.Resources;
 using H00N.Resources.Pools;
 using Newtonsoft.Json;
 using ProjectF.Networks;
+using ProjectF.Quests;
 using UnityEngine;
 
 namespace ProjectF
@@ -36,11 +37,17 @@ namespace ProjectF
             new NetworkManager().Initialize();
         }
 
+        public void OnLoginGameServer()
+        {
+            QuestManager.Initialize();
+        }
+
         private void OnApplicationQuit()
         {
             DataTableManager.Release();
             PoolManager.Release();
             ResourceManager.Release();
+            QuestManager.Release();
 
             // FarmManager.Instance.Release();
             NetworkManager.Instance.Release();

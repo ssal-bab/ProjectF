@@ -63,6 +63,7 @@ namespace ProjectF
 
             SceneManager.LoadScene(ongoingSceneName);
             DateManager.Instance.SetEnable(true);
+            GameManager.Instance.OnLoginGameServer();
         }
     }
 }

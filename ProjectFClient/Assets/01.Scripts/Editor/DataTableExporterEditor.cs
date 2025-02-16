@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using ClosedXML.Excel;
 
 namespace H00N.DataTables.Editors
 {
@@ -28,13 +29,13 @@ namespace H00N.DataTables.Editors
 
         private void OnGUI()
         {
-            GUILayout.Label("Selected TSV Folder:", EditorStyles.boldLabel);
+            GUILayout.Label("Selected Excel Folder:", EditorStyles.boldLabel);
             
             GUILayout.BeginHorizontal();
             GUILayout.Label(inputFolderPath);
-            if (GUILayout.Button("Select TSV Folder", GUILayout.Width(150)))
+            if (GUILayout.Button("Select Excel Folder", GUILayout.Width(150)))
             {
-                inputFolderPath = EditorUtility.OpenFolderPanel("Select TSV Folder", "", "");
+                inputFolderPath = EditorUtility.OpenFolderPanel("Select Excel Folder", "", "");
                 EditorPrefs.SetString("DataTableExporter/InputFolderPathCache", inputFolderPath);
             }
             GUILayout.EndHorizontal();
@@ -86,56 +87,55 @@ namespace H00N.DataTables.Editors
 
         private void ExportTable(string folderPath, List<string> outputPathList)
         {
-            string[] tsvFilePaths = Directory.GetFiles(folderPath, "*.tsv");
-            var allJsonData = new Dictionary<string, string>();  // 모든 TSV 파일의 데이터를 저장할 리스트
+            string[] excelFilePaths = Directory.GetFiles(folderPath, "*.xlsx");
+            var allJsonData = new Dictionary<string, string>();  // 모든 Excel 파일의 데이터를 저장할 리스트
 
-            foreach (var tsvFilePath in tsvFilePaths)
+            foreach (var excelFilePath in excelFilePaths)
             {
-                var fileLines = File.ReadAllLines(tsvFilePath);
-
-                // 첫 번째, 두 번째, 세 번째 이상의 행을 분리합니다.
-                var headers = fileLines[0].Split('\t');  // 첫 번째 행 (변수 이름들)
-                var types = fileLines[1].Split('\t');    // 두 번째 행 (변수 타입)
-                var table = new Dictionary<string, Dictionary<string, object>>();
-
-                for (int i = 2; i < fileLines.Length; i++)  // 3번째 행부터 실제 값들이 시작됨
+                using var workbook = new XLWorkbook(excelFilePath);
+                foreach(var worksheet in workbook.Worksheets)
                 {
-                    var data = fileLines[i].Split('\t');
-                    var record = new Dictionary<string, object>();
+                    // 두번째, 세번째, 네번째 이상의 행을 분리합니다.
+                    var headerRow = worksheet.Row(2); // 두번째 행 (변수 이름들)
+                    var typeRow = worksheet.Row(3);   // 세번째 행 (변수 타입)
+                    int columnCount = worksheet.LastColumnUsed().ColumnNumber(); // 사용된 마지막 열
+                    var table = new Dictionary<string, Dictionary<string, object>>();
 
-                    // 나머지 열을 변수명과 값으로 매칭하여 JSON 형식으로 구성
-                    for (int j = 0; j < headers.Length; j++)
+                    for (int i = 4; i <= worksheet.LastRowUsed().RowNumber(); i++)  // 4번째 행부터 실제 값들이 시작됨
                     {
-                        string key = headers[j];
-                        string value = data[j];
-                        if(key.StartsWith("//"))
-                            continue;
+                        var dataRow = worksheet.Row(i);
+                        var record = new Dictionary<string, object>();
+                        string key = dataRow.Cell(1).GetString(); // 첫 번째 열을 키로 사용
 
-                        // 필요한 경우 타입에 따라 값 처리 (예: 숫자, 문자열 등)
-                        if (types[j] == "int")
+                        if (string.IsNullOrEmpty(key)) continue; // 키가 없으면 건너뜀
+
+                        for (int j = 1; j <= columnCount; j++)
                         {
-                            record[key] = int.Parse(value);
+                            string columnName = headerRow.Cell(j).GetString();
+                            string type = typeRow.Cell(j).GetString();
+                            string cellValue = dataRow.Cell(j).GetString();
+
+                            if (string.IsNullOrEmpty(columnName) || columnName.StartsWith("//"))
+                                continue;
+
+                            // 타입 변환
+                            if (type == "int" && int.TryParse(cellValue, out int intValue))
+                                record[columnName] = intValue;
+                            else if (type == "float" && float.TryParse(cellValue, out float floatValue))
+                                record[columnName] = floatValue;
+                            else if (type == "bool" && bool.TryParse(cellValue, out bool boolValue))
+                                record[columnName] = boolValue;
+                            else
+                                record[columnName] = cellValue;
                         }
-                        else if (types[j] == "float")
-                        {
-                            record[key] = float.Parse(value);
-                        }
-                        else if (types[j] == "bool")
-                        {
-                            record[key] = bool.Parse(value);
-                        }
-                        else
-                        {
-                            record[key] = value;  // 기본적으로 문자열로 처리
-                        }
+
+                        table[key] = record;  // 하나의 레코드를 리스트에 추가
                     }
-
-                    table.Add(data[0], record);  // 하나의 레코드를 리스트에 추가
+                    
+                    string fileName = worksheet.Name;
+                    string jsonData = JsonConvert.SerializeObject(table, Formatting.None);
+                    allJsonData.Add(fileName, jsonData);
                 }
-                
-                string fileName = Path.GetFileNameWithoutExtension(tsvFilePath);
-                string jsonData = JsonConvert.SerializeObject(table, Formatting.None);
-                allJsonData.Add(fileName, jsonData);
             }
 
             // JSON 형식으로 출력

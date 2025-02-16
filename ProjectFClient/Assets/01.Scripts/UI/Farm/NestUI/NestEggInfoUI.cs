@@ -43,6 +43,7 @@ namespace ProjectF.UI.Farms
             }
 
             eggIconImage.sprite = ResourceUtility.GetEggIcon(tableRow.id);
+            eggIconImage.color = Color.white;
 
             TimeSpan elapsedTimeSpan = GameInstance.ServerTime - eggHatchingData.hatchingStartTime;
             float remainTime = (float)(tableRow.hatchingTime - elapsedTimeSpan.TotalSeconds);

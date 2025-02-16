@@ -69,7 +69,8 @@ namespace ProjectF.Tests
                             Debug.Log($"Book Open. Focus : {uuid}");
                         }
                     );
-                    FarmerGainPopupUI popupUI = PoolManager.Spawn<FarmerGainPopupUI>("FarmerGainPopupUI");
+                    FarmerGainPopupUI popupUI = PoolManager.Spawn<FarmerGainPopupUI>("FarmerGainPopupUI", GameDefine.ContentsPopupFrame);
+                    popupUI.StretchUI();
                     popupUI.Initialize(farmerData.farmerUUID, farmerData.farmerID, callbackContainer);
 
                     ui.Initialize(GameInstance.MainUser.nestData, hi);

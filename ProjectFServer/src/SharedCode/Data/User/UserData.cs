@@ -7,5 +7,6 @@ namespace ProjectF.Datas
         public UserStorageData storageData = null;
         public UserNestData nestData = null;
         public UserQuestData questData = null;
+        public UserFarmerData farmerData = null;
     }
 }

@@ -1,7 +1,11 @@
 {
     "files.exclude": {
-        "**/.DS_Store": true,
         "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
         "**/.vs": true,
         "**/.gitmodules": true,
         "**/.vsconfig": true,
@@ -54,7 +58,9 @@
         "ProjectSettings/": true,
         "UserSettings/": true,
         "temp/": true,
-        "Temp/": true
+        "Temp/": true,
+        "**/*.csproj": true
     },
-    "dotnet.defaultSolution": "ProjectFClient.sln"
+    "dotnet.defaultSolution": "ProjectFClient.sln",
+    "explorerExclude.backup": {}
 }

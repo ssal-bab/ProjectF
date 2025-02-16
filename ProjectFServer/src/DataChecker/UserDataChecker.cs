@@ -8,6 +8,7 @@ namespace ProjectF.Datas
             new UserStorageDataChecker(userData);
             new UserNestDataChecker(userData);
             new UserFarmerDataChecker(userData);
+            new UserQuestDataChecker(userData);
         }
     }
 }

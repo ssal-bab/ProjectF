@@ -12,7 +12,7 @@ namespace ProjectF.Farms
         private Dictionary<int, FarmerIncreaseStatSO> increaseStatDataDictionary = new();
         
         /// <summary>
-        /// ÀÏ²ÛÀÇ ID ÀÔ·Â ½Ã ÇØ´ç ÀÏ²ÛÀÇ Áõ°¡ ½ºÅÈ Á¤º¸¸¦ ·Îµå
+        /// ï¿½Ï²ï¿½ï¿½ï¿½ ID ï¿½Ô·ï¿½ ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½Ï²ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½
         /// </summary>
         public async void InitializeFarmerIncreaseStatAsync(int id)
         {
@@ -27,8 +27,8 @@ namespace ProjectF.Farms
         }
 
         /// <summary>
-        /// ÀÏ²Û ·¹º§ º¯°æ, farmer = º¯°æÇÒ ÀÏ²Û, currentLevel = ÇöÀç ³ó»ç ·¹º§, targetLevel = ¸ñÇ¥ ³ó»ç ·¹º§
-        /// ÇöÀç ÀÏ²ÛÀÇ currentLevelÀ» ¹Þ¾Æ¿Ã ¼ö ¾ø¾î ¸Å°³º¯¼ö·Î ¹ÞÀ½
+        /// ï¿½Ï²ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, farmer = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï²ï¿½, currentLevel = ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, targetLevel = ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        /// ï¿½ï¿½ï¿½ï¿½ ï¿½Ï²ï¿½ï¿½ï¿½ currentLevelï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         public void ChangeFarmingLevel(Farmer farmer, int id, int targetLevel, int currentLevel)
         {
@@ -42,8 +42,8 @@ namespace ProjectF.Farms
         }
 
         /// <summary>
-        /// ÀÏ²Û ·¹º§ º¯°æ, farmer = º¯°æÇÒ ÀÏ²Û, currentLevel = ÇöÀç ¸ðÇè ·¹º§, targetLevel = ¸ñÇ¥ ¸ðÇè ·¹º§
-        /// ÇöÀç ÀÏ²ÛÀÇ currentLevelÀ» ¹Þ¾Æ¿Ã ¼ö ¾ø¾î ¸Å°³º¯¼ö·Î ¹ÞÀ½
+        /// ï¿½Ï²ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, farmer = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï²ï¿½, currentLevel = ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, targetLevel = ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        /// ï¿½ï¿½ï¿½ï¿½ ï¿½Ï²ï¿½ï¿½ï¿½ currentLevelï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         public void ChangeAdventureLevel(Farmer farmer, int id, int targetLevel, int currentLevel)
         {
@@ -77,15 +77,16 @@ namespace ProjectF.Farms
         }
 
         /// <summary>
-        /// farmer = ÆÈ ÀÏ²Û, farmingLevel = farmerÀÇ ³ó»ç ·¹º§, adventureLevel = farmerÀÇ ¸ðÇè ·¹º§
+        /// farmer = ï¿½ï¿½ ï¿½Ï²ï¿½, farmingLevel = farmerï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, adventureLevel = farmerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         public int FarmerSell(Farmer farmer, /*EFarmerGrade grade*/ int farmingLevel, int adventureLevel)
         {
-            float farmingMultiplier = farmingLevel * DataDefine.Farming_Level_Sales_Multiplier;
-            float adventureMultiplier = adventureLevel * DataDefine.Adventure_Level_Sales_Multiplier;
+            // float farmingMultiplier = farmingLevel * DataDefine.Farming_Level_Sales_Multiplier;
+            // float adventureMultiplier = adventureLevel * DataDefine.Adventure_Level_Sales_Multiplier;
             /*float gradeMultiplier = grade * DataDefine.Faemer_Grade_Sales_Multiplier;*/
 
-            return Mathf.FloorToInt(farmingMultiplier + adventureMultiplier /*+ gradeMultiplier*/);
+            // return Mathf.FloorToInt(farmingMultiplier + adventureMultiplier /*+ gradeMultiplier*/);
+            return 0;
         }
     }
 }

@@ -11,9 +11,6 @@ namespace ProjectF.Farms
     {
         private Dictionary<int, FarmerIncreaseStatSO> increaseStatDataDictionary = new();
         
-        /// <summary>
-        /// �ϲ��� ID �Է� �� �ش� �ϲ��� ���� ���� ������ �ε�
-        /// </summary>
         public async void InitializeFarmerIncreaseStatAsync(int id)
         {
             if(!increaseStatDataDictionary.ContainsKey(id))
@@ -25,11 +22,6 @@ namespace ProjectF.Farms
 
             Debug.LogWarning($"Warning:{id} has already registered");
         }
-
-        /// <summary>
-        /// �ϲ� ���� ����, farmer = ������ �ϲ�, currentLevel = ���� ��� ����, targetLevel = ��ǥ ��� ����
-        /// ���� �ϲ��� currentLevel�� �޾ƿ� �� ���� �Ű������� ����
-        /// </summary>
         public void ChangeFarmingLevel(Farmer farmer, int id, int targetLevel, int currentLevel)
         {
             CalculateLevelDifference(farmer, id, targetLevel, currentLevel, (delta, theta) =>
@@ -41,10 +33,6 @@ namespace ProjectF.Farms
             });
         }
 
-        /// <summary>
-        /// �ϲ� ���� ����, farmer = ������ �ϲ�, currentLevel = ���� ���� ����, targetLevel = ��ǥ ���� ����
-        /// ���� �ϲ��� currentLevel�� �޾ƿ� �� ���� �Ű������� ����
-        /// </summary>
         public void ChangeAdventureLevel(Farmer farmer, int id, int targetLevel, int currentLevel)
         {
             CalculateLevelDifference(farmer, id, targetLevel, currentLevel, (delta, theta) =>
@@ -76,9 +64,6 @@ namespace ProjectF.Farms
             }
         }
 
-        /// <summary>
-        /// farmer = �� �ϲ�, farmingLevel = farmer�� ��� ����, adventureLevel = farmer�� ���� ����
-        /// </summary>
         public int FarmerSell(Farmer farmer, /*EFarmerGrade grade*/ int farmingLevel, int adventureLevel)
         {
             // float farmingMultiplier = farmingLevel * DataDefine.Farming_Level_Sales_Multiplier;

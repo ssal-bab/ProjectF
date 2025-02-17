@@ -8,7 +8,7 @@ using ProjectF.Farms;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Farm/FarmerIncreaseStat")]
-public class FarmerIncreaseStatSO : DataTableSO<FarmerIncreaseStatTable, FarmerIncreaseStatTableRow>
+public class FarmerIncreaseStatSO : DataTableSO<FarmerStatTable, FarmerStatTableRow>
 {
     private Dictionary<EFarmerStatType, float> statDictionary;
     public float this[EFarmerStatType indexer]
@@ -29,10 +29,10 @@ public class FarmerIncreaseStatSO : DataTableSO<FarmerIncreaseStatTable, FarmerI
     {
         base.OnTableInitialized();
 
-        statDictionary.Add(EFarmerStatType.MoveSpeed, TableRow.moveSpeed);
-        statDictionary.Add(EFarmerStatType.Health, TableRow.health);
-        statDictionary.Add(EFarmerStatType.FarmingSkill, TableRow.farmingSkill);
-        statDictionary.Add(EFarmerStatType.AdventureSkill, TableRow.adventureSkill);
+        statDictionary.Add(EFarmerStatType.MoveSpeed, TableRow.moveSpeedIncreaseValue);
+        statDictionary.Add(EFarmerStatType.Health, TableRow.healthIncreaseValue);
+        statDictionary.Add(EFarmerStatType.FarmingSkill, TableRow.farmingSkillIncreaseValue);
+        statDictionary.Add(EFarmerStatType.AdventureSkill, TableRow.adventureSkillIncreaseValue);
     }
 }
 

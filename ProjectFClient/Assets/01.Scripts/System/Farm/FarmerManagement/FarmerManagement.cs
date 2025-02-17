@@ -64,14 +64,13 @@ namespace ProjectF.Farms
             }
         }
 
-        public int FarmerSell(Farmer farmer, /*EFarmerGrade grade*/ int farmingLevel, int adventureLevel)
+        public int FarmerSell(Farmer farmer, ERariry rarity, int farmingLevel, int adventureLevel)
         {
-            // float farmingMultiplier = farmingLevel * DataDefine.Farming_Level_Sales_Multiplier;
-            // float adventureMultiplier = adventureLevel * DataDefine.Adventure_Level_Sales_Multiplier;
-            /*float gradeMultiplier = grade * DataDefine.Faemer_Grade_Sales_Multiplier;*/
+            float farmingMultiplier = farmingLevel * DataDefine.FARMING_LEVEL_SALES_MULTIPLIER;
+            float adventureMultiplier = adventureLevel * DataDefine.ADVENTURE_LEVEL_SALES_MULTIPLIER;
+            float gradeMultiplier = (int)rarity * DataDefine.FARMER_GRADE_SALES_MULTIPLIER;
 
-            // return Mathf.FloorToInt(farmingMultiplier + adventureMultiplier /*+ gradeMultiplier*/);
-            return 0;
+            return Mathf.FloorToInt(farmingMultiplier + adventureMultiplier + gradeMultiplier);
         }
     }
 }

@@ -4,10 +4,10 @@ using H00N.DataTables;
 namespace ProjectF.DataTables
 {
     [Serializable]
-    public class FarmerTableRow : DataTableRow
+    public partial class FarmerTableRow : DataTableRow
     {
         public string nameLocalKey;
     }
 
-    public class FarmerTable : DataTable<FarmerTableRow> { }
+    public partial class FarmerTable : DataTable<FarmerTableRow> { }
 }

@@ -4,7 +4,7 @@ using H00N.DataTables;
 namespace ProjectF.DataTables
 {
 	[Serializable]
-	public class FarmerStatTableRow : DataTableRow
+	public partial class FarmerStatTableRow : DataTableRow
 	{
         public float moveSpeedBaseValue; // �ְ� �̵� �ӵ�
         public float moveSpeedIncreaseValue; // �ְ� �̵� �ӵ�
@@ -19,5 +19,5 @@ namespace ProjectF.DataTables
         public float adventureSkillIncreaseValue; // Ž�迡�� �� ���� �������� ���� Ȯ��
     }
 
-	public class FarmerStatTable : DataTable<FarmerStatTableRow> { }
+	public partial class FarmerStatTable : DataTable<FarmerStatTableRow> { }
 }

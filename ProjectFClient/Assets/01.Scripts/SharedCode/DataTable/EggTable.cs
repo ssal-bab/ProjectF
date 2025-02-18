@@ -1,13 +1,15 @@
+using System;
 using H00N.DataTables;
 using ProjectF.Datas;
 
 namespace ProjectF.DataTables
 {
-    public class EggTableRow : DataTableRow
+    [Serializable]
+    public partial class EggTableRow : DataTableRow
     {
         public ERariry rarity;
         public float hatchingTime;
     }
 
-    public class EggTable : DataTable<EggTableRow> { }
+    public partial class EggTable : DataTable<EggTableRow> { }
 }

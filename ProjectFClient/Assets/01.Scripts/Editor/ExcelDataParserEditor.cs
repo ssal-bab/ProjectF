@@ -9,7 +9,6 @@ using System.Text;
 
 public class ExcelDataParserEditor : EditorWindow
 {
-
     private string inputFolderPath = "";  
     private List<string> outputFolderPathList = new List<string>();
 
@@ -95,11 +94,12 @@ public class ExcelDataParserEditor : EditorWindow
             Debug.Log(string.Join(",", d));
         }
 
-        string className = $"T{Path.GetFileName(folderPath).Split('.')[0]}";
+        string className = Path.GetFileName(folderPath).Split('.')[0];
         string code = GenerateCSharpCode(className, data);
 
         foreach(var path in outputPathList)
         {
+            Debug.Log(path);
             SaveToFile(path, className, code);
         }
     }
@@ -123,19 +123,34 @@ public class ExcelDataParserEditor : EditorWindow
         var sb = new StringBuilder();
         sb.AppendLine("using H00N.DataTables;");
         sb.AppendLine("using ProjectF.Datas;");
+        sb.AppendLine("namespace ProjectF.DataTables");
         sb.AppendLine("{");
         sb.AppendLine($"    public class T{className} : {baseClass}");
         sb.AppendLine("    {");
 
         foreach (var column in columns)
         {
-            string fieldName = column[0].Trim(); // 공백 제거
+            string fieldName = column[0];
 
             // 주석(`//`)으로 시작하거나 빈 문자열이면 무시
             if (string.IsNullOrEmpty(fieldName) || fieldName.StartsWith("//"))
                 continue;
 
-            string fieldType = DetectFieldType(column); // 데이터 타입 판별
+            string fieldType = column[1]; // 데이터 타입 판별
+
+            if(fieldName =="id")
+            {
+                if(fieldType == "int")
+                {
+                    continue;
+                }
+                else
+                {
+                    Debug.LogError("int가 아닌 id 발견견");
+                    continue;
+                }
+            }
+
             sb.AppendLine($"        public {fieldType} {fieldName};");
         }
 
@@ -144,17 +159,6 @@ public class ExcelDataParserEditor : EditorWindow
         sb.AppendLine("}");
 
         return sb.ToString();
-    }
-
-    private string DetectFieldType(string[] columnData)
-    {
-        for (int i = 1; i < columnData.Length; i++) // 첫 번째 행은 변수명이라 제외
-        {
-            if (int.TryParse(columnData[i], out _)) return "int";
-            if (float.TryParse(columnData[i], out _)) return "float";
-            if (columnData[i][0] == 'E') return columnData[i]; // Enum 이름 예제
-        }
-        return "string"; // 기본적으로 string 처리
     }
 
     private List<string[]> ReadExcelColumns(string path)
@@ -170,7 +174,7 @@ public class ExcelDataParserEditor : EditorWindow
         using (var workbook = new XLWorkbook(path))
         {
             var worksheet = workbook.Worksheet(1); // 첫 번째 시트
-            int rowCount = 3;   // 마지막 사용된 행 번호
+            int rowCount = 3;   // 헤더가 마무리 되는 행
             int colCount = worksheet.LastColumnUsed().ColumnNumber(); // 마지막 사용된 열 번호
 
             // 각 열을 리스트에 저장
@@ -178,8 +182,9 @@ public class ExcelDataParserEditor : EditorWindow
             {
                 List<string> columnData = new List<string>();
 
-                for (int row = 1; row <= rowCount; row++)
+                for (int row = 2; row <= rowCount; row++)
                 {
+                    Debug.Log($"{row}. {rowCount}");
                     columnData.Add(worksheet.Cell(row, col).GetString()); // 해당 열의 모든 행 데이터 추가
                 }
 

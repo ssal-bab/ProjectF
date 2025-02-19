@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    using EStorageInfoUIType = StorageInfoPanel.EStorageInfoUIType;
+    using EStorageInfoUIType = StorageInfoPanelUI.EStorageInfoUIType;
 
     public class StorageDefaultInfoUI : StorageInfoUI
     {
@@ -16,9 +16,9 @@ namespace ProjectF.UI.Farms
         [SerializeField] TMP_Text limitCountText = null;
         [SerializeField] TMP_Text usedCountText = null;
 
-        private StorageInfoPanel panel = null;
+        private StorageInfoPanelUI panel = null;
 
-        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanel panel)
+        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanelUI panel)
         {
             base.Initialize();
             this.panel = panel;

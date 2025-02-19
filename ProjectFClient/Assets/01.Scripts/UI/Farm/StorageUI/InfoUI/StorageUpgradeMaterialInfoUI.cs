@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    using EStorageInfoUIType = StorageInfoPanel.EStorageInfoUIType;
+    using EStorageInfoUIType = StorageInfoPanelUI.EStorageInfoUIType;
 
     public class StorageUpgradeMaterialInfoUI : StorageInfoUI
     {
@@ -17,10 +17,10 @@ namespace ProjectF.UI.Farms
         // [SerializeField] TMP_Text materialCountText = null;
 
         private int targetID = 0;
-        private StorageInfoPanel panel = null;
+        private StorageInfoPanelUI panel = null;
         private StorageUICallbackContainer callbackContainer = null;
 
-        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanel panel)
+        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer, StorageInfoPanelUI panel)
         {
             base.Initialize();
             this.panel = panel;

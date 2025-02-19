@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class StorageCropViewPanel : StorageViewPanel
+    public class StorageCropViewPanelUI : StorageViewPanelUI
     {
         [SerializeField] ScrollRect scrollView = null;
         [SerializeField] AddressableAsset<StorageCropElementUI> elementPrefab = null;

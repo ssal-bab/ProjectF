@@ -7,16 +7,16 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    using ENestInfoUIType = NestInfoPanel.ENestInfoUIType;
+    using ENestInfoUIType = NestInfoPanelUI.ENestInfoUIType;
 
     public class NestDefaultInfoUI : NestInfoUI
     {
         [SerializeField] Image nestIconImage = null;
         [SerializeField] TMP_Text nameText = null;
 
-        private NestInfoPanel panel = null;
+        private NestInfoPanelUI panel = null;
 
-        public override void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer, NestInfoPanel panel)
+        public override void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer, NestInfoPanelUI panel)
         {
             base.Initialize();
             this.panel = panel;

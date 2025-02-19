@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ProjectF.UI.Farms
 {
-    public abstract class StorageViewPanel : MonoBehaviourUI
+    public abstract class StorageViewPanelUI : MonoBehaviourUI
     {
         [SerializeField] CanvasGroup canvasGroup = null;
 

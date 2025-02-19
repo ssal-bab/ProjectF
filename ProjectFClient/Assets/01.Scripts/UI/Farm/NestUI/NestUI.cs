@@ -6,8 +6,8 @@ namespace ProjectF.UI.Farms
 {
     public class NestUI : MonoBehaviourUI
     {
-        [SerializeField] NestInfoPanel nestInfoPanel = null;
-        [SerializeField] NestSlotListPanel nestSlotListPanel = null;
+        [SerializeField] NestInfoPanelUI nestInfoPanel = null;
+        [SerializeField] NestSlotListPanelUI nestSlotListPanel = null;
 
         private UserNestData userNestData = null;
         private NestUICallbackContainer callbackContainer = null;

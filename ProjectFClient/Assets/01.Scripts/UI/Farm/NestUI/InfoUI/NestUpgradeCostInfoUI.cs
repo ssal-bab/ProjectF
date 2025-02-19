@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    using ENestInfoUIType = NestInfoPanel.ENestInfoUIType;
+    using ENestInfoUIType = NestInfoPanelUI.ENestInfoUIType;
 
     public class NestUpgradeCostInfoUI : NestInfoUI
     {
@@ -18,10 +18,10 @@ namespace ProjectF.UI.Farms
         [SerializeField] TMP_Text skipGemText = null;
 
         private int targetID = 0;
-        private NestInfoPanel panel = null;
+        private NestInfoPanelUI panel = null;
         private NestUICallbackContainer callbackContainer = null;
 
-        public override void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer, NestInfoPanel panel)
+        public override void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer, NestInfoPanelUI panel)
         {
             base.Initialize();
             this.panel = panel;

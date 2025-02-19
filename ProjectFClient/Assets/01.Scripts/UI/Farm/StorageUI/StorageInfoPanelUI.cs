@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ProjectF.UI.Farms
 {
-    public class StorageInfoPanel : MonoBehaviourUI
+    public class StorageInfoPanelUI : MonoBehaviourUI
     {
         public enum EStorageInfoUIType
         {

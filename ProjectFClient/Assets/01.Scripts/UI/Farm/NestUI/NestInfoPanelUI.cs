@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ProjectF.UI.Farms
 {
-    public class NestInfoPanel : MonoBehaviourUI
+    public class NestInfoPanelUI : MonoBehaviourUI
     {
         public enum ENestInfoUIType
         {

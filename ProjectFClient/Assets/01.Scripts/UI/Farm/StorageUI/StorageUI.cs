@@ -12,8 +12,8 @@ namespace ProjectF.UI.Farms
             TOTAL_COUNT
         }
 
-        [SerializeField] StorageInfoPanel storageInfoPanel = null;
-        [SerializeField] StorageViewPanel[] storageViewPanels = new StorageViewPanel[(int)EStorageViewType.TOTAL_COUNT];
+        [SerializeField] StorageInfoPanelUI storageInfoPanel = null;
+        [SerializeField] StorageViewPanelUI[] storageViewPanels = new StorageViewPanelUI[(int)EStorageViewType.TOTAL_COUNT];
 
         private UserStorageData userStorageData = null;
         private StorageUICallbackContainer callbackContainer = null;
@@ -69,7 +69,7 @@ namespace ProjectF.UI.Farms
             int totalCount = (int)EStorageViewType.TOTAL_COUNT;
             for(int i = 0; i < totalCount; ++i)
             {
-                StorageViewPanel ui = storageViewPanels[i];
+                StorageViewPanelUI ui = storageViewPanels[i];
                 if(i == targetIndex)
                 {
                     ui.Initialize(userStorageData, callbackContainer);

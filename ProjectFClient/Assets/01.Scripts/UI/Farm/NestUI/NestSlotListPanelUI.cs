@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class NestSlotListPanel : MonoBehaviourUI
+    public class NestSlotListPanelUI : MonoBehaviourUI
     {
         [SerializeField] AddressableAsset<NestDetailInfoPopupUI> detailInfoPopupUIPrefab = null;
 

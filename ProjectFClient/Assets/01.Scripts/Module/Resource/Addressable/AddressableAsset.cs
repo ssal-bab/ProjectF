@@ -30,8 +30,8 @@ namespace H00N.Resources
             }
 
             Object resource = ResourceManager.LoadResource<Object>(key);
-            if(resource is GameObject && typeof(T) != typeof(GameObject))
-                asset = resource.GetComponent<T>();
+            if(resource is GameObject gameObject && typeof(T) != typeof(GameObject))
+                asset = gameObject.GetComponent<T>();
             else
                 asset = resource as T;
         }
@@ -45,8 +45,8 @@ namespace H00N.Resources
             }
 
             Object resource = await ResourceManager.LoadResourceAsync<T>(key);
-            if (resource is GameObject && typeof(T) != typeof(GameObject))
-                asset = resource.GetComponent<T>();
+            if (resource is GameObject gameObject && typeof(T) != typeof(GameObject))
+                asset = gameObject.GetComponent<T>();
             else
                 asset = resource as T;
         }

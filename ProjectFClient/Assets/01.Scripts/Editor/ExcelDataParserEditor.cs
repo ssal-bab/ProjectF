@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+#nullable enable
+
 public class ExcelDataParserEditor : EditorWindow
 {
     private string inputFilePath = "";
@@ -88,6 +90,12 @@ public class ExcelDataParserEditor : EditorWindow
         if (inputFilePath == inputParentFilePath)
         {
             Debug.LogError("Parent Excel File and Selected Excel File are the same.");
+            return;
+        }
+
+        if(File.Exists(inputFilePath))
+        {
+            Debug.LogError("A file with the same name already exists in the directory path you entered.");
             return;
         }
 

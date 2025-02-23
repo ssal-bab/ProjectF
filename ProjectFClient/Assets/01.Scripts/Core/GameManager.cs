@@ -39,7 +39,12 @@ namespace ProjectF
 
         public void OnLoginGameServer()
         {
-            QuestManager.Initialize();
+            new QuestManager().Initialize();
+        }
+
+        void Update()
+        {
+            QuestManager.Instance?.Update();
         }
 
         private void OnApplicationQuit()
@@ -47,10 +52,10 @@ namespace ProjectF
             DataTableManager.Release();
             PoolManager.Release();
             ResourceManager.Release();
-            QuestManager.Release();
 
             // FarmManager.Instance.Release();
             NetworkManager.Instance.Release();
+            QuestManager.Instance.Release();
         }
     }
 }

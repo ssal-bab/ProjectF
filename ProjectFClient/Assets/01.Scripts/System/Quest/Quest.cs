@@ -13,19 +13,26 @@ namespace ProjectF.Quests
         private bool canClear = false;
         public bool CanClear => canClear;
 
+        protected abstract bool CheckQuestClear();
+        protected abstract void MakeReward();
+
         public virtual void OnMakeQuest() 
         {
             UpdateQuest();
         }
 
-        protected abstract bool CheckQuestClear();
-        protected abstract void MakeReward();
+        //매 프레임 실행되는 업데이트
+        public virtual void Update() {}
 
+        //퀘스트 정보 갱신으로 사용하는 업데이트
         protected virtual void UpdateQuest()
         {
             if(CheckQuestClear())
             {
                 canClear = true;
+
+                //테스트
+                QuestManager.Instance.ClearQuest(this);
             }
         }
 

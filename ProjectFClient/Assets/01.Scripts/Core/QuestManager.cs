@@ -2,23 +2,25 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using ProjectF.Datas;
-using ProjectF.Quests;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.LowLevel;
 
-namespace ProjectF
+namespace ProjectF.Quests
 {
-    public static class QuestManager
+    public class QuestManager
     {
-        public static event Action<Quest> OnMakeQuest;
-        public static event Action<Quest> OnClearQuest;
+        public event Action<Quest> OnMakeQuest;
+        public event Action<Quest> OnClearQuest;
 
-        private static List<Quest> quests;
-        public static List<Quest> Quests => quests;
+        private List<Quest> quests;
+        public List<Quest> Quests => quests;
 
-        public static void Initialize()
+        private static QuestManager instance = null;
+        public static QuestManager Instance => instance;
+
+        public void Initialize()
         {
+            instance = this;
+
             quests = new();
             OnMakeQuest = null;
             OnClearQuest = null;
@@ -30,34 +32,44 @@ namespace ProjectF
                 {
                     foreach(var value in pair.Value)
                     {
-                        QuestManager.quests.Add(Convert.ChangeType(JsonConvert.DeserializeObject(value), pair.Key) as Quest);
+                        quests.Add(Convert.ChangeType(JsonConvert.DeserializeObject(value), pair.Key) as Quest);
                     }
                 }
+            }
 
-                // foreach(var quest in quests)
-                // {
-                //     Debug.Log(quest);
-                // }
+            MakeQuest(new PlayTimeQuest(10.0f));
+        }
+
+        public void Update()
+        {
+            for(int i = quests.Count - 1; i >= 0; i--)
+            {
+                quests[i].Update();
             }
         }
 
-        public static void Release()
+        public void Release()
         {
+            //데이터 저장
+
             quests?.Clear();
             quests = null;
             OnMakeQuest = null;
             OnClearQuest = null;
+
+            instance = null;
         }
 
-        public static void MakeQuest(Quest newQuest)
+        public void MakeQuest(Quest newQuest)
         {
             quests.Add(newQuest);
             newQuest.OnMakeQuest();
             OnMakeQuest?.Invoke(newQuest);
-            Debug.Log(newQuest);
+
+            Debug.Log($"Make Quest : {newQuest}");
         }
 
-        public static void ClearQuest(Quest clearedQuest)
+        public void ClearQuest(Quest clearedQuest)
         {
             if(!quests.Contains(clearedQuest))
                 return;
@@ -67,6 +79,8 @@ namespace ProjectF
             clearedQuest.OnClearQuest();
             quests.Remove(clearedQuest);
             OnClearQuest?.Invoke(clearedQuest);   
+
+            Debug.Log($"Clear Quest : {clearedQuest}");
         }
     }
 }

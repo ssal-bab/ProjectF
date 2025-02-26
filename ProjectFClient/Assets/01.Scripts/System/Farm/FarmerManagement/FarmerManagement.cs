@@ -64,7 +64,7 @@ namespace ProjectF.Farms
             }
         }
 
-        public int FarmerSell(Farmer farmer, ERariry rarity, int farmingLevel, int adventureLevel)
+        public int FarmerSell(Farmer farmer, ERarity rarity, int farmingLevel, int adventureLevel)
         {
             float farmingMultiplier = farmingLevel * DataDefine.FARMING_LEVEL_SALES_MULTIPLIER;
             float adventureMultiplier = adventureLevel * DataDefine.ADVENTURE_LEVEL_SALES_MULTIPLIER;

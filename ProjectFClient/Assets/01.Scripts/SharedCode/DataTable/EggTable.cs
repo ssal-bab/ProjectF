@@ -7,7 +7,7 @@ namespace ProjectF.DataTables
     [Serializable]
     public partial class EggTableRow : DataTableRow
     {
-        public ERariry rarity;
+        public ERarity rarity;
         public float hatchingTime;
     }
 

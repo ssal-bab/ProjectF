@@ -7,7 +7,7 @@ namespace ProjectF.DataTables
     [Serializable]
     public partial class FarmerTableRow : DataTableRow
     {
-        public ERariry rarity;
+        public ERarity rarity;
         public string nameLocalKey;
     }
 

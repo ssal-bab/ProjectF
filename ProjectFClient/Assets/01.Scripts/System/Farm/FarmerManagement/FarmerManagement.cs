@@ -74,7 +74,7 @@ namespace ProjectF.Farms
         {
             int farmerID = GameInstance.MainUser.farmerData.farmerList[farmerUUID].farmerID;
             FarmerSO farmerSO = await ResourceManager.LoadResourceAsync<FarmerSO>($"Farmer_{farmerID}");
-            ERariry rarity = farmerSO.TableRow.rarity;
+            ERarity rarity = farmerSO.TableRow.rarity;
 
             float farmingMultiplier = farmingLevel * DataDefine.FARMING_LEVEL_SALES_MULTIPLIER;
             float adventureMultiplier = adventureLevel * DataDefine.ADVENTURE_LEVEL_SALES_MULTIPLIER;

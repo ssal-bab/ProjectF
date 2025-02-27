@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using H00N.Stats;
 using System;
 using ProjectF.Datas;
+using System.Threading.Tasks;
 
 namespace ProjectF.Farms
 {
@@ -11,37 +12,42 @@ namespace ProjectF.Farms
     {
         private Dictionary<int, FarmerIncreaseStatSO> increaseStatDataDictionary = new();
         
-        public async void InitializeFarmerIncreaseStatAsync(int id)
+        public async void InitializeFarmerIncreaseStatAsync()
         {
-            if(!increaseStatDataDictionary.ContainsKey(id))
+            foreach(var farmerData in GameInstance.MainUser.farmerData.farmerList.Values)
             {
-                var incData = await ResourceManager.LoadResourceAsync<FarmerIncreaseStatSO>($"FarmerIncreaseStat_{id}");
-                increaseStatDataDictionary.Add(id, incData);
-                return;
-            }
+                int farmerID = farmerData.farmerID;
 
-            Debug.LogWarning($"Warning:{id} has already registered");
+                if(!increaseStatDataDictionary.ContainsKey(farmerID))
+                {
+                    var incData = await ResourceManager.LoadResourceAsync<FarmerIncreaseStatSO>($"FarmerIncreaseStat_{farmerID}");
+                    increaseStatDataDictionary.Add(farmerID, incData);
+                    continue;
+                }
+
+                Debug.LogWarning($"Warning:{farmerID} has already registered");
+            }
         }
-        public void ChangeFarmingLevel(Farmer farmer, int id, int targetLevel, int currentLevel)
+        public void ChangeFarmingLevel(Farmer farmer, int farmerID, int targetLevel, int currentLevel)
         {
-            CalculateLevelDifference(farmer, id, targetLevel, currentLevel, (delta, theta) =>
+            CalculateLevelDifference(targetLevel, currentLevel, (delta, theta) =>
             {
-                FarmerStatAdjustmentModifier(farmer.Stat, id, delta, theta, 
+                FarmerStatAdjustmentModifier(farmer.Stat, farmerID, delta, theta, 
                                              EFarmerStatType.MoveSpeed, 
                                              EFarmerStatType.Health, 
                                              EFarmerStatType.FarmingSkill);
             });
         }
 
-        public void ChangeAdventureLevel(Farmer farmer, int id, int targetLevel, int currentLevel)
+        public void ChangeAdventureLevel(Farmer farmer, int farmerID, int targetLevel, int currentLevel)
         {
-            CalculateLevelDifference(farmer, id, targetLevel, currentLevel, (delta, theta) =>
+            CalculateLevelDifference(targetLevel, currentLevel, (delta, theta) =>
             {
-                FarmerStatAdjustmentModifier(farmer.Stat, id, delta, theta, EFarmerStatType.AdventureSkill);
+                FarmerStatAdjustmentModifier(farmer.Stat, farmerID, delta, theta, EFarmerStatType.AdventureSkill);
             });
         }
 
-        private void CalculateLevelDifference(Farmer farmer, int id, int targetLevel, int currentLevel, Action<int, int> applyStats)
+        private void CalculateLevelDifference(int targetLevel, int currentLevel, Action<int, int> applyStats)
         {
             int delta = targetLevel - currentLevel;
             if (delta == 0) return;
@@ -50,9 +56,9 @@ namespace ProjectF.Farms
             applyStats?.Invoke(delta, theta);
         }
 
-        private void FarmerStatAdjustmentModifier(FarmerStat stat, int id, int delta, int theta, params EFarmerStatType[] statTypes)
+        private void FarmerStatAdjustmentModifier(FarmerStat stat, int farmerID, int delta, int theta, params EFarmerStatType[] statTypes)
         {
-            var incData = increaseStatDataDictionary[id];
+            var incData = increaseStatDataDictionary[farmerID];
 
             Action<EFarmerStatType> modifyStat = delta > 0 ? 
             (t => stat.AddModifier(t, EStatModifierType.Addend, incData[t] * theta)) : 
@@ -64,11 +70,17 @@ namespace ProjectF.Farms
             }
         }
 
-        public int FarmerSell(Farmer farmer, ERarity rarity, int farmingLevel, int adventureLevel)
+        public async Task<int> FarmerSell(string farmerUUID, int farmingLevel, int adventureLevel)
         {
+            int farmerID = GameInstance.MainUser.farmerData.farmerList[farmerUUID].farmerID;
+            FarmerSO farmerSO = await ResourceManager.LoadResourceAsync<FarmerSO>($"Farmer_{farmerID}");
+            ERariry rarity = farmerSO.TableRow.rarity;
+
             float farmingMultiplier = farmingLevel * DataDefine.FARMING_LEVEL_SALES_MULTIPLIER;
             float adventureMultiplier = adventureLevel * DataDefine.ADVENTURE_LEVEL_SALES_MULTIPLIER;
             float gradeMultiplier = (int)rarity * DataDefine.FARMER_GRADE_SALES_MULTIPLIER;
+
+            GameInstance.MainUser.farmerData.farmerList.Remove(farmerUUID);
 
             return Mathf.FloorToInt(farmingMultiplier + adventureMultiplier + gradeMultiplier);
         }

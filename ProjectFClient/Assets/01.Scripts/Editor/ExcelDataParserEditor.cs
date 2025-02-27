@@ -13,7 +13,6 @@ public class ExcelDataParserEditor : EditorWindow
 {
     private string inputFolderPath = "";
     private List<string> outputFolders = new();
-    private Dictionary<string, List<List<string>>> excelCache = new();
 
     [MenuItem("Tools/Excel Data Parser")]
     public static void ShowWindow()

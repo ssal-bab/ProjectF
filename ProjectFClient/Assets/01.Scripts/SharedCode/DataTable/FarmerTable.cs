@@ -1,11 +1,13 @@
 using System;
 using H00N.DataTables;
+using ProjectF.Datas;
 
 namespace ProjectF.DataTables
 {
     [Serializable]
     public partial class FarmerTableRow : DataTableRow
     {
+        public ERarity rarity;
         public string nameLocalKey;
     }
 

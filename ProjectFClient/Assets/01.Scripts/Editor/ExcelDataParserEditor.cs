@@ -1,17 +1,17 @@
+using System;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using ClosedXML.Excel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEditor;
+using UnityEngine;
+using ClosedXML.Excel;
 
 #nullable enable
 
 public class ExcelDataParserEditor : EditorWindow
 {
-    private string inputFilePath = "";
-    private string inputParentFilePath = "";
+    private string inputFolderPath = "";
     private List<string> outputFolders = new();
 
     [MenuItem("Tools/Excel Data Parser")]
@@ -22,16 +22,14 @@ public class ExcelDataParserEditor : EditorWindow
 
     private void OnEnable()
     {
-        inputFilePath = EditorPrefs.GetString("ExcelDataParser/InputFilePath", "");
-        inputParentFilePath = EditorPrefs.GetString("ExcelDataParser/InputParentFilePath", "");
+        inputFolderPath = EditorPrefs.GetString("ExcelDataParser/InputFolderPath", "");
         outputFolders = EditorPrefs.GetString("ExcelDataParser/OutputFolders", "")
-                        .Split(';', System.StringSplitOptions.RemoveEmptyEntries).ToList();
+                        .Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
     private void OnGUI()
     {
-        DrawFileSelection("Selected Excel File:", ref inputFilePath, "ExcelDataParser/InputFilePath");
-        DrawFileSelection("Selected Parent Excel File:", ref inputParentFilePath, "ExcelDataParser/InputParentFilePath", true);
+        DrawFileSelection("Selected Excel Folder:", ref inputFolderPath, "ExcelDataParser/InputFolderPath");
 
         GUILayout.Label("Output Folders:", EditorStyles.boldLabel);
         for (int i = outputFolders.Count - 1; i >= 0; i--)
@@ -58,26 +56,21 @@ public class ExcelDataParserEditor : EditorWindow
 
         if (GUILayout.Button("Parse To CS"))
         {
-            if (!string.IsNullOrEmpty(inputFilePath) && outputFolders.Count > 0)
+            if (!string.IsNullOrEmpty(inputFolderPath) && outputFolders.Count > 0)
                 ParseToCS();
             else
-                Debug.LogWarning("Please select an Excel file and output folder.");
+                Debug.LogWarning("Please select an Excel folder and output folder.");
         }
     }
 
-    private void DrawFileSelection(string label, ref string path, string prefsKey, bool allowClear = false)
+    private void DrawFileSelection(string label, ref string path, string prefsKey)
     {
         GUILayout.Label(label, EditorStyles.boldLabel);
         GUILayout.BeginHorizontal();
         GUILayout.Label(path);
-        if (allowClear && GUILayout.Button("Clear", GUILayout.Width(70)))
-        {
-            path = "";
-            EditorPrefs.SetString(prefsKey, path);
-        }
         if (GUILayout.Button("Select", GUILayout.Width(150)))
         {
-            path = EditorUtility.OpenFilePanel("Select File", "", "xlsx");
+            path = EditorUtility.OpenFolderPanel("Select Folder", "", "");
             EditorPrefs.SetString(prefsKey, path);
         }
         GUILayout.EndHorizontal();
@@ -87,84 +80,96 @@ public class ExcelDataParserEditor : EditorWindow
 
     private void ParseToCS()
     {
-        if (inputFilePath == inputParentFilePath)
+        if (!Directory.Exists(inputFolderPath))
         {
-            Debug.LogError("Parent Excel File and Selected Excel File are the same.");
+            Debug.LogError($"Folder not found: {inputFolderPath}");
             return;
         }
 
-        if(File.Exists(inputFilePath))
+        string[] excelFiles = Directory.GetFiles(inputFolderPath, "*.xlsx");
+        Dictionary<string, Dictionary<string, string>> visited = new();
+
+        foreach (string filePath in excelFiles)
         {
-            Debug.LogError("A file with the same name already exists in the directory path you entered.");
-            return;
+            ProcessExcelFile(filePath, visited);
+        }
+    }
+
+    // 해결책 : 뽑은 컬럼즈를 딕셔너리에 저장
+    private void ProcessExcelFile(string filePath, Dictionary<string, Dictionary<string, string>> visited)
+    {
+        string fileName = Path.GetFileNameWithoutExtension(filePath);
+
+        if (visited.ContainsKey(fileName)) return; // Cycle prevention
+
+        string parentClassName = "";
+        List<string> attributes = new();
+
+        var columns = ReadExcelColumns(filePath);
+
+        if (columns.Count > 0)
+        {
+            string header = ReadExcelHeader(filePath);
+
+            if (header != string.Empty)
+            {
+                string[] metaInfo = header.Split(';');
+                foreach (string info in metaInfo)
+                {
+                    Debug.Log(info);
+
+                    if (info.StartsWith("TableRowBase="))
+                    {
+                        parentClassName = info.Split('=')[1];
+                    }
+                    else if (info.StartsWith("Attribute="))
+                    {
+                        attributes.Add(info.Split('=')[1]);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("No data found in Excel file: " + filePath);
         }
 
-        Dictionary<string, string>? parentFieldNames = !string.IsNullOrEmpty(inputParentFilePath)
-            ? ReadExcelColumns(inputParentFilePath).ToDictionary(col => col[0], col => col[1])
-            : null;
+        if(parentClassName != string.Empty && !visited.ContainsKey(parentClassName))
+        {
+            string parentFilePath = Directory.GetFiles(inputFolderPath, parentClassName + ".xlsx").FirstOrDefault();
+            ProcessExcelFile(parentFilePath, visited);
+        }
+        
+        visited.Add(fileName, new());
 
-        var columns = ReadExcelColumns(inputFilePath);
-        string className = Path.GetFileNameWithoutExtension(inputFilePath);
-        string code = GenerateCSharpCode(className, columns, parentFieldNames);
+        foreach(var col in columns)
+        {
+            if(!IsSuitableField(col[0])) continue;
+
+            visited[fileName].Add(col[0], col[1]);
+        }
+
+        Dictionary <string, string>? parentFieldNames = visited.ContainsKey(parentClassName) ? visited[parentClassName] : null;
+        string code = GenerateCSharpCode(fileName, parentClassName, columns, parentFieldNames, attributes);
 
         foreach (string path in outputFolders)
         {
-            SaveToFile(path, className, code);
+            SaveToFile(path, fileName, code);
         }
     }
 
-    private void SaveToFile(string outputPath, string className, string content)
+    private string ReadExcelHeader(string path)
     {
-        Directory.CreateDirectory(outputPath);
-        string filePath = Path.Combine(outputPath, $"{className}.cs");
-        File.WriteAllText(filePath, content);
-        Debug.Log($"C# file created: {filePath}");
-    }
-
-    private string GenerateCSharpCode(string className, List<List<string>> columns, Dictionary<string, string>? parentFieldNames)
-    {
-        if (columns.Count == 0) return "// No Excel data found";
-
-        var sb = new StringBuilder();
-        sb.AppendLine("using H00N.DataTables;");
-        sb.AppendLine("using ProjectF.Datas;");
-        sb.AppendLine("\nnamespace ProjectF.DataTables");
-        sb.AppendLine("{");
-        
-        if (parentFieldNames == null)
-            WriteFields(sb, className, columns);
-        else
-            WriteFieldsWithParent(sb, className, columns, parentFieldNames);
-
-        sb.AppendLine("}");
-        return sb.ToString();
-    }
-
-    private void WriteFields(StringBuilder sb, string className, List<List<string>> columns)
-    {
-        sb.AppendLine($"    public partial class {className}Row : DataTableRow");
-        sb.AppendLine("    {");
-        foreach (var column in columns)
+        if (!File.Exists(path))
         {
-            if (!string.IsNullOrEmpty(column[0]) && !column[0].StartsWith("//") && column[0] != "id")
-                sb.AppendLine($"        public {column[1]} {column[0]};");
+            Debug.LogError($"File not found: {path}");
+            return string.Empty;
         }
-        sb.AppendLine("    }");
-        sb.AppendLine($"    public partial class {className} : DataTable<{className}Row> {{ }}");
-    }
 
-    private void WriteFieldsWithParent(StringBuilder sb, string className, List<List<string>> columns, Dictionary<string, string> parentFieldNames)
-    {
-        string parentClassName = Path.GetFileNameWithoutExtension(inputParentFilePath);
-        sb.AppendLine($"    public partial class {className}Row : {parentClassName}Row");
-        sb.AppendLine("    {");
-        foreach (var column in columns)
-        {
-            if (!string.IsNullOrEmpty(column[0]) && !column[0].StartsWith("//") && column[0] != "id" && !parentFieldNames.ContainsKey(column[0]))
-                sb.AppendLine($"        public {column[1]} {column[0]};");
-        }
-        sb.AppendLine("    }");
-        sb.AppendLine($"    public partial class {className} : {parentClassName} {{ }}");
+        using var workbook = new XLWorkbook(path);
+        var worksheet = workbook.Worksheet(1);
+
+        return worksheet.Cell(1, 1).GetString().Trim();
     }
 
     private List<List<string>> ReadExcelColumns(string path)
@@ -182,4 +187,81 @@ public class ExcelDataParserEditor : EditorWindow
                .Where(colData => colData.Count == 2 && !string.IsNullOrEmpty(colData[0]))
                .ToList();
     }
+
+
+    private void SaveToFile(string outputPath, string className, string content)
+    {
+        Directory.CreateDirectory(outputPath);
+        string filePath = Path.Combine(outputPath, $"{className}.cs");
+        File.WriteAllText(filePath, content);
+        //Debug.Log($"C# file created: {filePath}");
+    }
+
+    private string GenerateCSharpCode(string className, string parentClassName, List<List<string>> columns, Dictionary<string, string>? parentFieldNames, List<string> attributes)
+    {
+        if (columns.Count == 0) return "// No Excel data found";
+
+        var sb = new StringBuilder();
+        sb.AppendLine("using H00N.DataTables;");
+        sb.AppendLine("using ProjectF.Datas;");
+        sb.AppendLine("");
+        sb.AppendLine($"namespace ProjectF.DataTables");
+        sb.AppendLine("{");
+
+        foreach (string attribute in attributes)
+        {
+            sb.AppendLine("    [" + attribute + "]");
+        }
+
+        if (parentClassName == string.Empty)
+        {
+            WriteFields(sb, className, columns);
+        }
+        else
+        {
+            if(parentFieldNames == null)
+            {
+                Debug.LogError("Crazy Error");
+                return "// Parent class not found";
+            }
+
+            WriteFieldsWithParent(sb, className, parentClassName, columns, parentFieldNames);
+        }
+            
+        return sb.ToString();
+    }
+
+    private void WriteFields(StringBuilder sb, string className, List<List<string>> columns)
+    {
+        sb.AppendLine($"    public partial class {className}Row : DataTableRow");
+        sb.AppendLine("    {");
+        foreach (var column in columns)
+        {
+            if (IsSuitableField(column[0]))
+                sb.AppendLine($"        public {column[1]} {column[0]};");
+        }
+        sb.AppendLine("    }");
+        sb.AppendLine("");
+        sb.AppendLine($"    public partial class {className} : DataTable<{className}Row> {{ }}");
+        sb.AppendLine("}");
+        
+    }
+
+    private void WriteFieldsWithParent(StringBuilder sb, string className, string parentClassName, List<List<string>> columns, Dictionary<string, string> parentFieldNames)
+    {
+        sb.AppendLine($"    public partial class {className}Row : {parentClassName}Row");
+        sb.AppendLine("    {");
+        foreach (var column in columns)
+        {
+            if(IsSuitableField(column[0]) && !parentFieldNames.ContainsKey(column[0]))
+                sb.AppendLine($"        public {column[1]} {column[0]};");
+        }
+        sb.AppendLine("    }");
+        sb.AppendLine("");
+        sb.AppendLine($"    public partial class {className} : {parentClassName} {{ }}");
+        sb.AppendLine("}");
+    }
+
+    private bool IsSuitableField(string field) => 
+    !string.IsNullOrEmpty(field) && !field.StartsWith("//") && field != "id";
 }

@@ -1,6 +1,6 @@
 namespace ProjectF.Datas
 {
-    public enum ERariry
+    public enum ERarity
     {
         None,
         Common,

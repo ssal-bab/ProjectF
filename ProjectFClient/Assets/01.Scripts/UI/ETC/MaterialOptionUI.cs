@@ -1,0 +1,47 @@
+using H00N.Extensions;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace ProjectF.UI
+{
+    public class MaterialOptionUI : MonoBehaviourUI
+    {
+        private const float UPDATE_DELAY = 1f;
+
+        [SerializeField] Image iconImage = null;
+        [SerializeField] TMP_Text countText = null;
+        [SerializeField] GameObject checkObject = null;
+        private int materialID = 0;
+        private int targetCount = 0;
+
+        public void Initialize(int materialID, int targetCount)
+        {
+            base.Initialize();
+
+            this.materialID = materialID;
+            this.targetCount = targetCount;
+            iconImage.sprite = ResourceUtility.GetItemIcon(materialID);
+
+            StartCoroutine(this.LoopRoutine(UPDATE_DELAY, RefreshUI, 0f));
+        }
+
+        public new void Release()
+        {
+            base.Release();
+            StopAllCoroutines();
+        }
+
+        private void RefreshUI()
+        {
+            if(GameInstance.MainUser.storageData.materialStorage.TryGetValue(materialID, out int count) == false)
+                return;
+
+            bool optionChecked = count >= targetCount;
+            if(checkObject.activeSelf != optionChecked)
+                checkObject.SetActive(optionChecked);
+
+            countText.text = $"<Color={GameDefine.DefaultColorOption[optionChecked]}>{count}</Color>/{targetCount}";
+        }
+    }
+}

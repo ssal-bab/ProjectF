@@ -85,11 +85,11 @@ namespace H00N.Resources.Pools
             return instance;
         }
 
-        public static void Despawn(PoolReference instance)
-            => DespawnInternal(instance, false).GetAwaiter().GetResult();
+        public static void Despawn(IPoolableBehaviour instance) => Despawn(instance.PoolReference);
+        public static void Despawn(PoolReference instance) => DespawnInternal(instance, false).GetAwaiter().GetResult();
 
-        public static async UniTask DespawnAsync(PoolReference instance)
-            => await DespawnInternal(instance, true);
+        public static UniTask DespawnAsync(IPoolableBehaviour instance) => DespawnAsync(instance);
+        public static async UniTask DespawnAsync(PoolReference instance) => await DespawnInternal(instance, true);
 
         private static async UniTask DespawnInternal(PoolReference instance, bool isAsync)
         {

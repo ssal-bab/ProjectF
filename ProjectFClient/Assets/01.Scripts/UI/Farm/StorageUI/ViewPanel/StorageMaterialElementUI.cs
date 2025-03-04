@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class StorageMaterialElementUI : MonoBehaviourUI
+    public class StorageMaterialElementUI : PoolableBehaviourUI
     {
         [SerializeField] Image itemIconImage = null;
         [SerializeField] TMP_Text itemNameText = null;

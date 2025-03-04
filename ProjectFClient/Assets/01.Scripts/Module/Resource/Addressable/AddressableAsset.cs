@@ -1,5 +1,4 @@
-using System.Threading.Tasks;
-using Unity.VisualScripting;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -36,7 +35,7 @@ namespace H00N.Resources
                 asset = resource as T;
         }
 
-        public async Task InitializeAsync()
+        public async UniTask InitializeAsync()
         {
             if (string.IsNullOrEmpty(key))
             {

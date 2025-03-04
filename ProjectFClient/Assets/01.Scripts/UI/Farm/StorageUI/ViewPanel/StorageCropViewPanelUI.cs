@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using H00N.Extensions;
 using H00N.Resources;
@@ -19,54 +17,43 @@ namespace ProjectF.UI.Farms
         [SerializeField] ToggleUI orderToggleUI = null; // true => asc / false => desc
         [SerializeField] ToggleUI filterToggleUI = null; // true => all / false => own
 
-        private Dictionary<int, Dictionary<ECropGrade, int>> cropStorageData = null;
-        private Action<int> sellCropCallback = null;
-        
         protected override void Awake()
         {
             base.Awake();
             elementPrefab.Initialize();
         }
 
-        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer)
+        public override void Initialize()
         {
-            base.Initialize(userStorageData, callbackContainer);
+            base.Initialize();
 
             // 토글 초기화
             orderToggleUI.SetToggle(true);
             filterToggleUI.SetToggle(true);
 
-            if(userStorageData == null)
-            {
-                scrollView.content.DespawnAllChildren();
-                return;
-            }
-            
-            cropStorageData = userStorageData.cropStorage;
-            sellCropCallback = callbackContainer.SellCropCallback;
-            RefreshUIAsync(cropStorageData, sellCropCallback);
+            RefreshUIAsync();
         }
 
         public void RefreshSelf()
         {
-            RefreshUIAsync(cropStorageData, sellCropCallback);
+            RefreshUIAsync();
         }
 
-        private async void RefreshUIAsync(Dictionary<int, Dictionary<ECropGrade, int>> storageData, Action<int> sellCropCallback)
+        private async void RefreshUIAsync()
         {
             scrollView.gameObject.SetActive(false);
             scrollView.content.DespawnAllChildren();
-            foreach(var category in storageData)
+            foreach(var category in GameInstance.MainUser.storageData.cropStorage)
             {
                 foreach(var item in category.Value)
-                    await AddToContainerAsync(category.Key, item.Key, item.Value, sellCropCallback);
+                    await AddToContainerAsync(category.Key, item.Key, item.Value);
             }
 
             scrollView.verticalNormalizedPosition = 1;
             scrollView.gameObject.SetActive(true);
         }
 
-        private async UniTask AddToContainerAsync(int id, ECropGrade grade, int count, Action<int> sellCropCallback)
+        private async UniTask AddToContainerAsync(int id, ECropGrade grade, int count)
         {
             if (filterToggleUI.ToggleValue == false && count <= 0)
                 return;
@@ -76,7 +63,7 @@ namespace ProjectF.UI.Farms
             if (orderToggleUI.ToggleValue == false)
                 ui.transform.SetAsFirstSibling();
 
-            ui.Initialize(id, grade, count, sellCropCallback);
+            ui.Initialize(id, grade, count);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using H00N.DataTables;
 using ProjectF.Datas;
 using ProjectF.DataTables;
@@ -8,7 +7,7 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class StorageCropElementUI : MonoBehaviourUI
+    public class StorageCropElementUI : PoolableBehaviourUI
     {
         [SerializeField] Image itemIconImage = null;
         [SerializeField] Image gradeIconImage = null;
@@ -16,12 +15,10 @@ namespace ProjectF.UI.Farms
         [SerializeField] TMP_Text priceText = null;
 
         private int id = 0;
-        private Action<int> sellCropCallback = null;
 
-        public void Initialize(int id, ECropGrade grade, int count, Action<int> sellCropCallback)
+        public void Initialize(int id, ECropGrade grade, int count)
         {
             this.id = id;
-            this.sellCropCallback = sellCropCallback;
 
             ItemTableRow itemTableRow = DataTableManager.GetTable<ItemTable>().GetRow(id);
             if(itemTableRow == null)
@@ -46,7 +43,6 @@ namespace ProjectF.UI.Farms
             gradeIconImage.color = new Color(0, 0, 0, 0);
             itemCountText.text = "";
             priceText.text = "";
-            sellCropCallback = null;
         }
 
         private void RefreshUI(ItemTableRow itemTableRow, CropTableRow cropTableRow, ECropGrade grade, int count)
@@ -59,7 +55,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchSellButton()
         {
-            sellCropCallback?.Invoke(id);
+            Debug.Log("[StorageCropElementUI::OnTouchSellButton] Sell Crop");
         }
     }
 }

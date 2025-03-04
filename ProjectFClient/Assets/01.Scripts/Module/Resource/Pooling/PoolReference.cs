@@ -5,15 +5,15 @@ namespace H00N.Resources.Pools
 {
     public class PoolReference : MonoBehaviour
     {
-        private List<PoolableBehaviour> poolableBehaviours = null;
+        private List<IPoolableBehaviour> poolableBehaviours = null;
         
         private ResourceHandle handle = null;
         internal ResourceHandle Handle => handle;
         
         protected virtual void Awake()
         {
-            poolableBehaviours = new List<PoolableBehaviour>();
-            GetComponents<PoolableBehaviour>(poolableBehaviours);
+            poolableBehaviours = new List<IPoolableBehaviour>();
+            GetComponents<IPoolableBehaviour>(poolableBehaviours);
         }
 
         internal void InitializeResource(ResourceHandle handle)

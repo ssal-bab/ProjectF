@@ -1,9 +1,10 @@
-using ProjectF.Datas;
+using H00N.Extensions;
+using H00N.Resources.Pools;
 using UnityEngine;
 
 namespace ProjectF.UI.Farms
 {
-    public class StorageUI : MonoBehaviourUI
+    public class StorageUI : PoolableBehaviourUI
     {
         private enum EStorageViewType
         {
@@ -15,42 +16,12 @@ namespace ProjectF.UI.Farms
         [SerializeField] StorageInfoPanelUI storageInfoPanel = null;
         [SerializeField] StorageViewPanelUI[] storageViewPanels = new StorageViewPanelUI[(int)EStorageViewType.TOTAL_COUNT];
 
-        private UserStorageData userStorageData = null;
-        private StorageUICallbackContainer callbackContainer = null;
-
-        #region Debug
-        private void Start()
-        {
-            StorageUICallbackContainer hi = null;
-            hi = new StorageUICallbackContainer(
-                id => Debug.Log($"Sell Crop!! id : {id}"),
-                id => true,
-                id => true,
-                id => true,
-                id => {
-                    Debug.Log($"Upgrade Storage!! id : {id}");
-                    Initialize(GameInstance.MainUser.storageData, hi);
-                }
-            );
-            
-            Initialize(GameInstance.MainUser.storageData, hi);
-        }
-        #endregion
-
-        public void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer)
+        public new void Initialize()
         {
             base.Initialize();
-            this.userStorageData = userStorageData;
-            this.callbackContainer = callbackContainer;
 
-            storageInfoPanel.Initialize(this.userStorageData, this.callbackContainer);
+            storageInfoPanel.Initialize();
             SetView(EStorageViewType.Crop);
-        }
-
-        protected override void Release()
-        {
-            base.Release();
-            userStorageData = null;
         }
 
         public void OnTouchCropViewButton()
@@ -63,6 +34,14 @@ namespace ProjectF.UI.Farms
             SetView(EStorageViewType.Material);
         }
 
+        public void OnTouchCloseButton()
+        {
+            base.Release();
+            storageInfoPanel.Release();
+            storageViewPanels.ForEach(i => Release());
+            PoolManager.DespawnAsync(this);
+        }
+
         private void SetView(EStorageViewType viewType)
         {
             int targetIndex = (int)viewType;
@@ -72,7 +51,7 @@ namespace ProjectF.UI.Farms
                 StorageViewPanelUI ui = storageViewPanels[i];
                 if(i == targetIndex)
                 {
-                    ui.Initialize(userStorageData, callbackContainer);
+                    ui.Initialize();
                     ui.Show();
                 }
                 else

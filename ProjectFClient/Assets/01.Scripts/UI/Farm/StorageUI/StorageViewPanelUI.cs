@@ -1,4 +1,3 @@
-using ProjectF.Datas;
 using UnityEngine;
 
 namespace ProjectF.UI.Farms
@@ -7,7 +6,8 @@ namespace ProjectF.UI.Farms
     {
         [SerializeField] CanvasGroup canvasGroup = null;
 
-        public virtual void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer) { }
+        public virtual new void Initialize() { }
+        public virtual new void Release() { }
 
         public void Show()
         {

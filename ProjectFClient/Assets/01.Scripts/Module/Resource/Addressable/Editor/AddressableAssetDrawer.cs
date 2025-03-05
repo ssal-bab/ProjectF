@@ -75,7 +75,10 @@ namespace H00N.Resources
             {
                 foreach (var entry in group.entries)
                 {
-                    if (entry.MainAsset == targetObject)
+                    if(entry.MainAsset == null)
+                        continue;
+                    
+                    if (entry.MainAsset.name == targetObject.name)
                     {
                         return entry.address;
                     }

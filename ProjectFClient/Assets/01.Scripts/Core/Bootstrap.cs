@@ -46,7 +46,9 @@ namespace ProjectF
         // 게임 서버 로그인
         public async UniTask LogInGameServerAsync()
         {
-            LoginRequest request = new LoginRequest(GameSetting.LastLoginUserID);
+            LoginRequest request = new LoginRequest();
+            request.userID = GameSetting.LastLoginUserID;
+
             LoginResponse response = await NetworkManager.Instance.SendWebRequestAsync<LoginResponse>(request);
             if(response.result != ENetworkResult.Success)
             {

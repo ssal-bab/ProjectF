@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProjectF.UI.Farms
 {
-    public class StorageUI : PoolableBehaviourUI
+    public class StoragePopupUI : PoolableBehaviourUI
     {
         private enum EStorageViewType
         {
@@ -24,6 +24,13 @@ namespace ProjectF.UI.Farms
             SetView(EStorageViewType.Crop);
         }
 
+        public new void Release()
+        {
+            base.Release();
+            storageInfoPanel.Release();
+            storageViewPanels.ForEach(i => Release());
+        }
+
         public void OnTouchCropViewButton()
         {
             SetView(EStorageViewType.Crop);
@@ -36,9 +43,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchCloseButton()
         {
-            base.Release();
-            storageInfoPanel.Release();
-            storageViewPanels.ForEach(i => Release());
+            Release();
             PoolManager.DespawnAsync(this);
         }
 

@@ -15,6 +15,9 @@ namespace ProjectF.UI
         private int materialID = 0;
         private int targetCount = 0;
 
+        private bool optionChecked = false;
+        public bool OptionChecked => optionChecked;
+
         public void Initialize(int materialID, int targetCount)
         {
             base.Initialize();
@@ -23,6 +26,7 @@ namespace ProjectF.UI
             this.targetCount = targetCount;
             iconImage.sprite = ResourceUtility.GetItemIcon(materialID);
 
+            optionChecked = false;
             StartCoroutine(this.LoopRoutine(UPDATE_DELAY, RefreshUI, 0f));
         }
 
@@ -37,7 +41,7 @@ namespace ProjectF.UI
             if(GameInstance.MainUser.storageData.materialStorage.TryGetValue(materialID, out int count) == false)
                 return;
 
-            bool optionChecked = count >= targetCount;
+            optionChecked = count >= targetCount;
             if(checkObject.activeSelf != optionChecked)
                 checkObject.SetActive(optionChecked);
 

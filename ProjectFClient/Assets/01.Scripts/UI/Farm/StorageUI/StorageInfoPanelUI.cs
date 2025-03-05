@@ -1,8 +1,12 @@
+using Cysharp.Threading.Tasks;
 using H00N.DataTables;
 using H00N.Extensions;
+using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
 using ProjectF.DataTables;
+using ProjectF.Networks;
+using ProjectF.Networks.Packets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,16 +21,23 @@ namespace ProjectF.UI.Farms
         [SerializeField] TMP_Text nameText = null;
         [SerializeField] TMP_Text countText = null;
         [SerializeField] RectTransform sliderFillRect = null;
+        
+        [Space(10f)]
+        [SerializeField] AddressableAsset<StorageUpgradePopupUI> upgradePopupUIPrefab = null;
+        private StorageUpgradePopupUI upgradePopupUI = null;
 
         public new void Initialize()
         {
             base.Initialize();
+
             RefreshUI();
+            upgradePopupUIPrefab.Initialize();
         }
 
         public new void Release()
         {
             base.Release();
+            upgradePopupUI = null;
             StopAllCoroutines();
         }
 
@@ -55,8 +66,25 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchUpgradeButton()
         {
-            StorageUpgradePopupUI popupUI = PoolManager.Spawn<StorageUpgradePopupUI>("StorageUpgradePopupUI", GameDefine.ContentsPopupFrame);
-            popupUI.Initialize();
+            upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            upgradePopupUI.Initialize(UpgradeStorage);
+        }
+
+        private async void UpgradeStorage()
+        {
+            StorageUpgradeResponse response = await NetworkManager.Instance.SendWebRequestAsync<StorageUpgradeResponse>(new StorageUpgradeRequest());
+            if (response.result != ENetworkResult.Success)
+                return;
+
+            UserData mainUser = GameInstance.MainUser;
+            mainUser.monetaData.gold -= response.usedGold;
+            mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
+            mainUser.storageData.level = response.currentLevel;
+
+            if(upgradePopupUI != null)
+                upgradePopupUI.OnTouchClose();
+
+            RefreshUI();
         }
     }
 }

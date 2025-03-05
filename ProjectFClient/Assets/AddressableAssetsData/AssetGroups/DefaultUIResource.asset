@@ -10,27 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: StorageUI
+  m_Name: DefaultUIResource
   m_EditorClassIdentifier: 
-  m_GroupName: StorageUI
+  m_GroupName: DefaultUIResource
   m_Data:
     m_SerializedData: []
-  m_GUID: e9f73cf89cb524db2872e4e98a93e321
+  m_GUID: 722cbbcfafd794734a01627367031034
   m_SerializeEntries:
-  - m_GUID: 22af52feb65d84d51bea465a238d3413
-    m_Address: StorageMaterialElementUI
+  - m_GUID: b4725d9a47e384aea96f0326503d4b25
+    m_Address: Btn_Green_Half
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 91bd571446e7b4b5597dd8f10a609a92
-    m_Address: StorageCropElementUI
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 15880f9675f3f4db4b1e325032578202
-    m_Address: StorageUpgradePopupUI
+  - m_GUID: de1b6d73b4dcb407a9e639c04f1cc1e5
+    m_Address: Btn_Gray_Half
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
@@ -39,5 +33,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: a33414eeb8c6a4da0a336b09af7b6e5d, type: 2}
-    - {fileID: 11400000, guid: 65888c8c32a8d4a64a1e0d6f75c65498, type: 2}
+    - {fileID: 11400000, guid: 31c201cdb571e480aa1eac0287d03667, type: 2}
+    - {fileID: 11400000, guid: 85732217198744ddb874c2410df357f1, type: 2}

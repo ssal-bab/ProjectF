@@ -1725,8 +1725,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 475444105181027180}
-        m_TargetAssemblyTypeName: StorageUpgradePopupUI, ProjectF-Assembly
-        m_MethodName: OnTouchClose
+        m_TargetAssemblyTypeName: ProjectF.UI.Farms.StorageUpgradePopupUI, ProjectF-Assembly
+        m_MethodName: OnTouchCloseButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1917,6 +1917,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6172215993602248268}
   - component: {fileID: 475444105181027180}
+  - component: {fileID: 2411450154066004731}
   m_Layer: 5
   m_Name: StorageUpgradePopupUI
   m_TagString: Untagged
@@ -1965,6 +1966,18 @@ MonoBehaviour:
   sellGoldInfoText: {fileID: 5094067431731449727}
   materialOptionUI: {fileID: 7893456617413211842}
   upgradeButtonUI: {fileID: 1171037651977816460}
+--- !u!114 &2411450154066004731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831109624951525466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59731d988eb4d4a4ea734b92a123e5c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8964256222078654264
 GameObject:
   m_ObjectHideFlags: 0

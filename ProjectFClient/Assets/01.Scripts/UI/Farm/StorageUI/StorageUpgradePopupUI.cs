@@ -35,7 +35,7 @@ namespace ProjectF.UI.Farms
             RefreshUI();
         }
 
-        protected new void Release()
+        protected override void Release()
         {
             base.Release();
             materialOptionUI.Release();
@@ -57,14 +57,15 @@ namespace ProjectF.UI.Farms
             nextLevelText.text = $"Lv. {currentLevel + 1}";
 
             // 로컬라이징 적용 해야한다.
-            capacityInfoText.text = $"적재량 {currentTableRow.storeLimit} > {nextTableRow.storeLimit}";
-            sellGoldInfoText.text = $"농작물 판매 골드 {nextTableRow.priceMultiplier - currentTableRow.priceMultiplier}% 증가";
+            
+            capacityInfoText.text = $"<b>적재량</b> <b>{currentTableRow.storeLimit}</b> <color=black>></color> <color=#{GameDefine.DefaultGoldColor}><b>{nextTableRow.storeLimit}</b></color>";
+            sellGoldInfoText.text = $"농작물 판매 골드 <color=#{GameDefine.DefaultGoldColor}>{nextTableRow.priceMultiplier - currentTableRow.priceMultiplier}%</color> 증가";
 
             materialOptionUI.Initialize(currentTableRow.costItemID, currentTableRow.costItemCount);
             upgradeButtonUI.Initialize(currentTableRow.upgradeGold);
         }
 
-        public void OnTouchClose()
+        public void OnTouchCloseButton()
         {
             Release();
             PoolManager.DespawnAsync(this);

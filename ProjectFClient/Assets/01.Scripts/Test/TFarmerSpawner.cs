@@ -1,6 +1,7 @@
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Farms;
+using ProjectF.UI.Farms;
 using UnityEngine;
 
 namespace ProjectF.Tests
@@ -18,6 +19,19 @@ namespace ProjectF.Tests
         {
             Farmer farmer = PoolManager.Spawn<Farmer>(farmerPrefab.Key);
             farmer?.InitializeAsync(0);
+        }
+
+        private void Update()
+        {
+            if(Input.GetKey(KeyCode.LeftControl) == false)
+                return;
+
+            if(Input.GetKeyDown(KeyCode.P))
+            {
+                StoragePopupUI storagePopupUI = PoolManager.Spawn<StoragePopupUI>("StoragePopupUI", GameDefine.MainPopupFrame);
+                storagePopupUI.StretchRect();
+                storagePopupUI.Initialize();
+            }
         }
     }
 }

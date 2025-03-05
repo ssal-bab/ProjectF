@@ -89,9 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d52388ddc40bd46e6b6a774067f8bc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemIconImage: {fileID: 0}
-  gradeIconImage: {fileID: 0}
-  itemCountText: {fileID: 5095050471869787265}
+  iconImage: {fileID: 6377688652493385123}
+  iconBackgroundImage: {fileID: 5389112764483030616}
+  countText: {fileID: 5095050471869787265}
   priceText: {fileID: 4249422820905047057}
 --- !u!114 &404743840077440802
 MonoBehaviour:

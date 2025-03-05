@@ -88,7 +88,7 @@ namespace H00N.Resources.Pools
         public static void Despawn(IPoolableBehaviour instance) => Despawn(instance.PoolReference);
         public static void Despawn(PoolReference instance) => DespawnInternal(instance, false).GetAwaiter().GetResult();
 
-        public static UniTask DespawnAsync(IPoolableBehaviour instance) => DespawnAsync(instance);
+        public static UniTask DespawnAsync(IPoolableBehaviour instance) => DespawnAsync(instance.PoolReference);
         public static async UniTask DespawnAsync(PoolReference instance) => await DespawnInternal(instance, true);
 
         private static async UniTask DespawnInternal(PoolReference instance, bool isAsync)

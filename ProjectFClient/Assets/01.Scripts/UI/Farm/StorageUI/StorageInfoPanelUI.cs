@@ -67,6 +67,7 @@ namespace ProjectF.UI.Farms
         public void OnTouchUpgradeButton()
         {
             upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            upgradePopupUI.StretchRect();
             upgradePopupUI.Initialize(UpgradeStorage);
         }
 
@@ -82,7 +83,7 @@ namespace ProjectF.UI.Farms
             mainUser.storageData.level = response.currentLevel;
 
             if(upgradePopupUI != null)
-                upgradePopupUI.OnTouchClose();
+                upgradePopupUI.OnTouchCloseButton();
 
             RefreshUI();
         }

@@ -83,7 +83,7 @@ namespace ProjectF.UI.Farms
                 return;
 
             NestDetailInfoPopupUI ui = await PoolManager.SpawnAsync<NestDetailInfoPopupUI>(detailInfoPopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
-            ui.StretchUI();
+            ui.StretchRect();
             ui.Initialize(userNestData, index, callbackContainer.HatchCallback);
         }
     }

@@ -24,11 +24,11 @@ namespace ProjectF.UI.Farms
             SetView(EStorageViewType.Crop);
         }
 
-        public new void Release()
+        protected override void Release()
         {
             base.Release();
             storageInfoPanel.Release();
-            storageViewPanels.ForEach(i => Release());
+            storageViewPanels.ForEach(i => i.Release());
         }
 
         public void OnTouchCropViewButton()

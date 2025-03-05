@@ -1,7 +1,9 @@
 using H00N.Resources.Pools;
+using UnityEngine;
 
 namespace ProjectF.UI
 {
+    [RequireComponent(typeof(PoolReference))]
     public class PoolableBehaviourUI : MonoBehaviourUI, IPoolableBehaviour
     {
         private PoolReference poolReference = null;

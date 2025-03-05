@@ -70,7 +70,7 @@ namespace ProjectF.Tests
                         }
                     );
                     FarmerGainPopupUI popupUI = PoolManager.Spawn<FarmerGainPopupUI>("FarmerGainPopupUI", GameDefine.ContentsPopupFrame);
-                    popupUI.StretchUI();
+                    popupUI.StretchRect();
                     popupUI.Initialize(farmerData.farmerUUID, farmerData.farmerID, callbackContainer);
 
                     ui.Initialize(GameInstance.MainUser.nestData, hi);

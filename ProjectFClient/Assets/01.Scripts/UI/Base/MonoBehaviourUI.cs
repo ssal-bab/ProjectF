@@ -18,7 +18,7 @@ namespace ProjectF.UI
         protected virtual void Initialize() { }
         protected virtual void Release() { }
 
-        public void StretchUI()
+        public void StretchRect()
         {
             RectTransform.anchorMin = Vector2.zero;
             RectTransform.anchorMax = Vector2.one;

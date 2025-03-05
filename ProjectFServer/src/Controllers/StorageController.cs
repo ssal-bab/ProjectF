@@ -17,5 +17,13 @@ namespace ProjectF.Networks.Controllers
             await processor.ProcessAsync();
             return processor.Response;
         }
+
+        [HttpPost(SellCropRequest.POST)]
+        public async Task<ActionResult<SellCropResponse>> SellCropRequestPost([FromBody]SellCropRequest req)
+        {
+            SellCropProcessor processor = new SellCropProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
     }
 }

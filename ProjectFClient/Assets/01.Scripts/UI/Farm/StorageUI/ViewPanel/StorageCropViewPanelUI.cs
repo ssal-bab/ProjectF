@@ -3,6 +3,8 @@ using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
+using ProjectF.Networks;
+using ProjectF.Networks.Packets;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -63,7 +65,19 @@ namespace ProjectF.UI.Farms
             if (orderToggleUI.ToggleValue == false)
                 ui.transform.SetAsFirstSibling();
 
-            ui.Initialize(id, grade, count);
+            ui.Initialize(id, grade, count, SellCrop);
+        }
+
+        private async void SellCrop(StorageCropElementUI ui, int id, ECropGrade grade)
+        {
+            SellCropResponse response = await NetworkManager.Instance.SendWebRequestAsync<SellCropResponse>(new SellCropRequest(id, grade));
+            if(response.result != ENetworkResult.Success)
+                return;
+
+            UserData mainUser = GameInstance.MainUser;
+            mainUser.storageData.cropStorage[id][grade] -= response.soldCropCount;
+            mainUser.monetaData.gold += response.earnedGold;
+            ui.Initialize(id, grade, mainUser.storageData.cropStorage[id][grade], SellCrop);
         }
     }
 }

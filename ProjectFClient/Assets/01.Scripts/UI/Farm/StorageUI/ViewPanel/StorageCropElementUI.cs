@@ -1,3 +1,4 @@
+using System;
 using H00N.DataTables;
 using ProjectF.Datas;
 using ProjectF.DataTables;
@@ -15,10 +16,14 @@ namespace ProjectF.UI.Farms
         [SerializeField] TMP_Text priceText = null;
 
         private int id = 0;
+        private ECropGrade grade = ECropGrade.None;
+        private Action<StorageCropElementUI, int, ECropGrade> sellCallback = null;
 
-        public void Initialize(int id, ECropGrade grade, int count)
+        public void Initialize(int id, ECropGrade grade, int count, Action<StorageCropElementUI, int, ECropGrade> sellCallback)
         {
             this.id = id;
+            this.grade = grade;
+            this.sellCallback = sellCallback;
 
             ItemTableRow itemTableRow = DataTableManager.GetTable<ItemTable>().GetRow(id);
             if(itemTableRow == null)
@@ -34,7 +39,7 @@ namespace ProjectF.UI.Farms
                 return;
             }
 
-            RefreshUI(itemTableRow, cropTableRow, grade, count);
+            RefreshUI(itemTableRow, cropTableRow, count);
         }
 
         private void ResetUI()
@@ -45,7 +50,7 @@ namespace ProjectF.UI.Farms
             priceText.text = "";
         }
 
-        private void RefreshUI(ItemTableRow itemTableRow, CropTableRow cropTableRow, ECropGrade grade, int count)
+        private void RefreshUI(ItemTableRow itemTableRow, CropTableRow cropTableRow, int count)
         {
             iconImage.sprite = ResourceUtility.GetItemIcon(itemTableRow.id);
             iconBackgroundImage.sprite = ResourceUtility.GetItemIcon((int)grade);
@@ -56,6 +61,7 @@ namespace ProjectF.UI.Farms
         public void OnTouchSellButton()
         {
             Debug.Log("[StorageCropElementUI::OnTouchSellButton] Sell Crop");
+            sellCallback?.Invoke(this, id, grade);
         }
     }
 }

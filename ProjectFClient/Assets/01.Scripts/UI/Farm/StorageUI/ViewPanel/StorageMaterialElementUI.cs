@@ -9,7 +9,6 @@ namespace ProjectF.UI.Farms
     public class StorageMaterialElementUI : PoolableBehaviourUI
     {
         [SerializeField] Image itemIconImage = null;
-        [SerializeField] TMP_Text itemNameText = null;
         [SerializeField] TMP_Text itemCountText = null;
 
         public void Initialize(int id, int count)
@@ -24,7 +23,6 @@ namespace ProjectF.UI.Farms
         private void RefreshUI(MaterialTableRow tableRow, int count)
         {
             itemIconImage.sprite = ResourceUtility.GetMaterialIcon(tableRow.id);
-            itemNameText.text = ResourceUtility.GetMaterialNameLocalKey(tableRow.id);
             itemCountText.text = count.ToString();
         }
 

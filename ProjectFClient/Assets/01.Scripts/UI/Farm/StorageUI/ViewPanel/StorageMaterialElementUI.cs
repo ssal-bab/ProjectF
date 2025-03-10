@@ -14,17 +14,17 @@ namespace ProjectF.UI.Farms
 
         public void Initialize(int id, int count)
         {
-            ItemTableRow itemTableRow = DataTableManager.GetTable<ItemTable>().GetRow(id);
-            if(itemTableRow == null)
+            MaterialTableRow tableRow = DataTableManager.GetTable<MaterialTable>().GetRow(id);
+            if(tableRow == null)
                 return;
 
-            RefreshUI(itemTableRow, count);
+            RefreshUI(tableRow, count);
         }
 
-        private void RefreshUI(ItemTableRow itemTableRow, int count)
+        private void RefreshUI(MaterialTableRow tableRow, int count)
         {
-            itemIconImage.sprite = ResourceUtility.GetItemIcon(itemTableRow.id);
-            itemNameText.text = itemTableRow.nameLocalKey;
+            itemIconImage.sprite = ResourceUtility.GetMaterialIcon(tableRow.id);
+            itemNameText.text = ResourceUtility.GetMaterialNameLocalKey(tableRow.id);
             itemCountText.text = count.ToString();
         }
 

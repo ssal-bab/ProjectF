@@ -35,7 +35,7 @@ namespace ProjectF.Networks.Controllers
             if(storageTableRow == null)
                 return ErrorPacket(ENetworkResult.Error);
 
-            CropTableRow cropTableRow = DataTableManager.GetTable<CropTable>().GetRowByProductID(request.id);
+            CropTableRow cropTableRow = DataTableManager.GetTable<CropTable>().GetRow(request.id);
             if (cropTableRow == null)
                 return ErrorPacket(ENetworkResult.Error);
 

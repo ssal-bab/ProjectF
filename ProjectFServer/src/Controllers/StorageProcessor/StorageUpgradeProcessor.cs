@@ -22,19 +22,19 @@ namespace ProjectF.Networks.Controllers
             if(tableRow == null)
                 return ErrorPacket(ENetworkResult.Error);
 
-            if(userData.storageData.materialStorage.TryGetValue(tableRow.costItemID, out int materialCount) == false)
+            if(userData.storageData.materialStorage.TryGetValue(tableRow.materialID, out int materialCount) == false)
                 return ErrorPacket(ENetworkResult.Error);
             
-            if(materialCount < tableRow.costItemCount)
+            if(materialCount < tableRow.materialCount)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
              
-            if(userData.monetaData.gold < tableRow.costItemCount)
+            if(userData.monetaData.gold < tableRow.materialCount)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                userData.monetaData.gold -= tableRow.costItemCount;
-                userData.storageData.materialStorage[tableRow.costItemID] -= tableRow.costItemCount;
+                userData.monetaData.gold -= tableRow.materialCount;
+                userData.storageData.materialStorage[tableRow.materialID] -= tableRow.materialCount;
                 userData.storageData.level += 1;
 
                 await userDataInfo.WriteAsync();
@@ -42,9 +42,9 @@ namespace ProjectF.Networks.Controllers
 
             return new StorageUpgradeResponse() {
                 result = ENetworkResult.Success,
-                usedGold = tableRow.costItemCount,
-                usedCostItemID = tableRow.costItemID,
-                usedCostItemCount = tableRow.costItemCount,
+                usedGold = tableRow.materialCount,
+                usedCostItemID = tableRow.materialID,
+                usedCostItemCount = tableRow.materialCount,
                 currentLevel = userData.storageData.level
             };
         }

@@ -109,16 +109,12 @@ namespace ProjectF.Farms
 
         private async UniTask SpawnCropAsync()
         {
-            ItemTableRow tableRow = DataTableManager.GetTable<ItemTable>().GetRow(currentCropData.TableRow.cropItemID);
-            if (tableRow == null)
-                return;
-
             Vector3 randomOffset = Random.insideUnitCircle * 3f;
             Vector3 itemPosition = TargetPosition + randomOffset;
 
-            Item item = await PoolManager.SpawnAsync<Item>(tableRow.itemType.ToString());
-            item.transform.position = itemPosition;
-            item.Initialize(tableRow.id);
+            Crop crop = await PoolManager.SpawnAsync<Crop>("Crop");
+            crop.transform.position = itemPosition;
+            crop.Initialize(currentCropData.TableRow.id);
         }
 
         private void HandleTickCycleEvent()

@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using H00N.DataTables;
 
 namespace ProjectF.DataTables
 {
-    public partial class ItemTableRow : DataTableRow
+    public partial class MaterialTableRow : DataTableRow
     {
     }
 
-    public partial class ItemTable : DataTable<ItemTableRow> 
+    public partial class MaterialTable : DataTable<MaterialTableRow> 
     {
         protected override void OnTableCreated()
         {

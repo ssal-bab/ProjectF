@@ -6,18 +6,17 @@ namespace ProjectF.Farms
 {
     public abstract class Item : FarmerTargetableBehaviour
     {
-        private ItemSO itemData = null;
-        public ItemSO ItemData => itemData;
-
-        public EItemType ItemType => ItemData.TableRow.itemType;
         public FarmerTargetableBehaviour DeliveryTarget => GetDeliveryTarget();
 
         private Farmer holder = null;
         public Farmer Holder => holder;
 
-        public virtual void Initialize(int index)
+        private int id = 0;
+        public int ID => id;
+
+        public virtual void Initialize(int id)
         {
-            itemData = ResourceManager.LoadResource<ItemSO>($"ItemData_{index}");
+            this.id = id;
         }
 
         public void SetHolder(Farmer farmer)

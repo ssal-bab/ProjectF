@@ -25,37 +25,30 @@ namespace ProjectF.UI.Farms
             this.grade = grade;
             this.sellCallback = sellCallback;
 
-            ItemTableRow itemTableRow = DataTableManager.GetTable<ItemTable>().GetRow(id);
-            if(itemTableRow == null)
+            CropTableRow tableRow = DataTableManager.GetTable<CropTable>().GetRow(id);
+            if(tableRow == null)
             {
                 ResetUI();
                 return;
             }
 
-            CropTableRow cropTableRow = DataTableManager.GetTable<CropTable>().GetRowByProductID(id);
-            if(cropTableRow == null)
-            {
-                ResetUI();
-                return;
-            }
-
-            RefreshUI(itemTableRow, cropTableRow, count);
+            RefreshUI(tableRow, count);
         }
 
         private void ResetUI()
         {
             iconImage.color = new Color(0, 0, 0, 0);
-            iconBackgroundImage.sprite = ResourceUtility.GetItemIcon((int)ECropGrade.None);
+            iconBackgroundImage.sprite = ResourceUtility.GetCropGradeIcon((int)ECropGrade.None);
             countText.text = "";
             priceText.text = "";
         }
 
-        private void RefreshUI(ItemTableRow itemTableRow, CropTableRow cropTableRow, int count)
+        private void RefreshUI(CropTableRow tableRow, int count)
         {
-            iconImage.sprite = ResourceUtility.GetItemIcon(itemTableRow.id);
-            iconBackgroundImage.sprite = ResourceUtility.GetItemIcon((int)grade);
-            countText.text = $"{count} {itemTableRow.nameLocalKey}s";            
-            priceText.text = (cropTableRow.basePrice * count).ToString();
+            iconImage.sprite = ResourceUtility.GetCropIcon(tableRow.id);
+            iconBackgroundImage.sprite = ResourceUtility.GetCropGradeIcon((int)grade);
+            countText.text = $"{count} {ResourceUtility.GetCropNameLocalKey(tableRow.id)}s";            
+            priceText.text = (tableRow.basePrice * count).ToString();
         }
 
         public void OnTouchSellButton()

@@ -24,7 +24,7 @@ namespace ProjectF.UI
 
             this.materialID = materialID;
             this.targetCount = targetCount;
-            iconImage.sprite = ResourceUtility.GetItemIcon(materialID);
+            iconImage.sprite = ResourceUtility.GetMaterialIcon(materialID);
 
             optionChecked = false;
             StartCoroutine(this.LoopRoutine(UPDATE_DELAY, RefreshUI, 0f));

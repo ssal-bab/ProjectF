@@ -32,18 +32,18 @@ namespace ProjectF.UI.Farms
                 return;
             }
 
-            ItemTableRow costItemTableRow = DataTableManager.GetTable<ItemTable>().GetRow(nestTableRow.costItemID);
-            if(costItemTableRow == null)
+            MaterialTableRow materialTableRow = DataTableManager.GetTable<MaterialTable>().GetRow(nestTableRow.materialID);
+            if(materialTableRow == null)
             {
                 panel.SetInfoUI(ENestInfoUIType.UpgradeCost); // 다시 돌려주자
                 return;
             }
 
             targetID = nestTableRow.id;
-            RefreshUI(nestTableRow, costItemTableRow);
+            RefreshUI(nestTableRow, materialTableRow);
         }
 
-        private void RefreshUI(NestTableRow nestTableRow, ItemTableRow costItemTableRow)
+        private void RefreshUI(NestTableRow nestTableRow, MaterialTableRow materialTableRow)
         {
             nestIconImage.sprite = ResourceUtility.GetNestIcon(nestTableRow.id);
             nameText.text = $"Lv. {nestTableRow.level} Nest{nestTableRow.level}"; // 나중에 localizing 적용해야 함

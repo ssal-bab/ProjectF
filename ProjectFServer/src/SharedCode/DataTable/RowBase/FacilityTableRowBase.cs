@@ -8,7 +8,7 @@ namespace ProjectF.DataTables
     {
         public int upgradeGold;
         public int skipGem;
-        public int costItemID;
-        public int costItemCount;
+        public int materialID;
+        public int materialCount;
     }
 }

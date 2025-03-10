@@ -6,6 +6,7 @@ namespace ProjectF
         {
             InitializeSpriteUtility();
             InitializeDataTableSOUtility();
+            InitializeLocalizedStringKeyUtility();
         }
     }
 }

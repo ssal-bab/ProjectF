@@ -61,7 +61,7 @@ namespace ProjectF.UI.Farms
             capacityInfoText.text = $"<b>적재량</b> <b>{currentTableRow.storeLimit}</b> <color=black>></color> <color=#{GameDefine.DefaultGoldColor}><b>{nextTableRow.storeLimit}</b></color>";
             sellGoldInfoText.text = $"농작물 판매 골드 <color=#{GameDefine.DefaultGoldColor}>{nextTableRow.priceMultiplier - currentTableRow.priceMultiplier}%</color> 증가";
 
-            materialOptionUI.Initialize(currentTableRow.costItemID, currentTableRow.costItemCount);
+            materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
             upgradeButtonUI.Initialize(currentTableRow.upgradeGold);
         }
 

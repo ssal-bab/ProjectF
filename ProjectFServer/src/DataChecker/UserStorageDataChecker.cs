@@ -17,24 +17,17 @@ namespace ProjectF.Datas
                 storageData.level = 1;
 
             storageData.cropStorage ??= new Dictionary<int, Dictionary<ECropGrade, int>>();
+            CropTable cropTable = DataTableManager.GetTable<CropTable>();
+            foreach(CropTableRow tableRow in cropTable)
+                CheckCropStorage(storageData, tableRow);
+
             storageData.materialStorage ??= new Dictionary<int, int>();
-            foreach(var tableRow in DataTableManager.GetTable<ItemTable>())
-            {
-                switch(tableRow.itemType)
-                {
-                    case EItemType.Crop:
-                        CheckCropStorage(storageData, tableRow);
-                        break;
-                    case EItemType.Material:
-                        CheckMaterialStorage(storageData, tableRow);
-                        break;
-                    default:
-                        continue;
-                }
-            }
+            MaterialTable materialTable = DataTableManager.GetTable<MaterialTable>();
+            foreach(MaterialTableRow tableRow in materialTable)
+                CheckMaterialStorage(storageData, tableRow);
         }
 
-        private void CheckCropStorage(UserStorageData storageData, ItemTableRow tableRow)
+        private void CheckCropStorage(UserStorageData storageData, CropTableRow tableRow)
         {
             if(storageData.cropStorage.ContainsKey(tableRow.id))
                 return;
@@ -48,13 +41,12 @@ namespace ProjectF.Datas
             });
         }
 
-        private void CheckMaterialStorage(UserStorageData cropStorageData, ItemTableRow tableRow)
+        private void CheckMaterialStorage(UserStorageData storageData, MaterialTableRow tableRow)
         {
-            if(cropStorageData.materialStorage.ContainsKey(tableRow.id))
+            if(storageData.materialStorage.ContainsKey(tableRow.id))
                 return;
 
-            // 총 4단계가 있다. 노별, 똥별, 은별, 금별
-            cropStorageData.materialStorage.Add(tableRow.id, 0);
+            storageData.materialStorage.Add(tableRow.id, 0);
         }
     }
 }

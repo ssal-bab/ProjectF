@@ -5,6 +5,8 @@ using ProjectF.DataTables;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static ProjectF.StringUtility;
+using static ProjectF.GameDefine;
 
 namespace ProjectF.UI.Farms
 {
@@ -18,8 +20,8 @@ namespace ProjectF.UI.Farms
         [SerializeField] TMP_Text nextLevelText = null;
 
         [Space(10f)]
-        [SerializeField] TMP_Text capacityInfoText = null;
-        [SerializeField] TMP_Text sellGoldInfoText = null;
+        [SerializeField] UpgradeInfoUI capacityInfoUI = null;
+        [SerializeField] UpgradeInfoUI sellGoldInfoUI = null;
 
         [Space(10f)]
         [SerializeField] MaterialOptionUI materialOptionUI = null;
@@ -57,9 +59,8 @@ namespace ProjectF.UI.Farms
             nextLevelText.text = $"Lv. {currentLevel + 1}";
 
             // 로컬라이징 적용 해야한다.
-            
-            capacityInfoText.text = $"<b>적재량</b> <b>{currentTableRow.storeLimit}</b> <color=black>></color> <color=#{GameDefine.DefaultGoldColor}><b>{nextTableRow.storeLimit}</b></color>";
-            sellGoldInfoText.text = $"농작물 판매 골드 <color=#{GameDefine.DefaultGoldColor}>{nextTableRow.priceMultiplier - currentTableRow.priceMultiplier}%</color> 증가";
+            capacityInfoUI.Initialize("적재량", $"{currentTableRow.storeLimit}", $"{nextTableRow.storeLimit}");
+            sellGoldInfoUI.Initialize("판매 이익", $"+{currentTableRow.priceMultiplier}%", $"+{nextTableRow.priceMultiplier}%");
 
             materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
             upgradeButtonUI.Initialize(currentTableRow.upgradeGold);

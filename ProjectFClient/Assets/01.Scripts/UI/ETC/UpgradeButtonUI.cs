@@ -5,6 +5,8 @@ using H00N.Resources;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static ProjectF.StringUtility;
+using static ProjectF.GameDefine;
 
 namespace ProjectF.UI
 {
@@ -40,7 +42,7 @@ namespace ProjectF.UI
             upgradePossible = GameInstance.MainUser.monetaData.gold >= targetGold;
             
             buttonImage.sprite = ResourceManager.LoadResource<Sprite>(buttonImageOption[upgradePossible].Key);
-            goldText.text = $"<color=#{GameDefine.DefaultColorOption[upgradePossible]}>{targetGold}</color>";
+            goldText.text = ColorTag(DefaultColorOption[upgradePossible], targetGold);
         }
     }
 }

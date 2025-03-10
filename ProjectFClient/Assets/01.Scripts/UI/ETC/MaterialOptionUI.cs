@@ -2,6 +2,8 @@ using H00N.Extensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static ProjectF.StringUtility;
+using static ProjectF.GameDefine;
 
 namespace ProjectF.UI
 {
@@ -45,7 +47,7 @@ namespace ProjectF.UI
             if(checkObject.activeSelf != optionChecked)
                 checkObject.SetActive(optionChecked);
 
-            countText.text = $"<Color={GameDefine.DefaultColorOption[optionChecked]}>{count}</Color>/{targetCount}";
+            countText.text = $"{ColorTag(DefaultColorOption[optionChecked], count)}/{targetCount}";
         }
     }
 }

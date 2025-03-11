@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using H00N.DataTables;
 using H00N.Extensions;
+using H00N.OptOptions;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
@@ -23,6 +24,8 @@ namespace ProjectF.UI.Farms
         [SerializeField] RectTransform sliderFillRect = null;
         
         [Space(10f)]
+        [SerializeField] GameObject upgradeButtonObject = null;
+        [SerializeField] GameObject upgradeCompleteButtonObject = null;
         [SerializeField] AddressableAsset<StorageUpgradePopupUI> upgradePopupUIPrefab = null;
         private StorageUpgradePopupUI upgradePopupUI = null;
 
@@ -44,10 +47,17 @@ namespace ProjectF.UI.Farms
         private void RefreshUI()
         {
             UserStorageData storageData = GameInstance.MainUser.storageData;
-            StorageTable storageTable = DataTableManager.GetTable<StorageTable>();
-            StorageTableRow tableRow = storageTable.GetRowByLevel(storageData.level); ;
+            GetStorageTableRow getStorageTableRow = new GetStorageTableRow(storageData.level);
+
+            StorageTableRow tableRow = getStorageTableRow.currentStorageTableRow;
             if (tableRow == null)
+            {
+                Debug.LogError($"[StorageInfoPanelUI::RefreshUI] tableRow is null. CurrentLevel : {storageData.level}");
                 return;
+            }
+
+            upgradeButtonObject.SetActive(!getStorageTableRow.isMaxLevel);
+            upgradeCompleteButtonObject.SetActive(getStorageTableRow.isMaxLevel);
 
             storageIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
             nameText.text = $"Lv.{tableRow.level} 적재소{tableRow.level}"; // 나중에 localizing 적용해야 함
@@ -66,6 +76,14 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchUpgradeButton()
         {
+            int currentLevel = GameInstance.MainUser.storageData.level;
+            GetStorageTableRow getStorageTableRow = new GetStorageTableRow(currentLevel);
+            if(getStorageTableRow.isMaxLevel)
+            {
+                Debug.LogError($"[StorageInfoPanelUI::OnTouchUpgradeButton] Already max Level, but trying to open StorageUpgradePopupUI. CurrentLevel : {currentLevel}");
+                return;
+            }
+
             upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
             upgradePopupUI.StretchRect();
             upgradePopupUI.Initialize(UpgradeStorage);

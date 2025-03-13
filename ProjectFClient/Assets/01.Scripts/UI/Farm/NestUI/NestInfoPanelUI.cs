@@ -1,39 +1,88 @@
+using H00N.Resources;
+using H00N.Resources.Pools;
 using ProjectF.Datas;
+using ProjectF.DataTables;
+using ProjectF.Networks;
+using ProjectF.Networks.Packets;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
     public class NestInfoPanelUI : MonoBehaviourUI
     {
-        public enum ENestInfoUIType
-        {
-            Default,
-            UpgradeCost,
-            UpgradeMaterial,
-            TOTAL_COUNT
-        }
+        [SerializeField] Image nestIconImage = null;
+        [SerializeField] TMP_Text nameText = null;
 
-        [SerializeField] ToggleGroupUI infoUIToggleGroupUI = null;
-        [SerializeField] NestInfoUI[] nestInfoUIList = new NestInfoUI[(int)ENestInfoUIType.TOTAL_COUNT];
+        [SerializeField] SliderUI eggSliderUI = null;
+        [SerializeField] SliderUI farmerSliderUI = null;
+        
+        [Space(10f)]
+        [SerializeField] GameObject upgradeButtonObject = null;
+        [SerializeField] GameObject upgradeCompleteButtonObject = null;
+        [SerializeField] AddressableAsset<NestUpgradePopupUI> upgradePopupUIPrefab = null;
 
-        private UserNestData userNestData = null;
-        private NestUICallbackContainer callbackContainer = null;
-
-        public void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer)
+        public new void Initialize()
         {
             base.Initialize();
-            this.userNestData = userNestData;
-            this.callbackContainer = callbackContainer;
 
-            SetInfoUI(ENestInfoUIType.Default);
+            RefreshUI();
+            upgradePopupUIPrefab.Initialize();
         }
 
-        public void SetInfoUI(ENestInfoUIType infoUIType)
+        private void RefreshUI()
         {
-            int targetIndex = (int)infoUIType;
-            NestInfoUI ui = nestInfoUIList[targetIndex];
-            infoUIToggleGroupUI.SetToggle(ui);
-            ui.Initialize(userNestData, callbackContainer, this);
+            UserNestData nestData = GameInstance.MainUser.nestData;
+            GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(nestData.level);
+
+            NestTableRow tableRow = getFacilityTableRow.currentTableRow;
+            if (tableRow == null)
+            {
+                Debug.LogError($"[NestInfoPanelUI::RefreshUI] tableRow is null. CurrentLevel : {nestData.level}");
+                return;
+            }
+
+            upgradeButtonObject.SetActive(!getFacilityTableRow.isMaxLevel);
+            upgradeCompleteButtonObject.SetActive(getFacilityTableRow.isMaxLevel);
+
+            nestIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
+            nameText.text = $"Lv.{tableRow.level} 둥지{tableRow.level}"; // 나중에 localizing 적용해야 함
+
+            eggSliderUI.RefreshUI(tableRow.eggStoreLimit, nestData.hatchingEggList.Count);
+            farmerSliderUI.RefreshUI(tableRow.farmerStoreLimit, GameInstance.MainUser.farmerData.farmerList.Count);
+        }
+
+        public void OnTouchUpgradeButton()
+        {
+            int currentLevel = GameInstance.MainUser.nestData.level;
+            GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(currentLevel);
+            if(getFacilityTableRow.isMaxLevel)
+            {
+                Debug.LogError($"[NestInfoPanelUI::OnTouchUpgradeButton] Already max Level, but trying to open NestUpgradePopupUI. CurrentLevel : {currentLevel}");
+                return;
+            }
+
+            NestUpgradePopupUI upgradePopupUI = PoolManager.Spawn<NestUpgradePopupUI>(upgradePopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            upgradePopupUI.StretchRect();
+            upgradePopupUI.Initialize(UpgradeNest);
+        }
+
+        private async void UpgradeNest(NestUpgradePopupUI ui)
+        {
+            NestUpgradeResponse response = await NetworkManager.Instance.SendWebRequestAsync<NestUpgradeResponse>(new NestUpgradeRequest());
+            if (response.result != ENetworkResult.Success)
+                return;
+
+            UserData mainUser = GameInstance.MainUser;
+            mainUser.monetaData.gold -= response.usedGold;
+            mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
+            mainUser.storageData.level = response.currentLevel;
+
+            if(ui != null)
+                ui.OnTouchCloseButton();
+
+            RefreshUI();
         }
     }
 }

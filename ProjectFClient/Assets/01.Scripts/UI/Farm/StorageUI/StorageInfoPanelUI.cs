@@ -1,7 +1,4 @@
-using Cysharp.Threading.Tasks;
-using H00N.DataTables;
 using H00N.Extensions;
-using H00N.OptOptions;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
@@ -20,14 +17,12 @@ namespace ProjectF.UI.Farms
 
         [SerializeField] Image storageIconImage = null;
         [SerializeField] TMP_Text nameText = null;
-        [SerializeField] TMP_Text countText = null;
-        [SerializeField] RectTransform sliderFillRect = null;
+        [SerializeField] SliderUI sliderUI = null;
         
         [Space(10f)]
         [SerializeField] GameObject upgradeButtonObject = null;
         [SerializeField] GameObject upgradeCompleteButtonObject = null;
         [SerializeField] AddressableAsset<StorageUpgradePopupUI> upgradePopupUIPrefab = null;
-        private StorageUpgradePopupUI upgradePopupUI = null;
 
         public new void Initialize()
         {
@@ -40,24 +35,23 @@ namespace ProjectF.UI.Farms
         public new void Release()
         {
             base.Release();
-            upgradePopupUI = null;
             StopAllCoroutines();
         }
 
         private void RefreshUI()
         {
             UserStorageData storageData = GameInstance.MainUser.storageData;
-            GetStorageTableRow getStorageTableRow = new GetStorageTableRow(storageData.level);
-
-            StorageTableRow tableRow = getStorageTableRow.currentStorageTableRow;
+            GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(storageData.level);
+            
+            StorageTableRow tableRow = getFacilityTableRow.currentTableRow;
             if (tableRow == null)
             {
                 Debug.LogError($"[StorageInfoPanelUI::RefreshUI] tableRow is null. CurrentLevel : {storageData.level}");
                 return;
             }
 
-            upgradeButtonObject.SetActive(!getStorageTableRow.isMaxLevel);
-            upgradeCompleteButtonObject.SetActive(getStorageTableRow.isMaxLevel);
+            upgradeButtonObject.SetActive(!getFacilityTableRow.isMaxLevel);
+            upgradeCompleteButtonObject.SetActive(getFacilityTableRow.isMaxLevel);
 
             storageIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
             nameText.text = $"Lv.{tableRow.level} 적재소{tableRow.level}"; // 나중에 localizing 적용해야 함
@@ -67,29 +61,25 @@ namespace ProjectF.UI.Farms
         private void UpdateCountInfo(UserStorageData storageData, StorageTableRow tableRow)
         {
             int usedCount = new GetStorageUsedCount(storageData).storageUsedCount;
-            countText.text = $"{usedCount}/{tableRow.storeLimit}";
-            
-            Vector2 anchorMax = sliderFillRect.anchorMax;
-            anchorMax.x = Mathf.Max(usedCount / (float)tableRow.storeLimit, 0);
-            sliderFillRect.anchorMax = anchorMax;
+            sliderUI.RefreshUI(tableRow.storeLimit, usedCount);
         }
 
         public void OnTouchUpgradeButton()
         {
             int currentLevel = GameInstance.MainUser.storageData.level;
-            GetStorageTableRow getStorageTableRow = new GetStorageTableRow(currentLevel);
-            if(getStorageTableRow.isMaxLevel)
+            GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(currentLevel);
+            if(getFacilityTableRow.isMaxLevel)
             {
                 Debug.LogError($"[StorageInfoPanelUI::OnTouchUpgradeButton] Already max Level, but trying to open StorageUpgradePopupUI. CurrentLevel : {currentLevel}");
                 return;
             }
 
-            upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            StorageUpgradePopupUI upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
             upgradePopupUI.StretchRect();
             upgradePopupUI.Initialize(UpgradeStorage);
         }
 
-        private async void UpgradeStorage()
+        private async void UpgradeStorage(StorageUpgradePopupUI ui)
         {
             StorageUpgradeResponse response = await NetworkManager.Instance.SendWebRequestAsync<StorageUpgradeResponse>(new StorageUpgradeRequest());
             if (response.result != ENetworkResult.Success)
@@ -100,8 +90,8 @@ namespace ProjectF.UI.Farms
             mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
             mainUser.storageData.level = response.currentLevel;
 
-            if(upgradePopupUI != null)
-                upgradePopupUI.OnTouchCloseButton();
+            if(ui != null)
+                ui.OnTouchCloseButton();
 
             RefreshUI();
         }

@@ -32,6 +32,13 @@ namespace ProjectF.Tests
                 storagePopupUI.StretchRect();
                 storagePopupUI.Initialize();
             }
+
+            if(Input.GetKeyDown(KeyCode.O))
+            {
+                NestPopupUI nestPopupUI = PoolManager.Spawn<NestPopupUI>("NestPopupUI", GameDefine.MainPopupFrame);
+                nestPopupUI.StretchRect();
+                nestPopupUI.Initialize();
+            }
         }
     }
 }

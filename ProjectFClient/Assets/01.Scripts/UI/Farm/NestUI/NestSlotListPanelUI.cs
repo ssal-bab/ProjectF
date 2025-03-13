@@ -20,26 +20,22 @@ namespace ProjectF.UI.Farms
         [SerializeField] AddressableAsset<NestSlotElementUI> elementPrefab = null;
         private List<NestSlotElementUI> slotElementUIList = null;
 
-        private NestUICallbackContainer callbackContainer = null;
-        private UserNestData userNestData = null;
-
         protected override void Awake()
         {
             slotElementUIList = new List<NestSlotElementUI>();
             scrollView.content.DespawnAllChildren();
         }
 
-        public void Initialize(UserNestData userNestData, NestUICallbackContainer callbackContainer)
+        public new void Initialize()
         {
             base.Initialize();
-            this.userNestData = userNestData;
-            this.callbackContainer = callbackContainer;
 
-            NestTableRow tableRow = DataTableManager.GetTable<NestTable>().GetRowByLevel(userNestData.level); ;
-            if (tableRow == null)
+            UserNestData nestData = GameInstance.MainUser.nestData;
+            GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(nestData.level);
+            if (getFacilityTableRow.currentTableRow == null)
                 return;
 
-            RefreshUIAsync(tableRow, userNestData.hatchingEggList);
+            RefreshUIAsync(getFacilityTableRow.currentTableRow, nestData.hatchingEggList);
         }
 
         private async void RefreshUIAsync(NestTableRow tableRow, List<EggHatchingData> hatchingEggList)
@@ -79,12 +75,13 @@ namespace ProjectF.UI.Farms
 
         private async void OpenDetailInfoPopup(int index)
         {
-            if(userNestData.hatchingEggList.Count <= 0)
+            UserNestData nestData = GameInstance.MainUser.nestData;
+            if(nestData.hatchingEggList.Count <= 0)
                 return;
 
             NestDetailInfoPopupUI ui = await PoolManager.SpawnAsync<NestDetailInfoPopupUI>(detailInfoPopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
             ui.StretchRect();
-            ui.Initialize(userNestData, index, callbackContainer.HatchCallback);
+            ui.Initialize(nestData, index);
         }
     }
 }

@@ -4,7 +4,7 @@ using RedLockNet;
 
 namespace ProjectF.Networks.Controllers
 {
-    public abstract class PacketProcessorBase<TReq, TRes> where TReq : RequestPacket where TRes : ResponsePacket
+    public abstract class PacketProcessorBase<TReq, TRes> where TReq : RequestPacket where TRes : ResponsePacket, new()
     {
         protected readonly DBManager dbManager = null;
         protected readonly IDistributedLockFactory redLockFactory;
@@ -27,5 +27,12 @@ namespace ProjectF.Networks.Controllers
         }
 
         protected abstract Task<TRes> ProcessInternal();
+
+        protected virtual TRes ErrorPacket(ENetworkResult cause)
+        {
+            return new TRes() {
+                result = cause,
+            };
+        }
     }
 }

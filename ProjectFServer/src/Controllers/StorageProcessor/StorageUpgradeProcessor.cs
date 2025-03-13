@@ -18,7 +18,8 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
 
-            StorageTableRow tableRow = DataTableManager.GetTable<StorageTable>().GetRowByLevel(userData.storageData.level);
+            GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(userData.nestData.level);
+            StorageTableRow tableRow = getFacilityTableRow.currentTableRow;
             if(tableRow == null)
                 return ErrorPacket(ENetworkResult.Error);
 
@@ -46,13 +47,6 @@ namespace ProjectF.Networks.Controllers
                 usedCostItemID = tableRow.materialID,
                 usedCostItemCount = tableRow.materialCount,
                 currentLevel = userData.storageData.level
-            };
-        }
-
-        private static StorageUpgradeResponse ErrorPacket(ENetworkResult cause)
-        {
-            return new StorageUpgradeResponse() {
-                result = cause,
             };
         }
     }

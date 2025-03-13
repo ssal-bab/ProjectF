@@ -77,6 +77,30 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6231f44ea2d004f2ab2526b77156b460
+    m_Address: NestUpgradePopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b23e14bac9454dfcab78d7ad97378ff
+    m_Address: NestSlotListPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4296bc93d5024e379119985ec27203e
+    m_Address: NestPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d90a698bfa3a94dd1904a35052d1de3a
+    m_Address: NestInfoPanelUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
   m_SchemaSet:

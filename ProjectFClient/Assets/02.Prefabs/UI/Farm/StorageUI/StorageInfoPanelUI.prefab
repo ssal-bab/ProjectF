@@ -292,6 +292,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9098203518053063304}
+  - component: {fileID: 1792800201100079003}
   m_Layer: 5
   m_Name: SliderArea
   m_TagString: Untagged
@@ -321,6 +322,20 @@ RectTransform:
   m_AnchoredPosition: {x: 33.5, y: -102.5}
   m_SizeDelta: {x: 450, y: 100}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1792800201100079003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2942785284155994304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4161a91566c43cc9334e2727c5cc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  countText: {fileID: 3225374002966368192}
+  sliderFillRect: {fileID: 8625768705358099562}
 --- !u!1 &3586125666384932141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,8 +1411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storageIconImage: {fileID: 1745292946503626201}
   nameText: {fileID: 2037454882884101227}
-  countText: {fileID: 3225374002966368192}
-  sliderFillRect: {fileID: 8625768705358099562}
+  sliderUI: {fileID: 1792800201100079003}
   upgradeButtonObject: {fileID: 2641810966575320535}
   upgradeCompleteButtonObject: {fileID: 4105225020717900551}
   upgradePopupUIPrefab:

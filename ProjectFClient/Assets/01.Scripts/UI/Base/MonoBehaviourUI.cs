@@ -25,6 +25,8 @@ namespace ProjectF.UI
             RectTransform.offsetMin = Vector2.zero;
             RectTransform.offsetMax = Vector2.zero;
             RectTransform.sizeDelta = Vector2.zero;
+            RectTransform.localPosition = Vector3.zero;
+            RectTransform.localScale = Vector3.one;
         }
     }
 }

@@ -27,9 +27,9 @@ namespace ProjectF.UI.Farms
         [SerializeField] MaterialOptionUI materialOptionUI = null;
         [SerializeField] UpgradeButtonUI upgradeButtonUI = null;
 
-        private Action upgradeCallback = null;
+        private Action<StorageUpgradePopupUI> upgradeCallback = null;
 
-        public void Initialize(Action upgradeCallback)
+        public void Initialize(Action<StorageUpgradePopupUI> upgradeCallback)
         {
             base.Initialize();
 
@@ -47,8 +47,9 @@ namespace ProjectF.UI.Farms
         public void RefreshUI()
         {
             int currentLevel = GameInstance.MainUser.storageData.level;
-            StorageTableRow currentTableRow = DataTableManager.GetTable<StorageTable>().GetRowByLevel(currentLevel);
-            StorageTableRow nextTableRow = DataTableManager.GetTable<StorageTable>().GetRowByLevel(currentLevel + 1);
+            GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(currentLevel);
+            StorageTableRow currentTableRow = getFacilityTableRow.currentTableRow;
+            StorageTableRow nextTableRow = getFacilityTableRow.nextTableRow;
             if (currentTableRow == null)
                 return;
 
@@ -80,7 +81,7 @@ namespace ProjectF.UI.Farms
             if (upgradeButtonUI.UpgradePossible == false)
                 return;
 
-            upgradeCallback?.Invoke();
+            upgradeCallback?.Invoke(this);
         }
     }
 }

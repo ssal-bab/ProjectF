@@ -54,12 +54,5 @@ namespace ProjectF.Networks.Controllers
                 soldCropCount = cropCount
             };
         }
-
-        private static SellCropResponse ErrorPacket(ENetworkResult cause)
-        {
-            return new SellCropResponse() {
-                result = cause,
-            };
-        }
     }
 }

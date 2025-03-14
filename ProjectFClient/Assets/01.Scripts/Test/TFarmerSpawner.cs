@@ -1,6 +1,7 @@
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Farms;
+using ProjectF.UI.Cheats;
 using ProjectF.UI.Farms;
 using UnityEngine;
 
@@ -33,6 +34,13 @@ namespace ProjectF.Tests
             NestPopupUI nestPopupUI = PoolManager.Spawn<NestPopupUI>("NestPopupUI", GameDefine.MainPopupFrame);
             nestPopupUI.StretchRect();
             nestPopupUI.Initialize();
+        }
+
+        public void OpenCheatPopup()
+        {
+            CheatPopupUI cheatPopupUI = PoolManager.Spawn<CheatPopupUI>("CheatPopupUI", GameDefine.TopPopupFrame);
+            cheatPopupUI.StretchRect();
+            cheatPopupUI.Initialize();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace ProjectF.Networks.Packets
 {
     public class SellCropRequest : RequestPacket
     {
-        public override string Route => NetworkDefine.STANDARD_ROUTE;
+        public override string Route => NetworkDefine.STORAGE_ROUTE;
 
         public const string POST = "SellCrop";
         public override string Post => POST;

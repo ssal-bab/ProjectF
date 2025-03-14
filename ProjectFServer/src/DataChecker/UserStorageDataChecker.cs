@@ -43,8 +43,8 @@ namespace ProjectF.Datas
 
         private void CheckMaterialStorage(UserStorageData storageData, MaterialTableRow tableRow)
         {
-            // if(storageData.materialStorage.ContainsKey(tableRow.id))
-            //     return;
+            if(storageData.materialStorage.ContainsKey(tableRow.id))
+                return;
 
             storageData.materialStorage.Add(tableRow.id, 10);
         }

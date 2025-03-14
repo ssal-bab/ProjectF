@@ -35,10 +35,15 @@ namespace ProjectF.Networks.Controllers
             if(userData.nestData.hatchingEggList.Count >= nestTableRow.eggStoreLimit)
                 return null;
 
-            userData.nestData.hatchingEggList.Add(new EggHatchingData() {
-                eggID = 0,
-                hatchingStartTime = ServerInstance.ServerTime
-            });
+            using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
+            {
+                userData.nestData.hatchingEggList.Add(new EggHatchingData() {
+                    eggID = 0,
+                    hatchingStartTime = ServerInstance.ServerTime
+                });
+                await userDataInfo.WriteAsync();
+            }
+
 
             return Newtonsoft.Json.JsonConvert.SerializeObject(userData.nestData.hatchingEggList);
         }

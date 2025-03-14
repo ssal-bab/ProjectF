@@ -5,7 +5,7 @@ namespace ProjectF.Networks.Packets
 {
     public class NestUpgradeRequest : RequestPacket
     {
-        public override string Route => NetworkDefine.STANDARD_ROUTE;
+        public override string Route => NetworkDefine.NEST_ROUTE;
 
         public const string POST = "NestUpgrade";
         public override string Post => POST;

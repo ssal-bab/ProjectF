@@ -1,3 +1,4 @@
+using H00N.Resources.Pools;
 using UnityEngine;
 
 namespace ProjectF.UI.Farms
@@ -14,9 +15,10 @@ namespace ProjectF.UI.Farms
             nestSlotListPanel.Initialize();
         }
 
-        protected override void Release()
+        public void OnTouchCloseButton()
         {
-            base.Release();
+            Release();
+            PoolManager.Despawn(this);
         }
     }
 }

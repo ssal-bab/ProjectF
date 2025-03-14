@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using H00N.DataTables;
 using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
@@ -13,9 +12,6 @@ namespace ProjectF.UI.Farms
 {
     public class NestSlotListPanelUI : MonoBehaviourUI
     {
-        [SerializeField] AddressableAsset<NestDetailInfoPopupUI> detailInfoPopupUIPrefab = null;
-
-        [Space(10f)]
         [SerializeField] ScrollRect scrollView = null;
         [SerializeField] AddressableAsset<NestSlotElementUI> elementPrefab = null;
         private List<NestSlotElementUI> slotElementUIList = null;
@@ -47,12 +43,9 @@ namespace ProjectF.UI.Farms
             {
                 NestSlotElementUI ui = slotElementUIList[i];
                 if(hatchingEggList.Count > i)
-                {
-                    int currentIndex = i;   
-                    ui.Initialize(hatchingEggList[currentIndex], () => OpenDetailInfoPopup(currentIndex));
-                }
+                    ui.Initialize(i);
                 else
-                    ui.Initialize(null, null);
+                    ui.Initialize(-1);
             }
         }
 
@@ -67,21 +60,11 @@ namespace ProjectF.UI.Farms
             for(int i = 0; i < createCount; ++i)
             {
                 NestSlotElementUI ui = await PoolManager.SpawnAsync<NestSlotElementUI>(elementPrefab.Key, scrollView.content);
+                ui.InitializeTransform();
                 slotElementUIList.Add(ui);
             }
 
             scrollView.gameObject.SetActive(true);
-        }
-
-        private async void OpenDetailInfoPopup(int index)
-        {
-            UserNestData nestData = GameInstance.MainUser.nestData;
-            if(nestData.hatchingEggList.Count <= 0)
-                return;
-
-            NestDetailInfoPopupUI ui = await PoolManager.SpawnAsync<NestDetailInfoPopupUI>(detailInfoPopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
-            ui.StretchRect();
-            ui.Initialize(nestData, index);
         }
     }
 }

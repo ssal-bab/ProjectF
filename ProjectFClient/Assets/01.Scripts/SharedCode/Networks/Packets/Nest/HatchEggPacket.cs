@@ -4,7 +4,7 @@ namespace ProjectF.Networks.Packets
 {
     public class HatchEggRequest : RequestPacket
     {
-        public override string Route => NetworkDefine.STANDARD_ROUTE;
+        public override string Route => NetworkDefine.NEST_ROUTE;
 
         public const string POST = "HatchEgg";
         public override string Post => POST;
@@ -19,6 +19,7 @@ namespace ProjectF.Networks.Packets
 
     public class HatchEggResponse : ResponsePacket
     {
+        public int hatchedEggIndex;
         public FarmerData farmerData;
     }
 }

@@ -48,6 +48,7 @@ namespace ProjectF.Networks.Controllers
 
             return new HatchEggResponse() {
                 result = ENetworkResult.Success,
+                hatchedEggIndex = request.eggIndex,
                 farmerData = farmerData
             };
         }

@@ -61,8 +61,8 @@ namespace ProjectF.UI.Farms
             // 로컬라이징 적용 해야한다.
             for(int i = 0; i < rarityUpgradeUIList.Length; ++i)
             {
-                float currentValue = currentTableRow.rateTable[i] / currentTableRow.totalRates;
-                float nextValue = nextTableRow.rateTable[i] / nextTableRow.totalRates;
+                float currentValue = currentTableRow.rateTable[i] / currentTableRow.totalRates * 100f;
+                float nextValue = nextTableRow.rateTable[i] / nextTableRow.totalRates * 100f;
                 rarityUpgradeUIList[i].Initialize((ECropGrade)i, currentValue, nextValue);
             }
 

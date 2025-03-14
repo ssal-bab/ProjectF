@@ -18,6 +18,11 @@ namespace ProjectF.Datas
                 {
                     fieldGroupData = new FieldGroupData() {
                         fieldGroupID = i,
+                        // 0렙으로 시작. 튜토리얼 단계에서 건설하는 것 부터 시작이다.
+                        // level = 0;
+
+                        // 아직은 튜토리얼이 없으니 1렙부터 시작하도록 해두자.
+                        level = 1,
                         fieldDatas = new Dictionary<int, FieldData>()
                     };
 

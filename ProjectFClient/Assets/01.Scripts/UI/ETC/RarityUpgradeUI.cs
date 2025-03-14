@@ -13,15 +13,15 @@ namespace ProjectF.UI
         public void Initialize(ERarity rarity, float currentValue, float nextValue)
         {
             rarityText.text = ResourceUtility.GetRarityNameLocalKey(rarity); // localizing 적용 해야함
-            currentValueText.text = $"{currentValue}%";
-            nextValueText.text = $"{nextValue}%";
+            currentValueText.text = $"{currentValue:0.##}%";
+            nextValueText.text = $"{nextValue:0.##}%";
         }
 
         public void Initialize(ECropGrade rarity, float currentValue, float nextValue)
         {
             rarityText.text = ResourceUtility.GetCropGradeNameLocalKey(rarity); // localizing 적용 해야함
-            currentValueText.text = $"{currentValue}%";
-            nextValueText.text = $"{nextValue}%";
+            currentValueText.text = $"{currentValue:0.##}%";
+            nextValueText.text = $"{nextValue:0.##}%";
         }
     }
 }

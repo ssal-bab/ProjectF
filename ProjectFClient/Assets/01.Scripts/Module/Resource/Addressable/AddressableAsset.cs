@@ -28,11 +28,15 @@ namespace H00N.Resources
                 return;
             }
 
-            Object resource = ResourceManager.LoadResource<Object>(key);
-            if(resource is GameObject gameObject && typeof(T) != typeof(GameObject))
-                asset = gameObject.GetComponent<T>();
+            // 컴포넌트면 GameObject를 로딩한 후에 GetComponent해준다.
+            if(typeof(T).IsSubclassOf(typeof(Component)))
+            {
+                GameObject resource = ResourceManager.LoadResource<GameObject>(key);
+                if(resource != null)
+                    asset = resource.GetComponent<T>();
+            }
             else
-                asset = resource as T;
+                asset = ResourceManager.LoadResource<T>(key);
         }
 
         public async UniTask InitializeAsync()
@@ -43,11 +47,15 @@ namespace H00N.Resources
                 return;
             }
 
-            Object resource = await ResourceManager.LoadResourceAsync<T>(key);
-            if (resource is GameObject gameObject && typeof(T) != typeof(GameObject))
-                asset = gameObject.GetComponent<T>();
+            // 컴포넌트면 GameObject를 로딩한 후에 GetComponent해준다.
+            if(typeof(T).IsSubclassOf(typeof(Component)))
+            {
+                GameObject resource = await ResourceManager.LoadResourceAsync<GameObject>(key);
+                if(resource != null)
+                    asset = resource.GetComponent<T>();
+            }
             else
-                asset = resource as T;
+                asset = await ResourceManager.LoadResourceAsync<T>(key);
         }
     }
 }

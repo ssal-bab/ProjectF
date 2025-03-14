@@ -21,24 +21,18 @@ namespace ProjectF.Tests
             farmer?.InitializeAsync(0);
         }
 
-        private void Update()
+        public void OpenStoragePopup()
         {
-            if(Input.GetKey(KeyCode.LeftControl) == false)
-                return;
+            StoragePopupUI storagePopupUI = PoolManager.Spawn<StoragePopupUI>("StoragePopupUI", GameDefine.MainPopupFrame);
+            storagePopupUI.StretchRect();
+            storagePopupUI.Initialize();
+        }
 
-            if(Input.GetKeyDown(KeyCode.P))
-            {
-                StoragePopupUI storagePopupUI = PoolManager.Spawn<StoragePopupUI>("StoragePopupUI", GameDefine.MainPopupFrame);
-                storagePopupUI.StretchRect();
-                storagePopupUI.Initialize();
-            }
-
-            if(Input.GetKeyDown(KeyCode.O))
-            {
-                NestPopupUI nestPopupUI = PoolManager.Spawn<NestPopupUI>("NestPopupUI", GameDefine.MainPopupFrame);
-                nestPopupUI.StretchRect();
-                nestPopupUI.Initialize();
-            }
+        public void OpenNestPopup()
+        {
+            NestPopupUI nestPopupUI = PoolManager.Spawn<NestPopupUI>("NestPopupUI", GameDefine.MainPopupFrame);
+            nestPopupUI.StretchRect();
+            nestPopupUI.Initialize();
         }
     }
 }

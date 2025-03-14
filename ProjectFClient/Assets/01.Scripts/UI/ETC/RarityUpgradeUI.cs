@@ -1,5 +1,4 @@
 using ProjectF.Datas;
-using ProjectF.UI;
 using TMPro;
 using UnityEngine;
 
@@ -13,16 +12,16 @@ namespace ProjectF.UI
 
         public void Initialize(ERarity rarity, float currentValue, float nextValue)
         {
-            rarityText.text = rarity.ToString(); // localizing 적용 해야함
-            currentValueText.text = currentValue.ToString();
-            nextValueText.text = nextValue.ToString();
+            rarityText.text = ResourceUtility.GetRarityNameLocalKey(rarity); // localizing 적용 해야함
+            currentValueText.text = $"{currentValue}%";
+            nextValueText.text = $"{nextValue}%";
         }
 
         public void Initialize(ECropGrade rarity, float currentValue, float nextValue)
         {
-            rarityText.text = rarity.ToString(); // localizing 적용 해야함
-            currentValueText.text = currentValue.ToString();
-            nextValueText.text = nextValue.ToString();
+            rarityText.text = ResourceUtility.GetCropGradeNameLocalKey(rarity); // localizing 적용 해야함
+            currentValueText.text = $"{currentValue}%";
+            nextValueText.text = $"{nextValue}%";
         }
     }
 }

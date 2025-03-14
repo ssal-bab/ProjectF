@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ProjectF.Datas;
 
 namespace ProjectF
 {
@@ -13,6 +14,8 @@ namespace ProjectF
 
         public static string GetCropNameLocalKey(int id) => GetLocalKey("CropName", id);
         public static string GetMaterialNameLocalKey(int id) => GetLocalKey("MaterialName", id);
+        public static string GetCropGradeNameLocalKey(ECropGrade cropGrade) => GetLocalKey("CropGradeName", (int)cropGrade);
+        public static string GetRarityNameLocalKey(ERarity rarity) => GetLocalKey("RarityName", (int)rarity);
 
         private static string GetLocalKey(string prefix, int id)
         {

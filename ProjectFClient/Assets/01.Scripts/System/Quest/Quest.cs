@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Timeline.Actions;
@@ -13,11 +14,20 @@ namespace ProjectF.Quests
         private bool canClear = false;
         public bool CanClear => canClear;
 
+        protected QuestSO questData;
+        public QuestSO QuestData => questData;
+
+        public event Action<Quest> OnMakeQuestEvent;
+        public event Action<Quest> OnCanClearQuestEvent;
+        public event Action<Quest> OnClearQuestEvent;
+
         protected abstract bool CheckQuestClear();
         protected abstract void MakeReward();
 
         public virtual void OnMakeQuest() 
         {
+            OnMakeQuestEvent?.Invoke(this);
+
             UpdateQuest();
         }
 
@@ -27,18 +37,19 @@ namespace ProjectF.Quests
         //퀘스트 정보 갱신으로 사용하는 업데이트
         protected virtual void UpdateQuest()
         {
-            if(CheckQuestClear())
+            if(CheckQuestClear() && !canClear)
             {
                 canClear = true;
-
-                //테스트
-                QuestManager.Instance.ClearQuest(this);
+                Debug.Log($"Can clear quset : {GetType()}");
+                OnCanClearQuestEvent?.Invoke(this);
             }
         }
 
         public virtual void OnClearQuest() 
         {
             MakeReward();
+
+            OnClearQuestEvent?.Invoke(this);
         }
     }
 }

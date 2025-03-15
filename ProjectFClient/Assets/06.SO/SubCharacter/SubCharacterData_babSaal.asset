@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c94b2a8eb38c74b91b058273340fd3c1, type: 3}
+  m_Name: SubCharacterData_babSaal
+  m_EditorClassIdentifier: 
+  CharacterType: 1
+  Image: {fileID: 668087327, guid: 7e6168dd840db764690a869da34c41a8, type: 3}
+  QusetContainerData: {fileID: 11400000, guid: 31e2c465379324e23927b5567148bc0c, type: 2}

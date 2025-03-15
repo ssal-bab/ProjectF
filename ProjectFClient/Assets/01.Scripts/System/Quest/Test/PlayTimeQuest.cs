@@ -9,12 +9,16 @@ namespace ProjectF.Quests
         private float targetTime;
         private float currentTime;
 
-        public PlayTimeQuest(float targetTime)
+        public PlayTimeQuest(QuestSO so)
         {
-            this.targetTime = targetTime;
-            currentTime = 0.0f;
+            questData = so;
+            if(questData is PlayTimeQusetSO)
+            {
+                this.targetTime = ((PlayTimeQusetSO)questData).TargetTime;
+                currentTime = 0.0f;
             
-            message = $"{targetTime}초 동안 게임을 플레이하기";
+                message = $"{targetTime}초 동안 게임을 플레이하기";
+            }   
         }
 
         public override void Update()

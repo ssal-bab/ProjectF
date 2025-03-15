@@ -36,8 +36,6 @@ namespace ProjectF.Quests
                     }
                 }
             }
-
-            MakeQuest(new PlayTimeQuest(10.0f));
         }
 
         public void Update()
@@ -58,6 +56,11 @@ namespace ProjectF.Quests
             OnClearQuest = null;
 
             instance = null;
+        }
+
+        public void MakeQuest(QuestSO questData)
+        {
+            MakeQuest(questData.MakeQuest());
         }
 
         public void MakeQuest(Quest newQuest)

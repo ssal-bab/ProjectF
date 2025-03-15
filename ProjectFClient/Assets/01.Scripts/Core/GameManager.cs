@@ -6,6 +6,7 @@ using H00N.Resources.Pools;
 using Newtonsoft.Json;
 using ProjectF.Networks;
 using ProjectF.Quests;
+using ProjectF.SubCharacters;
 using UnityEngine;
 
 namespace ProjectF
@@ -35,6 +36,7 @@ namespace ProjectF
 
             // GetComponent<FarmManager>().Initialize();
             new NetworkManager().Initialize();
+            new SubCharacterManager().Initialize();
         }
 
         public void OnLoginGameServer()
@@ -56,6 +58,7 @@ namespace ProjectF
             // FarmManager.Instance.Release();
             NetworkManager.Instance.Release();
             QuestManager.Instance.Release();
+            SubCharacterManager.Instance.Release();
         }
     }
 }

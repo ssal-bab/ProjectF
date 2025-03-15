@@ -1065,6 +1065,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 674
       objectReference: {fileID: 0}
+    - target: {fileID: 8195371919347842731, guid: 47e5e999180b24bc5b4da9a5cc6e9bd1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00060892536
+      objectReference: {fileID: 0}
     - target: {fileID: 8433408888088570291, guid: 47e5e999180b24bc5b4da9a5cc6e9bd1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -6054,6 +6058,10 @@ PrefabInstance:
     - target: {fileID: 2643716684985687316, guid: ef6fc91364e2c416b85637854c7ba3ac, type: 3}
       propertyPath: m_Name
       value: QuestPopupUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643716684985687316, guid: ef6fc91364e2c416b85637854c7ba3ac, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4475103464117054678, guid: ef6fc91364e2c416b85637854c7ba3ac, type: 3}
       propertyPath: m_Pivot.x

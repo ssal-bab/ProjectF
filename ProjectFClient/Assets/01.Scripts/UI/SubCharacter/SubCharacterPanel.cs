@@ -20,6 +20,7 @@ namespace ProjectF.UI.SubCharacters
                 subCharacterIcon.SetCharacter(pair.Value);
                 pair.Value.SetIcon(subCharacterIcon);
                 subCharacterIcon.transform.SetParent(transform);
+                subCharacterIcon.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             }
         }
     }

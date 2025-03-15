@@ -4,12 +4,11 @@ using H00N.DataTables;
 namespace ProjectF.DataTables
 {
     [Serializable]
-    public partial class NestTableRow : FacilityTableRowBase
+    public partial class NestTableRow : FacilityTableRow
     {
-        public int level;
         public int eggStoreLimit;
         public int farmerStoreLimit;
     }
 
-    public partial class NestTable : DataTable<NestTableRow> { }
+    public partial class NestTable : FacilityTable<NestTableRow> { }
 }

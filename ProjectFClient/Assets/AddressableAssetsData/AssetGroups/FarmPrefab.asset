@@ -15,8 +15,20 @@ MonoBehaviour:
   m_GroupName: FarmPrefab
   m_Data:
     m_SerializedData: []
-  m_GUID: 6ac3482ec3cb249f4ab4fc2440232d10
+  m_GUID: dd4465aefa56b4a68a1ed07e4645b9e5
   m_SerializeEntries:
+  - m_GUID: 813420fe0dbdf4ceb963362113d62b6d
+    m_Address: Crop
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd10d336b1cb542f696ddb4ce735b2ad
+    m_Address: Egg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0102eb81489c242258d60b93426dcfaf
     m_Address: FieldGroup
     m_ReadOnly: 0
@@ -45,5 +57,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 05b3bd61d7e944b6cbce4cfaf35145c6, type: 2}
-    - {fileID: 11400000, guid: cd6da0099e4504bb1a3700360ba0b5aa, type: 2}
+    - {fileID: 11400000, guid: 0fdc736b334b4489999e78cebf1ee8e3, type: 2}
+    - {fileID: 11400000, guid: ea1b7029b2e3f49658a926bd64ce3f96, type: 2}

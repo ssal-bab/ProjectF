@@ -3,7 +3,6 @@ using Cysharp.Threading.Tasks;
 using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
-using ProjectF.Datas;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,16 +19,10 @@ namespace ProjectF.UI.Farms
             elementPrefab.Initialize();
         }
 
-        public override void Initialize(UserStorageData userStorageData, StorageUICallbackContainer callbackContainer)
+        public override void Initialize()
         {
-            base.Initialize(userStorageData, callbackContainer);
-            if(userStorageData == null)
-            {
-                scrollView.content.DespawnAllChildren();
-                return;
-            }
-
-            RefreshUIAsync(userStorageData.materialStorage);
+            base.Initialize();
+            RefreshUIAsync(GameInstance.MainUser.storageData.materialStorage);
         }
 
         private async void RefreshUIAsync(Dictionary<int, int> storageData)

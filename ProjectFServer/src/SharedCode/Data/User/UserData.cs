@@ -8,5 +8,6 @@ namespace ProjectF.Datas
         public UserNestData nestData = null;
         public UserQuestData questData = null;
         public UserFarmerData farmerData = null;
+        public UserMonetaData monetaData = null;
     }
 }

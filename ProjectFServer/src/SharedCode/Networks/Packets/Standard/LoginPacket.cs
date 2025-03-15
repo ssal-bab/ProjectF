@@ -10,11 +10,8 @@ namespace ProjectF.Networks.Packets
         public const string POST = "login";
         public override string Post => POST;
 
-        public string userID = null;
-        
-        public LoginRequest(string loginUserID)
+        public LoginRequest()
         {
-            this.userID = loginUserID;
         }
     }
 

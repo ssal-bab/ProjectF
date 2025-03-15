@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DefaultUI
+  m_EditorClassIdentifier: 
+  m_GroupName: DefaultUI
+  m_Data:
+    m_SerializedData: []
+  m_GUID: bb528477ca9dc4edea8379ba8be0f1d9
+  m_SerializeEntries:
+  - m_GUID: fb5f1aaf9485b4c0eac3f249c7c9f426
+    m_Address: FarmerGainPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79436415e2ac24028a0ae4593c77cb29
+    m_Address: NestSlotElementUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22af52feb65d84d51bea465a238d3413
+    m_Address: StorageMaterialElementUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91bd571446e7b4b5597dd8f10a609a92
+    m_Address: StorageCropElementUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15880f9675f3f4db4b1e325032578202
+    m_Address: StorageUpgradePopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47e5e999180b24bc5b4da9a5cc6e9bd1
+    m_Address: StoragePopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afc372f7c5e0643409d56210940f28de
+    m_Address: StorageInfoPanelUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0a727c2e28504a36ac1f4d95c9d9717
+    m_Address: StorageMaterialViewPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3451e5da3aed4499f8c6506513b15f9f
+    m_Address: StorageCropViewPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6231f44ea2d004f2ab2526b77156b460
+    m_Address: NestUpgradePopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b23e14bac9454dfcab78d7ad97378ff
+    m_Address: NestSlotListPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4296bc93d5024e379119985ec27203e
+    m_Address: NestPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d90a698bfa3a94dd1904a35052d1de3a
+    m_Address: NestInfoPanelUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebe1176d4b5fc4050aec9e124377ac1c
+    m_Address: CheatPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: f2fb825a9db4c481bb40ae106020c040, type: 2}
+    - {fileID: 11400000, guid: 23da72d37ba334389b02ca760dce1329, type: 2}

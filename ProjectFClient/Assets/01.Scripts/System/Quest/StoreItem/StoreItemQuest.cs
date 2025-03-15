@@ -14,13 +14,13 @@ namespace ProjectF.Quests
         public int TargetQuantity => targetQuantity;
         public int CurrentQuantity => currentQuantity;
 
-        private EItemType itemType;
+        // private EItemType itemType;
 
-        public StoreItemQuest(EItemType itemType, int targetQuantity)
-        {
-            this.targetQuantity = targetQuantity;
-            this.itemType = itemType;
-        }
+        // public StoreItemQuest(EItemType itemType, int targetQuantity)
+        // {
+        //     this.targetQuantity = targetQuantity;
+        //     this.itemType = itemType;
+        // }
 
         public override void OnMakeQuest()
         {
@@ -51,11 +51,11 @@ namespace ProjectF.Quests
 
         }
 
-        protected virtual void OnStoreItem(ItemSO itemData, int quantity)
-        {
-            currentQuantity = quantity;
+        // protected virtual void OnStoreItem(ItemSO itemData, int quantity)
+        // {
+        //     currentQuantity = quantity;
 
-            UpdateQuest();
-        }
+        //     UpdateQuest();
+        // }
     }
 }

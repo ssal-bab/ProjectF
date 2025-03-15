@@ -1,7 +1,8 @@
-using System;
 using Cysharp.Threading.Tasks;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
+using ProjectF.Networks;
+using ProjectF.Networks.Packets;
 using TMPro;
 using UnityEngine;
 
@@ -15,12 +16,9 @@ namespace ProjectF.UI.Farms
         private UserNestData userNestData = null;
         private int currentIndex = 0;
 
-        private Func<int, UniTask<int>> hatchCallback = null;
-
-        public void Initialize(UserNestData nestData, int index, Func<int, UniTask<int>> hatchCallback)
+        public void Initialize(UserNestData nestData, int index)
         {
             base.Initialize();
-            this.hatchCallback = hatchCallback;
 
             userNestData = nestData;
             currentIndex = index;
@@ -55,20 +53,25 @@ namespace ProjectF.UI.Farms
             RefreshUI();
         }
 
-        public async void OnTouchHatchButton()
+        public void OnTouchHatchButton()
         {
-            if(hatchCallback == null)
-                return;
-
-            int bornFarmerID = await hatchCallback.Invoke(currentIndex);
-            Debug.Log($"Farmer wad born. ID : {bornFarmerID}");
-
-            RefreshUI();
+            HatchEgg();
         }
 
         public void OnTouchCloseButton()
         {
             PoolManager.DespawnAsync(gameObject.GetComponent<PoolReference>()).Forget();
+        }
+
+        private async void HatchEgg()
+        {
+            HatchEggResponse response = await NetworkManager.Instance.SendWebRequestAsync<HatchEggResponse>(new HatchEggRequest(currentIndex));
+            if(response.result != ENetworkResult.Success)
+                return;
+
+            Debug.Log($"Farmer wad born. ID : {response.farmerData.farmerUUID}");
+            GameInstance.MainUser.farmerData.farmerList.Add(response.farmerData.farmerUUID, response.farmerData);
+            RefreshUI();
         }
     }
 }

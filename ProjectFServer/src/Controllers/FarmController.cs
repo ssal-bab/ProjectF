@@ -34,5 +34,13 @@ namespace ProjectF.Networks.Controllers
             await processor.ProcessAsync();
             return processor.Response;
         }
+
+        [HttpPost(FieldGroupUpgradeRequest.POST)]
+        public async Task<ActionResult<FieldGroupUpgradeResponse>> FieldGroupUpgradeRequestPost([FromBody]FieldGroupUpgradeRequest req)
+        {
+            FieldGroupUpgradeProcessor processor = new FieldGroupUpgradeProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace ProjectF.Networks
         DataNotFound,
         Timeout,
         Error,
+        DataNotEnough
     }
 }

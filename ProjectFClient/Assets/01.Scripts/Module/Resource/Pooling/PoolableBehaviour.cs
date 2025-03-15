@@ -1,11 +1,10 @@
-using System;
-using UnityEngine;
-
 namespace H00N.Resources.Pools
 {
-    public abstract class PoolableBehaviour : MonoBehaviour
+    public interface IPoolableBehaviour
     {
-        public virtual void OnSpawned() { }
-        public virtual void OnDespawn() { }
+        public PoolReference PoolReference { get; }
+
+        public void OnSpawned();
+        public void OnDespawn();
     }
 }

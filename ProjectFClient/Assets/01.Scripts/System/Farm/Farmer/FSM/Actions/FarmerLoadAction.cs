@@ -18,7 +18,7 @@ namespace ProjectF.Farms.AI
             base.OnHandleAnimationTrigger();
 
             Item item = Farmer.HoldItem;
-            currentStorage.StoreCrop(item.ItemData.id, Datas.ECropGrade.None, 1);
+            currentStorage.StoreCrop(item.ID, Datas.ECropGrade.None, 1);
             Farmer.ReleaseItem();
         }
 

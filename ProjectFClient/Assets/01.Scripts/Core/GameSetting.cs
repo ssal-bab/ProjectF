@@ -10,5 +10,10 @@ namespace ProjectF
             get => PlayerPrefs.GetString(LAST_LOGING_USER_ID_SAVE_KEY, DataDefine.NO_USER_ID);
             set => PlayerPrefs.SetString(LAST_LOGING_USER_ID_SAVE_KEY, value);
         }
+
+        public static void ResetGameSetting()
+        {
+            PlayerPrefs.DeleteKey(LAST_LOGING_USER_ID_SAVE_KEY);
+        }
     }
 }

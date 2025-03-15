@@ -1,10 +1,13 @@
-using ProjectF.Datas;
+using H00N.OptOptions;
 using UnityEngine;
 
 namespace ProjectF
 {
     public static class GameDefine
     {
+        public static readonly OptOption<string> DefaultColorOption = new OptOption<string>("#F2F2F2", "#F30000");
+        public static readonly string DefaultGoldColor = "#FFCF4A";
+
         private static Transform mainCanvas = null;
         public static Transform MainCanvas {
             get {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using H00N.DataTables;
+using H00N.Resources;
 using ProjectF.Datas;
 using ProjectF.DataTables;
 using TMPro;
@@ -13,6 +14,7 @@ namespace ProjectF.UI.Farms
     {
         [Header("Default Group")]
         [SerializeField] Image eggIconImage = null;
+        [SerializeField] AddressableAsset<Sprite> emptyImage = null;
 
         [Header("Hatching Finish Group")]
         [SerializeField] GameObject hatchingFinishGroupObject = null;
@@ -27,6 +29,7 @@ namespace ProjectF.UI.Farms
         public void Initialize(EggHatchingData eggHatchingData)
         {
             base.Initialize();
+            emptyImage.Initialize();
             StopAllCoroutines();
 
             if (eggHatchingData == null)
@@ -43,7 +46,6 @@ namespace ProjectF.UI.Farms
             }
 
             eggIconImage.sprite = ResourceUtility.GetEggIcon(tableRow.id);
-            eggIconImage.color = Color.white;
 
             TimeSpan elapsedTimeSpan = GameInstance.ServerTime - eggHatchingData.hatchingStartTime;
             float remainTime = (float)(tableRow.hatchingTime - elapsedTimeSpan.TotalSeconds);
@@ -86,8 +88,7 @@ namespace ProjectF.UI.Farms
 
         private void EnactiveUI()
         {
-            eggIconImage.sprite = null;
-            eggIconImage.color = new Color(0, 0, 0, 0);
+            eggIconImage.sprite = emptyImage.Asset;
             hatchingFinishGroupObject.SetActive(false);
             remainTimeGroupObject.SetActive(false);
         }

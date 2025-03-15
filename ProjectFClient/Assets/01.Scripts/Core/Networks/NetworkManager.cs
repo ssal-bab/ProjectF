@@ -26,14 +26,11 @@ namespace ProjectF.Networks
             serverConnection = connection;
         }
 
-        public async UniTask<TResponse> SendWebRequestAsync<TResponse>(RequestPacket packet) where TResponse : ResponsePacket
+        public async UniTask<TResponse> SendWebRequestAsync<TResponse>(RequestPacket packet, Connection connection = null, string userID = null) where TResponse : ResponsePacket
         {
-            return await SendWebRequestAsync<TResponse>(serverConnection, packet);
-        }
-
-        public async UniTask<TResponse> SendWebRequestAsync<TResponse>(Connection connection, RequestPacket packet) where TResponse : ResponsePacket
-        {
-            packet.userID = GameInstance.CurrentLoginUserID;
+            connection ??= serverConnection;
+            userID ??= GameInstance.CurrentLoginUserID;
+            packet.userID = userID;
             return await new WebRequest<TResponse>(connection, packet).RequestAsync();
         }
 

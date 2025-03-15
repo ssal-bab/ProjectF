@@ -13,10 +13,8 @@ namespace ProjectF.Networks
 
         private async void CheckConnectionInternalAsync()
         {
-            ServerConnectionRequest payload = new ServerConnectionRequest();
-            ServerConnectionResponse response = await NetworkManager.Instance.SendWebRequestAsync<ServerConnectionResponse>(this, payload);
-
-            if(response == null || response.result != ENetworkResult.Success)
+            ServerConnectionResponse response = await NetworkManager.Instance.SendWebRequestAsync<ServerConnectionResponse>(new ServerConnectionRequest(), this);
+            if(response.result != ENetworkResult.Success)
             {
                 SetConnection(false);
                 return;

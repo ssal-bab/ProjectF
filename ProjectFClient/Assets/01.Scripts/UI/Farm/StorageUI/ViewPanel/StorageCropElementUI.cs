@@ -8,58 +8,53 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class StorageCropElementUI : MonoBehaviourUI
+    public class StorageCropElementUI : PoolableBehaviourUI
     {
-        [SerializeField] Image itemIconImage = null;
-        [SerializeField] Image gradeIconImage = null;
-        [SerializeField] TMP_Text itemCountText = null;
+        [SerializeField] Image iconImage = null;
+        [SerializeField] Image iconBackgroundImage = null;
+        [SerializeField] TMP_Text countText = null;
         [SerializeField] TMP_Text priceText = null;
 
         private int id = 0;
-        private Action<int> sellCropCallback = null;
+        private ECropGrade grade = ECropGrade.None;
+        private Action<StorageCropElementUI, int, ECropGrade> sellCallback = null;
 
-        public void Initialize(int id, ECropGrade grade, int count, Action<int> sellCropCallback)
+        public void Initialize(int id, ECropGrade grade, int count, Action<StorageCropElementUI, int, ECropGrade> sellCallback)
         {
             this.id = id;
-            this.sellCropCallback = sellCropCallback;
+            this.grade = grade;
+            this.sellCallback = sellCallback;
 
-            ItemTableRow itemTableRow = DataTableManager.GetTable<ItemTable>().GetRow(id);
-            if(itemTableRow == null)
+            CropTableRow tableRow = DataTableManager.GetTable<CropTable>().GetRow(id);
+            if(tableRow == null)
             {
                 ResetUI();
                 return;
             }
 
-            CropTableRow cropTableRow = DataTableManager.GetTable<CropTable>().GetRowByProductID(id);
-            if(cropTableRow == null)
-            {
-                ResetUI();
-                return;
-            }
-
-            RefreshUI(itemTableRow, cropTableRow, grade, count);
+            RefreshUI(tableRow, count);
         }
 
         private void ResetUI()
         {
-            itemIconImage.color = new Color(0, 0, 0, 0);
-            gradeIconImage.color = new Color(0, 0, 0, 0);
-            itemCountText.text = "";
+            iconImage.color = new Color(0, 0, 0, 0);
+            iconBackgroundImage.sprite = ResourceUtility.GetCropGradeIcon((int)ECropGrade.None);
+            countText.text = "";
             priceText.text = "";
-            sellCropCallback = null;
         }
 
-        private void RefreshUI(ItemTableRow itemTableRow, CropTableRow cropTableRow, ECropGrade grade, int count)
+        private void RefreshUI(CropTableRow tableRow, int count)
         {
-            itemIconImage.sprite = ResourceUtility.GetItemIcon(itemTableRow.id);
-            gradeIconImage.sprite = ResourceUtility.GetItemIcon((int)grade);
-            itemCountText.text = $"{count} {itemTableRow.nameLocalKey}s";            
-            priceText.text = (cropTableRow.basePrice * count).ToString();
+            iconImage.sprite = ResourceUtility.GetCropIcon(tableRow.id);
+            iconBackgroundImage.sprite = ResourceUtility.GetCropGradeIcon((int)grade);
+            countText.text = $"{count} {ResourceUtility.GetCropNameLocalKey(tableRow.id)}s";            
+            priceText.text = (tableRow.basePrice * count).ToString();
         }
 
         public void OnTouchSellButton()
         {
-            sellCropCallback?.Invoke(id);
+            Debug.Log("[StorageCropElementUI::OnTouchSellButton] Sell Crop");
+            sellCallback?.Invoke(this, id, grade);
         }
     }
 }

@@ -4,12 +4,11 @@ using H00N.DataTables;
 namespace ProjectF.DataTables
 {
     [Serializable]
-    public partial class StorageTableRow : FacilityTableRowBase
+    public partial class StorageTableRow : FacilityTableRow
     {
-        public int level;
         public int storeLimit;
         public float priceMultiplier;
     }
 
-    public partial class StorageTable : DataTable<StorageTableRow> { }
+    public partial class StorageTable : FacilityTable<StorageTableRow> { }
 }

@@ -15,7 +15,7 @@ namespace ProjectF.Farms.AI
 
             CropSO targetSeedData = aiData.currentSeedData;
             Seed seed = PoolManager.Spawn<Seed>("Seed");
-            seed.Initialize(targetSeedData.TableRow.seedItemID);
+            seed.Initialize(targetSeedData.TableRow.id);
             seed.transform.position = brain.transform.position;
 
             // Storage로 향해있던 타겟을 제거하고 Seed로 변경

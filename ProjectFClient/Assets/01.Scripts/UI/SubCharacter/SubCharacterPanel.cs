@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ProjectF.SubCharacters;
 using UnityEngine;
 
-namespace ProjectF.UI.SubCharacter
+namespace ProjectF.UI.SubCharacters
 {
     public class SubCharacterPanel : MonoBehaviourUI
     {
@@ -17,6 +17,7 @@ namespace ProjectF.UI.SubCharacter
             {
                 SubCharacterIcon subCharacterIcon = Instantiate(subCharacterIconPrefab);
                 subCharacterIcon.name = $"{pair.Key}Icon";
+                subCharacterIcon.SetCharacter(pair.Value);
                 pair.Value.SetIcon(subCharacterIcon);
                 subCharacterIcon.transform.SetParent(transform);
             }

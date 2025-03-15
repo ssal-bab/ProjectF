@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectF.Quests;
-using ProjectF.UI.SubCharacter;
+using ProjectF.UI.SubCharacters;
 using H00N.Resources;
 
 namespace ProjectF.SubCharacters

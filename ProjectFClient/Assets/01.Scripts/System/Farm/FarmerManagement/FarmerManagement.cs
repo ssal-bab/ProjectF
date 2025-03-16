@@ -28,22 +28,15 @@ namespace ProjectF.Farms
                 Debug.LogWarning($"Warning:{farmerID} has already registered");
             }
         }
-        public void ChangeFarmingLevel(Farmer farmer, int farmerID, int targetLevel, int currentLevel)
+        public void ChangeFarmerLevel(Farmer farmer, int farmerID, int targetLevel, int currentLevel)
         {
             CalculateLevelDifference(targetLevel, currentLevel, (delta, theta) =>
             {
                 FarmerStatAdjustmentModifier(farmer.Stat, farmerID, delta, theta, 
                                              EFarmerStatType.MoveSpeed, 
                                              EFarmerStatType.Health, 
-                                             EFarmerStatType.FarmingSkill);
-            });
-        }
-
-        public void ChangeAdventureLevel(Farmer farmer, int farmerID, int targetLevel, int currentLevel)
-        {
-            CalculateLevelDifference(targetLevel, currentLevel, (delta, theta) =>
-            {
-                FarmerStatAdjustmentModifier(farmer.Stat, farmerID, delta, theta, EFarmerStatType.AdventureSkill);
+                                             EFarmerStatType.FarmingSkill,
+                                             EFarmerStatType.AdventureSkill);
             });
         }
 
@@ -70,7 +63,7 @@ namespace ProjectF.Farms
             }
         }
 
-        public async Task<int> FarmerSell(string farmerUUID, int farmingLevel, int adventureLevel)
+        public async Task<int> FarmerSellAsync(string farmerUUID, int farmingLevel, int adventureLevel)
         {
             int farmerID = GameInstance.MainUser.farmerData.farmerList[farmerUUID].farmerID;
             FarmerSO farmerSO = await ResourceManager.LoadResourceAsync<FarmerSO>($"Farmer_{farmerID}");

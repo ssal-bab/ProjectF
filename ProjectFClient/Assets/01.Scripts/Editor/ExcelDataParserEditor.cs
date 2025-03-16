@@ -121,6 +121,7 @@ public class ExcelDataParserEditor : EditorWindow
                     if (info.StartsWith("TableRowBase="))
                     {
                         parentClassName = info.Split('=')[1];
+                        Debug.Log(parentClassName);
                     }
                     else if (info.StartsWith("Attribute="))
                     {

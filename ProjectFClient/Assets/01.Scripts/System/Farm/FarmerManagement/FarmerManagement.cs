@@ -11,6 +11,7 @@ namespace ProjectF.Farms
     public class FarmerManagement : MonoBehaviour
     {
         private Dictionary<int, FarmerIncreaseStatSO> increaseStatDataDictionary = new();
+        private FarmerSalesMultiplierSO salesMultiplierData;
         
         public async void InitializeFarmerIncreaseStatAsync()
         {
@@ -28,6 +29,12 @@ namespace ProjectF.Farms
                 Debug.LogWarning($"Warning:{farmerID} has already registered");
             }
         }
+
+        public void InitializeFarmerSalesMultiplier()
+        {
+
+        }
+
         public void ChangeFarmerLevel(Farmer farmer, int farmerID, int targetLevel, int currentLevel)
         {
             CalculateLevelDifference(targetLevel, currentLevel, (delta, theta) =>
@@ -69,13 +76,12 @@ namespace ProjectF.Farms
             FarmerSO farmerSO = await ResourceManager.LoadResourceAsync<FarmerSO>($"Farmer_{farmerID}");
             ERarity rarity = farmerSO.TableRow.rarity;
 
-            float farmingMultiplier = farmingLevel * DataDefine.FARMING_LEVEL_SALES_MULTIPLIER;
-            float adventureMultiplier = adventureLevel * DataDefine.ADVENTURE_LEVEL_SALES_MULTIPLIER;
-            float gradeMultiplier = (int)rarity * DataDefine.FARMER_GRADE_SALES_MULTIPLIER;
+            float farmingMultiplier = farmingLevel * salesMultiplierData.LevelSalesMultiplierValue;
+            float gradeMultiplier = (int)rarity * salesMultiplierData.GradeSalesMultiplierValue;
 
             GameInstance.MainUser.farmerData.farmerList.Remove(farmerUUID);
 
-            return Mathf.FloorToInt(farmingMultiplier + adventureMultiplier + gradeMultiplier);
+            return Mathf.FloorToInt(farmingMultiplier + gradeMultiplier);
         }
     }
 }

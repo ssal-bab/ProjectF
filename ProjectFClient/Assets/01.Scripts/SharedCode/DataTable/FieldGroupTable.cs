@@ -1,8 +1,8 @@
-using System;
+using H00N.DataTables;
+using ProjectF.Datas;
 
 namespace ProjectF.DataTables
 {
-    [Serializable]
     public partial class FieldGroupTableRow : FacilityTableRow
     {
         public float noneGradeRate;

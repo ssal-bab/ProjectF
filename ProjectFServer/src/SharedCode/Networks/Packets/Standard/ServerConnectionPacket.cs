@@ -4,7 +4,7 @@ namespace ProjectF.Networks.Packets
     {
         public override string Route => NetworkDefine.STANDARD_ROUTE;
 
-        public const string POST = "server_connection";
+        public const string POST = "ServerConnection";
         public override string Post => POST;
 
         public ServerConnectionRequest() { }

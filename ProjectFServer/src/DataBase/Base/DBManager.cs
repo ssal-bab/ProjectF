@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using RedLockNet;
 using StackExchange.Redis.Extensions.Core.Abstractions;
 
@@ -11,7 +13,8 @@ namespace ProjectF.Networks.DataBases
         public IRedisDatabase CurrentDB => redisClient.Db0;
 
         private readonly AsyncLock userDataInfoCacheLock = null;
-        private Dictionary<string, UserDataInfo> userDataInfoCache = null;
+        private Dictionary<string, UserDataInfo> userDataInfoCache = null; // 나중에 캐싱 작업할 때 ConcurrentDictionary로 바꾸자
+        
 
         public DBManager(IRedisClient redisClient, IDistributedLockFactory redLockFactory)
         {

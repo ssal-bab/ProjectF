@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.IO;
 using H00N.DataTables;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using ProjectF.Networks.DataBases;
 using StackExchange.Redis.Extensions.Core;
@@ -31,10 +35,10 @@ public class Program
         builder.Services.AddSingleton(new CreateRedLockFactory().Create);
         builder.Services.AddSingleton<IRedisClient, RedisClient>();
         builder.Services.AddSingleton<IRedisConnectionPoolManager, RedisConnectionPoolManager>();
+        builder.Services.AddSingleton<ISerializer, NewtonsoftSerializer>();
 
         // ETC
         builder.Services.AddSingleton<DBManager>();
-        builder.Services.AddSingleton<ISerializer, NewtonsoftSerializer>();
 
         WebApplication app = builder.Build();
         app.MapControllers();

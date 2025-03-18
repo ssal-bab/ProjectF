@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using RedLockNet;
 using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core.Abstractions;

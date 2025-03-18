@@ -16,7 +16,7 @@ namespace ProjectF.Farms.AI
 
             // State 들어올 때 조건에 맞지 않으면 액션을 취하지 않고 통과시킨다.
             currentField = aiData.CurrentTarget as Field;
-            if(currentField.CurrentState != fieldCondition)
+            if(currentField.FieldState != fieldCondition)
                 brain.SetAsDefaultState();
         }
 
@@ -25,7 +25,7 @@ namespace ProjectF.Farms.AI
             base.OnHandleAnimationTrigger();
 
             // 여기까지 왔으면 조건이 맞지 않더라도 액션을 끊지 않는다. => 애니메이션 계속 진행
-            if(currentField.CurrentState == fieldCondition)
+            if(currentField.FieldState == fieldCondition)
                 currentField.ChangeState(targetFieldState);
         }
 

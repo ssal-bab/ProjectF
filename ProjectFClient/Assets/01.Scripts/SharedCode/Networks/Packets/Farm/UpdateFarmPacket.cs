@@ -10,11 +10,11 @@ namespace ProjectF.Networks.Packets
         public const string POST = "UpdateFarm";
         public override string Post => POST;
 
-        public Dictionary<int, Dictionary<int, FieldData>> dirtiedFields = null;
+        public Dictionary<int, FieldGroupData> fieldGroupDatas;
 
-        public UpdateFarmRequest(Dictionary<int, Dictionary<int, FieldData>> dirtiedFields)
+        public UpdateFarmRequest(Dictionary<int, FieldGroupData> fieldGroupDatas)
         {
-            this.dirtiedFields = dirtiedFields;
+            this.fieldGroupDatas = fieldGroupDatas;
         }
     }
 

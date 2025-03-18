@@ -14,7 +14,7 @@ namespace ProjectF.Farms
             if (targetField == null)
                 return false;
 
-            return targetField.CurrentState == targetFeildState;
+            return targetField.FieldState == targetFeildState;
         }
     }
 }

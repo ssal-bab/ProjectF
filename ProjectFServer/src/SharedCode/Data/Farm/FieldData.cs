@@ -6,14 +6,14 @@ namespace ProjectF.Datas
 
         public EFieldState fieldState = EFieldState.None;
         public int currentCropID = 0;
-        public int currentGrowthStep = 0;
+        public int currentGrowth = 0;
 
         public void UpdateData(FieldData data)
         {
             fieldID = data.fieldID;
             fieldState = data.fieldState;
             currentCropID = data.currentCropID;
-            currentGrowthStep = data.currentGrowthStep;
+            currentGrowth = data.currentGrowth;
         }
     }
 }

@@ -5,7 +5,7 @@ using H00N.DataTables;
 namespace ProjectF.DataTables
 {
     [Serializable]
-    public class FacilityTableRow : DataTableRow
+    public abstract class FacilityTableRow : DataTableRow
     {
         public int level;
         public int upgradeGold;

@@ -45,7 +45,7 @@ namespace ProjectF.UI.Farms
 
         public void RefreshUI()
         {
-            int currentLevel = GameInstance.MainUser.fieldData.fieldGroupDatas[fieldGroupID].level;
+            int currentLevel = GameInstance.MainUser.fieldGroupData.fieldGroupDatas[fieldGroupID].level;
             GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow> getFacilityTableRow = new GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow>(currentLevel);
             FieldGroupTableRow currentTableRow = getFacilityTableRow.currentTableRow;
             FieldGroupTableRow nextTableRow = getFacilityTableRow.nextTableRow;

@@ -8,10 +8,12 @@ namespace ProjectF.Networks.Packets
         public const string POST = "Harvest";
         public override string Post => POST;
 
+        public int fieldGroupID = 0;
         public int fieldID = 0;
 
-        public HarvestRequest(int fieldID)
+        public HarvestRequest(int fieldGroupID, int fieldID)
         {
+            this.fieldGroupID = fieldGroupID;
             this.fieldID = fieldID;
         }
     }

@@ -17,18 +17,19 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                UserFieldData farmData = userDataInfo.Data.fieldData;
-                foreach(var dirtiedFieldGroup in request.dirtiedFields)
-                {
-                    Dictionary<int, FieldData> fieldGroupData = dirtiedFieldGroup.Value;
-                    FieldGroupData userFieldGroupData = farmData.fieldGroupDatas[dirtiedFieldGroup.Key];
+                UserFieldGroupData farmData = userDataInfo.Data.fieldGroupData;
+                farmData.fieldGroupDatas = request.fieldGroupDatas;
+                // foreach(var dirtiedFieldGroup in request.dirtiedFields)
+                // {
+                //     Dictionary<int, FieldData> fieldGroupData = dirtiedFieldGroup.Value;
+                //     FieldGroupData userFieldGroupData = farmData.fieldGroupDatas[dirtiedFieldGroup.Key];
 
-                    if(fieldGroupData == null)
-                        continue;
+                //     if(fieldGroupData == null)
+                //         continue;
 
-                    foreach(var dirtiedField in fieldGroupData)
-                        userFieldGroupData.fieldDatas[dirtiedField.Key].UpdateData(dirtiedField.Value);
-                }
+                //     foreach(var dirtiedField in fieldGroupData)
+                //         userFieldGroupData.fieldDatas[dirtiedField.Key].UpdateData(dirtiedField.Value);
+                // }
 
                 await userDataInfo.WriteAsync();
             }

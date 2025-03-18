@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using ProjectF.Datas;
+using Cysharp.Threading.Tasks;
 using ProjectF.Farms;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
@@ -8,7 +6,7 @@ using UnityEngine;
 
 namespace ProjectF
 {
-    public class FarmManager : MonoBehaviour
+    public class FarmManager
     {
         private static FarmManager instance = null;
         public static FarmManager Instance => instance;
@@ -35,6 +33,7 @@ namespace ProjectF
         public void RegisterFarm(Farm farm)
         {
             mainFarm = farm;
+            mainFarmSaveCounter = FARM_SAVE_TICK_COUNT;
             DateManager.Instance.OnLateTickCycleEvent += HandleLateTickCycleEvent;
         }
 
@@ -51,14 +50,13 @@ namespace ProjectF
             SaveFarmAsync();
         }
 
-        public async void SaveFarmAsync()
+        public void SaveFarmAsync()
         {
-            Dictionary<int, Dictionary<int, FieldData>> dirtiedFields = mainFarm.FlushDirtiedFields();
-            if(dirtiedFields.Count <= 0)
-                return;
+            mainFarm.UpdateFieldGroupData();
 
-            UpdateFarmRequest request = new UpdateFarmRequest(dirtiedFields);
-            _ = await NetworkManager.Instance.SendWebRequestAsync<UpdateFarmResponse>(request);
+            Debug.Log("[FarmManager::SaveFarmAsync] Save Farm Data");
+            UpdateFarmRequest request = new UpdateFarmRequest(GameInstance.MainUser.fieldGroupData.fieldGroupDatas);
+            NetworkManager.Instance.SendWebRequestAsync<UpdateFarmResponse>(request).Forget();
             // UpdateFarmResponse response = await NetworkManager.Instance.SendWebRequestAsync<UpdateFarmResponse>(request);
         }
     }

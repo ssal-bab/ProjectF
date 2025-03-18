@@ -61,7 +61,7 @@ namespace ProjectF.Tests
                 UserData mainUser = GameInstance.MainUser;
                 mainUser.monetaData.gold -= response.usedGold;
                 mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
-                mainUser.fieldData.fieldGroupDatas[response.upgradedFieldGroupID].level = response.currentLevel;
+                mainUser.fieldGroupData.fieldGroupDatas[response.upgradedFieldGroupID].level = response.currentLevel;
 
                 if(ui != null)
                     ui.OnTouchCloseButton();

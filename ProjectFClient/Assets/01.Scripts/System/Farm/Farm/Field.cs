@@ -1,9 +1,6 @@
 using System;
-using Cysharp.Threading.Tasks;
-using H00N.DataTables;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
-using ProjectF.DataTables;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 using UnityEngine;
@@ -19,44 +16,45 @@ namespace ProjectF.Farms
         private CropSO currentCropData = null;
         public CropSO CurrentCropData => currentCropData;
 
-        private FieldData fieldData = null;
-        public FieldData FieldData => fieldData;
+        private int fieldGroupID = 0;
+        private int fieldID = 0;
+        public int FieldID => fieldID;
 
-        private bool isDirty = false;
-        public bool IsDirty => isDirty;
+        public int Growth = 0;
+        public EFieldState FieldState = EFieldState.Fallow;
 
-        public EFieldState CurrentState => fieldData.fieldState;
         public override bool TargetEnable {
             get {
                 if(requestWaiting)
                     return false;
 
-                if(CurrentState == EFieldState.Empty)
+                if(FieldState == EFieldState.Empty)
                     return currentFarm.CropQueue.CropQueueValid;
 
-                return CurrentState != EFieldState.Growing;
+                return FieldState != EFieldState.Growing;
             }
         }
 
         private Farm currentFarm = null;
         private bool requestWaiting = false;
         private bool postponeTick = false;
-        private int growth = 0;
 
-        public void Initialize(FieldData data)
+        public void Initialize(int fieldGroupID, FieldData fieldData)
         {
-            fieldData = data;
-
+            this.fieldGroupID = fieldGroupID;
+            fieldID = fieldData.fieldID;
+            FieldState = fieldData.fieldState;
+             
             // 이미 심어져 있는 식물이 있는 경우 (작물 정보, 성장 상태)를 복원한다
             if(fieldData.currentCropID != -1)
             {
                 currentCropData = ResourceUtility.GetCropData(fieldData.currentCropID);
-                growth = fieldData.currentGrowthStep * currentCropData.TableRow.growthRate;                
-                OnGrowUpEvent?.Invoke(fieldData.currentGrowthStep);
+                Growth = fieldData.currentGrowth;
+                OnGrowUpEvent?.Invoke(Growth / currentCropData.TableRow.growthStep);
             }
 
             currentFarm = new GetBelongsFarm(transform).currentFarm;
-            ChangeState(fieldData.fieldState);
+            ChangeState(FieldState);
         }
 
         public async void Plant(CropSO cropData)
@@ -67,17 +65,15 @@ namespace ProjectF.Farms
             currentCropData = cropData;
             requestWaiting = true;
 
-            PlantRequest request = new PlantRequest(currentCropData.id, fieldData.fieldID);
+            PlantRequest request = new PlantRequest(currentCropData.id, fieldGroupID, fieldID);
             PlantResponse response = await NetworkManager.Instance.SendWebRequestAsync<PlantResponse>(request);
             
             requestWaiting = false;
             if (response.result != ENetworkResult.Success)
                 return;
 
-            fieldData.currentCropID = response.cropID;
-            SetDirty();
-
-            growth = -1;
+            currentCropData = ResourceUtility.GetCropData(response.cropID);
+            Growth = -1;
 
             ChangeState(EFieldState.Dried);
             GrowUp();
@@ -93,26 +89,27 @@ namespace ProjectF.Farms
             DateManager.Instance.OnTickCycleEvent -= HandleTickCycleEvent;
             requestWaiting = true;
 
-            HarvestRequest request = new HarvestRequest(fieldData.fieldID);
+            HarvestRequest request = new HarvestRequest(fieldGroupID, fieldID);
             HarvestResponse response = await NetworkManager.Instance.SendWebRequestAsync<HarvestResponse>(request);
 
             requestWaiting = false;
             if (response.result != ENetworkResult.Success)
                 return;
 
-            fieldData.currentGrowthStep = 0;
-            SetDirty();
+            Growth = 0;
 
-            await SpawnCropAsync();
+            SpawnCrop();
             ChangeState(EFieldState.Fallow);
+
+            currentCropData = null;
         }
 
-        private async UniTask SpawnCropAsync()
+        private void SpawnCrop()
         {
             Vector3 randomOffset = Random.insideUnitCircle * 3f;
             Vector3 itemPosition = TargetPosition + randomOffset;
 
-            Crop crop = await PoolManager.SpawnAsync<Crop>("Crop");
+            Crop crop = PoolManager.Spawn<Crop>("Crop");
             crop.transform.position = itemPosition;
             crop.Initialize(currentCropData.TableRow.id);
         }
@@ -125,7 +122,7 @@ namespace ProjectF.Farms
                 return;
             }
 
-            if (CurrentState != EFieldState.Growing)
+            if (FieldState != EFieldState.Growing)
                 return;
 
             ChangeState(EFieldState.Dried);
@@ -134,15 +131,12 @@ namespace ProjectF.Farms
 
         private void GrowUp()
         {
-            growth++;
-            if (growth % currentCropData.TableRow.growthRate != 0)
+            Growth++;
+            if (Growth % currentCropData.TableRow.growthRate != 0)
                 return;
 
-            int currentStep = growth / currentCropData.TableRow.growthRate;
+            int currentStep = Growth / currentCropData.TableRow.growthRate;
             OnGrowUpEvent?.Invoke(currentStep);
-
-            fieldData.currentGrowthStep = currentStep;
-            SetDirty();
 
             if (currentStep >= currentCropData.TableRow.growthStep - 1)
                 ChangeState(EFieldState.Fruition);
@@ -150,26 +144,13 @@ namespace ProjectF.Farms
 
         public void ChangeState(EFieldState targetState)
         {
-            EFieldState prevState = CurrentState;
-            fieldData.fieldState = targetState;
+            EFieldState prevState = FieldState;
+            FieldState = targetState;
 
-            if (prevState != CurrentState)
-            {
-                OnStateChangedEvent?.Invoke(fieldData.fieldState);
-                SetDirty();
-            }
+            if (prevState != FieldState)
+                OnStateChangedEvent?.Invoke(FieldState);
 
             postponeTick = true;
-        }
-
-        public void SetDirty()
-        {
-            isDirty = true;
-        }
-
-        public void ClearDirty()
-        {
-            isDirty = false;
         }
     }
 }

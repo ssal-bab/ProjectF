@@ -11,14 +11,14 @@ namespace ProjectF.Farms.AI
             base.EnterState();
 
             currentField = aiData.CurrentTarget as Field;
-            if(currentField.CurrentState != EFieldState.Fruition)
+            if(currentField.FieldState != EFieldState.Fruition)
                 brain.SetAsDefaultState();
         }
 
         protected override void OnHandleAnimationTrigger()
         {
             base.OnHandleAnimationTrigger();
-            if(currentField.CurrentState == EFieldState.Fruition)
+            if(currentField.FieldState == EFieldState.Fruition)
                 currentField.Harvest();
         }
 

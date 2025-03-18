@@ -17,7 +17,7 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
 
-            if(userData.fieldData.fieldGroupDatas.TryGetValue(request.fieldGroupID, out FieldGroupData fieldGroupData) == false)
+            if(userData.fieldGroupData.fieldGroupDatas.TryGetValue(request.fieldGroupID, out FieldGroupData fieldGroupData) == false)
                 return ErrorPacket(ENetworkResult.Error);
 
             GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow> getFacilityTableRow = new GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow>(fieldGroupData.level);

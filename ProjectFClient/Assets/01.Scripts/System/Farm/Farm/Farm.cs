@@ -28,37 +28,28 @@ namespace ProjectF.Farms
             for (int i = 0; i < fieldGroups.Count; ++i)
             {
                 FieldGroup fieldGroup = fieldGroups[i];
-                if(mainUser.fieldData.fieldGroupDatas.TryGetValue(i, out FieldGroupData fieldGroupData) == false)
+                if(mainUser.fieldGroupData.fieldGroupDatas.TryGetValue(i, out FieldGroupData fieldGroupData) == false)
                     continue;
 
                 fieldGroup.Initialize(fieldGroupData);
             }
+
+            FarmManager.Instance.RegisterFarm(this);
         }
 
-        public Dictionary<int, Dictionary<int, FieldData>> FlushDirtiedFields()
+        public void UpdateFieldGroupData()
         {
-            Dictionary<int, Dictionary<int, FieldData>> dirtiedFields = new Dictionary<int, Dictionary<int, FieldData>>();
-            foreach(FieldGroup fieldGroup in fieldGroups)
+            Dictionary<int, FieldGroupData> userFieldGroupDatas = GameInstance.MainUser.fieldGroupData.fieldGroupDatas;
+            foreach (FieldGroup fieldGroup in fieldGroups)
             {
-                int fieldGroupID = fieldGroup.FieldGroupData.fieldGroupID;
-                foreach(Field field in fieldGroup.Fields)
+                foreach (Field field in fieldGroup.Fields)
                 {
-                    if(field.IsDirty == false)
-                        continue;
-
-                    if(dirtiedFields.TryGetValue(fieldGroupID, out Dictionary<int, FieldData> fields) == false)
-                    {
-                        fields = new Dictionary<int, FieldData>();
-                        dirtiedFields.Add(fieldGroupID, fields);
-                    }
-
-                    FieldData fieldData = field.FieldData;
-                    fields.Add(fieldData.fieldID, fieldData);
-                    field.ClearDirty();
+                    FieldData fieldData = userFieldGroupDatas[fieldGroup.FieldGroupID].fieldDatas[field.FieldID];
+                    fieldData.currentCropID = field.CurrentCropData == null ? -1 : field.CurrentCropData.TableRow.id;
+                    fieldData.currentGrowth = field.Growth;
+                    fieldData.fieldState = field.FieldState;
                 }
             }
-
-            return dirtiedFields;
         }
     }
 }

@@ -8,13 +8,13 @@ namespace ProjectF.Farms
     {
         [SerializeField] List<Field> fields = null;
         public List<Field> Fields => fields;
+        
+        private int fieldGroupID = 0;
+        public int FieldGroupID => fieldGroupID;
 
-        private FieldGroupData fieldGroupData = null;
-        public FieldGroupData FieldGroupData => fieldGroupData;
-
-        public void Initialize(FieldGroupData data)
+        public void Initialize(FieldGroupData fieldGroupData)
         {
-            fieldGroupData = data;
+            fieldGroupID = fieldGroupData.fieldGroupID;
 
             for(int i = 0; i < fields.Count; ++ i)
             {
@@ -22,7 +22,7 @@ namespace ProjectF.Farms
                 if(fieldGroupData.fieldDatas.TryGetValue(i, out FieldData fieldData) == false)
                     continue;
 
-                field.Initialize(fieldData);
+                field.Initialize(fieldGroupData.fieldGroupID, fieldData);
             }
         }
     }

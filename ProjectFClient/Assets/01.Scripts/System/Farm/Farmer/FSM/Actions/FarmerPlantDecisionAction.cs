@@ -15,7 +15,7 @@ namespace ProjectF.Farms.AI
             base.EnterState();
 
             Field currentField = aiData.CurrentTarget as Field;
-            if (currentField.CurrentState != EFieldState.Empty)
+            if (currentField.FieldState != EFieldState.Empty)
             {
                 brain.SetAsDefaultState();
                 return;

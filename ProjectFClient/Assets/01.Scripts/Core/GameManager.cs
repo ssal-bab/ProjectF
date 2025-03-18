@@ -34,7 +34,7 @@ namespace ProjectF
             Dictionary<string, string> jsonDatas = JsonConvert.DeserializeObject<Dictionary<string, string>>(dataTableJsonData.text);
             DataTableManager.Initialize(jsonDatas);
 
-            // GetComponent<FarmManager>().Initialize();
+            new FarmManager().Initialize();
             new NetworkManager().Initialize();
             new SubCharacterManager().Initialize();
         }
@@ -55,7 +55,7 @@ namespace ProjectF
             PoolManager.Release();
             ResourceManager.Release();
 
-            // FarmManager.Instance.Release();
+            FarmManager.Instance.Release();
             NetworkManager.Instance.Release();
             QuestManager.Instance.Release();
             SubCharacterManager.Instance.Release();

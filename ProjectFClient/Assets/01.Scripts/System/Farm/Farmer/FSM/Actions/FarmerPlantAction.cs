@@ -16,14 +16,14 @@ namespace ProjectF.Farms.AI
             aiData.currentSeedData = null;
 
             currentField = aiData.CurrentTarget as Field;
-            if(currentField.CurrentState != EFieldState.Empty)
+            if(currentField.FieldState != EFieldState.Empty)
                 brain.SetAsDefaultState();
         }
 
         protected override void OnHandleAnimationTrigger()
         {
             base.OnHandleAnimationTrigger();
-            if(currentField.CurrentState == EFieldState.Empty)
+            if(currentField.FieldState == EFieldState.Empty)
                 currentField.Plant(seedData);
         }
 

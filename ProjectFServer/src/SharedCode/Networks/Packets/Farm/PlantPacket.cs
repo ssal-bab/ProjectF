@@ -9,11 +9,13 @@ namespace ProjectF.Networks.Packets
         public override string Post => POST;
 
         public int cropID = 0;
+        public int fieldGroupID = 0;
         public int fieldID = 0;
 
-        public PlantRequest(int cropID, int fieldID)
+        public PlantRequest(int cropID, int fieldGroupID, int fieldID)
         {
             this.cropID = cropID;
+            this.fieldGroupID = fieldGroupID;
             this.fieldID = fieldID;
         }
     }

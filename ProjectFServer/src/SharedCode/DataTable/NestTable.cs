@@ -9,5 +9,5 @@ namespace ProjectF.DataTables
         public int farmerStoreLimit;
     }
 
-    public partial class NestTable : FacilityTable { }
+    public partial class NestTable : FacilityTable<NestTableRow> { }
 }

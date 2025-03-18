@@ -11,5 +11,5 @@ namespace ProjectF.DataTables
         public float goldGradeRate;
     }
 
-    public partial class FieldGroupTable : FacilityTable { }
+    public partial class FieldGroupTable : FacilityTable<FieldGroupTableRow> { }
 }

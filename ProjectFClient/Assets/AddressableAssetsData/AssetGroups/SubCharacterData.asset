@@ -16,19 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 33945151e408c4d8696229d224246d4d
-  m_SerializeEntries:
-  - m_GUID: d1d79c1dfd9c84a1fb3ede7d953b8d8b
-    m_Address: SubCharacterData_Saalbab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 146996c35a69749009bdeeb6c2cc4d89
-    m_Address: SubCharacterData_babSaal
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
   m_SchemaSet:

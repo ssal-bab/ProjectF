@@ -9,5 +9,5 @@ namespace ProjectF.DataTables
         public float priceMultiplier;
     }
 
-    public partial class StorageTable : FacilityTable { }
+    public partial class StorageTable : FacilityTable<StorageTableRow> { }
 }

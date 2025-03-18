@@ -89,6 +89,7 @@ namespace ProjectF.UI.Farms
             mainUser.monetaData.gold -= response.usedGold;
             mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
             mainUser.storageData.level = response.currentLevel;
+            mainUser.storageData.OnLevelChangedEvent?.Invoke(mainUser.storageData.level);
 
             if(ui != null)
                 ui.OnTouchCloseButton();

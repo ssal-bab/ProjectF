@@ -77,7 +77,8 @@ namespace ProjectF.UI.Farms
             UserData mainUser = GameInstance.MainUser;
             mainUser.monetaData.gold -= response.usedGold;
             mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
-            mainUser.storageData.level = response.currentLevel;
+            mainUser.nestData.level = response.currentLevel;
+            mainUser.nestData.OnLevelChangedEvent?.Invoke(mainUser.nestData.level);
 
             if(ui != null)
                 ui.OnTouchCloseButton();

@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectF.Datas;
+using H00N.DataTables;
+using ProjectF.DataTables;
 
 namespace ProjectF.Farms
 {
     public class FieldGroup : MonoBehaviour
     {
+        [SerializeField] SpriteRenderer spriteRenderer = null;
+
+        [Space(10f)]
         [SerializeField] List<Field> fields = null;
         public List<Field> Fields => fields;
         
@@ -15,6 +20,9 @@ namespace ProjectF.Farms
         public void Initialize(FieldGroupData fieldGroupData)
         {
             fieldGroupID = fieldGroupData.fieldGroupID;
+            
+            fieldGroupData.OnLevelChangedEvent += UpdateVisual;
+            UpdateVisual(fieldGroupData.level);
 
             for(int i = 0; i < fields.Count; ++ i)
             {
@@ -24,6 +32,12 @@ namespace ProjectF.Farms
 
                 field.Initialize(fieldGroupData.fieldGroupID, fieldData);
             }
+        }
+
+        private void UpdateVisual(int level)
+        {
+            FieldGroupTableRow tableRow = DataTableManager.GetTable<FieldGroupTable>().GetRowByLevel(level);
+            spriteRenderer.sprite = ResourceUtility.GetFieldGroupIcon(tableRow.id);
         }
     }
 }

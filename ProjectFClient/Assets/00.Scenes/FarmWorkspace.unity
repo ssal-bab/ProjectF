@@ -9601,7 +9601,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawGizmos: 1
   drawSelected: 0
-  entranceTransform: {fileID: 0}
+  spriteRenderer: {fileID: 1630834093}
+  entranceTransform: {fileID: 31239951}
 --- !u!1 &1774988274
 GameObject:
   m_ObjectHideFlags: 0
@@ -10878,6 +10879,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2031152825}
   - component: {fileID: 2031152827}
+  - component: {fileID: 2031152828}
   m_Layer: 0
   m_Name: Nest
   m_TagString: Untagged
@@ -10918,6 +10920,19 @@ MonoBehaviour:
   m_Center: {x: 0, y: 0, z: 0}
   m_Area: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &2031152828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031152824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 567013e01c7e14da3b33b05225457443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 198025814}
 --- !u!1 &2068886272
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b2a8c8ef41746ebba66b49b69a6167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 7270335077283286160}
   fields:
   - {fileID: 5415527185906710647}
   - {fileID: 5675426017002813807}

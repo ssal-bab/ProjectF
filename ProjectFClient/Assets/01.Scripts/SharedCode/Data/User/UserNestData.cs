@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ProjectF.Datas
 {
@@ -6,5 +8,8 @@ namespace ProjectF.Datas
     {
         public int level = 0;
         public List<EggHatchingData> hatchingEggList = null;
+
+        [JsonIgnore]
+        public Action<int> OnLevelChangedEvent = null;
     }
 }

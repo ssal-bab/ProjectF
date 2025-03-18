@@ -10,11 +10,13 @@ namespace ProjectF.Networks.Packets
         public const string POST = "HarvestCrop";
         public override string Post => POST;
 
+        public string farmerUUID;
         public int fieldGroupID;
         public int fieldID;
 
-        public HarvestCropRequest(int fieldGroupID, int fieldID)
+        public HarvestCropRequest(string farmerUUID, int fieldGroupID, int fieldID)
         {
+            this.farmerUUID = farmerUUID;
             this.fieldGroupID = fieldGroupID;
             this.fieldID = fieldID;
         }
@@ -24,5 +26,6 @@ namespace ProjectF.Networks.Packets
     {
         public int productCropID;
         public ECropGrade cropGrade;
+        public int cropCount;
     }
 }

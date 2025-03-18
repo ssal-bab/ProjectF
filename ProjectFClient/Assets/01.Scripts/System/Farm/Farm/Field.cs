@@ -81,7 +81,7 @@ namespace ProjectF.Farms
             DateManager.Instance.OnTickCycleEvent += HandleTickCycleEvent;
         }
 
-        public async void Harvest()
+        public async void Harvest(string farmerUUID)
         {
             if (requestWaiting)
                 return;
@@ -89,7 +89,7 @@ namespace ProjectF.Farms
             DateManager.Instance.OnTickCycleEvent -= HandleTickCycleEvent;
             requestWaiting = true;
 
-            HarvestCropRequest request = new HarvestCropRequest(fieldGroupID, fieldID);
+            HarvestCropRequest request = new HarvestCropRequest(farmerUUID, fieldGroupID, fieldID);
             HarvestCropResponse response = await NetworkManager.Instance.SendWebRequestAsync<HarvestCropResponse>(request);
 
             requestWaiting = false;
@@ -99,19 +99,19 @@ namespace ProjectF.Farms
             currentCropData = null;
             Growth = 0;
 
-            SpawnCrop(response.productCropID, response.cropGrade);
+            SpawnCrop(response.productCropID, response.cropGrade, response.cropCount);
             ChangeState(EFieldState.Fallow);
 
         }
 
-        private void SpawnCrop(int productCropID, ECropGrade cropGrade)
+        private void SpawnCrop(int productCropID, ECropGrade cropGrade, int cropCount)
         {
             Vector3 randomOffset = Random.insideUnitCircle * 3f;
             Vector3 itemPosition = TargetPosition + randomOffset;
 
             Crop crop = PoolManager.Spawn<Crop>("Crop");
             crop.transform.position = itemPosition;
-            crop.Initialize(productCropID, cropGrade);
+            crop.Initialize(productCropID, cropGrade, cropCount);
         }
 
         private void HandleTickCycleEvent()

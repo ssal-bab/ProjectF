@@ -21,7 +21,7 @@ namespace ProjectF.Farms.AI
 
             Crop crop = Farmer.HoldItem as Crop;
             if(crop != null)
-                currentStorage.StoreCrop(crop.CropID, crop.CropGrade, 1);
+                currentStorage.StoreCrop(crop.CropID, crop.CropGrade, crop.Count);
 
             Farmer.ReleaseItem();
         }

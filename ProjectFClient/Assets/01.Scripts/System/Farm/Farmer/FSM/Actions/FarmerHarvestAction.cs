@@ -19,7 +19,7 @@ namespace ProjectF.Farms.AI
         {
             base.OnHandleAnimationTrigger();
             if(currentField.FieldState == EFieldState.Fruition)
-                currentField.Harvest();
+                currentField.Harvest("ASD"); // 나중에 채워야 한다.
         }
 
         protected override void OnHandleAnimationEnd()

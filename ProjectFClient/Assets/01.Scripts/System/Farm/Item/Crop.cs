@@ -10,10 +10,14 @@ namespace ProjectF.Farms
         private ECropGrade cropGrade = ECropGrade.None;
         public ECropGrade CropGrade => cropGrade;
 
-        public void Initialize(int cropID, ECropGrade cropGrade)
+        private int count = 0;
+        public int Count => count;
+
+        public void Initialize(int cropID, ECropGrade cropGrade, int count)
         {
             this.cropID = cropID;
             this.cropGrade = cropGrade;
+            this.count = count;
         }
 
         protected override FarmerTargetableBehaviour GetDeliveryTarget()

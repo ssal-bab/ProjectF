@@ -25,6 +25,7 @@ namespace ProjectF.Networks.Controllers
                 return ErrorPacket(ENetworkResult.DataNotFound);
 
             int productCropID = fieldData.currentCropID;
+            int cropCount = 1; // 나중엔 cropCount를 request.farmerUUID의 레벨에 따라 다르게 줘야 한다.
             
             FieldGroupTableRow fieldGroupTableRow = DataTableManager.GetTable<FieldGroupTable>().GetRowByLevel(request.fieldGroupID);
             int cropGradeValue = new GetValueByRates(fieldGroupTableRow.rateTable, fieldGroupTableRow.totalRates).randomIndex;
@@ -40,7 +41,8 @@ namespace ProjectF.Networks.Controllers
             return new HarvestCropResponse() {
                 result = ENetworkResult.Success,
                 productCropID = productCropID,
-                cropGrade = (ECropGrade)cropGradeValue
+                cropGrade = (ECropGrade)cropGradeValue,
+                cropCount = cropCount 
             };
         }
     }

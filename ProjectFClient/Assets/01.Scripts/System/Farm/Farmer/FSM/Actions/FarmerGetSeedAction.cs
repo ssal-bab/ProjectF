@@ -1,5 +1,4 @@
 using H00N.FSM;
-using H00N.Resources;
 using H00N.Resources.Pools;
 using UnityEngine;
 
@@ -13,9 +12,8 @@ namespace ProjectF.Farms.AI
         {
             base.EnterState();
 
-            CropSO targetSeedData = aiData.currentSeedData;
             Seed seed = PoolManager.Spawn<Seed>("Seed");
-            seed.Initialize(targetSeedData.TableRow.id);
+            seed.Initialize(aiData.targetCropID);
             seed.transform.position = brain.transform.position;
 
             // Storage로 향해있던 타겟을 제거하고 Seed로 변경

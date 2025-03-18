@@ -1,3 +1,5 @@
+using ProjectF.Datas;
+
 namespace ProjectF.Farms.AI
 {
     public class FarmerLoadAction : FarmerAnimationAction
@@ -17,8 +19,10 @@ namespace ProjectF.Farms.AI
         {
             base.OnHandleAnimationTrigger();
 
-            Item item = Farmer.HoldItem;
-            currentStorage.StoreCrop(item.ID, Datas.ECropGrade.None, 1);
+            Crop crop = Farmer.HoldItem as Crop;
+            if(crop != null)
+                currentStorage.StoreCrop(crop.CropID, crop.CropGrade, 1);
+
             Farmer.ReleaseItem();
         }
 

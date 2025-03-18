@@ -44,6 +44,7 @@ namespace ProjectF.Farms
             this.fieldGroupID = fieldGroupID;
             fieldID = fieldData.fieldID;
             FieldState = fieldData.fieldState;
+            currentCropData = null;
              
             // 이미 심어져 있는 식물이 있는 경우 (작물 정보, 성장 상태)를 복원한다
             if(fieldData.currentCropID != -1)
@@ -57,16 +58,15 @@ namespace ProjectF.Farms
             ChangeState(FieldState);
         }
 
-        public async void Plant(CropSO cropData)
+        public async void Plant(int cropID)
         {
             if (requestWaiting)
                 return;
 
-            currentCropData = cropData;
             requestWaiting = true;
 
-            PlantRequest request = new PlantRequest(currentCropData.id, fieldGroupID, fieldID);
-            PlantResponse response = await NetworkManager.Instance.SendWebRequestAsync<PlantResponse>(request);
+            PlantCropRequest request = new PlantCropRequest(fieldGroupID, fieldID, cropID);
+            PlantCropResponse response = await NetworkManager.Instance.SendWebRequestAsync<PlantCropResponse>(request);
             
             requestWaiting = false;
             if (response.result != ENetworkResult.Success)
@@ -89,29 +89,29 @@ namespace ProjectF.Farms
             DateManager.Instance.OnTickCycleEvent -= HandleTickCycleEvent;
             requestWaiting = true;
 
-            HarvestRequest request = new HarvestRequest(fieldGroupID, fieldID);
-            HarvestResponse response = await NetworkManager.Instance.SendWebRequestAsync<HarvestResponse>(request);
+            HarvestCropRequest request = new HarvestCropRequest(fieldGroupID, fieldID);
+            HarvestCropResponse response = await NetworkManager.Instance.SendWebRequestAsync<HarvestCropResponse>(request);
 
             requestWaiting = false;
             if (response.result != ENetworkResult.Success)
                 return;
 
+            currentCropData = null;
             Growth = 0;
 
-            SpawnCrop();
+            SpawnCrop(response.productCropID, response.cropGrade);
             ChangeState(EFieldState.Fallow);
 
-            currentCropData = null;
         }
 
-        private void SpawnCrop()
+        private void SpawnCrop(int productCropID, ECropGrade cropGrade)
         {
             Vector3 randomOffset = Random.insideUnitCircle * 3f;
             Vector3 itemPosition = TargetPosition + randomOffset;
 
             Crop crop = PoolManager.Spawn<Crop>("Crop");
             crop.transform.position = itemPosition;
-            crop.Initialize(currentCropData.TableRow.id);
+            crop.Initialize(productCropID, cropGrade);
         }
 
         private void HandleTickCycleEvent()

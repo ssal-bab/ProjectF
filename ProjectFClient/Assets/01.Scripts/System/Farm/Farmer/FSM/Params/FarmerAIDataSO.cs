@@ -11,7 +11,7 @@ namespace ProjectF.Farms.AI
         public UnitMovement movement = null;
         public Farmer farmer = null;
 
-        public CropSO currentSeedData = null;
+        public int targetCropID = -1;
 
         private Stack<FarmerTargetableBehaviour> targetStack = null;
         public FarmerTargetableBehaviour CurrentTarget {

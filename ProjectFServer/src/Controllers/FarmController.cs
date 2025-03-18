@@ -11,18 +11,18 @@ namespace ProjectF.Networks.Controllers
     {
         public FarmController(DBManager dbManager, IDistributedLockFactory redLockFactory) : base(dbManager, redLockFactory) { }
 
-        [HttpPost(PlantRequest.POST)]
-        public async Task<ActionResult<PlantResponse>> PlantCropRequestPost([FromBody]PlantRequest req)
+        [HttpPost(PlantCropRequest.POST)]
+        public async Task<ActionResult<PlantCropResponse>> PlantCropRequestPost([FromBody]PlantCropRequest req)
         {
-            PlantProcessor processor = new PlantProcessor(dbManager, redLockFactory, req);
+            PlantCropProcessor processor = new PlantCropProcessor(dbManager, redLockFactory, req);
             await processor.ProcessAsync();
             return processor.Response;
         }
 
-        [HttpPost(HarvestRequest.POST)]
-        public async Task<ActionResult<HarvestResponse>> HarvestRequestPost([FromBody]HarvestRequest req)
+        [HttpPost(HarvestCropRequest.POST)]
+        public async Task<ActionResult<HarvestCropResponse>> HarvestCropRequestPost([FromBody]HarvestCropRequest req)
         {
-            HarvestProcessor processor = new HarvestProcessor(dbManager, redLockFactory, req);
+            HarvestCropProcessor processor = new HarvestCropProcessor(dbManager, redLockFactory, req);
             await processor.ProcessAsync();
             return processor.Response;
         }

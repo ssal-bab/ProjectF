@@ -1,26 +1,26 @@
 
 namespace ProjectF.Networks.Packets
 {
-    public class PlantRequest : RequestPacket
+    public class PlantCropRequest : RequestPacket
     {
         public override string Route => NetworkDefine.FARM_ROUTE;
 
-        public const string POST = "Plant";
+        public const string POST = "PlantCrop";
         public override string Post => POST;
 
-        public int cropID = 0;
         public int fieldGroupID = 0;
         public int fieldID = 0;
+        public int cropID = 0;
 
-        public PlantRequest(int cropID, int fieldGroupID, int fieldID)
+        public PlantCropRequest(int fieldGroupID, int fieldID,  int cropID)
         {
-            this.cropID = cropID;
             this.fieldGroupID = fieldGroupID;
             this.fieldID = fieldID;
+            this.cropID = cropID;
         }
     }
 
-    public class PlantResponse : ResponsePacket
+    public class PlantCropResponse : ResponsePacket
     {
         public int cropID = 0;
     }

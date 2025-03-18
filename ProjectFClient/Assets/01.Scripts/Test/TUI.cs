@@ -102,17 +102,5 @@ namespace ProjectF.Tests
             downButton.SetActive(false);
             upButton.SetActive(true);
         }
-
-        public void AddEggCrop()
-        {
-            CropSO cropData = ResourceManager.LoadResource<CropSO>("CropData_16");
-            FindObjectOfType<Farm>().CropQueue.EnqueueCropData(cropData);
-        }
-
-        public void AddEgg()
-        {
-            CropSO cropData = ResourceManager.LoadResource<CropSO>("CropData_17");
-            FindObjectOfType<Farm>().CropQueue.EnqueueCropData(cropData);
-        }
     }
 }

@@ -4,42 +4,46 @@ namespace ProjectF.Farms
 {
     public class CropQueue
     {
-        private Dictionary<CropSO, int> cropJobInfo = null;
-        private Queue<CropSO> cropQueue = null;
+        private Queue<CropQueueSlot> cropQueue = null;
 
         public bool CropQueueValid => cropQueue.Count > 0;
 
         public CropQueue()
         {
-            cropJobInfo = new Dictionary<CropSO, int>();
-            cropQueue = new Queue<CropSO>();
+            cropQueue = new Queue<CropQueueSlot>();
         }
 
-        public void EnqueueCropData(CropSO cropData)
+        public void EnqueueCrop(int cropID)
         {
-            if(cropJobInfo.ContainsKey(cropData) == false)
+            CropQueueSlot slot = PeekSlot();
+            if(slot == null || slot.cropID != cropID)
             {
-                cropQueue.Enqueue(cropData);
-                cropJobInfo.Add(cropData, 0);
+                slot = new CropQueueSlot(){
+                    cropID = cropID,
+                    count = 0
+                };
+                cropQueue.Enqueue(slot);
             }
 
-            cropJobInfo[cropData]++;
+            slot.count++;
         }
 
-        public CropSO DequeueCropData()
+        public int DequeueCropData()
+        {
+            CropQueueSlot slot = PeekSlot();
+            slot.count--;
+            if(slot.count <= 0)
+                cropQueue.Dequeue();
+
+            return slot.cropID;
+        }
+
+        private CropQueueSlot PeekSlot()
         {
             if(CropQueueValid == false)
                 return null;
 
-            CropSO cropData = cropQueue.Peek();
-            cropJobInfo[cropData]--;
-            if(cropJobInfo[cropData] <= 0)
-            {
-                cropJobInfo.Remove(cropData);
-                cropQueue.Dequeue();
-            }
-
-            return cropData;
+            return cropQueue.Peek();
         }
     }
 }

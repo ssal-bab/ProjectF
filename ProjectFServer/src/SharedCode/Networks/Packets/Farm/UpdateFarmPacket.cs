@@ -7,7 +7,7 @@ namespace ProjectF.Networks.Packets
     {
         public override string Route => NetworkDefine.FARM_ROUTE;
 
-        public const string POST = "update_farm";
+        public const string POST = "UpdateFarm";
         public override string Post => POST;
 
         public Dictionary<int, Dictionary<int, FieldData>> dirtiedFields = null;

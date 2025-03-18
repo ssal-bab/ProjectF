@@ -5,7 +5,7 @@ namespace ProjectF.Networks.Packets
     {
         public override string Route => NetworkDefine.FARM_ROUTE;
 
-        public const string POST = "plant";
+        public const string POST = "Plant";
         public override string Post => POST;
 
         public int cropID = 0;

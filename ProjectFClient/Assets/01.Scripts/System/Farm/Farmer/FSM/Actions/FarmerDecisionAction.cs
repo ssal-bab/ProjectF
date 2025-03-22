@@ -53,7 +53,7 @@ namespace ProjectF.Farms.AI
         private void SetIdle()
         {
             FarmerConfigTable farmerConfigTable = DataTableManager.GetTable<FarmerConfigTable>();
-            float idleDuration = Random.Range(farmerConfigTable.IdleDurationMin(), farmerConfigTable.IdleDurationMax());
+            float idleDuration = Random.Range(farmerConfigTable.IdleDurationMin, farmerConfigTable.IdleDurationMax);
             idleTimer = idleDuration;
         }
 

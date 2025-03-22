@@ -25,8 +25,13 @@ namespace ProjectF.Networks.Controllers
             if(fieldGroupData.fieldDatas.TryGetValue(request.fieldID, out FieldData fieldData) == false)
                 return ErrorPacket(ENetworkResult.DataNotFound);
 
+            if(userData.farmerData.farmerList.TryGetValue(request.farmerUUID, out FarmerData farmerData) == false)
+                return ErrorPacket(ENetworkResult.DataNotFound);
+
             int productCropID = fieldData.currentCropID;
-            int cropCount = 1; // 나중엔 cropCount를 request.farmerUUID의 레벨에 따라 다르게 줘야 한다.
+
+            FarmerStatTableRow farmerStatTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(farmerData.farmerID);
+            int cropCount = new CalculateFarmerHarvestCount(farmerStatTableRow, farmerData.level).harvestCount; // 나중엔 cropCount를 request.farmerUUID의 레벨에 따라 다르게 줘야 한다.
             
             FieldGroupTableRow fieldGroupTableRow = DataTableManager.GetTable<FieldGroupTable>().GetRowByLevel(request.fieldGroupID);
             int cropGradeValue = new GetValueByRates(fieldGroupTableRow.rateTable, fieldGroupTableRow.totalRates).randomIndex;

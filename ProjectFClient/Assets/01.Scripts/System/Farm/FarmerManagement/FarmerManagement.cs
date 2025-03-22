@@ -5,13 +5,14 @@ using H00N.Stats;
 using System;
 using ProjectF.Datas;
 using System.Threading.Tasks;
+using H00N.DataTables;
+using ProjectF.DataTables;
 
 namespace ProjectF.Farms
 {
     public class FarmerManagement : MonoBehaviour
     {
         private Dictionary<int, FarmerIncreaseStatSO> increaseStatDataDictionary = new();
-        private FarmerSalesMultiplierSO salesMultiplierData;
         
         public async void InitializeFarmerIncreaseStatAsync()
         {
@@ -76,8 +77,9 @@ namespace ProjectF.Farms
             FarmerSO farmerSO = await ResourceManager.LoadResourceAsync<FarmerSO>($"Farmer_{farmerID}");
             ERarity rarity = farmerSO.TableRow.rarity;
 
-            float farmingMultiplier = farmingLevel * salesMultiplierData.LevelSalesMultiplierValue;
-            float gradeMultiplier = (int)rarity * salesMultiplierData.GradeSalesMultiplierValue;
+            FarmerConfigTable farmerConfigTable = DataTableManager.GetTable<FarmerConfigTable>();
+            float farmingMultiplier = farmingLevel * farmerConfigTable.LevelSalesMultiplierValue();
+            float gradeMultiplier = (int)rarity * farmerConfigTable.GradeSalesMultiplierValue();
 
             GameInstance.MainUser.farmerData.farmerList.Remove(farmerUUID);
 

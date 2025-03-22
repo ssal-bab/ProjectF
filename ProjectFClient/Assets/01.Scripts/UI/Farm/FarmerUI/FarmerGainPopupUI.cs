@@ -42,10 +42,10 @@ namespace ProjectF.UI.Farms
         {
             farmerIconImage.sprite = ResourceUtility.GetFarmerIcon(farmerTableRow.id);
             farmerNameInputField.text = farmerTableRow.nameLocalKey;
-            staminaStatUI.Initialize(EFarmerStatType.Health, farmerStatTableRow.healthBaseValue);
-            moveSpeedStatUI.Initialize(EFarmerStatType.MoveSpeed, farmerStatTableRow.moveSpeedBaseValue);
-            farmingSkillStatUI.Initialize(EFarmerStatType.FarmingSkill, farmerStatTableRow.farmingSkillBaseValue);
-            adventureSkillStatUI.Initialize(EFarmerStatType.AdventureSkill, farmerStatTableRow.adventureSkillBaseValue);
+            staminaStatUI.Initialize(EFarmerStatType.Health, farmerStatTableRow.health.baseValue);
+            moveSpeedStatUI.Initialize(EFarmerStatType.MoveSpeed, farmerStatTableRow.moveSpeed.baseValue);
+            farmingSkillStatUI.Initialize(EFarmerStatType.FarmingSkill, farmerStatTableRow.farmingSkill.baseValue);
+            adventureSkillStatUI.Initialize(EFarmerStatType.AdventureSkill, farmerStatTableRow.adventureSkill.baseValue);
         }
 
         public void OnTouchSellButton()

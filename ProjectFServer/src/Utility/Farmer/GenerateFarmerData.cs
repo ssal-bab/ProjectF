@@ -14,6 +14,7 @@ namespace ProjectF
                 farmerUUID = Guid.NewGuid().ToString(),
                 farmerID = tableRow.id,
                 level = 1,
+                rarity = tableRow.rarity,
                 nickname = "",
             };
         }

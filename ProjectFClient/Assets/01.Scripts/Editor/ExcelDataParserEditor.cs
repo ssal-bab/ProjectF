@@ -6,6 +6,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 using ClosedXML.Excel;
+using System.Text.RegularExpressions;
 
 #nullable enable
 
@@ -13,11 +14,12 @@ public class ExcelDataParserEditor : EditorWindow
 {
     private string inputFolderPath = "";
     private List<string> outputFolders = new();
+    private Dictionary<string, Dictionary<string,string>> parentClassFieldDic = new();
 
     [MenuItem("Tools/Excel Data Parser")]
     public static void ShowWindow()
     {
-        GetWindow<ExcelDataParserEditor>("Data Table Exporter").minSize = new Vector2(600, 300);
+        GetWindow<ExcelDataParserEditor>("Excel Data Parser").minSize = new Vector2(600, 300);
     }
 
     private void OnEnable()
@@ -102,6 +104,7 @@ public class ExcelDataParserEditor : EditorWindow
 
         if (visited.ContainsKey(fileName)) return; // Cycle prevention
 
+        string parentTableClassName = "";
         string parentClassName = "";
         List<string> attributes = new();
 
@@ -116,12 +119,13 @@ public class ExcelDataParserEditor : EditorWindow
                 string[] metaInfo = header.Split(';');
                 foreach (string info in metaInfo)
                 {
-                    Debug.Log(info);
-
                     if (info.StartsWith("TableRowBase="))
                     {
+                        parentTableClassName = info.Split('=')[1];
+                    }
+                    if(info.StartsWith("Base="))
+                    {
                         parentClassName = info.Split('=')[1];
-                        Debug.Log(parentClassName);
                     }
                     else if (info.StartsWith("Attribute="))
                     {
@@ -135,9 +139,9 @@ public class ExcelDataParserEditor : EditorWindow
             Debug.LogError("No data found in Excel file: " + filePath);
         }
 
-        if(parentClassName != string.Empty && !visited.ContainsKey(parentClassName))
+        if(parentTableClassName != string.Empty && !visited.ContainsKey(parentTableClassName))
         {
-            string parentFilePath = Directory.GetFiles(inputFolderPath, parentClassName + ".xlsx").FirstOrDefault();
+            string parentFilePath = Directory.GetFiles(inputFolderPath, parentTableClassName + ".xlsx").FirstOrDefault();
             ProcessExcelFile(parentFilePath, visited);
         }
         
@@ -150,8 +154,8 @@ public class ExcelDataParserEditor : EditorWindow
             visited[fileName].Add(col[0], col[1]);
         }
 
-        Dictionary <string, string>? parentFieldNames = visited.ContainsKey(parentClassName) ? visited[parentClassName] : null;
-        string code = GenerateCSharpCode(fileName, parentClassName, columns, parentFieldNames, attributes);
+        Dictionary <string, string>? parentFieldNames = visited.ContainsKey(parentTableClassName) ? visited[parentTableClassName] : null;
+        string code = GenerateCSharpCode(fileName, parentTableClassName, parentClassName, columns, parentFieldNames, attributes);
 
         foreach (string path in outputFolders)
         {
@@ -198,7 +202,7 @@ public class ExcelDataParserEditor : EditorWindow
         //Debug.Log($"C# file created: {filePath}");
     }
 
-    private string GenerateCSharpCode(string className, string parentClassName, List<List<string>> columns, Dictionary<string, string>? parentFieldNames, List<string> attributes)
+    private string GenerateCSharpCode(string className, string parentTableClassName, string parentClassName, List<List<string>> columns, Dictionary<string, string>? parentFieldNames, List<string> attributes)
     {
         if (columns.Count == 0) return "// No Excel data found";
 
@@ -214,11 +218,20 @@ public class ExcelDataParserEditor : EditorWindow
             sb.AppendLine("    [" + attribute + "]");
         }
 
-        if (parentClassName == string.Empty)
+        if (parentTableClassName == string.Empty)
         {
-            WriteFields(sb, className, columns);
+            if(parentClassName != string.Empty)
+            {
+                string path = $"Assets/01.Scripts/SharedCode/DataTable/BaseTable/{parentClassName}.cs";
+                Dictionary<string, string> field = !parentClassFieldDic.ContainsKey(parentClassName) ? GetClassFields(path) : parentClassFieldDic[parentClassName];
+                WriteFieldWithParent(sb, className, parentClassName, columns, field);
+            }
+            else
+            {
+                WriteFields(sb, className, columns);
+            }
         }
-        else
+        else if(parentTableClassName != null)
         {
             if(parentFieldNames == null)
             {
@@ -226,9 +239,9 @@ public class ExcelDataParserEditor : EditorWindow
                 return "// Parent class not found";
             }
 
-            WriteFieldsWithParent(sb, className, parentClassName, columns, parentFieldNames);
+            WriteFieldWithTableParent(sb, className, parentTableClassName, columns, parentFieldNames);
         }
-            
+        
         return sb.ToString();
     }
 
@@ -248,7 +261,22 @@ public class ExcelDataParserEditor : EditorWindow
         
     }
 
-    private void WriteFieldsWithParent(StringBuilder sb, string className, string parentClassName, List<List<string>> columns, Dictionary<string, string> parentFieldNames)
+    private void WriteFieldWithTableParent(StringBuilder sb, string className, string parentTableClassName, List<List<string>> columns, Dictionary<string, string> parentFieldNames)
+    {
+        sb.AppendLine($"    public partial class {className}Row : {parentTableClassName}Row");
+        sb.AppendLine("    {");
+        foreach (var column in columns)
+        {
+            if(IsSuitableField(column[0]) && !parentFieldNames.ContainsKey(column[0]))
+                sb.AppendLine($"        public {column[1]} {column[0]};");
+        }
+        sb.AppendLine("    }");
+        sb.AppendLine("");
+        sb.AppendLine($"    public partial class {className} : {parentTableClassName} {{ }}");
+        sb.AppendLine("}");
+    }
+
+    private void WriteFieldWithParent(StringBuilder sb, string className, string parentClassName, List<List<string>> columns, Dictionary<string, string> parentFieldNames)
     {
         sb.AppendLine($"    public partial class {className}Row : {parentClassName}Row");
         sb.AppendLine("    {");
@@ -259,8 +287,28 @@ public class ExcelDataParserEditor : EditorWindow
         }
         sb.AppendLine("    }");
         sb.AppendLine("");
-        sb.AppendLine($"    public partial class {className} : {parentClassName} {{ }}");
+        sb.AppendLine($"    public partial class {className} : {parentClassName}<{className}Row> {{ }}");
         sb.AppendLine("}");
+    }
+
+    private Dictionary<string, string> GetClassFields(string path)
+    {
+        string code = File.ReadAllText(path);
+
+        // 필드 타입과 필드명을 추출하는 정규식
+        string pattern = @"\b([\w<>]+)\s+(\w+)\s*;";
+        MatchCollection matches = Regex.Matches(code, pattern);
+
+        Dictionary<string, string> fieldDic = new Dictionary<string, string>();
+
+        foreach (Match match in matches)
+        {
+            string fieldType = match.Groups[1].Value;
+            string fieldName = match.Groups[2].Value;
+            fieldDic.Add(fieldName, fieldType);
+        }
+
+        return fieldDic;
     }
 
     private bool IsSuitableField(string field) => 

@@ -14,6 +14,12 @@ namespace ProjectF.Farms
         [SerializeField] Storage storage = null;
         public Storage Storage => storage;
 
+        [SerializeField] Nest nest = null;
+        public Nest Nest => nest;
+
+        [SerializeField] FarmerQuarters farmerQuarters = null;
+        public FarmerQuarters FarmerQuarters => farmerQuarters;
+
         private CropQueue cropQueue = null;
         public CropQueue CropQueue => cropQueue;
 
@@ -22,7 +28,7 @@ namespace ProjectF.Farms
             cropQueue = new CropQueue();
         }
 
-        private void Start()
+        private async void Start()
         {
             UserData mainUser = GameInstance.MainUser;
             for (int i = 0; i < fieldGroups.Count; ++i)
@@ -35,6 +41,10 @@ namespace ProjectF.Farms
             }
 
             FarmManager.Instance.RegisterFarm(this);
+
+            storage.Initialize();
+            nest.Initialize();
+            await farmerQuarters.InitializeAsync();
         }
 
         public void UpdateFieldGroupData()

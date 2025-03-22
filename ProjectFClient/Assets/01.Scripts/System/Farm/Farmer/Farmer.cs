@@ -38,12 +38,9 @@ namespace ProjectF.Farms
             fsmBrain = GetComponent<FSMBrain>();
         }
 
-        public async void InitializeAsync(int id)
+        public void Initialize(FarmerData farmerData)
         {
-            FarmerStatTableRow statTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(id);
-            stat = new FarmerStat(statTableRow);
-
-            unitMovement.SetMaxSpeed(stat[EFarmerStatType.MoveSpeed]);
+            RefreshData(farmerData);
             unitMovement.SetDestination(transform.position);
 
             fsmBrain.Initialize();
@@ -52,6 +49,14 @@ namespace ProjectF.Farms
             aiData.Initialize(this);
 
             fsmBrain.SetAsDefaultState();
+        }
+
+        public void RefreshData(FarmerData farmerData)
+        {
+            FarmerStatTableRow statTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(farmerData.farmerID);
+            stat ??= new FarmerStat();
+            stat.SetData(statTableRow, farmerData.level);
+            unitMovement.SetMaxSpeed(stat[EFarmerStatType.MoveSpeed]);
         }
 
         public void GrabItem(Item item)

@@ -26,22 +26,30 @@ namespace ProjectF.Farms
 
         public event Action OnStatChangedEvent = null;
 
-        public FarmerStat(FarmerStatTableRow tableRow)
+        public FarmerStat()
         {
             statDictionary = new Dictionary<EFarmerStatType, Stat>();
+        }
 
-            AddStat(EFarmerStatType.MoveSpeed, tableRow.moveSpeedBaseValue);
-            AddStat(EFarmerStatType.Health, tableRow.healthBaseValue);
-            AddStat(EFarmerStatType.FarmingSkill, tableRow.farmingSkillBaseValue);
-            AddStat(EFarmerStatType.AdventureSkill, tableRow.adventureSkillBaseValue);
-
+        public void SetData(FarmerStatTableRow tableRow, int level)
+        {
+            UpdateStat(EFarmerStatType.MoveSpeed, tableRow.moveSpeedBaseValue + tableRow.moveSpeedIncreaseValue * level);
+            UpdateStat(EFarmerStatType.Health, tableRow.healthBaseValue + tableRow.healthIncreaseValue * level);
+            UpdateStat(EFarmerStatType.FarmingSkill, tableRow.farmingSkillBaseValue + tableRow.farmingSkillIncreaseValue * level);
+            UpdateStat(EFarmerStatType.AdventureSkill, tableRow.adventureSkillBaseValue + tableRow.adventureSkillIncreaseValue * level);
             OnStatChangedEvent?.Invoke();
         }
 
-        private void AddStat(EFarmerStatType statType, float baseValue)
+        private void UpdateStat(EFarmerStatType statType, float baseValue)
         {
-            statDictionary.Add(statType, new Stat());
-            statDictionary[statType].Initialize(baseValue);
+            if(statDictionary.TryGetValue(statType, out Stat stat) == false)
+            {
+                stat = new Stat();
+                stat.Initialize(0);
+                statDictionary.Add(statType, stat);
+            }
+
+            stat.SetBaseValue(baseValue);
         }
 
         public void AddModifier(EFarmerStatType statType, EStatModifierType modifierType, float value)

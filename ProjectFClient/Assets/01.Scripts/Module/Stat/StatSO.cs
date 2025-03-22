@@ -41,7 +41,7 @@ namespace H00N.Stats
                     Debug.LogWarning("Stat of Current Type is Already Existed");
                     return;
                 }
-                i.stat.Initialize();
+                i.stat.Initialize(i.stat.BaseValue);
                 statDictionary.Add(i.statType, i.stat);
             }));
             OnStatChangedEvent?.Invoke();

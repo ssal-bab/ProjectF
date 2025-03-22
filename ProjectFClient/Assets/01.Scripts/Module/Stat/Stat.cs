@@ -7,6 +7,7 @@ namespace H00N.Stats
     public class Stat
     {
         [SerializeField] float baseValue = 10f;
+        public float BaseValue => baseValue;
 
         private float currentValue = 10f;
         public float CurrentValue => currentValue;
@@ -15,16 +16,16 @@ namespace H00N.Stats
 
         public event Action<float> OnValueChangedEvent = null;
 
-        public void Initialize()
-        {
-            modifiers.Init();
-            currentValue = baseValue;
-        }
-
         public void Initialize(float baseValue)
         {
             this.baseValue = currentValue = baseValue;
             modifiers.Init();
+        }
+
+        public void SetBaseValue(float baseValue)
+        {
+            this.baseValue = baseValue;
+            CalculateValue();
         }
 
         private void CalculateValue()

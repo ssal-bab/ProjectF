@@ -14,7 +14,7 @@ namespace ProjectF.Farms
 
         public override bool TargetEnable => Watcher != null;
 
-        private void Start()
+        public void Initialize()
         {
             UserStorageData storageData = GameInstance.MainUser.storageData;
             storageData.OnLevelChangedEvent += UpdateVisual;

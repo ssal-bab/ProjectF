@@ -14,16 +14,16 @@ namespace ProjectF.Tests
     {
         [SerializeField] AddressableAsset<Farmer> farmerPrefab = null;
 
-        private void Awake()
-        {
-            farmerPrefab.Initialize();
-        }
+        // private void Awake()
+        // {
+        //     farmerPrefab.Initialize();
+        // }
 
-        private void Start()
-        {
-            Farmer farmer = PoolManager.Spawn<Farmer>(farmerPrefab.Key);
-            farmer?.InitializeAsync(0);
-        }
+        // private void Start()
+        // {
+        //     Farmer farmer = PoolManager.Spawn<Farmer>(farmerPrefab.Key);
+        //     farmer?.Initialize(0);
+        // }
 
         public void OpenStoragePopup()
         {

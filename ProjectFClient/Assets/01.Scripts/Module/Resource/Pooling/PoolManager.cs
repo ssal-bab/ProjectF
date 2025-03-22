@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace H00N.Resources.Pools
 {
-    public static class PoolManager
+    public static partial class PoolManager
     {
         private static Transform poolParent = null;
         private static Dictionary<string, Pool> poolTable = null;

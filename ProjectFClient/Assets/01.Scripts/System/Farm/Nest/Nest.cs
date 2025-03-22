@@ -11,7 +11,7 @@ namespace ProjectF.Farms
 
         // [SerializeField] Sprite[] eggSpriteList = new Sprite[9]; // 우선은 9개 까지만
 
-        private void Start()
+        public void Initialize()
         {
             UserNestData nestData = GameInstance.MainUser.nestData;
             nestData.OnLevelChangedEvent += UpdateVisual;

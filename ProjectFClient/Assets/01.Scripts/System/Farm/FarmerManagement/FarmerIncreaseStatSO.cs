@@ -7,32 +7,37 @@ using ProjectF.DataTables;
 using ProjectF.Farms;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Farm/FarmerIncreaseStat")]
-public class FarmerIncreaseStatSO : DataTableSO<FarmerStatTable, FarmerStatTableRow>
+namespace ProjectF.Farms
 {
-    private Dictionary<EFarmerStatType, float> statDictionary;
-    public float this[EFarmerStatType indexer]
+    [CreateAssetMenu(menuName = "SO/Farm/FarmerIncreaseStat")]
+    public class FarmerIncreaseStatSO : DataTableSO<FarmerStatTable, FarmerStatTableRow>
     {
-        get
+        private Dictionary<EFarmerStatType, float> statDictionary;
+        public float this[EFarmerStatType indexer]
         {
-            if (statDictionary.ContainsKey(indexer) == false)
+            get
             {
-                Debug.LogWarning("Stat of Given Type is Doesn't Existed");
-                return float.NaN;
-            }
+                if (statDictionary.ContainsKey(indexer) == false)
+                {
+                    Debug.LogWarning("Stat of Given Type is Doesn't Existed");
+                    return float.NaN;
+                }
 
-            return statDictionary[indexer];
+                return statDictionary[indexer];
+            }
+        }
+
+        protected override void OnTableInitialized()
+        {
+            base.OnTableInitialized();
+
+            statDictionary.Add(EFarmerStatType.MoveSpeed, TableRow.moveSpeedIncreaseValue);
+            statDictionary.Add(EFarmerStatType.Health, TableRow.healthIncreaseValue);
+            statDictionary.Add(EFarmerStatType.FarmingSkill, TableRow.farmingSkillIncreaseValue);
+            statDictionary.Add(EFarmerStatType.AdventureSkill, TableRow.adventureSkillIncreaseValue);
         }
     }
-
-    protected override void OnTableInitialized()
-    {
-        base.OnTableInitialized();
-
-        statDictionary.Add(EFarmerStatType.MoveSpeed, TableRow.moveSpeedIncreaseValue);
-        statDictionary.Add(EFarmerStatType.Health, TableRow.healthIncreaseValue);
-        statDictionary.Add(EFarmerStatType.FarmingSkill, TableRow.farmingSkillIncreaseValue);
-        statDictionary.Add(EFarmerStatType.AdventureSkill, TableRow.adventureSkillIncreaseValue);
-    }
 }
+
+
 

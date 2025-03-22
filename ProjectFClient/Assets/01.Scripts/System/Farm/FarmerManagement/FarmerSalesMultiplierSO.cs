@@ -7,9 +7,12 @@ using ProjectF.DataTables;
 using ProjectF.Farms;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Farm/FarmerSalesMultiplier")]
-public class FarmerSalesMultiplierSO : DataTableSO<FarmerSalesTable, FarmerSalesTableRow>
+namespace ProjectF.Farms
 {
-    public float LevelSalesMultiplierValue => TableRow.levelSalesMultiplierValue;
-    public float GradeSalesMultiplierValue => TableRow.gradeSalesMultiplierValue;
+    [CreateAssetMenu(menuName = "SO/Farm/FarmerSalesMultiplier")]
+    public class FarmerSalesMultiplierSO : DataTableSO<FarmerSalesTable, FarmerSalesTableRow>
+    {
+        public float LevelSalesMultiplierValue => TableRow.levelSalesMultiplierValue;
+        public float GradeSalesMultiplierValue => TableRow.gradeSalesMultiplierValue;
+    }
 }

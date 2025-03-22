@@ -5,6 +5,9 @@ using H00N.Stats;
 using System;
 using ProjectF.Datas;
 using System.Threading.Tasks;
+using ProjectF.Networks;
+using ProjectFServer.Networks.Packets;
+using UnityEditor.PackageManager.Requests;
 
 namespace ProjectF.Farms
 {
@@ -12,6 +15,7 @@ namespace ProjectF.Farms
     {
         private Dictionary<int, FarmerIncreaseStatSO> increaseStatDataDictionary = new();
         private FarmerSalesMultiplierSO salesMultiplierData;
+        private FarmerLevelupGoldSO levelupGoldData;
         
         public async void InitializeFarmerIncreaseStatAsync()
         {
@@ -28,15 +32,19 @@ namespace ProjectF.Farms
 
                 Debug.LogWarning($"Warning:{farmerID} has already registered");
             }
+
+            salesMultiplierData = await ResourceManager.LoadResourceAsync<FarmerSalesMultiplierSO>("FarmerSalesMultiplier");
+            levelupGoldData = await ResourceManager.LoadResourceAsync<FarmerLevelupGoldSO>("FarmerLevelupGold");
         }
 
-        public void InitializeFarmerSalesMultiplier()
+        public async Task<FarmerLevelupResponse> ChangeFarmerLevelAsync(Farmer farmer, string farmerUUID, int farmerID, int targetLevel, int currentLevel)
         {
+            var req = new FarmerLevelupRequest(farmerUUID, targetLevel);
+            var response = await NetworkManager.Instance.SendWebRequestAsync<FarmerLevelupResponse>(req);
 
-        }
+            if(response.result != ENetworkResult.Success) 
+                return response;
 
-        public void ChangeFarmerLevel(Farmer farmer, int farmerID, int targetLevel, int currentLevel)
-        {
             CalculateLevelDifference(targetLevel, currentLevel, (delta, theta) =>
             {
                 FarmerStatAdjustmentModifier(farmer.Stat, farmerID, delta, theta, 
@@ -45,6 +53,8 @@ namespace ProjectF.Farms
                                              EFarmerStatType.FarmingSkill,
                                              EFarmerStatType.AdventureSkill);
             });
+
+            return response;
         }
 
         private void CalculateLevelDifference(int targetLevel, int currentLevel, Action<int, int> applyStats)
@@ -70,18 +80,17 @@ namespace ProjectF.Farms
             }
         }
 
-        public async Task<int> FarmerSellAsync(string farmerUUID, int farmingLevel, int adventureLevel)
+        public async Task FarmerSellAsync(string farmerUUID, int level)
         {
-            int farmerID = GameInstance.MainUser.farmerData.farmerList[farmerUUID].farmerID;
-            FarmerSO farmerSO = await ResourceManager.LoadResourceAsync<FarmerSO>($"Farmer_{farmerID}");
-            ERarity rarity = farmerSO.TableRow.rarity;
+            ERarity rarity = GameInstance.MainUser.farmerData.farmerList[farmerUUID].rarity;
 
-            float farmingMultiplier = farmingLevel * salesMultiplierData.LevelSalesMultiplierValue;
+            float farmingMultiplier = level * salesMultiplierData.LevelSalesMultiplierValue;
             float gradeMultiplier = (int)rarity * salesMultiplierData.GradeSalesMultiplierValue;
 
-            GameInstance.MainUser.farmerData.farmerList.Remove(farmerUUID);
-
-            return Mathf.FloorToInt(farmingMultiplier + gradeMultiplier);
+            int salesAllowance = Mathf.FloorToInt(farmingMultiplier + gradeMultiplier);
+            
+            FarmerSalesRequest req = new FarmerSalesRequest(farmerUUID, salesAllowance);
+            await NetworkManager.Instance.SendWebRequestAsync<FarmerSalesResponse>(req);
         }
     }
 }

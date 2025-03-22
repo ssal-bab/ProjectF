@@ -7,6 +7,9 @@ using ProjectF.Datas;
 using System.Threading.Tasks;
 using H00N.DataTables;
 using ProjectF.DataTables;
+using ProjectF.Networks;
+using ProjectFServer.Networks.Packets;
+using UnityEditor.PackageManager.Requests;
 
 namespace ProjectF.Farms
 {
@@ -36,8 +39,14 @@ namespace ProjectF.Farms
 
         }
 
-        public void ChangeFarmerLevel(Farmer farmer, int farmerID, int targetLevel, int currentLevel)
+        public async Task<FarmerLevelupResponse> ChangeFarmerLevel(Farmer farmer, string farmerUUID, int farmerID, int targetLevel, int currentLevel)
         {
+            var req = new FarmerLevelupRequest(farmerUUID, targetLevel);
+            var response = await NetworkManager.Instance.SendWebRequestAsync<FarmerLevelupResponse>(req);
+
+            if(response.result != ENetworkResult.Success) 
+                return response;
+
             CalculateLevelDifference(targetLevel, currentLevel, (delta, theta) =>
             {
                 FarmerStatAdjustmentModifier(farmer.Stat, farmerID, delta, theta, 
@@ -46,6 +55,8 @@ namespace ProjectF.Farms
                                              EFarmerStatType.FarmingSkill,
                                              EFarmerStatType.AdventureSkill);
             });
+
+            return response;
         }
 
         private void CalculateLevelDifference(int targetLevel, int currentLevel, Action<int, int> applyStats)
@@ -71,19 +82,18 @@ namespace ProjectF.Farms
             }
         }
 
-        public async Task<int> FarmerSellAsync(string farmerUUID, int farmingLevel, int adventureLevel)
+        public async Task<FarmerSalesResponse> FarmerSaleAsync(string farmerUUID, int farmingLevel, int adventureLevel)
         {
-            int farmerID = GameInstance.MainUser.farmerData.farmerList[farmerUUID].farmerID;
-            FarmerSO farmerSO = await ResourceManager.LoadResourceAsync<FarmerSO>($"Farmer_{farmerID}");
-            ERarity rarity = farmerSO.TableRow.rarity;
+            ERarity rarity = GameInstance.MainUser.farmerData.farmerList[farmerUUID].rarity;
 
             FarmerConfigTable farmerConfigTable = DataTableManager.GetTable<FarmerConfigTable>();
             float farmingMultiplier = farmingLevel * farmerConfigTable.LevelSalesMultiplierValue();
             float gradeMultiplier = (int)rarity * farmerConfigTable.GradeSalesMultiplierValue();
 
-            GameInstance.MainUser.farmerData.farmerList.Remove(farmerUUID);
-
-            return Mathf.FloorToInt(farmingMultiplier + gradeMultiplier);
+            int salesAllowance = Mathf.FloorToInt(farmingMultiplier + gradeMultiplier);
+            
+            var req = new FarmerSalesRequest(farmerUUID, salesAllowance);
+            return await NetworkManager.Instance.SendWebRequestAsync<FarmerSalesResponse>(req);
         }
     }
 }

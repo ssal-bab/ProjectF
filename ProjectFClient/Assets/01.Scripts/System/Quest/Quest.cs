@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ProjectF.Datas;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace ProjectF.Quests
 {
     public abstract class Quest
     {
+        protected EQuestType questType;
+        public EQuestType QuestType => questType;
+
         protected string message;
         public string Message => message;
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-
+using UnityEngine;
 namespace H00N.DataTables
 {
     public abstract class DataTable<TRow> : IDataTable, IEnumerable<TRow> where TRow : DataTableRow

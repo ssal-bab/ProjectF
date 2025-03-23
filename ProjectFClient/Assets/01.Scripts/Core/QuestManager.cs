@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using H00N.DataTables;
 using Newtonsoft.Json;
 using ProjectF.Datas;
+using ProjectF.DataTables;
 using UnityEngine;
 
 namespace ProjectF.Quests
@@ -36,6 +38,8 @@ namespace ProjectF.Quests
                     }
                 }
             }
+
+            //MakeQuest(DataTableManager.GetTable<QuestTable>()[0]);
         }
 
         public void Update()
@@ -61,6 +65,11 @@ namespace ProjectF.Quests
         public void MakeQuest(QuestSO questData)
         {
             MakeQuest(questData.MakeQuest());
+        }
+
+        public void MakeQuest(QuestTableRow questTableRow)
+        {
+            MakeQuest(QuestUtility.CreateQuest(questTableRow));
         }
 
         public void MakeQuest(Quest newQuest)

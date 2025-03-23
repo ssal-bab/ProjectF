@@ -10,6 +10,7 @@ namespace ProjectF.DataTables
     public partial class QuestTableRow : DataTableRow
     {
         public EQuestType questType;
+        public string questName;
         public string parameters;
     }
 

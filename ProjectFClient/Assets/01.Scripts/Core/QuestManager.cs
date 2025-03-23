@@ -39,7 +39,7 @@ namespace ProjectF.Quests
                 }
             }
 
-            //MakeQuest(DataTableManager.GetTable<QuestTable>()[0]);
+            MakeQuest(DataTableManager.GetTable<QuestTable>()[0]);
         }
 
         public void Update()
@@ -52,7 +52,16 @@ namespace ProjectF.Quests
 
         public void Release()
         {
-            //데이터 저장
+            GameInstance.MainUser.questData.quests.Clear();
+            foreach(Quest quest in quests)
+            {
+                if(!GameInstance.MainUser.questData.quests.ContainsKey(quest.GetType()))
+                {
+                    GameInstance.MainUser.questData.quests.Add(quest.GetType(), new());
+                }
+
+                GameInstance.MainUser.questData.quests[quest.GetType()].Add(JsonConvert.SerializeObject(quest));
+            }
 
             quests?.Clear();
             quests = null;
@@ -60,11 +69,6 @@ namespace ProjectF.Quests
             OnClearQuest = null;
 
             instance = null;
-        }
-
-        public void MakeQuest(QuestSO questData)
-        {
-            MakeQuest(questData.MakeQuest());
         }
 
         public void MakeQuest(QuestTableRow questTableRow)
@@ -78,7 +82,7 @@ namespace ProjectF.Quests
             newQuest.OnMakeQuest();
             OnMakeQuest?.Invoke(newQuest);
 
-            Debug.Log($"Make Quest : {newQuest}");
+            Debug.Log($"Make Quest : {newQuest.QuestName}");
         }
 
         public void ClearQuest(Quest clearedQuest)

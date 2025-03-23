@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProjectF.Datas;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 
 namespace ProjectF.Quests
 {
@@ -11,25 +14,33 @@ namespace ProjectF.Quests
 
         public float TargetTime => targetTime;
 
-        public PlayTimeQuest(float targetTime)
+        public PlayTimeQuest(EQuestType questType, string questName, params object[] parameters) : base(questType, questName, parameters)
         {
-            questType = Datas.EQuestType.PlayTime;
-            message = ResourceUtility.GetQusetDescriptionLocalKey(questType);
-            //키로 메세지 받아오기 해야함
-            message = message.Replace("{targetTime}", $"{targetTime}");
-            this.targetTime = targetTime;
+            currentTime = 0.0f;
         }
 
-        public PlayTimeQuest(QuestSO so)
-        {
-            questData = so;
-            if(questData is PlayTimeQusetSO)
-            {
-                this.targetTime = ((PlayTimeQusetSO)questData).TargetTime;
-                currentTime = 0.0f;
+        // public PlayTimeQuest(QuestSO so)
+        // {
+        //     questData = so;
+        //     if(questData is PlayTimeQusetSO)
+        //     {
+        //         this.targetTime = ((PlayTimeQusetSO)questData).TargetTime;
+        //         currentTime = 0.0f;
             
-                message = $"{targetTime}초 동안 게임을 플레이하기";
-            }   
+        //         message = $"{targetTime}초 동안 게임을 플레이하기";
+        //     }   
+        // }
+
+        protected override void SetParameters(params object[] parameters)
+        {
+            targetTime = (float)parameters[0];
+        }
+
+        protected override void SetMessage()
+        {
+            base.SetMessage();
+
+            message = message.Replace("{targetTime}", $"{targetTime}");
         }
 
         public override void Update()

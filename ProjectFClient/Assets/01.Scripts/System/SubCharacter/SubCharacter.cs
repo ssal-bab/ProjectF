@@ -34,18 +34,6 @@ namespace ProjectF.SubCharacters
 
             //test
             //EnqueueQuest(new PlayTimeQuest(10.0f));
-            
-            if(data.QusetContainerData)
-                EnqueueQuest(data.QusetContainerData.QuestDataList[0]);
-
-        }
-
-        public void EnqueueQuest(QuestSO questData)
-        {
-            if(!questData)
-                return;
-
-            EnqueueQuest(questData.MakeQuest());
         }
 
         public void EnqueueQuest(Quest newQuest)
@@ -77,7 +65,7 @@ namespace ProjectF.SubCharacters
             icon.Button.onClick.RemoveListener(MakeQuest);
             icon.Button.onClick.AddListener(ClearQuset);
 
-            SubCharacterManager.Instance.StartDialogue(Data.CharacterType, quest.QuestData.OnMakeTexts, () => {
+            SubCharacterManager.Instance.StartDialogue(Data.CharacterType, null, () => {
                 QuestManager.Instance.MakeQuest(quest);
             });
         }
@@ -96,7 +84,7 @@ namespace ProjectF.SubCharacters
 
             icon.SetMessage(qusetQueue.Count > 0 ? "!" : "");
 
-            SubCharacterManager.Instance.StartDialogue(Data.CharacterType, currentQuest.QuestData.OnClearTexts, () => {
+            SubCharacterManager.Instance.StartDialogue(Data.CharacterType, null, () => {
                 QuestManager.Instance.ClearQuest(currentQuest);
                 currentQuest = null;
             });

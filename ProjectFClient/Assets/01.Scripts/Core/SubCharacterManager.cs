@@ -15,7 +15,7 @@ namespace ProjectF.SubCharacters
         private static SubCharacterManager instance;
         public static SubCharacterManager Instance => instance;
 
-        public QuestPopupUI dialogueUI;
+        public DialoguePopupUI dialogueUI;
 
         public void Initialize()
         {

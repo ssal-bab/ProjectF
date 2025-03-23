@@ -9,7 +9,7 @@ using ProjectF.SubCharacters;
 
 namespace ProjectF.UI.Quests
 {
-    public class QuestPopupUI : MonoBehaviourUI
+    public class DialoguePopupUI : MonoBehaviourUI
     {
         [SerializeField] private TextMeshProUGUI dialogueText;
         [SerializeField] private Button button;

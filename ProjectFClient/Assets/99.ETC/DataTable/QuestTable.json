@@ -1,1 +1,1 @@
-{"0":{"id":0,"questType":"PlayTime","parameters":"{int}30"}}
+{"0":{"id":0,"questType":"PlayTime","questName":"TestQuest","parameters":"{float}30"}}

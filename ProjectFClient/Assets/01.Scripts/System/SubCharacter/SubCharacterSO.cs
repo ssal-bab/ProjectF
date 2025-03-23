@@ -10,6 +10,5 @@ namespace ProjectF.SubCharacters
     {
         public ESubCharacterType CharacterType;
         public Sprite Image;
-        public QusetContainerSO QusetContainerData;
     }
 }

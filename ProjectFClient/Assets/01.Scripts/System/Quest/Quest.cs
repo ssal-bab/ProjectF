@@ -9,21 +9,34 @@ namespace ProjectF.Quests
 {
     public abstract class Quest
     {
-        protected EQuestType questType;
+        private EQuestType questType;
         public EQuestType QuestType => questType;
+
+        private string questName;
+        public string QuestName => questName;
+
 
         protected string message;
         public string Message => message;
 
         private bool canClear = false;
         public bool CanClear => canClear;
-
-        protected QuestSO questData;
-        public QuestSO QuestData => questData;
-
         public event Action<Quest> OnMakeQuestEvent;
         public event Action<Quest> OnCanClearQuestEvent;
         public event Action<Quest> OnClearQuestEvent;
+
+        public Quest(EQuestType questType, string questName, params object[] parameters)
+        {
+            this.questType = questType;
+            this.questName = questName;
+            SetParameters(parameters);
+        }
+
+        protected abstract void SetParameters(params object[] parameters);
+        protected virtual void SetMessage()
+        {
+            message = ResourceUtility.GetQusetDescriptionLocalKey(questType);
+        }
 
         protected abstract bool CheckQuestClear();
         protected abstract void MakeReward();

@@ -5,11 +5,24 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using ClosedXML.Excel;
+using System;
 
 namespace H00N.DataTables.Editors
 {
     public class DataTableExporterEditor : EditorWindow
     {
+        private static readonly Dictionary<string, string> TypeMap = new Dictionary<string, string>() {
+            ["int"] = typeof(int).FullName,
+            ["long"] = typeof(long).FullName,
+            ["float"] = typeof(float).FullName,
+            ["double"] = typeof(int).FullName,
+            ["int[]"] = typeof(int[]).FullName,
+            ["long[]"] = typeof(long[]).FullName,
+            ["float[]"] = typeof(float[]).FullName,
+            ["double[]"] = typeof(double[]).FullName,
+            ["string[]"] = typeof(string[]).FullName,
+        };
+
         private string inputFolderPath = "";  
         private List<string> outputFolderPathList = new List<string>();
 
@@ -112,19 +125,27 @@ namespace H00N.DataTables.Editors
                         for (int j = 1; j <= columnCount; j++)
                         {
                             string columnName = headerRow.Cell(j).GetString();
-                            string type = typeRow.Cell(j).GetString();
+                            string typeString = typeRow.Cell(j).GetString();
                             string cellValue = dataRow.Cell(j).GetString();
 
                             if (string.IsNullOrEmpty(columnName) || columnName.StartsWith("//"))
                                 continue;
 
                             // 타입 변환
-                            if (type == "int" && int.TryParse(cellValue, out int intValue))
-                                record[columnName] = intValue;
-                            else if (type == "float" && float.TryParse(cellValue, out float floatValue))
-                                record[columnName] = floatValue;
-                            else if (type == "bool" && bool.TryParse(cellValue, out bool boolValue))
-                                record[columnName] = boolValue;
+                            if(TypeMap.TryGetValue(typeString, out string typeName))
+                            {
+                                try {
+                                    Type type = Type.GetType(typeName);
+                                    if (type == null)
+                                        throw new Exception($"Type mismath.");
+
+                                    record[columnName] = JsonConvert.DeserializeObject(cellValue, type);
+                                }
+                                catch (Exception err) {
+                                    Debug.LogError($"TableName: {worksheet.Name}, ColumnName: {columnName}, TypeString: {typeString}, CellValue: {cellValue}\n{err}");
+                                    record[columnName] = cellValue;
+                                }
+                            }
                             else
                                 record[columnName] = cellValue;
                         }

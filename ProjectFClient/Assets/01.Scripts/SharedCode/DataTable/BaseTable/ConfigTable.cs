@@ -11,7 +11,7 @@ namespace ProjectF.DataTables
         public TValueType value;
     }
 
-    public class ConfigTable<TRow, TValueType> : DataTable<TRow> where TRow : ConfigTableRow<TValueType>
+    public abstract class ConfigTable<TRow, TValueType> : DataTable<TRow> where TRow : ConfigTableRow<TValueType>
     {
         private Dictionary<string, TValueType> keyValueTable = null;
 

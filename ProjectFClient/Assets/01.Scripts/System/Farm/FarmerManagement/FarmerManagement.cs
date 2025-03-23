@@ -87,8 +87,8 @@ namespace ProjectF.Farms
             ERarity rarity = GameInstance.MainUser.farmerData.farmerList[farmerUUID].rarity;
 
             FarmerConfigTable farmerConfigTable = DataTableManager.GetTable<FarmerConfigTable>();
-            float farmingMultiplier = farmingLevel * farmerConfigTable.LevelSalesMultiplierValue();
-            float gradeMultiplier = (int)rarity * farmerConfigTable.GradeSalesMultiplierValue();
+            float farmingMultiplier = farmingLevel * farmerConfigTable.LevelSalesMultiplierValue;
+            float gradeMultiplier = (int)rarity * farmerConfigTable.GradeSalesMultiplierValue;
 
             int salesAllowance = Mathf.FloorToInt(farmingMultiplier + gradeMultiplier);
             

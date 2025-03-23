@@ -33,10 +33,10 @@ namespace ProjectF.Farms
 
         public void SetData(FarmerStatTableRow tableRow, int level)
         {
-            UpdateStat(EFarmerStatType.MoveSpeed, tableRow.moveSpeedBaseValue + tableRow.moveSpeedIncreaseValue * level);
-            UpdateStat(EFarmerStatType.Health, tableRow.healthBaseValue + tableRow.healthIncreaseValue * level);
-            UpdateStat(EFarmerStatType.FarmingSkill, tableRow.farmingSkillBaseValue + tableRow.farmingSkillIncreaseValue * level);
-            UpdateStat(EFarmerStatType.AdventureSkill, tableRow.adventureSkillBaseValue + tableRow.adventureSkillIncreaseValue * level);
+            UpdateStat(EFarmerStatType.MoveSpeed, new CalculateStat(tableRow.moveSpeed, level).currentStat);
+            UpdateStat(EFarmerStatType.Health, new CalculateStat(tableRow.health, level).currentStat);
+            UpdateStat(EFarmerStatType.FarmingSkill, new CalculateStat(tableRow.farmingSkill, level).currentStat);
+            UpdateStat(EFarmerStatType.AdventureSkill, new CalculateStat(tableRow.adventureSkill, level).currentStat);
             OnStatChangedEvent?.Invoke();
         }
 

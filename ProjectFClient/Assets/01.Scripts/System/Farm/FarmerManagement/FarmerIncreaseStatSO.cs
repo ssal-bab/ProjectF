@@ -31,10 +31,10 @@ namespace ProjectF.Farms
         {
             base.OnTableInitialized();
 
-            statDictionary.Add(EFarmerStatType.MoveSpeed, TableRow.moveSpeedIncreaseValue);
-            statDictionary.Add(EFarmerStatType.Health, TableRow.healthIncreaseValue);
-            statDictionary.Add(EFarmerStatType.FarmingSkill, TableRow.farmingSkillIncreaseValue);
-            statDictionary.Add(EFarmerStatType.AdventureSkill, TableRow.adventureSkillIncreaseValue);
+            statDictionary.Add(EFarmerStatType.MoveSpeed, TableRow.moveSpeed.increaseValue);
+            statDictionary.Add(EFarmerStatType.Health, TableRow.health.increaseValue);
+            statDictionary.Add(EFarmerStatType.FarmingSkill, TableRow.farmingSkill.increaseValue);
+            statDictionary.Add(EFarmerStatType.AdventureSkill, TableRow.adventureSkill.increaseValue);
         }
     }
 }

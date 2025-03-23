@@ -14,7 +14,7 @@ namespace ProjectF.DataTables
         public int materialCount;
     }
 
-    public class FacilityTable<TRow> : DataTable<TRow> where TRow : FacilityTableRow
+    public abstract class FacilityTable<TRow> : DataTable<TRow> where TRow : FacilityTableRow
     {
         private Dictionary<int, TRow> tableByLevel = null;
 

@@ -11074,6 +11074,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestPopupUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2643716684985687316, guid: ef6fc91364e2c416b85637854c7ba3ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4475103464117054678, guid: ef6fc91364e2c416b85637854c7ba3ac, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

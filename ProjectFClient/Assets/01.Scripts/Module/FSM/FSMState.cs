@@ -17,6 +17,10 @@ namespace H00N.FSM
         private List<FSMAction> actions = null;
         private FSMTransitionGroup rootTransitionGroup = null;
 
+        #if UNITY_EDITOR
+        [SerializeField, TextArea] string description;
+        #endif
+
         public void Init(FSMBrain brain)
         {
             this.brain = brain;
@@ -26,7 +30,9 @@ namespace H00N.FSM
             actions.ForEach(i => i.Init(brain, this));
 
             rootTransitionGroup = GetComponent<FSMTransitionGroup>();
-            rootTransitionGroup?.Init(brain, this);
+            if(rootTransitionGroup != null)
+                rootTransitionGroup.Init(brain, this);
+
             if (autoTransitioning && rootTransitionGroup == null)
                 Debug.LogWarning("[FSM] Auto transitioning is set for this state. but no root transition group exist.");
         }

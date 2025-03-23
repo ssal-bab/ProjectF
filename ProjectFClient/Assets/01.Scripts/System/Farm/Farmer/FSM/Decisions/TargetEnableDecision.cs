@@ -8,10 +8,7 @@ namespace ProjectF.Farms.AI
             if(currentTarget == null)
                 return false;
 
-            if(currentTarget.TargetEnable == false)
-                return false;
-
-            if(currentTarget.IsWatched && aiData.farmer != currentTarget.Watcher)
+            if(currentTarget.IsTargetEnable(Farmer) == false)
                 return false;
 
             return true;

@@ -23,21 +23,21 @@ namespace ProjectF.Farms
         public int Growth = 0;
         public EFieldState FieldState = EFieldState.Fallow;
 
-        public override bool TargetEnable {
-            get {
-                if(requestWaiting)
-                    return false;
-
-                if(FieldState == EFieldState.Empty)
-                    return currentFarm.CropQueue.CropQueueValid;
-
-                return FieldState != EFieldState.Growing;
-            }
-        }
-
-        private Farm currentFarm = null;
         private bool requestWaiting = false;
         private bool postponeTick = false;
+
+        public override bool IsTargetEnable(Farmer farmer) 
+        {
+            // 이미 누군가 나를 타겟팅하고 있다면 Target할 수 없다.
+            Farmer watcher = GetWatcher(farmer.FarmerUUID);
+            if(watcher == null && IsWatched)
+                return false;
+
+            if(requestWaiting)
+                return false;
+
+            return FieldState != EFieldState.Growing;
+        }
 
         public void Initialize(int fieldGroupID, FieldData fieldData)
         {
@@ -54,7 +54,6 @@ namespace ProjectF.Farms
                 OnGrowUpEvent?.Invoke(Growth / currentCropData.TableRow.growthStep);
             }
 
-            currentFarm = new GetBelongsFarm(transform).currentFarm;
             ChangeState(FieldState);
         }
 

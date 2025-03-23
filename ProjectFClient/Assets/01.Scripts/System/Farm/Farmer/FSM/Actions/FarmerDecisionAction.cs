@@ -60,9 +60,27 @@ namespace ProjectF.Farms.AI
         private void SetField()
         {
             // 나중에 바꿔야 함
-            List<Transform> targets = FindObjectsOfType<FarmerTargetableBehaviour>()
-                .Where(i => i.TargetEnable && !i.IsWatched)
-                .Select(i => i.transform).ToList();
+            Farm farm = new GetBelongsFarm(Farmer.transform).currentFarm;
+            if(farm == null)
+            {
+                SetIdle();
+                return;
+            }
+
+            bool cropQueueValid = farm.CropQueue.CropQueueValid;
+            List<Transform> targets = new List<Transform>();
+            foreach(Field field in farm)
+            {
+                // IsTargetEnable이 false면 넘긴다.
+                if(field.IsTargetEnable(Farmer) == false)
+                    continue;
+
+                // field의 State가 Empty, 즉 작물을 심어야 하는 단계인데 cropQueue가 비어있으면 넘긴다.
+                if(field.FieldState == EFieldState.Empty && cropQueueValid == false)
+                    continue;
+
+                targets.Add(field.transform);
+            }
 
             if(targets.Count <= 0)
             {
@@ -70,8 +88,8 @@ namespace ProjectF.Farms.AI
                 return;
             }
 
-            targets.Sort(transform.DistanceCompare);
-            aiData.PushTarget(targets[0].GetComponent<FarmerTargetableBehaviour>());
+            targets.Sort(Farmer.transform.DistanceCompare);
+            aiData.PushTarget(targets[0].GetComponent<Field>());
 
             fieldDecided = true;
         }

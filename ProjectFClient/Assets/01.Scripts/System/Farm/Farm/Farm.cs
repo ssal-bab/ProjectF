@@ -1,13 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+using System.Linq;
 using ProjectF.Datas;
-using ProjectF.Networks;
-using ProjectF.Networks.Packets;
 using UnityEngine;
 
 namespace ProjectF.Farms
 {
-    public class Farm : MonoBehaviour
+    public class Farm : MonoBehaviour, IEnumerable<Field>
     {
         [SerializeField] List<FieldGroup> fieldGroups = null;
 
@@ -61,5 +60,8 @@ namespace ProjectF.Farms
                 }
             }
         }
+
+        public IEnumerator<Field> GetEnumerator() => fieldGroups.SelectMany(i => i.Fields).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

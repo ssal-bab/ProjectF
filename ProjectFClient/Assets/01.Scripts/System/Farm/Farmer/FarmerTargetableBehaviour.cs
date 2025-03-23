@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using H00N.Resources.Pools;
 using UnityEngine;
 
@@ -5,17 +6,37 @@ namespace ProjectF.Farms
 {
     public class FarmerTargetableBehaviour : PoolReference
     {
-        private Farmer watcher = null;
-        public Farmer Watcher => watcher;
+        private Dictionary<string, Farmer> watchers = null;
 
         public virtual Vector3 TargetPosition => transform.position;
 
-        public virtual bool TargetEnable => true;
-        public bool IsWatched => watcher != false;
+        public bool IsWatched => watchers.Count > 0;
 
-        public void SetWatcher(Farmer watcher)
+        protected override void Awake()
         {
-            this.watcher = watcher;
+            base.Awake();
+            watchers = new Dictionary<string, Farmer>();
+        }
+
+        public virtual bool IsTargetEnable(Farmer farmer)
+        {
+            return true;
+        }
+
+        public Farmer GetWatcher(string farmerUUID)
+        {
+            watchers.TryGetValue(farmerUUID, out Farmer farmer);
+            return farmer;
+        }
+
+        public void AddWatcher(Farmer watcher)
+        {
+            watchers.Add(watcher.FarmerUUID, watcher);
+        }
+
+        public void RemoveWatcher(string farmerUUID)
+        {
+            watchers.Remove(farmerUUID);
         }
 
         #if UNITY_EDITOR
@@ -42,7 +63,11 @@ namespace ProjectF.Farms
                 Gizmos.DrawWireCube(TargetPosition, Vector3.one * (0.45f + i));
             }
 
-            if(watcher != null)
+            if(watchers == null)
+                return;
+
+
+            foreach(Farmer watcher in watchers.Values)
             {
                 Gizmos.color = Color.red;
                 Vector3 direction = TargetPosition - watcher.transform.position;

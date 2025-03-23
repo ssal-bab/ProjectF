@@ -12,6 +12,7 @@ namespace ProjectF.Farms.AI
         public Farmer farmer = null;
 
         public int targetCropID = -1;
+        public bool isResting = false;
 
         private Stack<FarmerTargetableBehaviour> targetStack = null;
         public FarmerTargetableBehaviour CurrentTarget {
@@ -38,13 +39,14 @@ namespace ProjectF.Farms.AI
         public void PushTarget(FarmerTargetableBehaviour target)
         {
             targetStack.Push(target);
-            target?.SetWatcher(farmer);
+            target.AddWatcher(farmer);
         }
 
         public void PopTarget()
         {
             FarmerTargetableBehaviour target = targetStack.Pop();
-            target?.SetWatcher(null);
+            if(target != null)
+                target.RemoveWatcher(farmer.FarmerUUID);
         }
 
         public void ClearTarget()

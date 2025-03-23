@@ -27,6 +27,10 @@ namespace ProjectF.Farms.AI
             // 여기까지 왔으면 조건이 맞지 않더라도 액션을 끊지 않는다. => 애니메이션 계속 진행
             if(currentField.FieldState == fieldCondition)
                 currentField.ChangeState(targetFieldState);
+
+            // 여기가 액션의 마지막이다. Target을 클리어한다.
+            aiData.ClearTarget();
+            Farmer.Stat.ReduceHP(10f);
         }
 
         protected override void OnHandleAnimationEnd()

@@ -18,17 +18,13 @@ namespace ProjectF.Farms
         //private FarmerStatSO statData = null;
         //public FarmerStatSO StatData => statData;
 
-        private FarmerStat stat;
-        public FarmerStat Stat => stat;
-
         private FSMBrain fsmBrain = null;
         private UnitMovement unitMovement = null;
 
-        private Item holdItem = null;
-        public Item HoldItem => holdItem;
-        
-        private FarmerAIDataSO aiData = null;
-        public FarmerAIDataSO AIData => aiData;
+        public FarmerStat Stat { get; private set; } = null;
+        public Item HoldItem { get; private set; } = null;
+        public FarmerAIDataSO AIData { get; private set; } = null;
+        public string FarmerUUID { get; private set; } = null;
 
         protected override void Awake()
         {
@@ -45,33 +41,35 @@ namespace ProjectF.Farms
 
             fsmBrain.Initialize();
 
-            aiData = fsmBrain.GetFSMParam<FarmerAIDataSO>();
-            aiData.Initialize(this);
+            AIData = fsmBrain.GetFSMParam<FarmerAIDataSO>();
+            AIData.Initialize(this);
 
             fsmBrain.SetAsDefaultState();
         }
 
         public void RefreshData(FarmerData farmerData)
         {
+            FarmerUUID = farmerData.farmerUUID;
+
             FarmerStatTableRow statTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(farmerData.farmerID);
-            stat ??= new FarmerStat();
-            stat.SetData(statTableRow, farmerData.level);
-            unitMovement.SetMaxSpeed(stat[EFarmerStatType.MoveSpeed]);
+            Stat ??= new FarmerStat();
+            Stat.SetData(statTableRow, farmerData.level);
+            unitMovement.SetMaxSpeed(Stat[EFarmerStatType.MoveSpeed]);
         }
 
         public void GrabItem(Item item)
         {
-            holdItem = item;
-            holdItem.transform.SetParent(grabPosition);
-            holdItem.transform.localPosition = Vector3.zero;
+            HoldItem = item;
+            HoldItem.transform.SetParent(grabPosition);
+            HoldItem.transform.localPosition = Vector3.zero;
 
-            holdItem.SetHolder(this);
+            HoldItem.SetHolder(this);
         }
 
         public void ReleaseItem()
         {
-            holdItem?.SetHolder(null);
-            holdItem = null;
+            HoldItem?.SetHolder(null);
+            HoldItem = null;
         }
     }
 }

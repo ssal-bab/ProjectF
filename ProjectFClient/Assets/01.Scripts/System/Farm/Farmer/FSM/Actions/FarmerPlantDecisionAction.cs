@@ -23,17 +23,17 @@ namespace ProjectF.Farms.AI
 
             // 씨앗을 들고 왔으면 심고
             // 씨앗을 들고 오지 않았으면 씨앗을 가져오너라
-            Item holdItem = aiData.farmer.HoldItem;
+            Item holdItem = Farmer.HoldItem;
             if(holdItem != null)
             {
-                aiData.farmer.ReleaseItem();
+                Farmer.ReleaseItem();
                 PoolManager.Despawn(holdItem);
 
                 brain.ChangeState(plantState);
                 return;
             }
 
-            Farm currentFarm = new GetBelongsFarm(aiData.farmer.transform).currentFarm;
+            Farm currentFarm = new GetBelongsFarm(Farmer.transform).currentFarm;
             if(currentFarm == null || currentFarm.CropQueue.CropQueueValid == false)
             {
                 brain.SetAsDefaultState();

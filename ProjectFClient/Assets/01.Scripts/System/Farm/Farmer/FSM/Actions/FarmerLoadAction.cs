@@ -23,6 +23,9 @@ namespace ProjectF.Farms.AI
             if(crop != null)
                 currentStorage.StoreCrop(crop.CropID, crop.CropGrade, crop.Count);
 
+            // 여기가 액션의 마지막이다. Target을 클리어한다.
+            aiData.ClearTarget();
+            Farmer.Stat.ReduceHP(10f);
             Farmer.ReleaseItem();
         }
 

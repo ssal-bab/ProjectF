@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace ProjectF.Farms
 {
+    [Serializable]
     public class FarmerStat
     {
         private Dictionary<EFarmerStatType, Stat> statDictionary;
@@ -26,6 +27,9 @@ namespace ProjectF.Farms
 
         public event Action OnStatChangedEvent = null;
 
+        private float currentHP = 0f;
+        public float CurrentHP => currentHP;
+
         public FarmerStat()
         {
             statDictionary = new Dictionary<EFarmerStatType, Stat>();
@@ -37,6 +41,7 @@ namespace ProjectF.Farms
             UpdateStat(EFarmerStatType.Health, new CalculateStat(tableRow.health, level).currentStat);
             UpdateStat(EFarmerStatType.FarmingSkill, new CalculateStat(tableRow.farmingSkill, level).currentStat);
             UpdateStat(EFarmerStatType.AdventureSkill, new CalculateStat(tableRow.adventureSkill, level).currentStat);
+            SetHP(this[EFarmerStatType.Health], false);
             OnStatChangedEvent?.Invoke();
         }
 
@@ -62,6 +67,23 @@ namespace ProjectF.Farms
         {
             this[statType]?.RemoveModifier(modifierType, value);
             OnStatChangedEvent?.Invoke();
+        }
+
+        public void ReduceHP(float amount)
+        {
+            SetHP(CurrentHP - amount);
+        }
+
+        public void IncreaseHP(float amount)
+        {
+            SetHP(CurrentHP + amount);
+        }
+
+        private void SetHP(float value, bool notify = true)
+        {
+            currentHP = Mathf.Clamp(value, 0, this[EFarmerStatType.Health]);
+            if(notify)
+                OnStatChangedEvent?.Invoke();
         }
     }
 }

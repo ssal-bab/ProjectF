@@ -4,7 +4,7 @@ namespace ProjectF.Farms.AI
     {
         public override bool MakeDecision()
         {
-            return aiData.farmer.HoldItem is T;
+            return Farmer.HoldItem is T;
         }
     }
 }

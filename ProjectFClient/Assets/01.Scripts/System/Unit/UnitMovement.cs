@@ -45,5 +45,14 @@ namespace ProjectF.Units
         {
             navAgent.SetDestination(destination);
         }
+
+        public Vector2 GetValidDestination(Vector2 destination)
+        {
+            NavMeshPath path = new NavMeshPath();
+            if (navAgent.CalculatePath(destination, path) && path.corners.Length > 1)
+                return path.corners[^1];
+
+            return transform.position;
+        }
     }
 }

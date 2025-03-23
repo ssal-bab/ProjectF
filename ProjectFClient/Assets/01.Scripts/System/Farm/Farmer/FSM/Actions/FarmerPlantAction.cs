@@ -25,6 +25,10 @@ namespace ProjectF.Farms.AI
             base.OnHandleAnimationTrigger();
             if(currentField.FieldState == EFieldState.Empty)
                 currentField.Plant(seedCropID);
+
+            // 여기가 액션의 마지막이다. Target을 클리어한다.
+            aiData.ClearTarget();
+            Farmer.Stat.ReduceHP(10f);
         }
 
         protected override void OnHandleAnimationEnd()

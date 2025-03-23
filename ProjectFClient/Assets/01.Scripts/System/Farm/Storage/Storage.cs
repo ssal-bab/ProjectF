@@ -12,8 +12,6 @@ namespace ProjectF.Farms
         [SerializeField] Transform entranceTransform = null;
         public override Vector3 TargetPosition => entranceTransform.position;
 
-        public override bool TargetEnable => Watcher != null;
-
         public void Initialize()
         {
             UserStorageData storageData = GameInstance.MainUser.storageData;

@@ -17,6 +17,7 @@ namespace H00N.FSM
 
         [Space(15f)]
         [SerializeField] FSMState defaultState = null;
+        [SerializeField] FSMState anyState = null;
         private FSMState currentState = null;
         public FSMState CurrentState => currentState;
 
@@ -41,7 +42,11 @@ namespace H00N.FSM
 
         protected virtual void Update()
         {
-            currentState?.UpdateState();
+            if(currentState != null)
+                currentState.UpdateState();
+
+            if(anyState != null)
+                anyState.UpdateState();
         }
 
         public void SetAsDefaultState()

@@ -6,6 +6,6 @@ namespace ProjectF.Datas
 {
     public class UserQuestData
     {
-        public Dictionary<Type, List<string>> quests;
+        public Dictionary<int, QuestData> quests;
     }
 }

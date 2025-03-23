@@ -9,7 +9,7 @@ namespace ProjectF.Datas
         {
             UserQuestData questData = userData.questData ??= new UserQuestData();
 
-            questData.quests ??= new Dictionary<Type, List<string>>();
+            questData.quests ??= new Dictionary<int, QuestData>();
         }
     }
 }

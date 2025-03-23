@@ -4,6 +4,9 @@ using H00N.DataTables;
 using Newtonsoft.Json;
 using ProjectF.Datas;
 using ProjectF.DataTables;
+using ProjectF.Networks.Packets;
+using ProjectF.Networks;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ProjectF.Quests
@@ -32,10 +35,9 @@ namespace ProjectF.Quests
             {
                 foreach(var pair in questData.quests)
                 {
-                    foreach(var value in pair.Value)
-                    {
-                        quests.Add(Convert.ChangeType(JsonConvert.DeserializeObject(value), pair.Key) as Quest);
-                    }
+                    Type questType = Type.GetType($"{pair.Value.questType}Quest");
+                    Quest quest = Activator.CreateInstance(questType, pair.Value) as Quest;
+                    quests.Add(quest);
                 }
             }
 
@@ -52,17 +54,6 @@ namespace ProjectF.Quests
 
         public void Release()
         {
-            GameInstance.MainUser.questData.quests.Clear();
-            foreach(Quest quest in quests)
-            {
-                if(!GameInstance.MainUser.questData.quests.ContainsKey(quest.GetType()))
-                {
-                    GameInstance.MainUser.questData.quests.Add(quest.GetType(), new());
-                }
-
-                GameInstance.MainUser.questData.quests[quest.GetType()].Add(JsonConvert.SerializeObject(quest));
-            }
-
             quests?.Clear();
             quests = null;
             OnMakeQuest = null;
@@ -78,6 +69,8 @@ namespace ProjectF.Quests
 
         public void MakeQuest(Quest newQuest)
         {
+            //make quest packet
+
             quests.Add(newQuest);
             newQuest.OnMakeQuest();
             OnMakeQuest?.Invoke(newQuest);
@@ -87,6 +80,8 @@ namespace ProjectF.Quests
 
         public void ClearQuest(Quest clearedQuest)
         {
+            //clear quest packet
+
             if(!quests.Contains(clearedQuest))
                 return;
             if(!clearedQuest.CanClear)

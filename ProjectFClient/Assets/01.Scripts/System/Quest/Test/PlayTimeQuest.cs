@@ -14,6 +14,16 @@ namespace ProjectF.Quests
 
         public float TargetTime => targetTime;
 
+        public PlayTimeQuest(QuestData data) : base(data)
+        {
+            PlayTimeQuestData playTimeQuestData = data as PlayTimeQuestData;
+            if(playTimeQuestData != null)
+            {
+                targetTime = playTimeQuestData.targetTime;
+                currentTime = playTimeQuestData.currentTime;
+            }
+        }
+
         public PlayTimeQuest(
             EQuestType questType,
             string questName, 

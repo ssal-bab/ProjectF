@@ -32,6 +32,20 @@ namespace ProjectF.Quests
         public event Action<Quest> OnCanClearQuestEvent;
         public event Action<Quest> OnClearQuestEvent;
 
+        public Quest(QuestData data)
+        {
+            this.questType = data.questType;
+            this.questName = data.questName;
+            this.canClear = data.canClear;
+            this.rewordType1 = data.rewordType1;
+            this.rewordType2 = data.rewordType2;
+            this.rewordType3 = data.rewordType3;
+            this.rewordAmount1 = data.rewordAmount1;
+            this.rewordAmount2 = data.rewordAmount2;
+            this.rewordAmount3 = data.rewordAmount3;
+            SetMessage();
+        }
+
         public Quest(
             EQuestType questType,
             string questName,
@@ -52,6 +66,7 @@ namespace ProjectF.Quests
             this.rewordAmount2 = rewordAmount2;
             this.rewordAmount3 = rewordAmount3;
             SetParameters(parameters);
+            SetMessage();
         }
 
         protected abstract void SetParameters(params object[] parameters);

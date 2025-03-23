@@ -9,8 +9,6 @@ namespace ProjectF.SubCharacters
 {
     public class SubCharacter
     {
-        private ESubCharacterType characterType;
-
         private Queue<Quest> qusetQueue = null;
         private Quest currentQuest = null;
 

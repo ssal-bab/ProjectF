@@ -14,22 +14,28 @@ namespace ProjectF.Quests
 
         public float TargetTime => targetTime;
 
-        public PlayTimeQuest(EQuestType questType, string questName, params object[] parameters) : base(questType, questName, parameters)
+        public PlayTimeQuest(
+            EQuestType questType,
+            string questName, 
+            string rewordType1, 
+            int rewordAmount1,
+            string rewordType2,
+            int rewordAmount2,
+            string rewordType3,
+            int rewordAmount3,
+            params object[] parameters) : 
+            base(questType, 
+            questName, 
+            rewordType1, 
+            rewordAmount1,
+            rewordType2,
+            rewordAmount2,
+            rewordType3,
+            rewordAmount3,
+            parameters)
         {
             currentTime = 0.0f;
         }
-
-        // public PlayTimeQuest(QuestSO so)
-        // {
-        //     questData = so;
-        //     if(questData is PlayTimeQusetSO)
-        //     {
-        //         this.targetTime = ((PlayTimeQusetSO)questData).TargetTime;
-        //         currentTime = 0.0f;
-            
-        //         message = $"{targetTime}초 동안 게임을 플레이하기";
-        //     }   
-        // }
 
         protected override void SetParameters(params object[] parameters)
         {
@@ -55,11 +61,6 @@ namespace ProjectF.Quests
         protected override bool CheckQuestClear()
         {
             return currentTime >= targetTime;
-        }
-
-        protected override void MakeReward()
-        {
-            
         }
     }
 }

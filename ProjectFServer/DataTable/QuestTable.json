@@ -1,1 +1,1 @@
-{"0":{"id":0,"questType":"PlayTime","questName":"TestQuest","parameters":"{float}30"}}
+{"0":{"id":0,"questType":"PlayTime","questName":"TestQuest","parameters":"{float}30","rewordType1":"Gold","rewordAmount1":100,"rewordType2":"Egg_Common","rewordAmount2":100,"rewordType3":"Crop_Almond_Silver","rewordAmount3":100}}

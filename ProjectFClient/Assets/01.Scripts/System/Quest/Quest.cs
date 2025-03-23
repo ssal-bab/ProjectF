@@ -15,20 +15,42 @@ namespace ProjectF.Quests
         private string questName;
         public string QuestName => questName;
 
-
         protected string message;
         public string Message => message;
 
         private bool canClear = false;
         public bool CanClear => canClear;
+
+        string rewordType1;
+        int rewordAmount1;
+        string rewordType2;
+        int rewordAmount2;
+        string rewordType3;
+        int rewordAmount3;
+
         public event Action<Quest> OnMakeQuestEvent;
         public event Action<Quest> OnCanClearQuestEvent;
         public event Action<Quest> OnClearQuestEvent;
 
-        public Quest(EQuestType questType, string questName, params object[] parameters)
+        public Quest(
+            EQuestType questType,
+            string questName,
+            string rewordType1, 
+            int rewordAmount1,
+            string rewordType2,
+            int rewordAmount2,
+            string rewordType3,
+            int rewordAmount3,
+            params object[] parameters)
         {
             this.questType = questType;
             this.questName = questName;
+            this.rewordType1 = rewordType1;
+            this.rewordType2 = rewordType2;
+            this.rewordType3 = rewordType3;
+            this.rewordAmount1 = rewordAmount1;
+            this.rewordAmount2 = rewordAmount2;
+            this.rewordAmount3 = rewordAmount3;
             SetParameters(parameters);
         }
 
@@ -39,7 +61,12 @@ namespace ProjectF.Quests
         }
 
         protected abstract bool CheckQuestClear();
-        protected abstract void MakeReward();
+        private void MakeReward()
+        {
+            QuestUtility.MakeReword(rewordType1, rewordAmount1);
+            QuestUtility.MakeReword(rewordType2, rewordAmount2);
+            QuestUtility.MakeReword(rewordType3, rewordAmount3);
+        }
 
         public virtual void OnMakeQuest() 
         {
@@ -59,6 +86,7 @@ namespace ProjectF.Quests
                 canClear = true;
                 Debug.Log($"Can clear quset : {GetType()}");
                 OnCanClearQuestEvent?.Invoke(this);
+                QuestManager.Instance.ClearQuest(this);
             }
         }
 

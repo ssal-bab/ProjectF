@@ -12,10 +12,11 @@ namespace ProjectFServer.Networks.Packets
         public override string Route => NetworkDefine.FARM_ROUTE;
         public const string POST = "FarmerSales";
         public override string Post => POST;
-        public string farmerUUID = string.Empty;
+
+        public IEnumerable<string> farmerUUID = new string[0];
         public int salesAllowance = 0;
 
-        public FarmerSalesRequest(string farmerUUID, int salesAllowance)
+        public FarmerSalesRequest(IEnumerable<string> farmerUUID, int salesAllowance)
         {
             this.farmerUUID = farmerUUID;
             this.salesAllowance = salesAllowance;

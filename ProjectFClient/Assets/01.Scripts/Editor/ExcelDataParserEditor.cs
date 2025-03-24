@@ -223,6 +223,7 @@ public class ExcelDataParserEditor : EditorWindow
             if(parentClassName != string.Empty)
             {
                 string path = $"Assets/01.Scripts/SharedCode/DataTable/BaseTable/{parentClassName}.cs";
+                Debug.Log(parentClassName);
                 Dictionary<string, string> field = !parentClassFieldDic.ContainsKey(parentClassName) ? GetClassFields(path) : parentClassFieldDic[parentClassName];
                 WriteFieldWithParent(sb, className, parentClassName, columns, field);
             }
@@ -296,7 +297,7 @@ public class ExcelDataParserEditor : EditorWindow
         string code = File.ReadAllText(path);
 
         // 필드 타입과 필드명을 추출하는 정규식
-        string pattern = @"\b([\w<>]+)\s+(\w+)\s*;";
+        string pattern = @"\b(public|private|protected)\s+([\w<>]+)\s+(\w+)\s*;";
         MatchCollection matches = Regex.Matches(code, pattern);
 
         Dictionary<string, string> fieldDic = new Dictionary<string, string>();
@@ -305,6 +306,7 @@ public class ExcelDataParserEditor : EditorWindow
         {
             string fieldType = match.Groups[1].Value;
             string fieldName = match.Groups[2].Value;
+            Debug.Log(fieldName);
             fieldDic.Add(fieldName, fieldType);
         }
 

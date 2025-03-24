@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using H00N.Extensions;
 using H00N.Resources.Pools;
-using ProjectF.Farms;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,13 +12,13 @@ using System.Linq;
 
 namespace ProjectF.UI.Farms
 {
-    public enum OrderType
+    public enum EOrderType
     {
         Ascending,
         Descending
     }
 
-    public enum ClassificationType
+    public enum EClassificationType
     {
         Acquisition,
         Rarity,
@@ -106,8 +101,8 @@ namespace ProjectF.UI.Farms
             ERarity rarity = GameInstance.MainUser.farmerData.farmerList[farmerUUID].rarity;
 
             FarmerConfigTable farmerConfigTable = DataTableManager.GetTable<FarmerConfigTable>();
-            float farmingMultiplier = farmerLevel * farmerConfigTable.LevelSalesMultiplierValue();
-            float gradeMultiplier = (int)rarity * farmerConfigTable.GradeSalesMultiplierValue();
+            float farmingMultiplier = farmerLevel * farmerConfigTable.LevelSalesMultiplierValue;
+            float gradeMultiplier = (int)rarity * farmerConfigTable.GradeSalesMultiplierValue;
 
             return Mathf.FloorToInt(farmingMultiplier + gradeMultiplier);
         }
@@ -115,7 +110,7 @@ namespace ProjectF.UI.Farms
         // 분류 항목 기준 변경
         public void OnChangeElementClassification(int classificationIdx)
         {
-            _farmerListUI.ChangeClassification((ClassificationType)classificationIdx);
+            _farmerListUI.ChangeClassification((EClassificationType)classificationIdx);
         }
 
         // 오름차순 내림차순 변경

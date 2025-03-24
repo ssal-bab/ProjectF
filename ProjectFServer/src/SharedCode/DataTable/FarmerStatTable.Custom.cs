@@ -50,10 +50,10 @@ namespace ProjectF.DataTables
             
             var dic = new Dictionary<EFarmerStatType, float>();
 
-            dic.Add(EFarmerStatType.MoveSpeed, row.moveSpeedBaseValue + (row.moveSpeedIncreaseValue * multiplier));
-            dic.Add(EFarmerStatType.Health, row.healthBaseValue + (row.healthIncreaseValue * multiplier));
-            dic.Add(EFarmerStatType.FarmingSkill, row.farmingSkillBaseValue + (row.farmingSkillIncreaseValue * multiplier));
-            dic.Add(EFarmerStatType.AdventureSkill, row.adventureSkillBaseValue + (row.adventureSkillIncreaseValue * multiplier));
+            dic.Add(EFarmerStatType.MoveSpeed, row.moveSpeed.baseValue + (row.moveSpeed.increaseValue * multiplier));
+            dic.Add(EFarmerStatType.Health, row.health.baseValue + (row.health.increaseValue * multiplier));
+            dic.Add(EFarmerStatType.FarmingSkill, row.farmingSkill.baseValue + (row.farmingSkill.increaseValue * multiplier));
+            dic.Add(EFarmerStatType.AdventureSkill, row.adventureSkill.baseValue + (row.adventureSkill.increaseValue * multiplier));
 
             return dic;
         }

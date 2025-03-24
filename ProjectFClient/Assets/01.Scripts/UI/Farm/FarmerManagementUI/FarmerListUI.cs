@@ -1,13 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using ProjectF.UI;
 using UnityEngine;
 using H00N.Resources;
 using H00N.Resources.Pools;
-using System.Threading.Tasks;
-using Codice.CM.Common;
-using H00N.Extensions;
 using System.Linq;
 
 namespace ProjectF.UI.Farms
@@ -17,9 +11,9 @@ namespace ProjectF.UI.Farms
         [SerializeField] private AddressableAsset<FarmerInfoElementUI> farmerInfoUIPrefab = null;
         [SerializeField] private Transform farmerInfoContent;
 
-        private OrderType currentOrderType = OrderType.Ascending;
+        private EOrderType currentOrderType = EOrderType.Ascending;
         private const string orderTypeKey = "SavedOrderType";
-        private ClassificationType currentClasification = ClassificationType.Acquisition;
+        private EClassificationType currentClasification = EClassificationType.Acquisition;
         private const string classificationTypeKey = "SavedClassificationType";
 
         private List<FarmerInfoElementUI> infoElementList = new();
@@ -29,8 +23,8 @@ namespace ProjectF.UI.Farms
             base.Initialize();
             farmerInfoUIPrefab.Initialize();
 
-            currentOrderType = (OrderType)PlayerPrefs.GetInt(orderTypeKey);
-            currentClasification = (ClassificationType)PlayerPrefs.GetInt(classificationTypeKey);
+            currentOrderType = (EOrderType)PlayerPrefs.GetInt(orderTypeKey);
+            currentClasification = (EClassificationType)PlayerPrefs.GetInt(classificationTypeKey);
 
             RefreshUISelf();
         }
@@ -59,15 +53,15 @@ namespace ProjectF.UI.Farms
             }
         }
 
-        public OrderType ChangeOrder()
+        public EOrderType ChangeOrder()
         {
-            currentOrderType = currentOrderType == OrderType.Ascending ? OrderType.Descending : OrderType.Ascending;
+            currentOrderType = currentOrderType == EOrderType.Ascending ? EOrderType.Descending : EOrderType.Ascending;
             PlayerPrefs.SetInt(orderTypeKey, (int)currentOrderType);
             SortingFarmerInfoElement(currentOrderType, currentClasification);
             return currentOrderType;
         }
 
-        public ClassificationType ChangeClassification(ClassificationType classificationType)
+        public EClassificationType ChangeClassification(EClassificationType classificationType)
         {
             currentClasification = classificationType;
             PlayerPrefs.SetInt(classificationTypeKey, (int)classificationType);
@@ -75,26 +69,26 @@ namespace ProjectF.UI.Farms
             return currentClasification;
         }
 
-        private void SortingFarmerInfoElement(OrderType orderType, ClassificationType classificationType)
+        private void SortingFarmerInfoElement(EOrderType orderType, EClassificationType classificationType)
         {
             // 획득순은 데이터 없어서 보류
             switch (classificationType)
             {
-                case ClassificationType.Acquisition:
+                case EClassificationType.Acquisition:
                     break;
-                case ClassificationType.Rarity:
+                case EClassificationType.Rarity:
                     infoElementList
                     .OrderBy(e => e.Rarity)
                     .ThenBy(e => e.Level)
                     .ThenBy(e => e.NickName);
                     break;
-                case ClassificationType.Name:
+                case EClassificationType.Name:
                     infoElementList
                     .OrderBy(e => e.NickName)
                     .ThenBy(e => e.Rarity)
                     .ThenBy(e => e.Level);
                     break;
-                case ClassificationType.Level:
+                case EClassificationType.Level:
                     infoElementList
                     .OrderBy(e => e.Level)
                     .ThenBy(e => e.Rarity)
@@ -102,7 +96,7 @@ namespace ProjectF.UI.Farms
                     break;
             }
 
-            if(orderType == OrderType.Ascending)
+            if(orderType == EOrderType.Ascending)
             {
                 for(int i = 0; i < infoElementList.Count; i++)
                 {

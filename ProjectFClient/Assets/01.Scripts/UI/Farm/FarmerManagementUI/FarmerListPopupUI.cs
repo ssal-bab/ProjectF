@@ -19,8 +19,8 @@ namespace ProjectF.UI.Farms
 {
     public enum OrderType
     {
-        Ascending = 0,
-        Descending = 180
+        Ascending,
+        Descending
     }
 
     public enum ClassificationType
@@ -123,6 +123,7 @@ namespace ProjectF.UI.Farms
         {
             var currentOrderType = _farmerListUI.ChangeOrder();
             _orderButtonVisualTrm.rotation = Quaternion.Euler(0, 0, (int)currentOrderType);
+            _farmerListUI.ChangeOrder();
         }
 
         public void OnTouchCloseButton()

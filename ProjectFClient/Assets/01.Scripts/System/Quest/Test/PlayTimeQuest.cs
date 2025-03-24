@@ -25,6 +25,7 @@ namespace ProjectF.Quests
         }
 
         public PlayTimeQuest(
+            int id,
             EQuestType questType,
             string questName, 
             string rewordType1, 
@@ -34,15 +35,17 @@ namespace ProjectF.Quests
             string rewordType3,
             int rewordAmount3,
             params object[] parameters) : 
-            base(questType, 
-            questName, 
-            rewordType1, 
-            rewordAmount1,
-            rewordType2,
-            rewordAmount2,
-            rewordType3,
-            rewordAmount3,
-            parameters)
+            base(
+                id,
+                questType, 
+                questName, 
+                rewordType1, 
+                rewordAmount1,
+                rewordType2,
+                rewordAmount2,
+                rewordType3,
+                rewordAmount3,
+                parameters)
         {
             currentTime = 0.0f;
         }
@@ -71,6 +74,15 @@ namespace ProjectF.Quests
         protected override bool CheckQuestClear()
         {
             return currentTime >= targetTime;
+        }
+
+        public override QuestData MakeQusetData()
+        {
+            PlayTimeQuestData data = base.MakeQusetData() as PlayTimeQuestData;
+            data.currentTime = currentTime;
+            data.targetTime = targetTime;
+
+            return data;
         }
     }
 }

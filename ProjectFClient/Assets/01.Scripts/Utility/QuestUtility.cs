@@ -21,6 +21,7 @@ namespace ProjectF
                 Type type = Type.GetType($"ProjectF.Quests.{questTableRow.questType}Quest");
                 quest = Activator.CreateInstance(
                     type, 
+                    questTableRow.id,
                     questTableRow.questType, 
                     questTableRow.questName, 
                     questTableRow.rewordType1,
@@ -29,7 +30,7 @@ namespace ProjectF
                     questTableRow.rewordAmount2,
                     questTableRow.rewordType3,
                     questTableRow.rewordAmount3,
-                    ParseTypedValues(questTableRow.parameters)) as Quest;
+                    new MakeQuestParams(questTableRow).parameters) as Quest;
             }
             
             return quest;

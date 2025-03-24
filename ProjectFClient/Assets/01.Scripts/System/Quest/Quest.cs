@@ -1,14 +1,14 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using ProjectF.Datas;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 namespace ProjectF.Quests
 {
     public abstract class Quest
     {
+        private int id;
+        public int Id => id;
+
         private EQuestType questType;
         public EQuestType QuestType => questType;
 
@@ -34,6 +34,7 @@ namespace ProjectF.Quests
 
         public Quest(QuestData data)
         {
+            this.id = data.id;
             this.questType = data.questType;
             this.questName = data.questName;
             this.canClear = data.canClear;
@@ -47,6 +48,7 @@ namespace ProjectF.Quests
         }
 
         public Quest(
+            int id,
             EQuestType questType,
             string questName,
             string rewordType1, 
@@ -57,6 +59,7 @@ namespace ProjectF.Quests
             int rewordAmount3,
             params object[] parameters)
         {
+            this.id = id;
             this.questType = questType;
             this.questName = questName;
             this.rewordType1 = rewordType1;
@@ -110,6 +113,25 @@ namespace ProjectF.Quests
             MakeReward();
 
             OnClearQuestEvent?.Invoke(this);
+        }
+
+        public virtual QuestData MakeQusetData()
+        {
+            Type type = Type.GetType($"ProjectF.Datas.{questType}QuestData");
+            QuestData data = Activator.CreateInstance(type) as QuestData;
+            data.id = id;
+            data.questName = questName;
+            data.questType = questType;
+            data.message = message;
+            data.canClear = canClear;
+            data.rewordType1 = rewordType1;
+            data.rewordAmount1 = rewordAmount1;
+            data.rewordType2 = rewordType2;
+            data.rewordAmount2 = rewordAmount2;
+            data.rewordType3 = rewordType3;
+            data.rewordAmount3 = rewordAmount3;
+
+            return data;
         }
     }
 }

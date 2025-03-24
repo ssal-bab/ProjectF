@@ -28,6 +28,7 @@ namespace ProjectF.Networks.Controllers
                 return ErrorPacket(ENetworkResult.Error);
             if(tableRow.questType != request.questData.questType)
                 return ErrorPacket(ENetworkResult.Error);
+            
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {

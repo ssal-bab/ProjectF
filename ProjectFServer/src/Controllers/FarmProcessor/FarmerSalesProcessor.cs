@@ -20,13 +20,20 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
 
-            if(userData.farmerData.farmerList.ContainsKey(request.farmerUUID) == false)
+            foreach(var uuid in request.farmerUUID)
+            {
+                if(userData.farmerData.farmerList.ContainsKey(uuid) == false)
                 return ErrorPacket(ENetworkResult.DataNotFound);
+            }
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
                 userData.monetaData.gold += request.salesAllowance;
-                userData.farmerData.farmerList.Remove(request.farmerUUID);
+
+                foreach(var uuid in request.farmerUUID)
+                {
+                    userData.farmerData.farmerList.Remove(uuid);
+                }
             }
 
             return new FarmerSalesResponse() {

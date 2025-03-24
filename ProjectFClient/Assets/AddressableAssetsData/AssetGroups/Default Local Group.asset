@@ -16,7 +16,22 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: a05ce335f6a4c46b3b20cbc1f6b2980d
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 38e5df037e5593c4986014b61d4ab9ab
+    m_Address: FarmerInfoElementUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3344a467f26da945b08f89c74f18828
+    m_Address: FarmerListUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50739f20e5c6eeb4bb2d7f8a8caee821
+    m_Address: FarmerInfoPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
   m_SchemaSet:

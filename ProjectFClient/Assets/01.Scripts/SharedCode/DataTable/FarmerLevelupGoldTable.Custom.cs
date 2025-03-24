@@ -49,7 +49,7 @@ namespace ProjectF.DataTables
             #endregion
         }
 
-        public void AddBaseGoldValue(ERarity rarity, int value)
+        private void AddBaseGoldValue(ERarity rarity, int value)
         {
             if (baseGoldDictionary.ContainsKey(rarity))
             {
@@ -59,7 +59,7 @@ namespace ProjectF.DataTables
             baseGoldDictionary.Add(rarity, value);
         }
 
-        public void AddMultiplierGoldValue(ERarity rarity, float value)
+        private void AddMultiplierGoldValue(ERarity rarity, float value)
         {
             if (multiplierGoldDictionary.ContainsKey(rarity))
             {

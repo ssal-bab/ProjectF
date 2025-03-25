@@ -13,7 +13,9 @@ namespace ProjectF
 
         private const int FARM_SAVE_TICK_COUNT = 10;
         private int mainFarmSaveCounter = 0;
+        
         private Farm mainFarm = null;
+        public Farm MainFarm => mainFarm;
 
         public void Initialize()
         {

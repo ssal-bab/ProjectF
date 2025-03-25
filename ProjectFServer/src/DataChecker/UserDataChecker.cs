@@ -10,6 +10,7 @@ namespace ProjectF.Datas
             new UserFarmerDataChecker(userData);
             new UserQuestDataChecker(userData);
             new UserMonetaDataChecker(userData);
+            new UserSeedsPocketDataChecker(userData);
         }
     }
 }

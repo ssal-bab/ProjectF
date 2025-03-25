@@ -1,8 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 
 namespace ProjectF.Farms
 {
-    public class CropQueue
+    public class CropQueue : IEnumerable<CropQueueSlot>
     {
         private Queue<CropQueueSlot> cropQueue = null;
 
@@ -45,5 +46,8 @@ namespace ProjectF.Farms
 
             return cropQueue.Peek();
         }
+
+        public IEnumerator<CropQueueSlot> GetEnumerator() => cropQueue.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

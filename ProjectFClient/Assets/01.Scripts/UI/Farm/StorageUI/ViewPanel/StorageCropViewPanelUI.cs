@@ -45,7 +45,9 @@ namespace ProjectF.UI.Farms
         {
             scrollView.gameObject.SetActive(false);
             scrollView.content.DespawnAllChildren();
-            foreach(var category in GameInstance.MainUser.storageData.cropStorage)
+
+            UserData mainUser = GameInstance.MainUser;
+            foreach(var category in mainUser.storageData.cropStorage)
             {
                 foreach(var item in category.Value)
                     await AddToContainerAsync(category.Key, item.Key, item.Value);

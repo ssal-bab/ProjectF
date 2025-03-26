@@ -26,6 +26,18 @@ namespace ProjectF.UI.Farms
         Level
     }
 
+    public struct FarmerSalesInfo
+    {
+        public string farmerUUID;
+        public int farmerLevel;
+
+        public FarmerSalesInfo(string farmerUUID, int farmerLevel)
+        {
+            this.farmerUUID = farmerUUID;
+            this.farmerLevel = farmerLevel;
+        }
+    }
+
     public class FarmerListPopupUI : PoolableBehaviourUI
     {
         // 외부 클래스로 빼야 할 항목 : 일꾼 목록 Element, 일꾼 Info Popup
@@ -37,7 +49,7 @@ namespace ProjectF.UI.Farms
         [SerializeField] private TextMeshProUGUI _salesAllowanceText;
         [SerializeField] private FarmerListUI _farmerListUI;
 
-        private Dictionary<string, (string, int)> _farmerSalesDic = new();
+        private Dictionary<string, FarmerSalesInfo> _farmerSalesDic = new();
 
         public new void Initialize()
         {
@@ -63,7 +75,8 @@ namespace ProjectF.UI.Farms
         {
             if (IsRegisterSlaesFarmer(farmerUUID)) return;
 
-            _farmerSalesDic.Add(farmerUUID, (farmerUUID, farmerLevel));
+            var info = new FarmerSalesInfo(farmerUUID, farmerLevel);
+            _farmerSalesDic.Add(farmerUUID, info);
 
         }
 
@@ -80,7 +93,7 @@ namespace ProjectF.UI.Farms
 
             foreach (var farmerInfo in _farmerSalesDic)
             {
-                salesAllowance += GetFarmerSalesAllowance(farmerInfo.Value.Item1, farmerInfo.Value.Item2);
+                salesAllowance += GetFarmerSalesAllowance(farmerInfo.Value.farmerUUID, farmerInfo.Value.farmerLevel);
             }
 
             var req = new FarmerSalesRequest(_farmerSalesDic.Keys.ToArray(), salesAllowance);
@@ -117,7 +130,7 @@ namespace ProjectF.UI.Farms
         public void OnChangeOrder()
         {
             var currentOrderType = _farmerListUI.ChangeOrder();
-            _orderButtonVisualTrm.rotation = Quaternion.Euler(0, 0, (int)currentOrderType);
+            _orderButtonVisualTrm.rotation = Quaternion.Euler(0, 0, (int)currentOrderType * 180);
             _farmerListUI.ChangeOrder();
         }
 

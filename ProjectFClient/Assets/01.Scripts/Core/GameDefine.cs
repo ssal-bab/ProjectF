@@ -7,6 +7,8 @@ namespace ProjectF
     {
         public static readonly OptOption<string> DefaultColorOption = new OptOption<string>("#F2F2F2", "#F30000");
         public static readonly string DefaultGoldColor = "#FFCF4A";
+        public static readonly string AbleBehavioutColor = "#64A980";
+        public static readonly string UnAbleBehaviourColor = "#FF6E6E";
 
         private static Transform mainCanvas = null;
         public static Transform MainCanvas {

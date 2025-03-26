@@ -42,20 +42,5 @@ namespace ProjectF.DataTables
                 tableRow.adventureSkill = new StatTableData(tableRow.adventureSkillStat);
             }
         }
-
-        public Dictionary<EFarmerStatType, float> GetFarmerStat(int farmerID, int level)
-        {
-            int multiplier = level - 1;
-            var row = this[farmerID];
-            
-            var dic = new Dictionary<EFarmerStatType, float>();
-
-            dic.Add(EFarmerStatType.MoveSpeed, row.moveSpeed.baseValue + (row.moveSpeed.increaseValue * multiplier));
-            dic.Add(EFarmerStatType.Health, row.health.baseValue + (row.health.increaseValue * multiplier));
-            dic.Add(EFarmerStatType.FarmingSkill, row.farmingSkill.baseValue + (row.farmingSkill.increaseValue * multiplier));
-            dic.Add(EFarmerStatType.AdventureSkill, row.adventureSkill.baseValue + (row.adventureSkill.increaseValue * multiplier));
-
-            return dic;
-        }
     }
 }

@@ -3,29 +3,12 @@ using H00N.Resources.Pools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using ProjectF.DataTables;
 using ProjectF.Networks;
 using ProjectFServer.Networks.Packets;
-using H00N.DataTables;
-using ProjectF.Datas;
 using System.Linq;
 
 namespace ProjectF.UI.Farms
 {
-    public enum EOrderType
-    {
-        Ascending,
-        Descending
-    }
-
-    public enum EClassificationType
-    {
-        Acquisition,
-        Rarity,
-        Name,
-        Level
-    }
-
     public struct FarmerSalesInfo
     {
         public string farmerUUID;
@@ -49,12 +32,12 @@ namespace ProjectF.UI.Farms
         [SerializeField] private TextMeshProUGUI _salesAllowanceText;
         [SerializeField] private FarmerListUI _farmerListUI;
 
-        private Dictionary<string, FarmerSalesInfo> _farmerSalesDic = new();
+        private Dictionary<string, FarmerSalesInfo> farmerSalesDic = new();
 
         public new void Initialize()
         {
             base.Initialize();
-            _farmerListUI.Initialize();
+            _farmerListUI.Initialize(RegisterSalesFarmer, UnRegisterSalesFarmer);
 
             ActiveSalesFarmerMode(false);
         }
@@ -68,7 +51,7 @@ namespace ProjectF.UI.Farms
 
         private bool IsRegisterSlaesFarmer(string uuid)
         {
-            return _farmerSalesDic.ContainsKey(uuid);
+            return farmerSalesDic.ContainsKey(uuid);
         }
 
         public void RegisterSalesFarmer(string farmerUUID, int farmerLevel)
@@ -76,7 +59,7 @@ namespace ProjectF.UI.Farms
             if (IsRegisterSlaesFarmer(farmerUUID)) return;
 
             var info = new FarmerSalesInfo(farmerUUID, farmerLevel);
-            _farmerSalesDic.Add(farmerUUID, info);
+            farmerSalesDic.Add(farmerUUID, info);
 
         }
 
@@ -84,46 +67,46 @@ namespace ProjectF.UI.Farms
         {
             if (!IsRegisterSlaesFarmer(farmerUUID)) return;
 
-            _farmerSalesDic.Remove(farmerUUID);
+            farmerSalesDic.Remove(farmerUUID);
         }
 
         public async void FarmerSaleAsync()
         {
-            int salesAllowance = 0;
+            var farmerDataList = farmerSalesDic.Keys.Where(farmerSalesDic.ContainsKey).Select(k => farmerSalesDic[k]);
 
-            foreach (var farmerInfo in _farmerSalesDic)
+            foreach (var info in farmerDataList)
             {
-                salesAllowance += GetFarmerSalesAllowance(farmerInfo.Value.farmerUUID, farmerInfo.Value.farmerLevel);
+                if (!GameInstance.MainUser.farmerData.farmerList.ContainsKey(info.farmerUUID))
+                {
+                    Debug.LogError("일꾼을 찾을 수 없습니다.");
+                    return;
+                }
             }
 
-            var req = new FarmerSalesRequest(_farmerSalesDic.Keys.ToArray(), salesAllowance);
+            var req = new FarmerSalesRequest(farmerSalesDic.Keys.ToArray());
             var response = await NetworkManager.Instance.SendWebRequestAsync<FarmerSalesResponse>(req);
 
             if (response.result != ENetworkResult.Success)
             {
-                Debug.LogError(response.result);
+                Debug.LogError("Critical Error!");
+                return;
             }
-            else
+
+            var mainUser = GameInstance.MainUser;
+
+            foreach(var info in farmerDataList)
             {
-                Debug.Log("판매 성공");
+                var farmerData = mainUser.farmerData.farmerList[info.farmerUUID];
+
+                mainUser.monetaData.gold += new CalculateFarmerSalesAllowance(farmerData.rarity, farmerData.level).value;
+                mainUser.farmerData.farmerList.Remove(info.farmerUUID);
             }
-        }
-
-        private int GetFarmerSalesAllowance(string farmerUUID, int farmerLevel)
-        {
-            ERarity rarity = GameInstance.MainUser.farmerData.farmerList[farmerUUID].rarity;
-
-            FarmerConfigTable farmerConfigTable = DataTableManager.GetTable<FarmerConfigTable>();
-            float farmingMultiplier = farmerLevel * farmerConfigTable.LevelSalesMultiplierValue;
-            float gradeMultiplier = (int)rarity * farmerConfigTable.GradeSalesMultiplierValue;
-
-            return Mathf.FloorToInt(farmingMultiplier + gradeMultiplier);
         }
 
         // 분류 항목 기준 변경
         public void OnChangeElementClassification(int classificationIdx)
         {
-            _farmerListUI.ChangeClassification((EClassificationType)classificationIdx);
+            _farmerListUI.ChangeClassification((EFarmerClassificationType)classificationIdx);
         }
 
         // 오름차순 내림차순 변경

@@ -3,6 +3,7 @@ using UnityEngine;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using System.Linq;
+using System;
 
 namespace ProjectF.UI.Farms
 {
@@ -12,34 +13,35 @@ namespace ProjectF.UI.Farms
         [SerializeField] private Transform farmerInfoContent;
 
         private EOrderType currentOrderType = EOrderType.Ascending;
-        private const string orderTypeKey = "SavedOrderType";
-        private EClassificationType currentClasification = EClassificationType.Acquisition;
-        private const string classificationTypeKey = "SavedClassificationType";
+        private EFarmerClassificationType currentClasification = EFarmerClassificationType.Acquisition;
+        
 
         private List<FarmerInfoElementUI> infoElementList = new();
 
-        public new void Initialize()
+        public void Initialize(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
         {
             base.Initialize();
             farmerInfoUIPrefab.Initialize();
 
-            currentOrderType = (EOrderType)PlayerPrefs.GetInt(orderTypeKey);
-            currentClasification = (EClassificationType)PlayerPrefs.GetInt(classificationTypeKey);
+            currentOrderType = GameSetting.LastFarmerOrderType;
+            currentClasification = GameSetting.LastFarmerClassificationType;
 
-            RefreshUISelf();
+            RefreshUISelf(farmerRegisterSalesAction, farmerUnRegisterSalesAction);
         }
 
-        public void RefreshUISelf()
+        public void RefreshUISelf(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
         {
-            RefreshUIAsync();
+            RefreshUIAsync(farmerRegisterSalesAction, farmerUnRegisterSalesAction);
         }
 
-        public async void RefreshUIAsync()
+        public async void RefreshUIAsync(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
         {
-            foreach(var farmerData in GameInstance.MainUser.farmerData.farmerList.Values)
+            var userFarmerData = GameInstance.MainUser.farmerData;
+            foreach(var farmerData in userFarmerData.farmerList.Values)
             {
                 var farmerInfoElement = await PoolManager.SpawnAsync<FarmerInfoElementUI>(farmerInfoUIPrefab.Key, farmerInfoContent);
                 farmerInfoElement.Initialize(farmerData);
+                farmerInfoElement.RegisterFarmerSalesAction(farmerRegisterSalesAction, farmerUnRegisterSalesAction);
 
                 infoElementList.Add(farmerInfoElement);
             }
@@ -49,46 +51,46 @@ namespace ProjectF.UI.Farms
         {
             foreach(var info in infoElementList)
             {
-                info.ActiveSalesFarmerMode(isActive, farmerListPopupUI);
+                info.ActiveSalesFarmerMode(isActive);
             }
         }
 
         public EOrderType ChangeOrder()
         {
             currentOrderType = currentOrderType == EOrderType.Ascending ? EOrderType.Descending : EOrderType.Ascending;
-            PlayerPrefs.SetInt(orderTypeKey, (int)currentOrderType);
+            GameSetting.LastFarmerOrderType = currentOrderType;
             SortingFarmerInfoElement(currentOrderType, currentClasification);
             return currentOrderType;
         }
 
-        public EClassificationType ChangeClassification(EClassificationType classificationType)
+        public EFarmerClassificationType ChangeClassification(EFarmerClassificationType classificationType)
         {
             currentClasification = classificationType;
-            PlayerPrefs.SetInt(classificationTypeKey, (int)classificationType);
+            GameSetting.LastFarmerClassificationType = currentClasification;
             SortingFarmerInfoElement(currentOrderType, currentClasification);
             return currentClasification;
         }
 
-        private void SortingFarmerInfoElement(EOrderType orderType, EClassificationType classificationType)
+        private void SortingFarmerInfoElement(EOrderType orderType, EFarmerClassificationType classificationType)
         {
             // 획득순은 데이터 없어서 보류
             switch (classificationType)
             {
-                case EClassificationType.Acquisition:
+                case EFarmerClassificationType.Acquisition:
                     break;
-                case EClassificationType.Rarity:
+                case EFarmerClassificationType.Rarity:
                     infoElementList
                     .OrderBy(e => e.Rarity)
                     .ThenBy(e => e.Level)
                     .ThenBy(e => e.NickName);
                     break;
-                case EClassificationType.Name:
+                case EFarmerClassificationType.Name:
                     infoElementList
                     .OrderBy(e => e.NickName)
                     .ThenBy(e => e.Rarity)
                     .ThenBy(e => e.Level);
                     break;
-                case EClassificationType.Level:
+                case EFarmerClassificationType.Level:
                     infoElementList
                     .OrderBy(e => e.Level)
                     .ThenBy(e => e.Rarity)

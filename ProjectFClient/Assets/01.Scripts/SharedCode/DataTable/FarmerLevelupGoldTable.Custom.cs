@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using H00N.DataTables;
+using Microsoft.VisualBasic;
 using ProjectF.Datas;
 using ProjectF.DataTables;
 
@@ -11,62 +13,40 @@ namespace ProjectF.DataTables
         
     }
 
+    public struct LevelupGoldGroup
+    {
+        public int baseValue;
+        public float multiplierValue;
+
+        public LevelupGoldGroup(int baseValue, float multiplierValue)
+        {
+            this.baseValue = baseValue;
+            this.multiplierValue = multiplierValue;
+        }
+    }
+
     public partial class FarmerLevelupGoldTable : DataTable<FarmerLevelupGoldTableRow> 
     { 
-        private Dictionary<ERarity, float> baseGoldDictionary = new();
-        public Dictionary<ERarity, float> BaseGoldDictionary => baseGoldDictionary;
-        private Dictionary<ERarity, float> multiplierGoldDictionary = new();
-        public Dictionary<ERarity, float> MultiplierGoldDictionary => multiplierGoldDictionary;
+        private Dictionary<ERarity, LevelupGoldGroup> levelupGoldGroupDictionary;
 
         protected override void OnTableCreated()
         {
             base.OnTableCreated();
 
-            baseGoldDictionary = new ();
-            multiplierGoldDictionary = new ();
-
-            var tableRow = this[0];
-
-            #region Generate Base Gold Dictionary
-
-            AddBaseGoldValue(ERarity.Common, tableRow.CommonBaseValue);
-            AddBaseGoldValue(ERarity.Uncommon, tableRow.UnCommonBaseValue);
-            AddBaseGoldValue(ERarity.Rare, tableRow.RareBaseValue);
-            AddBaseGoldValue(ERarity.Epic, tableRow.EpicBaseValue);
-            AddBaseGoldValue(ERarity.Legendary, tableRow.LegendaryBaseValue);
-            AddBaseGoldValue(ERarity.Mythic, tableRow.MythicBaseValue);
-
-            #endregion
-
-            #region Generate Multiplier Gold Dictionary
-
-            AddMultiplierGoldValue(ERarity.Common, tableRow.CommonMultiplierValue);
-            AddMultiplierGoldValue(ERarity.Uncommon, tableRow.UnCommonMultiplierValue);
-            AddMultiplierGoldValue(ERarity.Rare, tableRow.RareMultiplierValue);
-            AddMultiplierGoldValue(ERarity.Epic, tableRow.EpicMultiplierValue); 
-            AddMultiplierGoldValue(ERarity.Legendary, tableRow.LegendaryMultiplierValue);
-            AddMultiplierGoldValue(ERarity.Mythic, tableRow.MythicMultiplierValue);
-            #endregion
+            foreach(var row in this)
+            {
+                levelupGoldGroupDictionary.Add(row.rarity, new LevelupGoldGroup(row.baseValue, row.multiplierValue));
+            }
         }
 
-        private void AddBaseGoldValue(ERarity rarity, int value)
+        public LevelupGoldGroup GetLevelupGoldGroup(ERarity rarity)
         {
-            if (baseGoldDictionary.ContainsKey(rarity))
+            if(levelupGoldGroupDictionary.TryGetValue(rarity, out var goldGroup))
             {
-                return;
+                return goldGroup;
             }
 
-            baseGoldDictionary.Add(rarity, value);
-        }
-
-        private void AddMultiplierGoldValue(ERarity rarity, float value)
-        {
-            if (multiplierGoldDictionary.ContainsKey(rarity))
-            {
-                return;
-            }
-
-            multiplierGoldDictionary.Add(rarity, value);
+            return new LevelupGoldGroup();
         }
     }
 }

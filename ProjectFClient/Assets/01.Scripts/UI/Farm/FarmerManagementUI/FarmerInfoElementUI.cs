@@ -1,21 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using ProjectF.Datas;
-using ProjectF.UI;
 using UnityEngine;
-using ProjectF.Farms;
 using TMPro;
 using UnityEngine.UI;
 using H00N.DataTables;
 using ProjectF.DataTables;
 using System;
-using ProjectFServer.Networks.Packets;
-using ProjectF.Networks;
-using System.Threading.Tasks;
-using H00N.Stats;
 using H00N.Resources;
 using H00N.Resources.Pools;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 namespace ProjectF.UI.Farms
 {
@@ -49,19 +40,23 @@ namespace ProjectF.UI.Farms
         public int Level => farmerData.level;
         #endregion
 
-        private FarmerInfoTouchEvent onTouchEvent = null;
+        private Action onTouchEvent = null;
+        private Action<string, int> onFarmerRegisterSalesList = null;
+        private Action<string> onFarmerUnRegisterSalesList = null;
 
         public void Initialize(FarmerData data)
         {
             base.Initialize();
             farmerInfoPopupUIPrefab.Initialize();
 
-            rarityText.text = GetRarityWord(data.rarity);
+            rarityText.text = ResourceUtility.GetRarityNameLocalKey(data.rarity);
             nickNameText.text = data.nickname;
             farmerIcon.sprite = ResourceUtility.GetFarmerIcon(data.farmerID);
 
             var statTable = DataTableManager.GetTable<FarmerStatTable>();
-            var statDictionary = statTable.GetFarmerStat(data.farmerID, data.level);
+            var tableRow = statTable.GetRow(data.farmerID);
+
+            var statDictionary = new GetFarmerStat(tableRow, data.level).statDictionary;
 
             for(int i = 0 ; i < MINIMALIZE_STAT_COUNT; i++)
             {
@@ -74,6 +69,12 @@ namespace ProjectF.UI.Farms
             onTouchEvent += HandleActiveFarmerInfoPopupAsync;
         }
 
+        public void RegisterFarmerSalesAction(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
+        {
+            onFarmerRegisterSalesList += farmerRegisterSalesAction;
+            onFarmerUnRegisterSalesList += farmerUnRegisterSalesAction;
+        }
+
         public void TouchThisElement()
         {
             onTouchEvent?.Invoke();
@@ -84,17 +85,17 @@ namespace ProjectF.UI.Farms
             onTouchEvent = null;
         }
 
-        public void ActiveSalesFarmerMode(bool isActive, FarmerListPopupUI farmerListPopupUI)
+        public void ActiveSalesFarmerMode(bool isActive)
         {
             ClearTouchEvent();
 
             if(isActive)
             {
-                onTouchEvent += () => HandleRegisterSlaesFarmer(farmerListPopupUI);
+                onTouchEvent += () => HandleRegisterSalesFarmer();
             }
             else
             {
-                farmerListPopupUI.UnRegisterSalesFarmer(farmerData.farmerUUID);
+                onFarmerUnRegisterSalesList?.Invoke(farmerData.farmerUUID);
                 onTouchEvent += HandleActiveFarmerInfoPopupAsync;
             }
         }
@@ -104,45 +105,22 @@ namespace ProjectF.UI.Farms
             await PoolManager.SpawnAsync<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
         }
 
-        private void HandleRegisterSlaesFarmer(FarmerListPopupUI farmerList)
+        private void HandleRegisterSalesFarmer()
         {
             ClearTouchEvent();
-            onTouchEvent += () => HandleUnRegisterSlaesFarmer(farmerList);
+            onTouchEvent += () => HandleUnRegisterSalesFarmer();
 
-            farmerList.RegisterSalesFarmer(farmerData.farmerUUID, Level);
+            onFarmerRegisterSalesList?.Invoke(farmerData.farmerUUID, Level);
             touchFilter.color = selectedColor;
         }
 
-        private void HandleUnRegisterSlaesFarmer(FarmerListPopupUI farmerList)
+        private void HandleUnRegisterSalesFarmer()
         {
             ClearTouchEvent();
-            onTouchEvent += () => HandleRegisterSlaesFarmer(farmerList);
+            onTouchEvent += () => HandleRegisterSalesFarmer();
 
-            farmerList.UnRegisterSalesFarmer(farmerData.farmerUUID);
+            onFarmerUnRegisterSalesList?.Invoke(farmerData.farmerUUID);
             touchFilter.color = normalColor;
         }
-
-        private string GetRarityWord(ERarity rarity)
-        {
-            switch (rarity)
-            {
-                case ERarity.Common:
-                    return "커먼";
-                case ERarity.Uncommon:
-                    return "언커먼";
-                case ERarity.Rare:
-                    return "레어";
-                case ERarity.Epic:
-                    return "에픽";
-                case ERarity.Legendary:
-                    return "레전더리";
-                case ERarity.Mythic:
-                    return "미스틱";
-                default:
-                    return "UnknownValue";
-            }
-        }
     }
-
-    public delegate void FarmerInfoTouchEvent();
 }

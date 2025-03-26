@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 
@@ -13,13 +10,11 @@ namespace ProjectFServer.Networks.Packets
         public const string POST = "FarmerSales";
         public override string Post => POST;
 
-        public IEnumerable<string> farmerUUID = new string[0];
-        public int salesAllowance = 0;
+        public IEnumerable<string> farmerUUID;
 
-        public FarmerSalesRequest(IEnumerable<string> farmerUUID, int salesAllowance)
+        public FarmerSalesRequest(IEnumerable<string> farmerUUID)
         {
             this.farmerUUID = farmerUUID;
-            this.salesAllowance = salesAllowance;
         }
     }
 

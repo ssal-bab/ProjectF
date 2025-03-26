@@ -25,22 +25,22 @@ namespace ProjectF.Networks.Controllers
 
             var levelupGoldTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
             var farmerRarity = userData.farmerData.farmerList[request.farmerUUID].rarity;
-            var price = levelupGoldTable.BaseGoldDictionary[farmerRarity] * levelupGoldTable.MultiplierGoldDictionary[farmerRarity] * request.targetLevel;
-            int initializedPrice = Convert.ToInt32(Math.Floor(price));
+            var level = userData.farmerData.farmerList[request.farmerUUID].level;
 
-            if(userData.monetaData.gold < initializedPrice)
+            int price = new CalculateFarmerLevelupGold(levelupGoldTable, farmerRarity, level).value;
+
+            if(userData.monetaData.gold < price)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                userData.monetaData.gold -= initializedPrice;
-                userData.farmerData.farmerList[request.farmerUUID].level = request.targetLevel;
+                userData.monetaData.gold -= price;
+                userData.farmerData.farmerList[request.farmerUUID].level = level + 1;
             }
 
             return new FarmerLevelupResponse() {
                 result = ENetworkResult.Success,
-                farmerUUID = request.farmerUUID,
-                targetLevel = request.targetLevel
+                farmerUUID = request.farmerUUID
             };
         }
     }

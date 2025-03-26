@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ProjectF.Networks.DataBases;
 using ProjectFServer.Networks.Packets;
 using RedLockNet;
 using ProjectF.Datas;
-using ProjectF.DataTables;
-using H00N.DataTables;
 
 namespace ProjectF.Networks.Controllers
 {
@@ -26,13 +22,15 @@ namespace ProjectF.Networks.Controllers
                 return ErrorPacket(ENetworkResult.DataNotFound);
             }
 
+            var farmerList = userData.farmerData.farmerList;
+            var farmerData = farmerList.Keys.Where(farmerList.ContainsKey).Select(k => farmerList[k]);
+
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                userData.monetaData.gold += request.salesAllowance;
-
-                foreach(var uuid in request.farmerUUID)
+                foreach(var data in farmerData)
                 {
-                    userData.farmerData.farmerList.Remove(uuid);
+                    userData.monetaData.gold += new CalculateFarmerSalesAllowance(data.rarity, data.level).value;
+                    userData.farmerData.farmerList.Remove(data.farmerUUID);
                 }
             }
 

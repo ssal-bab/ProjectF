@@ -8,9 +8,8 @@ using ProjectF.Networks;
 using ProjectFServer.Networks.Packets;
 using H00N.DataTables;
 using ProjectF.Datas;
-using ProjectF.UI;
 
-namespace ProjectF
+namespace ProjectF.UI.Farms
 {
     [Serializable]
     public class FarmerStatInfo
@@ -22,10 +21,8 @@ namespace ProjectF
     public class FarmerInfoPopupUI : PoolableBehaviourUI
     {
         private const int STAT_COUNT = 4;
-        private const string UPGRADE_COLOR = "64A980";
-        private const string ERROR_COLOR = "FF6E6E";
-        private FarmerData _currentFarmerData;
-        private Farmer _currentFarmer;
+        private FarmerData currentFarmerData;
+        private Farmer currentFarmer;
         [SerializeField] private TextMeshProUGUI farmerLevelText;
         [SerializeField] private TextMeshProUGUI priceText;
         [SerializeField] private FarmerStatInfo[] farmerStatInfoArr = new FarmerStatInfo[STAT_COUNT];
@@ -34,8 +31,8 @@ namespace ProjectF
         {
             base.Initialize();
 
-            _currentFarmerData = farmerData;
-            _currentFarmer = farmer;
+            currentFarmerData = farmerData;
+            currentFarmer = farmer;
 
             RefreshUI(farmerData);
         }
@@ -45,56 +42,70 @@ namespace ProjectF
             // MaxLevel인지지 판단 필요
             int currentLevel = farmerData.level;
             int nextLevel = farmerData.level + 1;
-
-            farmerLevelText.text = $"{currentLevel} <color=#{UPGRADE_COLOR}>>> {nextLevel}";
+            
+            farmerLevelText.text = $"{currentLevel} {StringUtility.ColorTag(GameDefine.AbleBehavioutColor, $">> {nextLevel}")}";
 
             var statTable = DataTableManager.GetTable<FarmerStatTable>();
+            var tableRow = statTable.GetRow(farmerData.farmerID);
 
             // 체력이 10이라 해서 수확하는 작물 수가 10이 아님. 하지만 그걸 계산하는 수식이 현재는 없어 깡 수치로 박아넣었다. 추후에 수정 필요
-            var currentLevelStatDictionary = statTable.GetFarmerStat(farmerData.farmerID, currentLevel);
-            var nextLevelStatDictionary = statTable.GetFarmerStat(farmerData.farmerID, nextLevel);
+            var currentLevelStatDictionary = new GetFarmerStat(tableRow, currentLevel).statDictionary;
+            var nextLevelStatDictionary = new GetFarmerStat(tableRow, nextLevel).statDictionary;
 
             foreach(var info in farmerStatInfoArr)
             {
                 var type = info.statType;
-                string preview = $"{currentLevelStatDictionary[type]} <color=#{UPGRADE_COLOR}>>> {nextLevelStatDictionary[type]}</color>";
+                string preview = $"{currentLevelStatDictionary[type]} {StringUtility.ColorTag(GameDefine.AbleBehavioutColor, $">> {nextLevelStatDictionary[type]}")}";
 
                 info.statText.text = $"{GetStatInfoText(type)} {preview}";
             }
 
-            var farmerConfigTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
-
-            float price = farmerConfigTable.BaseGoldDictionary[farmerData.rarity] * farmerConfigTable.MultiplierGoldDictionary[farmerData.rarity] * currentLevel;
-            price = Mathf.Floor(price);
+            var farmerLevelupGoldTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
+            int price = new CalculateFarmerLevelupGold(farmerLevelupGoldTable, farmerData.rarity, currentLevel).value;
 
             int haveMoney = GameInstance.MainUser.monetaData.gold;
 
-            string color = haveMoney >= price ? UPGRADE_COLOR : ERROR_COLOR;
+            string color = haveMoney >= price ? GameDefine.AbleBehavioutColor : GameDefine.UnAbleBehaviourColor;
             
             priceText.text = $"<color=#{color}>{price}</color> / {haveMoney}";
         }
 
         public async void ChangeFarmerLevel()
         {
-            var req = new FarmerLevelupRequest(_currentFarmerData.farmerUUID, _currentFarmerData.level + 1);
+            if(!GameInstance.MainUser.farmerData.farmerList.ContainsKey(currentFarmerData.farmerUUID))
+            {
+                Debug.LogError("일꾼을 찾을 수 없습니다.");
+                return;
+            }
+
+            var levelupGoldTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
+            var farmerRarity = currentFarmerData.rarity;
+            var level = currentFarmerData.level;
+
+            int price = new CalculateFarmerLevelupGold(levelupGoldTable, farmerRarity, level).value;
+
+            if(GameInstance.MainUser.monetaData.gold < price)
+            {
+                Debug.LogError("골드가 충분하지 않습니다.");
+                return;
+            }
+
+            var req = new FarmerLevelupRequest(currentFarmerData.farmerUUID);
             var response = await NetworkManager.Instance.SendWebRequestAsync<FarmerLevelupResponse>(req);
 
-            if(response.result == ENetworkResult.DataNotFound) 
+            if(response.result != ENetworkResult.Success) 
             {
-                Debug.Log("일꾼을 찾을 수 없습니다.");
+                Debug.LogError("Critical Error!");
                 return;
             }
 
-            if(response.result == ENetworkResult.DataNotEnough)
-            {
-                Debug.Log("골드가 충분하지 않습니다.");
-                return;
-            }
+            GameInstance.MainUser.monetaData.gold -= price;
+            currentFarmerData.level += 1;
 
             FarmerStatTable statTable = DataTableManager.GetTable<FarmerStatTable>();
-            FarmerStatTableRow statRow = statTable.GetRow(_currentFarmerData.farmerID);
+            FarmerStatTableRow statRow = statTable.GetRow(currentFarmerData.farmerID);
 
-            _currentFarmer.Stat.SetData(statRow, _currentFarmerData.level + 1);
+            currentFarmer.Stat.SetData(statRow, currentFarmerData.level + 1);
         }
 
         private string GetStatInfoText(EFarmerStatType statType)

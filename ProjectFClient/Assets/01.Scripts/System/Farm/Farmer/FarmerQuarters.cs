@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using H00N.Extensions;
 using H00N.Resources;
@@ -27,9 +28,18 @@ namespace ProjectF.Farms
             
             cagedFarmerList = new List<Farmer>();
             farmerList = new Dictionary<string, Farmer>();
-            Dictionary<string, FarmerData> userFarmerList = GameInstance.MainUser.farmerData.farmerList;
 
-            foreach(string farmerUUID in userFarmerList.Keys)
+            Dictionary<string, FarmerData> userFarmerList = GameInstance.MainUser.farmerData.farmerList;
+            string[] farmerUUIDList = userFarmerList.Keys.ToArray();
+            AddFarmers(farmerUUIDList);
+
+            StartCoroutine(this.LoopRoutine(FARMER_REST_UPDATE_DELAY, RestFarmer));
+        }
+
+        public void AddFarmers(params string[] farmerUUIDList)
+        {
+            Dictionary<string, FarmerData> userFarmerList = GameInstance.MainUser.farmerData.farmerList;
+            foreach(string farmerUUID in farmerUUIDList)
             {
                 FarmerData farmerData = userFarmerList[farmerUUID];
                 if(farmerList.ContainsKey(farmerUUID))
@@ -46,14 +56,12 @@ namespace ProjectF.Farms
                 farmerList.Add(farmerUUID, farmer);
             }
 
-            UncageAllFarmerAsync();
-            StartCoroutine(this.LoopRoutine(FARMER_REST_UPDATE_DELAY, RestFarmer));
+            UncageAllFarmerAsync(farmerUUIDList);
         }
 
-        private async void UncageAllFarmerAsync()
+        private async void UncageAllFarmerAsync(params string[] farmerUUIDList)
         {
-            var keys = farmerList.Keys;
-            foreach(string farmerUUID in keys)
+            foreach(string farmerUUID in farmerUUIDList)
             {
                 if(farmerList.TryGetValue(farmerUUID, out Farmer farmer) == false)
                     continue;

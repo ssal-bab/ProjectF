@@ -1,3 +1,4 @@
+using ProjectF.Farms;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 using UnityEngine;
@@ -39,6 +40,10 @@ namespace ProjectF.UI.Farms
             Debug.Log($"Farmer wad born. ID : {response.farmerData.farmerUUID}");
             GameInstance.MainUser.nestData.hatchingEggList.RemoveAt(response.hatchedEggIndex);
             GameInstance.MainUser.farmerData.farmerList.Add(response.farmerData.farmerUUID, response.farmerData);
+
+            Farm farm = FarmManager.Instance.MainFarm;
+            farm.FarmerQuarters.AddFarmers(response.farmerData.farmerUUID);
+
             Initialize(-1);
         }
     }

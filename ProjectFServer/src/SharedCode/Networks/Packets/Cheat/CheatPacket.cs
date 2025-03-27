@@ -8,10 +8,12 @@ namespace ProjectF.Networks.Packets
         public override string Post => POST;
 
         public string command;
+        public string[] option;
 
-        public CheatRequest(string command)
+        public CheatRequest(string command, params string[] option)
         {
             this.command = command;
+            this.option = option;
         }
     }
 

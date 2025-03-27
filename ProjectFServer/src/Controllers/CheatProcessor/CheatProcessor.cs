@@ -15,7 +15,8 @@ namespace ProjectF.Networks.Controllers
         public CheatProcessor(DBManager dbManager, IDistributedLockFactory redLockFactory, CheatRequest request) : base(dbManager, redLockFactory, request) { }
         
         private static readonly Dictionary<string, Func<DBManager, IDistributedLockFactory, CheatRequest, Task<string>>> cheatTable = new Dictionary<string, Func<DBManager, IDistributedLockFactory, CheatRequest, Task<string>>>() {
-            ["AddEgg"] = ProcessCommand_AddEgg
+            ["AddEgg"] = ProcessCommand_AddEgg,
+            ["ModifyGold"] = ProcessCommand_ModifyGold
         };
 
         protected override async Task<CheatResponse> ProcessInternal()
@@ -49,6 +50,20 @@ namespace ProjectF.Networks.Controllers
 
 
             return Newtonsoft.Json.JsonConvert.SerializeObject(userData.nestData.hatchingEggList);
+        }
+
+        private static async Task<string> ProcessCommand_ModifyGold(DBManager dbManager, IDistributedLockFactory redLockFactory, CheatRequest request)
+        {
+            UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
+            UserData userData = userDataInfo.Data;
+            int value = int.Parse(request.option[0]);
+            using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
+            {
+                userData.monetaData.gold += value;
+                await userDataInfo.WriteAsync();
+            }
+
+            return value.ToString();
         }
     }
 }

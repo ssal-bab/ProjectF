@@ -101,8 +101,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2f024acdcd98b4400b26ed1cc3fd4993
-    m_Address: CheatInputPopupUI
+  - m_GUID: 38e5df037e5593c4986014b61d4ab9ab
+    m_Address: FarmerInfoUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50739f20e5c6eeb4bb2d7f8a8caee821
+    m_Address: FarmerInfoPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 318a916b86f7d144ba82eb5fb5adfa9f
+    m_Address: FarmerListPopupUI
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

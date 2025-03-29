@@ -871,7 +871,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 7269119137462448505}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -2192,11 +2192,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31eb64278dc92d24bb634a00239709ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _orderButtonVisualTrm: {fileID: 5927424695764940619}
-  _salesModeFilter: {fileID: 5765143991257830350}
-  _salesButton: {fileID: 2903929381481200326}
-  _salesAllowanceText: {fileID: 1595848958742324244}
-  _farmerListUI: {fileID: 2326671264270273134}
+  orderButtonVisualTrm: {fileID: 5927424695764940619}
+  salesModeFilter: {fileID: 5765143991257830350}
+  salesButton: {fileID: 2903929381481200326}
+  salesAllowanceText: {fileID: 1595848958742324244}
+  farmerCountText: {fileID: 5060823165275359967}
+  farmerListUI: {fileID: 2326671264270273134}
 --- !u!114 &3735744076682939166
 MonoBehaviour:
   m_ObjectHideFlags: 0

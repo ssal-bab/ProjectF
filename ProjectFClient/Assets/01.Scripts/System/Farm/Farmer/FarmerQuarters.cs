@@ -111,6 +111,16 @@ namespace ProjectF.Farms
                 UncageFarmer(farmer.FarmerUUID);
             }
         }
+
+        public Farmer GetFarmerByUUID(string uuid)
+        {
+            if(!farmerList.ContainsKey(uuid))
+            {
+                Debug.LogError($"Error : FarmerUUID = [{uuid}]'s Farmer has not exist!");
+            }
+
+            return farmerList[uuid];
+        }
     }
 }
         

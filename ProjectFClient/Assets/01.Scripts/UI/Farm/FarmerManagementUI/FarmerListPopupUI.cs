@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using ProjectF.Networks;
 using ProjectFServer.Networks.Packets;
 using System.Linq;
+using H00N.DataTables;
+using ProjectF.DataTables;
 
 namespace ProjectF.UI.Farms
 {
@@ -26,27 +28,33 @@ namespace ProjectF.UI.Farms
         // 외부 클래스로 빼야 할 항목 : 일꾼 목록 Element, 일꾼 Info Popup
         // 해당 클래스 내에서 구현해야 할 항목 : 
 
-        [SerializeField] private RectTransform _orderButtonVisualTrm;
-        [SerializeField] private Image _salesModeFilter;
-        [SerializeField] private GameObject _salesButton;
-        [SerializeField] private TextMeshProUGUI _salesAllowanceText;
-        [SerializeField] private FarmerListUI _farmerListUI;
+        [SerializeField] private RectTransform orderButtonVisualTrm;
+        [SerializeField] private Image salesModeFilter;
+        [SerializeField] private GameObject salesButton;
+        [SerializeField] private TextMeshProUGUI salesAllowanceText;
+        [SerializeField] private TextMeshProUGUI farmerCountText;
+        [SerializeField] private FarmerListUI farmerListUI;
 
         private Dictionary<string, FarmerSalesInfo> farmerSalesDic = new();
 
         public new void Initialize()
         {
             base.Initialize();
-            _farmerListUI.Initialize(RegisterSalesFarmer, UnRegisterSalesFarmer);
+            farmerListUI.Initialize(RegisterSalesFarmer, UnRegisterSalesFarmer);
 
             ActiveSalesFarmerMode(false);
+
+            var farmerTable = DataTableManager.GetTable<FarmerTable>();
+            var farmerData = GameInstance.MainUser.farmerData;
+
+            farmerCountText.text = $"{farmerData.farmerList.Count}/{farmerTable.Count()}";
         }
 
         public void ActiveSalesFarmerMode(bool isActive)
         {
-            _farmerListUI.ActiveSalesFarmerMode(isActive, this);
-            _salesModeFilter.raycastTarget = isActive;
-            _salesButton.SetActive(isActive);
+            farmerListUI.ActiveSalesFarmerMode(isActive, this);
+            salesModeFilter.raycastTarget = isActive;
+            salesButton.SetActive(isActive);
         }
 
         private bool IsRegisterSlaesFarmer(string uuid)
@@ -106,15 +114,15 @@ namespace ProjectF.UI.Farms
         // 분류 항목 기준 변경
         public void OnChangeElementClassification(int classificationIdx)
         {
-            _farmerListUI.ChangeClassification((EFarmerClassificationType)classificationIdx);
+            farmerListUI.ChangeClassification((EFarmerClassificationType)classificationIdx);
         }
 
         // 오름차순 내림차순 변경
         public void OnChangeOrder()
         {
-            var currentOrderType = _farmerListUI.ChangeOrder();
-            _orderButtonVisualTrm.rotation = Quaternion.Euler(0, 0, (int)currentOrderType * 180);
-            _farmerListUI.ChangeOrder();
+            var currentOrderType = farmerListUI.ChangeOrder();
+            orderButtonVisualTrm.rotation = Quaternion.Euler(0, 0, (int)currentOrderType * 180);
+            farmerListUI.ChangeOrder();
         }
 
         public void OnTouchCloseButton()
@@ -126,7 +134,7 @@ namespace ProjectF.UI.Farms
         protected override void Release()
         {
             base.Release();
-            _farmerListUI.Release();
+            farmerListUI.Release();
             ActiveSalesFarmerMode(false);
         }
     }

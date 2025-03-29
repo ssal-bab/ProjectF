@@ -102,7 +102,8 @@ namespace ProjectF.UI.Farms
 
         private async void HandleActiveFarmerInfoPopupAsync()
         {
-            await PoolManager.SpawnAsync<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            var infoUI = await PoolManager.SpawnAsync<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            infoUI.Initialize(farmerData);
         }
 
         private void HandleRegisterSalesFarmer()

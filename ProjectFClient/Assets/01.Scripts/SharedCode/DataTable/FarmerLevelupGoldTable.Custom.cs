@@ -33,6 +33,8 @@ namespace ProjectF.DataTables
         {
             base.OnTableCreated();
 
+            levelupGoldGroupDictionary = new Dictionary<ERarity, LevelupGoldGroup>();
+
             foreach(var row in this)
             {
                 levelupGoldGroupDictionary.Add(row.rarity, new LevelupGoldGroup(row.baseValue, row.multiplierValue));

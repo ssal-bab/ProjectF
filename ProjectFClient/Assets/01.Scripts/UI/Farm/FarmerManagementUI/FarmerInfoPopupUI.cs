@@ -16,6 +16,7 @@ namespace ProjectF.UI.Farms
     {
         public EFarmerStatType statType;
         public TextMeshProUGUI statText;
+        public string unit;
     }
 
     public class FarmerInfoPopupUI : PoolableBehaviourUI
@@ -27,12 +28,14 @@ namespace ProjectF.UI.Farms
         [SerializeField] private TextMeshProUGUI priceText;
         [SerializeField] private FarmerStatInfo[] farmerStatInfoArr = new FarmerStatInfo[STAT_COUNT];
 
-        public void Initialize(Farmer farmer, FarmerData farmerData)
+        public void Initialize(FarmerData farmerData)
         {
             base.Initialize();
 
             currentFarmerData = farmerData;
-            currentFarmer = farmer;
+            
+            var farm = FarmManager.Instance.MainFarm;
+            currentFarmer = farm.FarmerQuarters.GetFarmerByUUID(farmerData.farmerUUID);
 
             RefreshUI(farmerData);
         }
@@ -48,16 +51,19 @@ namespace ProjectF.UI.Farms
             var statTable = DataTableManager.GetTable<FarmerStatTable>();
             var tableRow = statTable.GetRow(farmerData.farmerID);
 
-            // 체력이 10이라 해서 수확하는 작물 수가 10이 아님. 하지만 그걸 계산하는 수식이 현재는 없어 깡 수치로 박아넣었다. 추후에 수정 필요
             var currentLevelStatDictionary = new GetFarmerStat(tableRow, currentLevel).statDictionary;
             var nextLevelStatDictionary = new GetFarmerStat(tableRow, nextLevel).statDictionary;
 
             foreach(var info in farmerStatInfoArr)
             {
                 var type = info.statType;
-                string preview = $"{currentLevelStatDictionary[type]} {StringUtility.ColorTag(GameDefine.AbleBehavioutColor, $">> {nextLevelStatDictionary[type]}")}";
 
-                info.statText.text = $"{GetStatInfoText(type)} {preview}";
+                int currentValue = new CalculateFarmerProductivity(type, currentLevelStatDictionary[type]).value;
+                int nextValue = new CalculateFarmerProductivity(type, nextLevelStatDictionary[type]).value;
+
+                string preview = $"{currentValue}{info.unit} {StringUtility.ColorTag(GameDefine.AbleBehavioutColor, $">> {nextValue}{info.unit}")}";
+
+                info.statText.text = $"{ResourceUtility.GetStatDescriptionLocakKey(type)} {preview}";
             }
 
             var farmerLevelupGoldTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
@@ -106,25 +112,6 @@ namespace ProjectF.UI.Farms
             FarmerStatTableRow statRow = statTable.GetRow(currentFarmerData.farmerID);
 
             currentFarmer.Stat.SetData(statRow, currentFarmerData.level + 1);
-        }
-
-        private string GetStatInfoText(EFarmerStatType statType)
-        {
-            switch (statType)
-            {
-                case EFarmerStatType.None:
-                    return string.Empty;
-                case EFarmerStatType.MoveSpeed:
-                    return "목표까지 이동하는 속도";
-                case EFarmerStatType.Health:
-                    return "쉬지않고 수확하는 작물 수";
-                case EFarmerStatType.FarmingSkill:
-                    return "한번에 수확하는 작물 수";
-                case EFarmerStatType.AdventureSkill:
-                    return "탐험중 작물, 재료 추가 획득 확률 증가\n";
-                default:
-                    return string.Empty;
-            }
         }
 
         public void OnTouchCloseButton()

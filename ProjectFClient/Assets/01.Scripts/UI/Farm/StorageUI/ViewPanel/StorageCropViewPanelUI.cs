@@ -68,6 +68,7 @@ namespace ProjectF.UI.Farms
                 ui.transform.SetAsFirstSibling();
 
             ui.Initialize(id, grade, count, SellCrop);
+            //ui.StretchRect();
         }
 
         private async void SellCrop(StorageCropElementUI ui, int id, ECropGrade grade)

@@ -42,6 +42,7 @@ namespace ProjectF.UI.Farms
             StorageMaterialElementUI ui = await PoolManager.SpawnAsync<StorageMaterialElementUI>(elementPrefab.Key);
             ui.transform.SetParent(scrollView.content);
             ui.Initialize(id, count);
+            ui.StretchRect();
         }
     }
 }

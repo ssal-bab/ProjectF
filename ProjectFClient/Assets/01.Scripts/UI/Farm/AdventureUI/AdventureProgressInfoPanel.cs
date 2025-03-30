@@ -160,6 +160,7 @@ namespace ProjectF.UI.Adventure
         {
             if (_isCompleteExplore)
             {
+                Debug.Log("WBWB");
                 var adventureData = GameInstance.MainUser.adventureData;
                 adventureData.inAdventureAreaList.Remove(_adventureData.adventureAreaID);
                 var list = adventureData.inExploreFarmerList[_adventureData.adventureAreaID];
@@ -170,13 +171,13 @@ namespace ProjectF.UI.Adventure
                 }
 
                 adventureData.inExploreFarmerList.Remove(_adventureData.adventureAreaID);
-
-                base.Release();
-
-                _lootItemScrollGroup.content.DespawnAllChildren();
-                _isCompleteExplore = false;
-                PoolManager.DespawnAsync(this);
             }
+
+            base.Release();
+
+            _lootItemScrollGroup.content.DespawnAllChildren();
+            _isCompleteExplore = false;
+            PoolManager.DespawnAsync(this);
         }
 
         private void InitializeProgressTimer(double remainSeconds)
@@ -190,7 +191,7 @@ namespace ProjectF.UI.Adventure
 
         private void Update()
         {
-            if (!_isCompleteExplore) return;
+            if (_isCompleteExplore) return;
 
             if (_currentRemainSeconds <= 0) return;
 

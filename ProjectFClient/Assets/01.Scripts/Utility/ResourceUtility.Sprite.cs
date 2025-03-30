@@ -25,6 +25,7 @@ namespace ProjectF
         public static Sprite GetCropGradeIcon(int id) => GetSprite("CropGradeIcon", id);
         public static Sprite GetFarmerStatIcon(int id) => GetSprite("FarmerStatIcon", id);
         public static Sprite GetDialogueSpeakerImage(int id) => GetSprite("DialogueSpeakerImage", id);
+        public static Sprite GetAdventureAreaImage(int id) => GetSprite("AdventureAreaImage", id);
 
         private static Sprite GetSprite(string prefix, int id)
         {

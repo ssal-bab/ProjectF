@@ -25,24 +25,24 @@ namespace ProjectF.Quests
 
         public void Initialize()
         {
-            instance = this;
+            // instance = this;
 
-            quests = new();
-            OnMakeQuest = null;
-            OnClearQuest = null;
+            // quests = new();
+            // OnMakeQuest = null;
+            // OnClearQuest = null;
 
-            UserQuestData questData = GameInstance.MainUser.questData;
-            if(questData != null)
-            {
-                foreach(var pair in questData.quests)
-                {
-                    Type questType = Type.GetType($"{pair.Value.questType}Quest");
-                    Quest quest = Activator.CreateInstance(questType, pair.Value) as Quest;
-                    quests.Add(quest);
-                }
-            }
+            // UserQuestData questData = GameInstance.MainUser.questData;
+            // if(questData != null)
+            // {
+            //     foreach(var pair in questData.quests)
+            //     {
+            //         Type questType = Type.GetType($"{pair.Value.questType}Quest");
+            //         Quest quest = Activator.CreateInstance(questType, pair.Value) as Quest;
+            //         quests.Add(quest);
+            //     }
+            // }
 
-            MakeQuest(DataTableManager.GetTable<QuestTable>()[0]);
+            // MakeQuest(DataTableManager.GetTable<QuestTable>()[0]);
         }
 
         public void Update()

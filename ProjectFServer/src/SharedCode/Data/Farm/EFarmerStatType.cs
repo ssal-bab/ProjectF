@@ -6,6 +6,7 @@ namespace ProjectF.Datas
         MoveSpeed,
         Health,
         FarmingSkill,
-        AdventureSkill
+        AdventureSkill,
+        AdventureHealth
     }
 }

@@ -12,7 +12,6 @@ namespace ProjectF
             [ERewardItemType.FreeGem] = ApplyFreeGemChecker,
             [ERewardItemType.CashGem] = ApplyCashGemChecker,
             [ERewardItemType.Seed] = ApplySeedChecker,
-            [ERewardItemType.Egg] = ApplyEggChecker,
             [ERewardItemType.Material] = ApplyMaterialChecker,
             [ERewardItemType.XP] = ApplyXPChecker,
         };
@@ -22,7 +21,6 @@ namespace ProjectF
             [ERewardItemType.FreeGem] = ApplyFreeGem,
             [ERewardItemType.CashGem] = ApplyCashGem,
             [ERewardItemType.Seed] = ApplySeed,
-            [ERewardItemType.Egg] = ApplyEgg,
             [ERewardItemType.Material] = ApplyMaterial,
             [ERewardItemType.XP] = ApplyXP,
         };
@@ -70,22 +68,6 @@ namespace ProjectF
                 return;
 
             userData.seedsPocketData.seedsStorage[reward.rewardItemID] += reward.rewardItemAmount;
-        }
-
-        private static bool ApplyEggChecker(UserData userData, RewardData reward)
-        {
-            NestTableRow nestTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(userData.nestData.level).currentTableRow;
-            if(nestTableRow == null)
-                return false;
-
-            return userData.nestData.hatchingEggList.Count < nestTableRow.eggStoreLimit;
-        }
-        private static void ApplyEgg(UserData userData, RewardData reward)
-        {
-            userData.nestData.hatchingEggList.Add(new EggHatchingData() {
-                eggID = reward.rewardItemID,
-                hatchingStartTime = ServerInstance.ServerTime
-            });
         }
 
         private static bool ApplyMaterialChecker(UserData userData, RewardData reward) => true;

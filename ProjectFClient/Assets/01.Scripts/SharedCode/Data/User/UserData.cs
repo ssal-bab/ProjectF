@@ -6,7 +6,6 @@ namespace ProjectF.Datas
         public UserFieldGroupData fieldGroupData = null;
         public UserStorageData storageData = null;
         public UserNestData nestData = null;
-        public UserQuestData questData = null;
         public UserFarmerData farmerData = null;
         public UserMonetaData monetaData = null;
         public UserSeedsPocketData seedsPocketData = null;

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using H00N.DataTables;
-using ProjectF.DataTables;
 
 namespace ProjectF.Datas
 {

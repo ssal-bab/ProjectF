@@ -1,11 +1,15 @@
 namespace ProjectF.Datas
 {
-    public enum EQuestRewordType
+    public enum ERewardItemType
     {
+        None,
         Gold,
         FreeGem,
         CashGem,
+        Seed,
         Crop,
         Egg,
+        Material,
+        XP
     }
 }

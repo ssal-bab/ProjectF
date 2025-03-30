@@ -85,7 +85,7 @@ namespace ProjectF.Networks.Controllers
                         materialStorage.Add(materialItemID, materialItemCount);
                     }
 
-                    var seedStorage = userData.seedsPocketData.seedsStorage;
+                    var seedStorage = userData.seedPocketData.seedStorage;
 
                     if(seedStorage.ContainsKey(seedItemID))
                     {

@@ -32,6 +32,9 @@ namespace ProjectF
 
         private void StartQuest()
         {
+            if(QuestManager.Instance.waitingQuestCount <= 0)
+                return;
+
             DialogueManager.Instance.StartDialogue(Dialogues.ESpeakerType.Admin,
              "[안녕하십니까. 이것은 테스트를 위한 퀘스트 생성입니다.]", OnStartQuest);
 

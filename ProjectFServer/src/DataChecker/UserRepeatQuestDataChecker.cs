@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace ProjectF.Datas
 {
     public struct UserRepeatQuestDataChecker
@@ -5,10 +8,14 @@ namespace ProjectF.Datas
         public UserRepeatQuestDataChecker(UserData userData)
         {
             UserRepeatQuestData repeatQuestData = userData.repeatQuestData ??= new UserRepeatQuestData();
-            
-            repeatQuestData.cropRepeatQuestData ??= CreateNewRepeatQuestData();
-            repeatQuestData.farmRepeatQuestData ??= CreateNewRepeatQuestData();
-            repeatQuestData.adventureRepeatQuestData ??= CreateNewRepeatQuestData();
+            repeatQuestData.repeatQuestDatas ??= new Dictionary<ERepeatQuestType, RepeatQuestData>();
+            foreach(ERepeatQuestType repeatQuestType in Enum.GetValues<ERepeatQuestType>())
+            {
+                if(repeatQuestData.repeatQuestDatas.ContainsKey(repeatQuestType))
+                    continue;
+
+                repeatQuestData.repeatQuestDatas.Add(repeatQuestType, CreateNewRepeatQuestData());
+            }
         }
 
         private RepeatQuestData CreateNewRepeatQuestData()
@@ -16,7 +23,7 @@ namespace ProjectF.Datas
             return new RepeatQuestData() {
                 questID = 0,
                 currentProgress = 0,
-                repeatCount = 1
+                repeatCount = 0
             };
         }
     }

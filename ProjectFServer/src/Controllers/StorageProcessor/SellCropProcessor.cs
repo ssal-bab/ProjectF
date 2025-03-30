@@ -34,15 +34,10 @@ namespace ProjectF.Networks.Controllers
                 };
             }
 
-            StorageTableRow storageTableRow = DataTableManager.GetTable<StorageTable>().GetRowByLevel(userData.storageData.level);
-            if(storageTableRow == null)
-                return ErrorPacket(ENetworkResult.Error);
+            int earnedGold = new CalculateCropPrice(request.id, cropCount, userData.storageData.level).cropPrice;
+            if(earnedGold == -1)
+                return ErrorPacket(ENetworkResult.DataNotFound);
 
-            CropTableRow cropTableRow = DataTableManager.GetTable<CropTable>().GetRow(request.id);
-            if (cropTableRow == null)
-                return ErrorPacket(ENetworkResult.Error);
-
-            int earnedGold = (int)MathF.Ceiling(cropCount * cropTableRow.basePrice * storageTableRow.priceMultiplier);
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
                 cropSlot[request.grade] = 0;

@@ -29,7 +29,7 @@ namespace ProjectF.DataTables
                     string[] rewardData = trimmedData.Split(',');
                     ERewardItemType rewardItemType = Enum.Parse<ERewardItemType>(rewardData[0].Trim());
                     int rewardItemID = int.Parse(rewardData[1].Trim());
-                    int rewardItemAmount = int.Parse(rewardData[1].Trim());
+                    int rewardItemAmount = int.Parse(rewardData[2].Trim());
                     tableRow.rewardDataList.Add(new RewardData(rewardItemType, rewardItemID, rewardItemAmount));
                 }
             }

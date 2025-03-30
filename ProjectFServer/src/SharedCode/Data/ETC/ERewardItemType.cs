@@ -7,7 +7,6 @@ namespace ProjectF.Datas
         FreeGem,
         CashGem,
         Seed,
-        Crop,
         Egg,
         Material,
         XP

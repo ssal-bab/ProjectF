@@ -35,11 +35,17 @@ namespace H00N.DataTables
 
         public static TTable GetTable<TTable>() where TTable : class, IDataTable
         {
-            Type tableType = typeof(TTable);
-            if(dataTableDictionary.TryGetValue(tableType, out IDataTable dataTable) == false)
+            IDataTable dataTable = GetTable(typeof(TTable));
+            if(dataTable == null)
                 return null;
 
             return dataTable as TTable;
+        }
+
+        public static IDataTable GetTable(Type type)
+        {
+            dataTableDictionary.TryGetValue(type, out IDataTable dataTable);
+            return dataTable;
         }
 
         private static Dictionary<Type, IDataTable> LoadAllDataTable(Func<Type, IDataTable> dataTableFactory)

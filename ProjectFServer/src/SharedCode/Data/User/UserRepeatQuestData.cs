@@ -1,9 +1,10 @@
+using System.Collections.Generic;
+
 namespace ProjectF.Datas
 {
     public class UserRepeatQuestData
     {
-        public RepeatQuestData cropRepeatQuestData;
-        public RepeatQuestData farmRepeatQuestData;
-        public RepeatQuestData adventureRepeatQuestData;
+
+        public Dictionary<ERepeatQuestType, RepeatQuestData> repeatQuestDatas = null;
     }
 }

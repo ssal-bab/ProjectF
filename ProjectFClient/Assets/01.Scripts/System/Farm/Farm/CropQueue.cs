@@ -5,28 +5,38 @@ namespace ProjectF.Farms
 {
     public class CropQueue : IEnumerable<CropQueueSlot>
     {
-        private Queue<CropQueueSlot> cropQueue = null;
+        private List<CropQueueSlot> cropQueue = null;
 
         public bool CropQueueValid => cropQueue.Count > 0;
 
         public CropQueue()
         {
-            cropQueue = new Queue<CropQueueSlot>();
+            cropQueue = new List<CropQueueSlot>();
         }
 
         public void EnqueueCrop(int cropID)
         {
-            CropQueueSlot slot = PeekSlot();
+            CropQueueSlot slot = LastSlot();
             if(slot == null || slot.cropID != cropID)
             {
                 slot = new CropQueueSlot(){
                     cropID = cropID,
                     count = 0
                 };
-                cropQueue.Enqueue(slot);
+                cropQueue.Add(slot);
             }
 
             slot.count++;
+            slot.OnCountChangedEvent?.Invoke(slot);
+        }
+
+        public void RemoveFromCropQueue(CropQueueSlot slot)
+        {
+            slot.count--;
+            slot.OnCountChangedEvent?.Invoke(slot);
+
+            if(slot.count <= 0)
+                cropQueue.Remove(slot);
         }
 
         public int DequeueCropData()
@@ -34,17 +44,25 @@ namespace ProjectF.Farms
             CropQueueSlot slot = PeekSlot();
             slot.count--;
             if(slot.count <= 0)
-                cropQueue.Dequeue();
+                cropQueue.RemoveAt(0);
 
             return slot.cropID;
         }
 
-        private CropQueueSlot PeekSlot()
+        public CropQueueSlot PeekSlot()
         {
             if(CropQueueValid == false)
                 return null;
 
-            return cropQueue.Peek();
+            return cropQueue[0];
+        }
+
+        public CropQueueSlot LastSlot()
+        {
+            if(CropQueueValid == false)
+                return null;
+
+            return cropQueue[cropQueue.Count - 1];
         }
 
         public IEnumerator<CropQueueSlot> GetEnumerator() => cropQueue.GetEnumerator();

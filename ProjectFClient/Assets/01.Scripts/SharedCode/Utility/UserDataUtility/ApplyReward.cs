@@ -64,10 +64,10 @@ namespace ProjectF
         private static bool ApplySeedChecker(UserData userData, RewardData reward) => true;
         private static void ApplySeed(UserData userData, RewardData reward)
         {
-            if(userData.seedsPocketData.seedsStorage.ContainsKey(reward.rewardItemID) == false)
+            if(userData.seedPocketData.seedStorage.ContainsKey(reward.rewardItemID) == false)
                 return;
 
-            userData.seedsPocketData.seedsStorage[reward.rewardItemID] += reward.rewardItemAmount;
+            userData.seedPocketData.seedStorage[reward.rewardItemID] += reward.rewardItemAmount;
         }
 
         private static bool ApplyMaterialChecker(UserData userData, RewardData reward) => true;

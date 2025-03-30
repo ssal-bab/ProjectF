@@ -39,6 +39,13 @@ namespace ProjectF.Tests
             nestPopupUI.Initialize();
         }
 
+        public void OpenSeedPocketPopup()
+        {
+            SeedPocketPopupUI seedPocketPopupUI = PoolManager.Spawn<SeedPocketPopupUI>("SeedPocketPopupUI", GameDefine.MainPopupFrame);
+            seedPocketPopupUI.StretchRect();
+            seedPocketPopupUI.Initialize(FarmManager.Instance.MainFarm);
+        }
+
         public void OpenCheatPopup()
         {
             CheatPopupUI cheatPopupUI = PoolManager.Spawn<CheatPopupUI>("CheatPopupUI", GameDefine.TopPopupFrame);

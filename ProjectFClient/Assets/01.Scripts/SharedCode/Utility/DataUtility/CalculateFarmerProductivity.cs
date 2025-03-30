@@ -13,9 +13,11 @@ namespace ProjectF
         public CalculateFarmerProductivity(EFarmerStatType statType, float stat)
         {
             value = 0;
-
+            
             switch (statType)
             {
+                case EFarmerStatType.None:
+                    break;
                 case EFarmerStatType.MoveSpeed:
                     value = GetSpeedByTargetField(stat);
                     break;
@@ -28,20 +30,17 @@ namespace ProjectF
                 case EFarmerStatType.AdventureSkill:
                     value = GetAdditionalProbabilityInAdventure(stat);
                     break;
-                default:
-                    value = 0;
-                    break;
             }
-        }
-
-        private int GetSpeedByTargetField(float speedStat)
-        {
-            return (int)Math.Round(speedStat / 100 * 20f, MidpointRounding.AwayFromZero);
         }
 
         private int GetNumberOfCropsHarvested(float healthStat)
         {
             return (int)Math.Round(healthStat / 100 * 15f, MidpointRounding.AwayFromZero);
+        }
+
+        private int GetSpeedByTargetField(float speedStat)
+        {
+            return (int)Math.Round(speedStat / 100 * 20f, MidpointRounding.AwayFromZero);
         }
 
         private int GetCropsHarvestedAtOnce(float farmingSkillStat)

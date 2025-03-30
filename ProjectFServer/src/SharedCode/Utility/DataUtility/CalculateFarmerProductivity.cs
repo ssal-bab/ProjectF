@@ -30,6 +30,9 @@ namespace ProjectF
                 case EFarmerStatType.AdventureSkill:
                     value = GetAdditionalProbabilityInAdventure(stat);
                     break;
+                case EFarmerStatType.AdventureHealth:
+                    value = GetAdditionalCountInAdventure(stat);
+                    break;
             }
         }
 
@@ -50,7 +53,12 @@ namespace ProjectF
 
         private int GetAdditionalProbabilityInAdventure(float adventureSkillStat)
         {
-            return (int)Math.Round(adventureSkillStat / 100 * 80f, MidpointRounding.AwayFromZero);
+            return Math.Clamp((int)Math.Round(adventureSkillStat, MidpointRounding.AwayFromZero), 0, 100);
+        }
+
+        private int GetAdditionalCountInAdventure(float adventureHealthStat)
+        {
+            return (int)Math.Round(adventureHealthStat / 100 * 90f, MidpointRounding.AwayFromZero);
         }
     }
 }

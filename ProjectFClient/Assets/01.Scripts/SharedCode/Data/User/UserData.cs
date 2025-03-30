@@ -10,5 +10,7 @@ namespace ProjectF.Datas
         public UserMonetaData monetaData = null;
         public UserSeedPocketData seedPocketData = null;
         public UserRepeatQuestData repeatQuestData = null;
+        public UserAdventureData adventureData = null;
+
     }
 }

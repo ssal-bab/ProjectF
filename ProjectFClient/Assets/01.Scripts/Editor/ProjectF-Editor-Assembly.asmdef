@@ -1,0 +1,18 @@
+{
+    "name": "ProjectF-Editor-Assembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b3f10f9b70bd949a9b0163da430df072"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

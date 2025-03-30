@@ -64,11 +64,13 @@ namespace ProjectF.UI.Adventure
 
             // 탐험 중이면 선택 못하게 해야함. 그건 Element 내부에서 처리
             var farmerData = GameInstance.MainUser.farmerData;
-
+            Debug.Log(farmerData.farmerList.Values.Count);
             foreach (var data in farmerData.farmerList.Values)
             {
                 var element = await PoolManager.SpawnAsync<ExploreFarmerInfoElementUI>(_farmerElementUIPrefab.Key, _farmerListContent);
                 element.Initialize(data, RegisterExploreFarmer, UnRegisterExploreFarmer, _farmerPopupUIPrefab);
+                element.StretchRect();
+                element.RectTransform.sizeDelta = new Vector2(0, 120);
             }
         }
 

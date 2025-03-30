@@ -44,7 +44,7 @@ namespace ProjectF.Farms.AI
         {
             // 1/3 확률로 Idle, Field 정해짐
             int randomValue = Random.Range(0, 3);
-            if(randomValue > 1)
+            if(randomValue > 0)
                 SetField();
             else
                 SetIdle();

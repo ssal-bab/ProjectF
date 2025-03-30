@@ -38,10 +38,8 @@ namespace ProjectF.Farms
 
         public void AddFarmers(params string[] farmerUUIDList)
         {
-            Dictionary<string, FarmerData> userFarmerList = GameInstance.MainUser.farmerData.farmerList;
             foreach(string farmerUUID in farmerUUIDList)
             {
-                FarmerData farmerData = userFarmerList[farmerUUID];
                 if(farmerList.ContainsKey(farmerUUID))
                 {
                     Debug.LogError($"[FarmerQuarters::Initialize] Multiple UUID already exists in farmer list. UUID: {farmerUUID}");
@@ -50,9 +48,7 @@ namespace ProjectF.Farms
 
                 Farmer farmer = PoolManager.Spawn<Farmer>(farmerPrefab);
                 farmer.transform.position = entranceTransform.position;
-                farmer.Initialize(farmerData);
                 farmer.gameObject.SetActive(false);
-
                 farmerList.Add(farmerUUID, farmer);
             }
 
@@ -61,12 +57,17 @@ namespace ProjectF.Farms
 
         private async void UncageAllFarmerAsync(params string[] farmerUUIDList)
         {
+            Dictionary<string, FarmerData> userFarmerList = GameInstance.MainUser.farmerData.farmerList;
             foreach(string farmerUUID in farmerUUIDList)
             {
                 if(farmerList.TryGetValue(farmerUUID, out Farmer farmer) == false)
                     continue;
 
+                if(userFarmerList.TryGetValue(farmerUUID, out FarmerData farmerData) == false)
+                    continue;
+
                 farmer.gameObject.SetActive(true);
+                farmer.Initialize(farmerData);
                 await UniTask.Delay(SPAWN_INTERVAL_MILLISECONDS);
             }
         }
@@ -91,8 +92,9 @@ namespace ProjectF.Farms
                 return;
             }
 
-            farmer.AIData.isResting = false;
             farmer.gameObject.SetActive(true);
+            farmer.AIData.isResting = false;
+            farmer.FSMBrain.SetAsDefaultState();
         }
 
         private void RestFarmer()

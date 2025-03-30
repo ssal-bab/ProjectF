@@ -8,6 +8,7 @@ namespace ProjectF.Farms.AI
     [CreateAssetMenu(menuName = "SO/Farm/FarmerAIData")]
     public class FarmerAIDataSO : FSMParamSO
     {
+        public FarmerAnimator animator = null;
         public UnitMovement movement = null;
         public Farmer farmer = null;
 
@@ -32,6 +33,7 @@ namespace ProjectF.Farms.AI
             // 2025.02.13 farmer �ڵ忡 FarmerStatSO��� FarmerStat �߰��ϸ鼭 �ּ�ó��
             //farmerStat = farmer.StatData;
             movement = farmer.GetComponent<UnitMovement>();
+            animator = farmer.GetComponentInChildren<FarmerAnimator>();
 
             this.farmer = farmer;
         }

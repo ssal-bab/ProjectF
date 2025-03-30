@@ -6,6 +6,7 @@ namespace ProjectF.Units
     public class UnitMovement : MonoBehaviour
     {
         private NavMeshAgent navAgent = null;
+        public Vector3 Velocity => navAgent.velocity;
 
         private void Awake()
         {

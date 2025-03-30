@@ -18,9 +18,9 @@ namespace ProjectF.Farms
         //private FarmerStatSO statData = null;
         //public FarmerStatSO StatData => statData;
 
-        private FSMBrain fsmBrain = null;
         private UnitMovement unitMovement = null;
 
+        public FSMBrain FSMBrain { get; private set; } = null;
         public FarmerStat Stat { get; private set; } = null;
         public Item HoldItem { get; private set; } = null;
         public FarmerAIDataSO AIData { get; private set; } = null;
@@ -31,7 +31,23 @@ namespace ProjectF.Farms
             base.Awake();
 
             unitMovement = GetComponent<UnitMovement>();
-            fsmBrain = GetComponent<FSMBrain>();
+            FSMBrain = GetComponent<FSMBrain>();
+        }
+
+        private void LateUpdate()
+        {
+            if(unitMovement == null)
+                return;
+
+            Vector3 velocity = unitMovement.Velocity;
+            if(velocity.x == 0)
+                return;
+
+            float targetAngle = velocity.x > 0 ? 0 : 180;
+            if(transform.eulerAngles.y == targetAngle)
+                return;
+
+            transform.rotation = Quaternion.Euler(0, targetAngle, 0);
         }
 
         public void Initialize(FarmerData farmerData)
@@ -39,12 +55,12 @@ namespace ProjectF.Farms
             RefreshData(farmerData);
             unitMovement.SetDestination(transform.position);
 
-            fsmBrain.Initialize();
+            FSMBrain.Initialize();
 
-            AIData = fsmBrain.GetFSMParam<FarmerAIDataSO>();
+            AIData = FSMBrain.GetFSMParam<FarmerAIDataSO>();
             AIData.Initialize(this);
 
-            fsmBrain.SetAsDefaultState();
+            FSMBrain.SetAsDefaultState();
         }
 
         public void RefreshData(FarmerData farmerData)

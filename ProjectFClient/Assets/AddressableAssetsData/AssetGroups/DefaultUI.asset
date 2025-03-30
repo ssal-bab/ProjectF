@@ -125,20 +125,26 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 840738696d2374699b2d9664cb36dd68
-    m_Address: CropQueueElementUI
+  - m_GUID: b9a013edaa6ed3a42a412422fe2edc56
+    m_Address: ExploreFarmerInfoElementUI
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5571091884c90489bba8984bb6626aaa
-    m_Address: SeedElementUI
+  - m_GUID: fbc3f5635603efb42b5fb7e4d440d0d1
+    m_Address: ExploreFarmerInfoPopupUI
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 98bbda6804adb4936812591e5d86c627
-    m_Address: SeedPocketPopupUI
+  - m_GUID: 89bebedc43c66a54c9de1e2528e72ab5
+    m_Address: AdventurePopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f73544670d8dff49bfce8844017af68
+    m_Address: AdventureProgressInfoPanel
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

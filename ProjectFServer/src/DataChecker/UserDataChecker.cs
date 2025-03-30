@@ -12,6 +12,7 @@ namespace ProjectF.Datas
                 new UserMonetaDataChecker(userData);
                 new UserSeedPocketDataChecker(userData);
                 new UserRepeatQuestDataChecker(userData);
+                new UserAdventureDataChecker(userData);
             } catch(System.Exception err) 
             {
                 System.Console.WriteLine(err);

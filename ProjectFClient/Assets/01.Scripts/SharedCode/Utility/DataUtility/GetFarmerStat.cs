@@ -17,6 +17,7 @@ namespace ProjectF
                 [EFarmerStatType.Health] = new CalculateStat(tableRow.health, level).currentStat,
                 [EFarmerStatType.FarmingSkill] = new CalculateStat(tableRow.farmingSkill, level).currentStat,
                 [EFarmerStatType.AdventureSkill] = new CalculateStat(tableRow.adventureSkill, level).currentStat,
+                [EFarmerStatType.AdventureHealth] = new CalculateStat(tableRow.health, level).currentStat
             };
         }
     }

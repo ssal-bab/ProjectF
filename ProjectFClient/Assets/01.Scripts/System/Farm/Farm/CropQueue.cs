@@ -43,6 +43,8 @@ namespace ProjectF.Farms
         {
             CropQueueSlot slot = PeekSlot();
             slot.count--;
+            slot.OnCountChangedEvent?.Invoke(slot);
+
             if(slot.count <= 0)
                 cropQueue.RemoveAt(0);
 

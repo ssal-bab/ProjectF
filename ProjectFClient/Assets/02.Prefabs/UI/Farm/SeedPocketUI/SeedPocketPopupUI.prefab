@@ -487,8 +487,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProjectF.UI.Farms.StorageUI, ProjectF-Assembly
+      - m_Target: {fileID: 7806266942269080436}
+        m_TargetAssemblyTypeName: ProjectF.UI.Farms.SeedPocketPopupUI, ProjectF-Assembly
         m_MethodName: OnTouchCloseButton
         m_Mode: 1
         m_Arguments:
@@ -1119,8 +1119,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ProjectF.UI.Farms.StoragePopupUI, ProjectF-Assembly
+      - m_Target: {fileID: 7806266942269080436}
+        m_TargetAssemblyTypeName: ProjectF.UI.Farms.SeedPocketPopupUI, ProjectF-Assembly
         m_MethodName: OnTouchCloseButton
         m_Mode: 1
         m_Arguments:

@@ -10,9 +10,8 @@ namespace ProjectF
         public abstract void Initialize();
         public abstract void Release();
 
-        public virtual void MakeQuest(Quest quest, bool startByUser)
+        public virtual void MakeQuest(Quest quest, bool startByUser, bool clearByUser)
         {
-            Debug.Log(startByUser);
             if(startByUser)
             {
                 QuestManager.Instance.AddWaitingQuest(quest);

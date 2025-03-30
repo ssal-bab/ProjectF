@@ -12,7 +12,7 @@ namespace ProjectF
         private float lastTouchTime;
         void Start()
         {
-            DialogueManager.Instance.StartDialogue(Dialogues.ESpeakerType.Admin, "[테스트테스트테스트테스트테스트테스트테스트][테스트테스트테스트테스트테스트테스트테스트][테스트테스트테스트테스트테스트테스트테스트]", null);
+            //DialogueManager.Instance.StartDialogue(Dialogues.ESpeakerType.Admin, "[테스트테스트테스트테스트테스트테스트테스트][테스트테스트테스트테스트테스트테스트테스트][테스트테스트테스트테스트테스트테스트테스트]", null);
             lastTouchTime = Time.time;
         }
 

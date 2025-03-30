@@ -36,7 +36,7 @@ namespace ProjectF
                 }
                 repeatQuestDatas.Add(pair.Key, new RepeatQuest(tableRow, pair.Key));
 
-                MakeQuest(repeatQuestDatas[pair.Key], !repeatQuestData.repeatQuestDatas[pair.Key].started);
+                MakeQuest(repeatQuestDatas[pair.Key], !repeatQuestData.repeatQuestDatas[pair.Key].started, true);
             }
         }
 

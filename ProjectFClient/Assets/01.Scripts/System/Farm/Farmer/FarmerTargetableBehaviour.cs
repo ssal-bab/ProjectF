@@ -31,6 +31,9 @@ namespace ProjectF.Farms
 
         public void AddWatcher(Farmer watcher)
         {
+            if(watchers.ContainsKey(watcher.FarmerUUID))
+                return;
+
             watchers.Add(watcher.FarmerUUID, watcher);
         }
 

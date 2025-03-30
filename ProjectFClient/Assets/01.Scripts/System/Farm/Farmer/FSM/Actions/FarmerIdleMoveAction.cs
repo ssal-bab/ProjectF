@@ -43,6 +43,9 @@ namespace ProjectF.Farms.AI
             if(drawSelected && UnityEditor.Selection.activeObject != gameObject)
                 return;
 
+            if(brain == null)
+                return;
+
             if(brain.CurrentState != state)
                 return;
 

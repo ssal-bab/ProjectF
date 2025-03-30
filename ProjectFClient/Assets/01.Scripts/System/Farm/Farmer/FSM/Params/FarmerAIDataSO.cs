@@ -38,6 +38,9 @@ namespace ProjectF.Farms.AI
 
         public void PushTarget(FarmerTargetableBehaviour target)
         {
+            if(target == CurrentTarget)
+                return;
+
             targetStack.Push(target);
             target.AddWatcher(farmer);
         }

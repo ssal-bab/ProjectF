@@ -13,6 +13,9 @@ namespace ProjectF.Quests
         protected bool canClear = false;
         public bool CanClear => canClear;
 
+        protected string description;
+        public string Description => description;
+
         public event Action<Quest> OnMakeQuestEvent;
         public event Action<Quest> OnCanClearQuestEvent;
         public event Action<Quest> OnClearQuestEvent;
@@ -62,5 +65,8 @@ namespace ProjectF.Quests
         {
             OnClearQuestEvent?.Invoke(this);
         }
+
+        protected abstract void SetDescription();
+
     }
 }

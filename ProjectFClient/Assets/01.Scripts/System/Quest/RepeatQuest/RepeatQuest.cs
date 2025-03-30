@@ -20,6 +20,7 @@ namespace ProjectF.Quests
             this.repeatQuestType = repeatQuestType;
             this.actionType = tableRow.actionType;
             targetID = -1;
+            SetDescription();
         }
 
         public RepeatQuest(RepeatQuestTableRow tableRow, ERepeatQuestType repeatQuestType, int targetID) : base(tableRow)
@@ -27,6 +28,7 @@ namespace ProjectF.Quests
             this.repeatQuestType = repeatQuestType;
             this.targetID = targetID;
             this.actionType = tableRow.actionType;
+            SetDescription();
         }
 
         public override void StartQuest()
@@ -63,6 +65,28 @@ namespace ProjectF.Quests
             new ApplyReward(GameInstance.MainUser, res.rewardData);
 
             OnCanClear();
+        }
+
+        protected override void SetDescription()
+        {
+            switch(actionType)
+                {
+                    case EActionType.OwnCrop:
+                    description = $"작물을 {TableRow.targetValue}개 획득하시오.";
+                        break;
+                    case EActionType.AdventureComplete:
+                    description = $"탐험을 {TableRow.targetValue}번 성공하시오.";
+                        break;
+                    case EActionType.HatchEgg:
+                    description = $"알을 {TableRow.targetValue}개 부화하시오.";
+                        break;
+                    case EActionType.PlantSeed:
+                    description = $"씨앗을 {TableRow.targetValue}개 심으시오.";
+                        break;
+                    case EActionType.HarvestCrop:
+                    description = $"작물을 {TableRow.targetValue}개 수확하시오.";
+                        break;
+                }
         }
     }
 }

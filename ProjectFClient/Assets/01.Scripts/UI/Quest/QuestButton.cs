@@ -36,7 +36,7 @@ namespace ProjectF
                 return;
 
             DialogueManager.Instance.StartDialogue(Dialogues.ESpeakerType.Admin,
-             "[안녕하십니까. 이것은 테스트를 위한 퀘스트 생성입니다.]", OnStartQuest);
+             $"[{QuestManager.Instance.waitingQuests.Peek().Description}]", OnStartQuest);
 
         }
 
@@ -46,5 +46,6 @@ namespace ProjectF
             if(QuestManager.Instance.waitingQuestCount <= 0)
                 notify.gameObject.SetActive(false);
         }
+
     }
 }

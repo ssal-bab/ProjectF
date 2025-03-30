@@ -26,7 +26,7 @@ namespace ProjectF.Quests
 
         private RepeatQuestController repeatQuestController;
 
-        private Queue<Quest> waitingQuests;
+        public Queue<Quest> waitingQuests;
         public Action<Quest> OnAddWaitingQuest;
         public int waitingQuestCount => waitingQuests.Count;
 

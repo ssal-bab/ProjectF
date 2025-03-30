@@ -31,18 +31,7 @@ namespace ProjectF.Quests
             OnMakeQuest = null;
             OnClearQuest = null;
 
-            UserQuestData questData = GameInstance.MainUser.questData;
-            if(questData != null)
-            {
-                foreach(var pair in questData.quests)
-                {
-                    Type questType = Type.GetType($"{pair.Value.questType}Quest");
-                    Quest quest = Activator.CreateInstance(questType, pair.Value) as Quest;
-                    quests.Add(quest);
-                }
-            }
-
-            MakeQuest(DataTableManager.GetTable<QuestTable>()[0]);
+            //MakeQuest(DataTableManager.GetTable<QuestTable>()[0]);
         }
 
         public void Update()
@@ -65,22 +54,22 @@ namespace ProjectF.Quests
 
         public void MakeQuest(QuestTableRow questTableRow)
         {
-            MakeQuest(QuestUtility.CreateQuest(questTableRow));
+            //MakeQuest(QuestUtility.CreateQuest(questTableRow));
         }
 
-        public async void MakeQuest(Quest newQuest)
+        public void MakeQuest(Quest newQuest)
         {
             if(newQuest == null)
                 return;
 
             //make quest packet
-            MakeQuestRequest req = new MakeQuestRequest(newQuest.MakeQusetData());
-            MakeQuestResponse res = await NetworkManager.Instance.SendWebRequestAsync<MakeQuestResponse>(req);
-            if(res.result != ENetworkResult.Success)
-            {
-                Debug.Log(res.result);
-                return;
-            }
+            // MakeQuestRequest req = new MakeQuestRequest(newQuest.MakeQusetData());
+            // MakeQuestResponse res = await NetworkManager.Instance.SendWebRequestAsync<MakeQuestResponse>(req);
+            // if(res.result != ENetworkResult.Success)
+            // {
+            //     Debug.Log(res.result);
+            //     return;
+            // }
 
             quests.Add(newQuest);
             newQuest.OnMakeQuest();
@@ -89,13 +78,13 @@ namespace ProjectF.Quests
             Debug.Log($"Make Quest : {newQuest.QuestName}");
         }
 
-        public async void ClearQuest(Quest clearedQuest)
+        public void ClearQuest(Quest clearedQuest)
         {
             //clear quest packet
-            ClearQuestRequest req = new ClearQuestRequest(clearedQuest.MakeQusetData());
-            ClearQuestResponse res = await NetworkManager.Instance.SendWebRequestAsync<ClearQuestResponse>(req);
-            if(res.result != ENetworkResult.Success)
-                return;
+            // ClearQuestRequest req = new ClearQuestRequest(clearedQuest.MakeQusetData());
+            // ClearQuestResponse res = await NetworkManager.Instance.SendWebRequestAsync<ClearQuestResponse>(req);
+            // if(res.result != ENetworkResult.Success)
+            //     return;
 
             if(!quests.Contains(clearedQuest))
                 return;

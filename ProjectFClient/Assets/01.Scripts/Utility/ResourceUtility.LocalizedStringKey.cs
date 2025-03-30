@@ -19,7 +19,7 @@ namespace ProjectF
         public static string GetMaterialNameLocalKey(int id) => GetLocalKey("MaterialName", id);
         public static string GetCropGradeNameLocalKey(ECropGrade cropGrade) => GetLocalKey("CropGradeName", (int)cropGrade);
         public static string GetRarityNameLocalKey(ERarity rarity) => GetLocalKey("RarityName", (int)rarity);
-        public static string GetQusetDescriptionLocalKey(EQuestType type) => GetLocalKey("QuestType", (int)type);
+        public static string GetQusetDescriptionLocalKey(EActionType type) => GetLocalKey("QuestType", (int)type);
         public static string GetStatDescriptionLocakKey(EFarmerStatType type) => GetLocalKey("StatType", (int)type);
         public static string GetDialogueSpeakerNameLocakKey(ESpeakerType speakerType) => GetLocalKey("SpeakerName", (int)speakerType);
 

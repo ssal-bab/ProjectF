@@ -1,4 +1,5 @@
 using System;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
 using ProjectF.Networks;
@@ -78,6 +79,9 @@ namespace ProjectF.Farms
             GrowUp();
 
             DateManager.Instance.OnTickCycleEvent += HandleTickCycleEvent;
+
+            UserActionObserver.Invoke(EActionType.PlantSeed);
+            UserActionObserver.TargetInvoke(EActionType.PlantTargetSeed, cropID);
         }
 
         public async void Harvest(string farmerUUID)
@@ -101,6 +105,8 @@ namespace ProjectF.Farms
             SpawnCrop(response.productCropID, response.cropGrade, response.cropCount);
             ChangeState(EFieldState.Fallow);
 
+            UserActionObserver.Invoke(EActionType.HarvestCrop);
+            UserActionObserver.TargetInvoke(EActionType.HarvestTargetCrop, response.productCropID);
         }
 
         private void SpawnCrop(int productCropID, ECropGrade cropGrade, int cropCount)

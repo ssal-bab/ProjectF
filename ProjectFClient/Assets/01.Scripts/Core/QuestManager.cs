@@ -9,6 +9,7 @@ using ProjectF.Networks;
 using System.Threading.Tasks;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UnityEngine.PlayerLoop;
 
 namespace ProjectF.Quests
 {
@@ -23,23 +24,38 @@ namespace ProjectF.Quests
         private static QuestManager instance = null;
         public static QuestManager Instance => instance;
 
+        private RepeatQuestController repeatQuestController;
+
+        private Queue<Quest> waitingQuests;
+        public Action<Quest> OnAddWaitingQuest;
+        public int waitingQuestCount => waitingQuests.Count;
+
+
+        public void AddWaitingQuest(Quest quest)
+        {
+            if(quest == null)
+                return;
+
+            waitingQuests.Enqueue(quest);
+            OnAddWaitingQuest?.Invoke(quest);
+        }
+
+        public void StartQuestInWaitingQuest()
+        {
+            waitingQuests.Dequeue().StartQuest();
+        }
+
         public void Initialize()
         {
             instance = this;
 
             quests = new();
+            waitingQuests = new();
             OnMakeQuest = null;
             OnClearQuest = null;
 
-            //MakeQuest(DataTableManager.GetTable<QuestTable>()[0]);
-        }
-
-        public void Update()
-        {
-            for(int i = quests.Count - 1; i >= 0; i--)
-            {
-                quests[i].Update();
-            }
+            repeatQuestController = new RepeatQuestController();
+            repeatQuestController.Initialize();
         }
 
         public void Release()
@@ -48,6 +64,8 @@ namespace ProjectF.Quests
             quests = null;
             OnMakeQuest = null;
             OnClearQuest = null;
+
+            repeatQuestController.Release();
 
             instance = null;
         }
@@ -61,31 +79,16 @@ namespace ProjectF.Quests
         {
             if(newQuest == null)
                 return;
-
-            //make quest packet
-            // MakeQuestRequest req = new MakeQuestRequest(newQuest.MakeQusetData());
-            // MakeQuestResponse res = await NetworkManager.Instance.SendWebRequestAsync<MakeQuestResponse>(req);
-            // if(res.result != ENetworkResult.Success)
-            // {
-            //     Debug.Log(res.result);
-            //     return;
-            // }
-
+                
             quests.Add(newQuest);
             newQuest.OnMakeQuest();
             OnMakeQuest?.Invoke(newQuest);
 
-            Debug.Log($"Make Quest : {newQuest.QuestName}");
+            Debug.Log($"Make Quest :");
         }
 
         public void ClearQuest(Quest clearedQuest)
         {
-            //clear quest packet
-            // ClearQuestRequest req = new ClearQuestRequest(clearedQuest.MakeQusetData());
-            // ClearQuestResponse res = await NetworkManager.Instance.SendWebRequestAsync<ClearQuestResponse>(req);
-            // if(res.result != ENetworkResult.Success)
-            //     return;
-
             if(!quests.Contains(clearedQuest))
                 return;
             if(!clearedQuest.CanClear)

@@ -1,0 +1,1 @@
+{"0":{"id":0,"actionType":"PlantSeed","targetValue":5,"targetValueMultiplierByRepeatCount":0.25,"rewardData":"Gold, -1, 3000;\nXP, -1, 10;","rewardMultiplierByRepeatCount":1.25},"1":{"id":1,"actionType":"HarvestCrop","targetValue":5,"targetValueMultiplierByRepeatCount":0.25,"rewardData":"Gold, -1, 3000;\nXP, -1, 10;","rewardMultiplierByRepeatCount":1.25}}

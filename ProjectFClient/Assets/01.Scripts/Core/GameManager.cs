@@ -29,6 +29,7 @@ namespace ProjectF
         {
             ResourceManager.Initialize(new AddressableResourceLoader());
             PoolManager.Initialize(transform);
+            UserActionObserver.Initialize();
 
             TextAsset dataTableJsonData = await ResourceManager.LoadResourceAsync<TextAsset>("DataTableJson");
             Dictionary<string, string> jsonDatas = JsonConvert.DeserializeObject<Dictionary<string, string>>(dataTableJsonData.text);
@@ -45,16 +46,12 @@ namespace ProjectF
             new QuestManager().Initialize();
         }
 
-        void Update()
-        {
-            QuestManager.Instance?.Update();
-        }
-
         private void OnApplicationQuit()
         {
             DataTableManager.Release();
             PoolManager.Release();
             ResourceManager.Release();
+            UserActionObserver.Release();
 
             FarmManager.Instance.Release();
             NetworkManager.Instance.Release();

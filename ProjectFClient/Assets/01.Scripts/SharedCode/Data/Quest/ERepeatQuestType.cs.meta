@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:ProjectFClient/Assets/01.Scripts/SharedCode/Data/Quest/ERepeatQuestType.cs.meta
 guid: 16b906a53885343f482f9c6adb36efb2
+========
+guid: 01ac2d1b86c5f44d19972c6373dd3c05
+>>>>>>>> Quest:ProjectFClient/Assets/01.Scripts/SharedCode/DataTable/AdventureRepeatQuestTable.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

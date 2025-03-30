@@ -8,5 +8,5 @@ namespace ProjectF.DataTables
         public float rewardMultiplierByRepeatCount; // rewardItemAmount * (1 + 반복 횟수 * rewardMultiplierByRepeatCount)
     }
 
-    public abstract partial class RepeatQuestTable<TRow> : DataTable<TRow> where TRow : RepeatQuestTableRow { }
+    public abstract partial class RepeatQuestTable<TRow> : QuestTable<TRow> where TRow : RepeatQuestTableRow { }
 }

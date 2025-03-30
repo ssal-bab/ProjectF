@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using ProjectF.Quests;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace ProjectF
+{
+    public class QuestButton : MonoBehaviour
+    {
+        [SerializeField] Button button;
+        [SerializeField] Image notify;
+
+        [SerializeField] Sprite makeIcon;
+        [SerializeField] Sprite clearIcon;
+
+        void Start()
+        {
+            button.onClick.AddListener(StartQuest);
+            QuestManager.Instance.OnAddWaitingQuest += OnAddWaitingQuest;
+        }
+
+        private void OnDestroy()
+        {
+            button.onClick.RemoveListener(StartQuest);
+        }
+
+        private void OnAddWaitingQuest(Quest quest)
+        {
+            notify.sprite = makeIcon;
+        }
+
+        private void StartQuest()
+        {
+            DialogueManager.Instance.StartDialogue(Dialogues.ESpeakerType.Admin,
+             "[안녕하십니까. 이것은 테스트를 위한 퀘스트 생성입니다.]", OnStartQuest);
+
+        }
+
+        private void OnStartQuest()
+        {
+            QuestManager.Instance.StartQuestInWaitingQuest();
+            if(QuestManager.Instance.waitingQuestCount <= 0)
+                notify.gameObject.SetActive(false);
+        }
+    }
+}

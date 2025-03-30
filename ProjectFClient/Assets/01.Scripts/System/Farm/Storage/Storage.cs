@@ -39,6 +39,8 @@ namespace ProjectF.Farms
             if(count < amount)
                 return false;
 
+            UserActionObserver.Invoke(EActionType.OwnCrop);
+            UserActionObserver.TargetInvoke(EActionType.OwnTargetCrop, id);
             slot[grade] -= amount;
             return true;
         }
@@ -53,7 +55,9 @@ namespace ProjectF.Farms
 
             if (slot.ContainsKey(grade) == false)
                 return;
-
+                
+            UserActionObserver.Invoke(EActionType.OwnCrop);
+            UserActionObserver.TargetInvoke(EActionType.OwnTargetCrop, id);
             slot[grade] += amount;
         }
 

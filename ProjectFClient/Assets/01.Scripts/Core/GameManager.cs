@@ -29,6 +29,7 @@ namespace ProjectF
         {
             ResourceManager.Initialize(new AddressableResourceLoader());
             PoolManager.Initialize(transform);
+            UserActionObserver.Initialize();
 
             TextAsset dataTableJsonData = await ResourceManager.LoadResourceAsync<TextAsset>("DataTableJson");
             Dictionary<string, string> jsonDatas = JsonConvert.DeserializeObject<Dictionary<string, string>>(dataTableJsonData.text);
@@ -55,6 +56,7 @@ namespace ProjectF
             DataTableManager.Release();
             PoolManager.Release();
             ResourceManager.Release();
+            UserActionObserver.Release();
 
             FarmManager.Instance.Release();
             NetworkManager.Instance.Release();

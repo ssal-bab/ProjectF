@@ -10,6 +10,8 @@ namespace ProjectF
 
         public GetRepeatQuestTableRow(ERepeatQuestType repeatQuestType, int id)
         {
+            tableRow = null;
+
             switch(repeatQuestType)
             {
                 case ERepeatQuestType.Crop:

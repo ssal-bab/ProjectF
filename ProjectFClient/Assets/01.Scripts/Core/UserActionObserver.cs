@@ -21,7 +21,12 @@ namespace ProjectF
 
         public static void RegistObserver(EActionType actionType, Action action)
         {
-            OnUserAction[actionType] += action;
+            OnUserAction.Add(actionType, action);
+        }
+
+        public static void UnregistObserver(EActionType actionType, Action action)
+        {
+            OnUserAction[actionType] -= action;
         }
 
         public static void RegistTargetObserver(EActionType actionType, int targetID, Action action)
@@ -29,7 +34,15 @@ namespace ProjectF
             if(OnUserTargetAction[actionType] == null)
                 OnUserTargetAction[actionType] = new();
 
-            OnUserTargetAction[actionType][targetID] += action;
+            OnUserTargetAction[actionType].Add(targetID, action);
+        }
+
+        public static void UnregistTargetObserver(EActionType actionType, int targetID, Action action)
+        {
+            if(OnUserTargetAction[actionType] == null)
+                return;
+
+            OnUserTargetAction[actionType][targetID] -= action;
         }
 
         public static void Invoke(EActionType actionType)

@@ -5,5 +5,6 @@ namespace ProjectF.Datas
         public int questID;
         public int actionTargetID;
         public int currentProgress;
+        public bool started;
     }
 }

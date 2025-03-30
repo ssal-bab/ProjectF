@@ -46,11 +46,6 @@ namespace ProjectF
             new QuestManager().Initialize();
         }
 
-        void Update()
-        {
-            QuestManager.Instance?.Update();
-        }
-
         private void OnApplicationQuit()
         {
             DataTableManager.Release();

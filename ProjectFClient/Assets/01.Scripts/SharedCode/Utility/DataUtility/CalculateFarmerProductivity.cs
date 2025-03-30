@@ -12,6 +12,8 @@ namespace ProjectF
 
         public CalculateFarmerProductivity(EFarmerStatType statType, float stat)
         {
+            value = 0;
+            
             switch (statType)
             {
                 case EFarmerStatType.None:

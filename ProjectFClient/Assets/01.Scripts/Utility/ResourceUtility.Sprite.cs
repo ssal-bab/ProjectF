@@ -20,6 +20,7 @@ namespace ProjectF
         public static Sprite GetEggIcon(int id) => GetSprite("EggIcon", id);
         public static Sprite GetCropIcon(int id) => GetSprite("CropIcon", id);
         public static Sprite GetMaterialIcon(int id) => GetSprite("MaterialIcon", id);
+        public static Sprite GetSeedIcon(int id) => GetSprite("SeedIcon", id);
         public static Sprite GetFarmerIcon(int id) => GetSprite("FarmerIcon", id);
         public static Sprite GetCropGradeIcon(int id) => GetSprite("CropGradeIcon", id);
         public static Sprite GetFarmerStatIcon(int id) => GetSprite("FarmerStatIcon", id);

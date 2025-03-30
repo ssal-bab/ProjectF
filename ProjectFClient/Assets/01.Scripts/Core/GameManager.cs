@@ -36,7 +36,8 @@ namespace ProjectF
 
             new FarmManager().Initialize();
             new NetworkManager().Initialize();
-            new SubCharacterManager().Initialize();
+            new DialogueManager().Initialize();
+            //new SubCharacterManager().Initialize();
         }
 
         public void OnLoginGameServer()
@@ -58,7 +59,8 @@ namespace ProjectF
             FarmManager.Instance.Release();
             NetworkManager.Instance.Release();
             QuestManager.Instance.Release();
-            SubCharacterManager.Instance.Release();
+            DialogueManager.Instance.Release();
+            //SubCharacterManager.Instance.Release();
         }
     }
 }

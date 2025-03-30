@@ -1,15 +1,18 @@
 using System.Collections.Generic;
 using ProjectF.Datas;
+using ProjectF.Dialogues;
 
 namespace ProjectF
 {
     public static partial class ResourceUtility
     {
         private static Dictionary<string, Dictionary<int, string>> LocalizedStringKeyCache = null;
+        private static Dictionary<ESpeakerType, Dictionary<string, string>> LocalizedDialogueStringKeyCache = null;
 
         private static void InitializeLocalizedStringKeyUtility()
         {
             LocalizedStringKeyCache = new Dictionary<string, Dictionary<int, string>>();
+
         }
 
         public static string GetCropNameLocalKey(int id) => GetLocalKey("CropName", id);
@@ -18,6 +21,9 @@ namespace ProjectF
         public static string GetRarityNameLocalKey(ERarity rarity) => GetLocalKey("RarityName", (int)rarity);
         public static string GetQusetDescriptionLocalKey(EQuestType type) => GetLocalKey("QuestType", (int)type);
         public static string GetStatDescriptionLocakKey(EFarmerStatType type) => GetLocalKey("StatType", (int)type);
+        public static string GetDialogueSpeakerNameLocakKey(ESpeakerType speakerType) => GetLocalKey("SpeakerName", (int)speakerType);
+
+        public static string GetDialogueLocakKey(string situation, ESpeakerType speakerType) => GetLocalKey(situation, speakerType);
 
         private static string GetLocalKey(string prefix, int id)
         {
@@ -34,6 +40,23 @@ namespace ProjectF
             }
 
             return resourceName;
+        }
+
+        private static string GetLocalKey(string situation, ESpeakerType speakerType)
+        {
+            if (LocalizedDialogueStringKeyCache.TryGetValue(speakerType, out Dictionary<string, string> cache) == false)
+            {
+                cache = new Dictionary<string, string>();
+                LocalizedDialogueStringKeyCache.Add(speakerType, cache);
+            }
+
+            if(cache.TryGetValue(situation, out string dialogue) == false)
+            {
+                dialogue = $"{speakerType}_{situation}";
+                cache.Add(situation, dialogue);
+            }
+
+            return dialogue;
         }
     }
 }

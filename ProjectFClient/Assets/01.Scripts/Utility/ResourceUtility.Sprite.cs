@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using H00N.Resources;
+using ProjectF.Dialogues;
 using UnityEngine;
 
 namespace ProjectF
@@ -22,6 +23,7 @@ namespace ProjectF
         public static Sprite GetFarmerIcon(int id) => GetSprite("FarmerIcon", id);
         public static Sprite GetCropGradeIcon(int id) => GetSprite("CropGradeIcon", id);
         public static Sprite GetFarmerStatIcon(int id) => GetSprite("FarmerStatIcon", id);
+        public static Sprite GetDialogueSpeakerImage(int id) => GetSprite("DialogueSpeakerImage", id);
 
         private static Sprite GetSprite(string prefix, int id)
         {

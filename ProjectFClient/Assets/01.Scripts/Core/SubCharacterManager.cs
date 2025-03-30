@@ -36,8 +36,8 @@ namespace ProjectF.SubCharacters
 
         public void StartDialogue(ESubCharacterType characterType, List<string> dialogueTexts, Action onEndAction)
         {
-            dialogueUI.SetSpeakerImage(subCharacters[characterType].Data.Image);
-            dialogueUI.Show(dialogueTexts, onEndAction);
+            //dialogueUI.SetSpeakerImage(subCharacters[characterType].Data.Image);
+            //dialogueUI.Show(dialogueTexts, onEndAction);
         }
     }
 }

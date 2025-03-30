@@ -1,64 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ProjectF.Quests;
 using TMPro;
 using UnityEngine.UI;
 using System;
-using ProjectF.SubCharacters;
+using ProjectF.Dialogues;
+using H00N.Resources.Pools;
 
 namespace ProjectF.UI.Quests
 {
-    public class DialoguePopupUI : MonoBehaviourUI
+    public class DialoguePopupUI : PoolableBehaviourUI
     {
         [SerializeField] private TextMeshProUGUI dialogueText;
         [SerializeField] private Button button;
         [SerializeField] private Image speakerImage; 
+        [SerializeField] private TextMeshProUGUI speakerNameText; 
 
         [SerializeField] private List<string> currentDialogueTexts;
         private int currentDialogueTextIndex;
 
+        private bool isTexting;
+
         public event Action OnEndDialogue;
         private Action additiveEndDialogueAction;
 
-        protected override void Awake()
+        public new void Initialize()
         {
-            base.Awake();
-
-            gameObject.SetActive(false);
+            base.Initialize();
 
             button.onClick.AddListener(ShowNextText);
-
-            //test
-            SubCharacterManager.Instance.dialogueUI = this;
         }
 
-        public void Show(List<string> showTexts, Action onEndAction)
+        public void Show(ESpeakerType speakerType, List<string> showTexts, Action onEndAction)
         {
+            SetSpeaker(speakerType);
             currentDialogueTexts = showTexts;
             additiveEndDialogueAction = onEndAction;
             OnEndDialogue += additiveEndDialogueAction;
 
             ShowTextFromStart();
-
-            gameObject.SetActive(true);
         }
 
         private void ShowTextFromStart()
         {
-            currentDialogueTextIndex = -1;
-            ShowNextText();
+            currentDialogueTextIndex = 0;
+            isTexting = false;
+            ShowText(currentDialogueTexts[currentDialogueTextIndex]);
         }
 
         private void ShowNextText()
         {
-            currentDialogueTextIndex++;
-
-            if(currentDialogueTexts.Count <= currentDialogueTextIndex)
+            if(dialogueText.text.Length == currentDialogueTexts[currentDialogueTextIndex].Length)
             {
-                EndDialogue();
+                currentDialogueTextIndex++;
+                isTexting = false;
 
-                return;
+                if(currentDialogueTexts.Count <= currentDialogueTextIndex)
+                {
+                    EndDialogue();
+
+                    return;
+                }
             }
 
             ShowText(currentDialogueTexts[currentDialogueTextIndex]);
@@ -66,12 +68,28 @@ namespace ProjectF.UI.Quests
 
         private void ShowText(string text)
         {
-            dialogueText.SetText(text);
+            if(!isTexting)
+            {
+                TMPUtility.DOText(dialogueText, text, 0.05f);
+            }
+            else
+            {
+                dialogueText.StopAllCoroutines();
+                dialogueText.SetText(text);
+            }
+
+            isTexting = !isTexting;
         }
 
-        public void SetSpeakerImage(Sprite image)
+        public void SetSpeaker(ESpeakerType speakerType)
         {
-            speakerImage.sprite = image;
+            //speakerNameText.SetText(ResourceUtility.GetDialogueSpeakerNameLocakKey(speakerType));
+            speakerNameText.SetText(speakerType.ToString());
+            speakerImage.sprite = ResourceUtility.GetDialogueSpeakerImage((int)speakerType);
+            speakerImage.SetNativeSize();
+            float ratio = GameDefine.DialogueSpeakerImageSizeWidth / speakerImage.rectTransform.sizeDelta.x;
+            speakerImage.rectTransform.sizeDelta = new Vector2(
+                GameDefine.DialogueSpeakerImageSizeWidth, speakerImage.rectTransform.sizeDelta.y * ratio);
         }
 
         public void EndDialogue()
@@ -80,7 +98,15 @@ namespace ProjectF.UI.Quests
             OnEndDialogue -= additiveEndDialogueAction;
             additiveEndDialogueAction = null;
 
-            gameObject.SetActive(false);
+            Release();
+            PoolManager.DespawnAsync(this);
+        }
+
+        protected override void Release()
+        {
+            base.Release();
+
+            button.onClick.RemoveListener(ShowNextText);
         }
     }
 }

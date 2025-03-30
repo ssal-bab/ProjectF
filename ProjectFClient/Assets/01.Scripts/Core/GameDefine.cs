@@ -10,6 +10,8 @@ namespace ProjectF
         public static readonly string AbleBehavioutColor = "#64A980";
         public static readonly string UnAbleBehaviourColor = "#FF6E6E";
 
+        public static readonly float DialogueSpeakerImageSizeWidth = 400.0f;
+
         private static Transform mainCanvas = null;
         public static Transform MainCanvas {
             get {

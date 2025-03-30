@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using DocumentFormat.OpenXml.Wordprocessing;
 using H00N.DataTables;
 using H00N.Resources;
 using H00N.Resources.Pools;
@@ -13,7 +9,7 @@ using ProjectFServer.Networks.Packets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
+using H00N.Extensions;
 
 namespace ProjectF.UI.Adventure
 {
@@ -74,14 +70,14 @@ namespace ProjectF.UI.Adventure
         private AdventureData _adventureData;
         private AdventureLootTable _adventureLootTable;
 
-        private bool _canMoveTime = false;
+        private bool _isCompleteExplore = false;
         private double _currentRemainSeconds;
         private float _elapsedTime;
 
         public async void Initialize(AdventureData adventureData)
         {
             _adventureData = adventureData;
-            
+
             Debug.Log($"{GameInstance.MainUser.adventureData.inAdventureAreaList[adventureData.adventureAreaID]}, {DateTime.Now}");
 
             var req = new CheckAdventureProgressRequest(adventureData.adventureAreaID);
@@ -93,6 +89,7 @@ namespace ProjectF.UI.Adventure
             }
 
             _adventureLootTable = DataTableManager.GetTable<AdventureLootTable>();
+            _isCompleteExplore = response.isCompleteExplore;
 
             if (response.isCompleteExplore)
             {
@@ -114,16 +111,71 @@ namespace ProjectF.UI.Adventure
             var req = new AdventureResultRequest(_adventureData.adventureAreaID);
             var response = await NetworkManager.Instance.SendWebRequestAsync<AdventureResultResponse>(req);
 
+            if (response.result != ENetworkResult.Success)
+            {
+                Debug.LogError("Critical Error!");
+                return;
+            }
+
+            var storageData = GameInstance.MainUser.storageData;
+            var seedPocketData = GameInstance.MainUser.seedPocketData;
+
+            var materialStorage = storageData.materialStorage;
+            var seedStorage = seedPocketData.seedStorage;
+
             foreach (var data in response.materialLootInfo)
             {
                 var lootItemIcon = await PoolManager.SpawnAsync<AdventureLootItemIcon>(_lootItemScrollGroup.lootItemIconUIPrefab.Key, _lootItemScrollGroup.content);
                 lootItemIcon.Initialize(ResourceUtility.GetMaterialIcon(data.materialItemID), data.itemCount);
+                lootItemIcon.StretchRect();
+
+                if (materialStorage.ContainsKey(data.materialItemID))
+                {
+                    materialStorage[data.materialItemID] += data.itemCount;
+                }
+                else
+                {
+                    materialStorage.Add(data.materialItemID, data.itemCount);
+                }
             }
 
             foreach (var data in response.seedLootInfo)
             {
                 var lootItemIcon = await PoolManager.SpawnAsync<AdventureLootItemIcon>(_lootItemScrollGroup.lootItemIconUIPrefab.Key, _lootItemScrollGroup.content);
                 lootItemIcon.Initialize(ResourceUtility.GetMaterialIcon(data.seedItemID), data.itemCount);
+                lootItemIcon.StretchRect();
+
+                if (seedStorage.ContainsKey(data.seedItemID))
+                {
+                    seedStorage[data.seedItemID] += data.itemCount;
+                }
+                else
+                {
+                    seedStorage.Add(data.seedItemID, data.itemCount);
+                }
+            }
+        }
+
+        public void OnTouchRecieveButton()
+        {
+            if (_isCompleteExplore)
+            {
+                var adventureData = GameInstance.MainUser.adventureData;
+                adventureData.inAdventureAreaList.Remove(_adventureData.adventureAreaID);
+                var list = adventureData.inExploreFarmerList[_adventureData.adventureAreaID];
+
+                foreach (var farmerUUID in list)
+                {
+                    adventureData.allFarmerinExploreList.Remove(farmerUUID);
+                }
+
+                adventureData.inExploreFarmerList.Remove(_adventureData.adventureAreaID);
+
+                base.Release();
+
+                _lootItemScrollGroup.content.DespawnAllChildren();
+                _isCompleteExplore = false;
+                PoolManager.DespawnAsync(this);
             }
         }
 
@@ -132,16 +184,15 @@ namespace ProjectF.UI.Adventure
             _progressTimerGroup.Active();
             _lootItemScrollGroup.DeActive();
 
+            Debug.Log(remainSeconds);
             _currentRemainSeconds = remainSeconds;
-            Debug.Log(_currentRemainSeconds);
-            _canMoveTime = true;
         }
 
         private void Update()
         {
-            if (!_canMoveTime) return;
+            if (!_isCompleteExplore) return;
 
-            if(_currentRemainSeconds <= 0) return;
+            if (_currentRemainSeconds <= 0) return;
 
             _elapsedTime += Time.deltaTime;
 
@@ -156,13 +207,6 @@ namespace ProjectF.UI.Adventure
                 _elapsedTime = 0;
                 _currentRemainSeconds -= 1;
             }
-        }
-
-        public void OnTouchCloseButton()
-        {
-            base.Release();
-            _canMoveTime = false;
-            PoolManager.DespawnAsync(this);
         }
     }
 }

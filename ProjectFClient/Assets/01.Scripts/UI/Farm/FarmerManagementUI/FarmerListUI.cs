@@ -42,6 +42,8 @@ namespace ProjectF.UI.Farms
                 var farmerInfoElement = await PoolManager.SpawnAsync<FarmerInfoElementUI>(farmerInfoUIPrefab.Key, farmerInfoContent);
                 farmerInfoElement.Initialize(farmerData);
                 farmerInfoElement.RegisterFarmerSalesAction(farmerRegisterSalesAction, farmerUnRegisterSalesAction);
+                farmerInfoElement.StretchRect();
+                farmerInfoElement.RectTransform.sizeDelta = new Vector2(940, 175);
 
                 infoElementList.Add(farmerInfoElement);
             }

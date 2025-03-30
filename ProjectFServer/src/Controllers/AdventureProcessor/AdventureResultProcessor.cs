@@ -38,7 +38,8 @@ namespace ProjectF.Networks.Controllers
             var response = new AdventureResultResponse()
             {
                 materialLootInfo = new List<AdventureLootMaterialGroup>(),
-                seedLootInfo = new List<AdventureLootSeedGroup>()
+                seedLootInfo = new List<AdventureLootSeedGroup>(),
+                result = ENetworkResult.Success
             };
 
             foreach (var uuid in userData.adventureData.inExploreFarmerList[request.areaID])
@@ -85,7 +86,7 @@ namespace ProjectF.Networks.Controllers
                         materialStorage.Add(materialItemID, materialItemCount);
                     }
 
-                    var seedStorage = userData.seedsPocketData.seedsStorage;
+                    var seedStorage = userData.seedPocketData.seedStorage;
 
                     if(seedStorage.ContainsKey(seedItemID))
                     {
@@ -95,6 +96,16 @@ namespace ProjectF.Networks.Controllers
                     {
                         seedStorage.Add(seedItemID, seedItemCount);
                     }
+
+                    userData.adventureData.inAdventureAreaList.Remove(request.areaID);
+                    var list = userData.adventureData.inExploreFarmerList[request.areaID];
+
+                    foreach(var farmerUUID in list)
+                    {
+                        userData.adventureData.allFarmerinExploreList.Remove(farmerUUID);
+                    }
+
+                    userData.adventureData.inExploreFarmerList.Remove(request.areaID);
                 }
             }
 

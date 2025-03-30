@@ -66,6 +66,7 @@ namespace ProjectF.UI.Adventure
         {
             var popup = await PoolManager.SpawnAsync<ExploreFarmerInfoPopupUI>(_exploreFarmerInfoPopupUIPrefab.Key, GameDefine.MainPopupFrame);
             popup.Initialize(_farmerData, _onRegisterExploreFarmer);
+            popup.StretchRect();
         }
 
         public void OnTouchThisElement()
@@ -79,8 +80,8 @@ namespace ProjectF.UI.Adventure
                 _onRegisterExploreFarmer?.Invoke(_farmerData.farmerUUID);
             }
 
-            _farmerRegisteredVisualize.SetActive(_isRegister);
             _isRegister = !_isRegister;
+            _farmerRegisteredVisualize.SetActive(_isRegister);
         }
     }
 }

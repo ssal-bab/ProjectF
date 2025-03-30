@@ -9,5 +9,6 @@ namespace ProjectF.Datas
         public UserFarmerData farmerData = null;
         public UserMonetaData monetaData = null;
         public UserSeedsPocketData seedsPocketData = null;
+        public UserRepeatQuestData repeatQuestData = null;
     }
 }

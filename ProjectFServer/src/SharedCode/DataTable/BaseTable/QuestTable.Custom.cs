@@ -18,12 +18,20 @@ namespace ProjectF.DataTables
             base.OnTableCreated();
             foreach(TRow tableRow in this)
             {
-                tableRow.rewardDataList = new List<RewardData>(
-                    tableRow.rewardData.Split(';').Select(i => {
-                        string[] rewardData = i.Split(',');
-                        return new RewardData(Enum.Parse<ERewardItemType>(rewardData[0]), int.Parse(rewardData[1]), int.Parse(rewardData[2]));
-                    })
-                );
+                tableRow.rewardDataList = new List<RewardData>();
+                string[] rewardDataStringList = tableRow.rewardData.Trim().Split(';');
+                foreach(string rewardDataString in rewardDataStringList)
+                {
+                    string trimmedData = rewardDataString.Trim();
+                    if (string.IsNullOrEmpty(trimmedData))
+                        continue;
+
+                    string[] rewardData = trimmedData.Split(',');
+                    ERewardItemType rewardItemType = Enum.Parse<ERewardItemType>(rewardData[0].Trim());
+                    int rewardItemID = int.Parse(rewardData[1].Trim());
+                    int rewardItemAmount = int.Parse(rewardData[1].Trim());
+                    tableRow.rewardDataList.Add(new RewardData(rewardItemType, rewardItemID, rewardItemAmount));
+                }
             }
         }
     }

@@ -8,7 +8,7 @@ using ProjectF.DataTables;
 using ProjectF.UI.Adventure;
 using UnityEngine;
 
-namespace ProjectF
+namespace ProjectF.UI.Adventure
 {
     public class TAdventureController : MonoBehaviour
     {

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Font Assets
+  m_EditorClassIdentifier: 
+  m_GroupName: Font Assets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 0ce693f687261450eb9768da44be516e
+  m_SerializeEntries:
+  - m_GUID: a05946da8705e48aa8d796d8aa8601c7
+    m_Address: Dovemayo_gothic SDF Bold Outline
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1f9a6fa7eb40141e1a1f72c857a16acf
+    m_Address: Dovemayo_gothic SDF Thick_0.05
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f44914054d8f4a0cb282bd2d63077ef
+    m_Address: Dovemayo_gothic SDF
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6a93df538defd47f999e2a59ec74f29e, type: 2}
+    - {fileID: 11400000, guid: f94181ee29a2d4f8e98777224c67e989, type: 2}

@@ -17,44 +17,110 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 722cbbcfafd794734a01627367031034
   m_SerializeEntries:
-  - m_GUID: b4725d9a47e384aea96f0326503d4b25
-    m_Address: Btn_Green_Half
+  - m_GUID: 0c5e3b7d2a56f4619a603cc9d8bc4d08
+    m_Address: Storage_Bg
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: de1b6d73b4dcb407a9e639c04f1cc1e5
-    m_Address: Btn_Gray_Half
+  - m_GUID: 0790c5096e2fd49b59929d85c17c8202
+    m_Address: Storage_Bg_Deco
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9aba9d48dc568482c94ce471e828f9d5
-    m_Address: CropGradeIcon_0
+  - m_GUID: bd81588a0dbd543ff98f67dd11e999f8
+    m_Address: Deco_Underline_02
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 40593d239238949fe83022434d3cadf8
-    m_Address: CropGradeIcon_2
+  - m_GUID: df06e629aa7214bd889fcec9c8463206
+    m_Address: Storage_Bg_Shadow
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c238d23911865467fa41776871caaa25
-    m_Address: CropGradeIcon_3
+  - m_GUID: 10576f8d00bbe4c019a9507b3e65f3ac
+    m_Address: Bg_02
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ab51a29eecf724f759a48a93f0fd2d99
-    m_Address: CropGradeIcon_1
+  - m_GUID: 25ceba32e6f4645dd931607e053ff37d
+    m_Address: Bg_20Px
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c27d8700f43dc4c5d9ab65c5d5201895
-    m_Address: Btn_Orange
+  - m_GUID: 6ee6251dc652146acb80431829a3a353
+    m_Address: Slider_Marking
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4c1d4f9d370974263a37dda7562401dc
+    m_Address: Bg_Deco
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8536b3e415a80489ba2f9e40a0ed06ac
+    m_Address: Btn_Gray
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 051925513c5c74040a111088f1cb9c2d
+    m_Address: Slider_Bg_Stroke_18Px
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8023b17fdbad1459f8379084a7671f60
+    m_Address: Icon_Egg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9b6c2292612e493491af691520e6ab9
+    m_Address: 1x1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a03017e7010164e7fb3034ff96da25d9
+    m_Address: Slider_Bg_Stroke_9Px
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: edd5daa71c3294dce92a05db4693223f
+    m_Address: Bg_Eggslot
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b6e2b555472b426981a9e64f15782cc
+    m_Address: Slider_Bg_9Px
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbd2fee95e1ce4c5cb015635bb2504d4
+    m_Address: Circle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1596d8aada87f4b40bae4e9ffd216dc3
+    m_Address: Bg_Rice
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8493332a722db4844bb9d11115949f08
+    m_Address: Icon_Farmer
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
@@ -65,16 +131,197 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0d104a5ee5ca94c39bb0286ac9f9bfb1
-    m_Address: FieldGroupUpgradePopupUI
+  - m_GUID: ab51a29eecf724f759a48a93f0fd2d99
+    m_Address: CropGradeIcon_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8493332a722db4844bb9d11115949f08
-    m_Address: DialogueSpeakerImage_0
+  - m_GUID: c238d23911865467fa41776871caaa25
+    m_Address: CropGradeIcon_3
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 40593d239238949fe83022434d3cadf8
+    m_Address: CropGradeIcon_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7630e7150977d43baa88709b96b8e349
+    m_Address: Icon_Arrow_Emoticon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42cb5031f80f94767bc4f32762634f72
+    m_Address: Bg_Title
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 00fd56ce13bb94100a6ceb5b9675809a
+    m_Address: Storage_Bg_Long
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e638bb7e380894210bfef480f984c981
+    m_Address: Deco_Point
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13d58ab4ee57642cbbbd627c513d9490
+    m_Address: Bg_Price
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f662c125a1bbe4d80adf6f90fd8f19ed
+    m_Address: Btn_TapOff
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f2bbfb1853a9a411196cd5acb63d3905
+    m_Address: Icon_Storage
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbb5ffda6a38a4611a3007d5fef14877
+    m_Address: Deco_Underline_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 783165702c1b44600841929089a3df4e
+    m_Address: Btn_Yellow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72801fc252a58466aa6417ed78747fce
+    m_Address: Storage_Bg_Short
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66ee3d5e8ffaa4ea7969e3e62db6d2db
+    m_Address: Deco_Pin
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 462885de54bc04cba9ab8cb324aad580
+    m_Address: Bg_14Px
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eddb263843e224cae9161585518f3e7d
+    m_Address: Btn_Sort
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 270738f4993a746e8801f3cdeb8c7b79
+    m_Address: Bg_List
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d531dc2d4a5b94433a045d74fac3bc0e
+    m_Address: Icon_Arrow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 436cece0f317646b79df7dcf858e45de
+    m_Address: Btn_TapOn
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a17879bb02fe74009af9dd8da3d01d7a
+    m_Address: Bg_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5583dc21051e847109e9aa7be14dd413
+    m_Address: Icon_Check
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9641749688ef4b25a745026783c81ea
+    m_Address: Bg_03
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23757f5139e874a1f8f899daa284dd8f
+    m_Address: Slider_Bg_18Px
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c14edf85423e4eb5b80c854eb07a420
+    m_Address: Btn_Close
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4c02748a6482b496c9f8a638c684c2e8
+    m_Address: Bg_Wood
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de1b6d73b4dcb407a9e639c04f1cc1e5
+    m_Address: Btn_Gray_Half
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b4725d9a47e384aea96f0326503d4b25
+    m_Address: Btn_Green_Half
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c27d8700f43dc4c5d9ab65c5d5201895
+    m_Address: Btn_Orange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc45f7fff8f384f2bbf878b5c9c3dea0
+    m_Address: Btn_Green
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d370736481d244245bcee012e1159e32
+    m_Address: Deco_Rice
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9aba9d48dc568482c94ce471e828f9d5
+    m_Address: CropGradeIcon_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30d9180aac53041389dcbffc23d2e09a
+    m_Address: Icon_Notification
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}

@@ -65,7 +65,7 @@ namespace H00N.Resources
             T resource = resourceHandle.Get<T>();
             if (resource == null)
             {
-                Debug.LogWarning($"[Resource] Resource type does not match. : {typeof(T).Name}");
+                Debug.LogWarning($"[Resource] Resource type does not match. ResourceName : {resourceName}, TypeName: {typeof(T).Name}");
                 return null;
             }
 

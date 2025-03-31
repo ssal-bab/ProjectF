@@ -1,35 +1,30 @@
+using System;
 using UnityEditor;
-using UnityEditor.AddressableAssets;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace H00N.Resources
 {
     [CustomPropertyDrawer(typeof(AddressableAsset<>))]
     public class AddressableAssetDrawer : PropertyDrawer
     {
+        private Object virtualObject;
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            var referenceProperty = property.FindPropertyRelative("reference");
+            // var referenceProperty = property.FindPropertyRelative("reference");
+            var keyProperty = property.FindPropertyRelative("key");
+            string keyValue = keyProperty.stringValue;
 
-            if (referenceProperty == null)
-            {
-                EditorGUI.EndProperty();
-                return;
-            }
-
-            // 이전 값 저장
-            Object previousValue = referenceProperty.objectReferenceValue;
-
-            // reference 필드와 변수 이름을 함께 표시
-            EditorGUI.PropertyField(position, referenceProperty, label);
-
+            Object prevValue = AddressableEditorUtils.GetAssetFromKey(keyValue);
+            Type genericType = GetGenericType(property);
+            Object currentValue = EditorGUI.ObjectField(position, label, prevValue, genericType, false);
+            
             // 값이 변경되었는지 확인
-            Object currentValue = referenceProperty.objectReferenceValue;
-            if (previousValue != currentValue)
+            if (prevValue != currentValue)
             {
-                var keyProperty = property.FindPropertyRelative("key");
                 if (currentValue == null)
                 {
                     keyProperty.stringValue = "";
@@ -39,11 +34,11 @@ namespace H00N.Resources
                     if (currentValue is Component component)
                         currentValue = component.gameObject;
 
-                    string key = GetAddressableKey(currentValue);
+                    string key = AddressableEditorUtils.GetKeyFromAsset(currentValue);
                     if (key == null)
                     {
-                        referenceProperty.objectReferenceValue = null;
-                        keyProperty.stringValue = null;
+                        Debug.LogError($"[AddressableAsset] Asset key not found. Asset name : {currentValue.name}");
+                        keyProperty.stringValue = keyValue;
                     }
                     else
                     {
@@ -59,33 +54,32 @@ namespace H00N.Resources
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUI.GetPropertyHeight(property.FindPropertyRelative("reference"), label);
+            return EditorGUIUtility.singleLineHeight;
         }
 
-        private string GetAddressableKey(Object targetObject)
+        private Type GetGenericType(SerializedProperty property)
         {
-            var settings = AddressableAssetSettingsDefaultObject.Settings;
-            if (settings == null)
-            {
-                Debug.LogError("AddressableAssetSettings not found.");
-                return null;
-            }
+            // property.serializedObject.targetObject는 인스턴스를 제공
+            // property.propertyPath를 통해 제네릭 타입을 추출
+            Type targetType = property.serializedObject.targetObject.GetType();
+            string[] pathParts = property.propertyPath.Split('.');
+            Type currentType = targetType;
 
-            foreach (var group in settings.groups)
+            foreach (var part in pathParts)
             {
-                foreach (var entry in group.entries)
+                if (part == "Array" || part.StartsWith("data["))
+                    continue; // 배열 처리 생략 (필요 시 추가)
+
+                var field = currentType.GetField(part, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (field != null)
                 {
-                    if(entry.MainAsset == null)
-                        continue;
-                    
-                    if (entry.MainAsset.name == targetObject.name)
+                    currentType = field.FieldType;
+                    if (currentType.IsGenericType && currentType.GetGenericTypeDefinition() == typeof(AddressableAsset<>))
                     {
-                        return entry.address;
+                        return currentType.GetGenericArguments()[0]; // T 타입 반환
                     }
                 }
             }
-
-            Debug.LogError($"It is not an addressable asset : {targetObject.name}");
             return null;
         }
     }

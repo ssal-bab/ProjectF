@@ -7,10 +7,6 @@ namespace H00N.Resources
     [System.Serializable]
     public class AddressableAsset<T> where T : Object
     {
-#if UNITY_EDITOR
-        [SerializeField] private T reference;
-#endif
-
         [SerializeField] private string key = null;
         public string Key => key;
 

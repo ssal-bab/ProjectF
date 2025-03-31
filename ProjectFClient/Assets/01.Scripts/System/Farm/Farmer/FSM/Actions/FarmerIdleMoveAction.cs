@@ -31,9 +31,8 @@ namespace ProjectF.Farms.AI
         }
 
         #if UNITY_EDITOR
-        [Header("Editor")]
-        public bool drawGizmos = true;
-        public bool drawSelected = false;
+        private bool drawGizmos = true;
+        private bool drawSelected = false;
         
         private void OnDrawGizmos()
         {

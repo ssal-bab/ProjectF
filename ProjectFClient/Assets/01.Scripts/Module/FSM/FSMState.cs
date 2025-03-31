@@ -17,10 +17,6 @@ namespace H00N.FSM
         private List<FSMAction> actions = null;
         private FSMTransitionGroup rootTransitionGroup = null;
 
-        #if UNITY_EDITOR
-        [SerializeField, TextArea] string description;
-        #endif
-
         public void Init(FSMBrain brain)
         {
             this.brain = brain;

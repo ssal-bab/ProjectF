@@ -108,10 +108,10 @@ namespace ProjectF.Tests
             cdt.Triangulation();
         }
 
-#if UNITY_EDITOR
         public bool a = true;
         public bool b = true;
         public bool c = true;
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (cdt == null)

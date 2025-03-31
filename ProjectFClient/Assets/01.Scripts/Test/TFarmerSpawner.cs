@@ -48,6 +48,7 @@ namespace ProjectF.Tests
 
         public void OpenCheatPopup()
         {
+            // ResourceManager.LoadResource<CheatPopupUI>("CheatPopupUI");
             CheatPopupUI cheatPopupUI = PoolManager.Spawn<CheatPopupUI>("CheatPopupUI", GameDefine.TopPopupFrame);
             cheatPopupUI.StretchRect();
             cheatPopupUI.Initialize();

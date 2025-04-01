@@ -5,6 +5,12 @@
             "name": "Attach to Unity",
             "type": "vstuc",
             "request": "attach"
+        },
+        {
+            "name": "Attach to Unity Device (H00N.MacAir)",
+            "type": "vstuc",
+            "request": "attach",
+            "endPoint": "192.168.0.8:56544"
         }
      ]
 }

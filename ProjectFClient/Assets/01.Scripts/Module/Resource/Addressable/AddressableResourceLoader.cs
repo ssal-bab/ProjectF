@@ -29,7 +29,7 @@ namespace H00N.Resources
             }
             
             ResourceHandle resourceHandle = new ResourceHandle(resourceName, requestHandle.Result);
-            Addressables.Release(requestHandle);
+            // Addressables.Release(requestHandle);
 
             return resourceHandle;
         }

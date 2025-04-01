@@ -6,9 +6,9 @@ namespace H00N.Resources.Pools
     public class PoolReference : MonoBehaviour
     {
         private List<IPoolableBehaviour> poolableBehaviours = null;
-        
-        private ResourceHandle handle = null;
-        internal ResourceHandle Handle => handle;
+
+        private string key = null;
+        public string Key => key;
         
         protected virtual void Awake()
         {
@@ -16,9 +16,9 @@ namespace H00N.Resources.Pools
             GetComponents<IPoolableBehaviour>(poolableBehaviours);
         }
 
-        internal void InitializeResource(ResourceHandle handle)
+        internal void Initialize(string key)
         {
-            this.handle = handle;
+            this.key = key;
         }
 
         public void Spawn()

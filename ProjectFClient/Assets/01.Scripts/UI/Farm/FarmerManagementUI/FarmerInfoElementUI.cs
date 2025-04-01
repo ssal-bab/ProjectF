@@ -44,14 +44,14 @@ namespace ProjectF.UI.Farms
         private Action<string, int> onFarmerRegisterSalesList = null;
         private Action<string> onFarmerUnRegisterSalesList = null;
 
-        public void Initialize(FarmerData data)
+        public async void Initialize(FarmerData data)
         {
             base.Initialize();
-            farmerInfoPopupUIPrefab.Initialize();
+            await farmerInfoPopupUIPrefab.InitializeAsync();
 
             rarityText.text = ResourceUtility.GetRarityNameLocalKey(data.rarity);
             nickNameText.text = data.nickname;
-            farmerIcon.sprite = ResourceUtility.GetFarmerIcon(data.farmerID);
+            new SetSprite(farmerIcon, ResourceUtility.GetFarmerIconKey(data.farmerID));
 
             var statTable = DataTableManager.GetTable<FarmerStatTable>();
             var tableRow = statTable.GetRow(data.farmerID);
@@ -61,12 +61,12 @@ namespace ProjectF.UI.Farms
             for(int i = 0 ; i < MINIMALIZE_STAT_COUNT; i++)
             {
                 EFarmerStatType statType = statGroup[i].statType;
-                statGroup[i].statIcon.sprite = ResourceUtility.GetFarmerStatIcon((int)statType);
+                new SetSprite(statGroup[i].statIcon, ResourceUtility.GetFarmerStatIconKey((int)statType));
                 statGroup[i].valueText.text = statDictionary[statType].ToString();
             }
             
             farmerData = data;
-            onTouchEvent += HandleActiveFarmerInfoPopupAsync;
+            onTouchEvent += HandleActiveFarmerInfoPopup;
         }
 
         public void RegisterFarmerSalesAction(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
@@ -96,13 +96,13 @@ namespace ProjectF.UI.Farms
             else
             {
                 onFarmerUnRegisterSalesList?.Invoke(farmerData.farmerUUID);
-                onTouchEvent += HandleActiveFarmerInfoPopupAsync;
+                onTouchEvent += HandleActiveFarmerInfoPopup;
             }
         }
 
-        private async void HandleActiveFarmerInfoPopupAsync()
+        private void HandleActiveFarmerInfoPopup()
         {
-            var infoUI = await PoolManager.SpawnAsync<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            var infoUI = PoolManager.Spawn<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab, GameDefine.ContentsPopupFrame);
             infoUI.Initialize(farmerData);
             infoUI.StretchRect();
         }

@@ -25,37 +25,41 @@ namespace ProjectF.Tests
         //     farmer?.Initialize(0);
         // }
 
-        public void OpenStoragePopup()
+        public async void OpenStoragePopup()
         {
+            await ResourceManager.LoadResourceAsync("StoragePopupUI");
             StoragePopupUI storagePopupUI = PoolManager.Spawn<StoragePopupUI>("StoragePopupUI", GameDefine.MainPopupFrame);
             storagePopupUI.StretchRect();
             storagePopupUI.Initialize();
         }
 
-        public void OpenNestPopup()
+        public async void OpenNestPopup()
         {
+            await ResourceManager.LoadResourceAsync("NestPopupUI");
             NestPopupUI nestPopupUI = PoolManager.Spawn<NestPopupUI>("NestPopupUI", GameDefine.MainPopupFrame);
             nestPopupUI.StretchRect();
             nestPopupUI.Initialize();
         }
 
-        public void OpenSeedPocketPopup()
+        public async void OpenSeedPocketPopup()
         {
+            await ResourceManager.LoadResourceAsync("SeedPocketPopupUI");
             SeedPocketPopupUI seedPocketPopupUI = PoolManager.Spawn<SeedPocketPopupUI>("SeedPocketPopupUI", GameDefine.MainPopupFrame);
             seedPocketPopupUI.StretchRect();
             seedPocketPopupUI.Initialize(FarmManager.Instance.MainFarm);
         }
 
-        public void OpenCheatPopup()
+        public async void OpenCheatPopup()
         {
-            // ResourceManager.LoadResource<CheatPopupUI>("CheatPopupUI");
+            await ResourceManager.LoadResourceAsync("CheatPopupUI");
             CheatPopupUI cheatPopupUI = PoolManager.Spawn<CheatPopupUI>("CheatPopupUI", GameDefine.TopPopupFrame);
             cheatPopupUI.StretchRect();
             cheatPopupUI.Initialize();
         }
 
-        public void OpenFieldGroupUpgradePopup(int fieldGroupID)
+        public async void OpenFieldGroupUpgradePopup(int fieldGroupID)
         {
+            await ResourceManager.LoadResourceAsync("FieldGroupUpgradePopupUI");
             FieldGroupUpgradePopupUI fieldGroupUpgradePopupUI = PoolManager.Spawn<FieldGroupUpgradePopupUI>("FieldGroupUpgradePopupUI", GameDefine.TopPopupFrame);
             fieldGroupUpgradePopupUI.StretchRect();
             fieldGroupUpgradePopupUI.Initialize(UpgradeFieldGroup, fieldGroupID);

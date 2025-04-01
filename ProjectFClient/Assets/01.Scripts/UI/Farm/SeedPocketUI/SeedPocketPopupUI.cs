@@ -18,11 +18,11 @@ namespace ProjectF.UI.Farms
 
         private CropQueue cropQueue = null;
 
-        public void Initialize(Farm farm)
+        public async void Initialize(Farm farm)
         {
             base.Initialize();
-            cropQueueElementUIPrefab.Initialize();
-            seedElementUIPrefab.Initialize();
+            await cropQueueElementUIPrefab.InitializeAsync();
+            await seedElementUIPrefab.InitializeAsync();
 
             cropQueue = farm.CropQueue;
             RefreshUI();

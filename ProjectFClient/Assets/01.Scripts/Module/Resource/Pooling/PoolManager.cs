@@ -30,51 +30,55 @@ namespace H00N.Resources.Pools
             initialized = false;
         }
 
+        public static GameObject Spawn(PoolReference resource, Transform parent = null)
+        {
+            PoolReference instance = SpawnInternal(GetPool(resource), parent);
+            if(instance == null)
+                return null;
+
+            return instance.gameObject;
+        }
+
+        public static GameObject Spawn(string resourceName, Transform parent = null)
+        {
+            PoolReference instance = SpawnInternal(GetPool(resourceName), parent);
+            if(instance == null)
+                return null;
+
+            return instance.gameObject;
+        }
+
+        public static T Spawn<T>(PoolReference resource, Transform parent = null) where T : Component
+        {
+            PoolReference instance = SpawnInternal(GetPool(resource), parent);
+            if(instance == null)
+                return null;
+            
+            if (instance is T)
+                return instance as T;
+
+            return instance.GetComponent<T>();
+        }
+
         public static T Spawn<T>(string resourceName, Transform parent = null) where T : Component
         {
-            PoolReference instance = SpawnInternal(resourceName, parent, false).GetAwaiter().GetResult();
-            if(instance is T)
+            PoolReference instance = SpawnInternal(GetPool(resourceName), parent);
+            if(instance == null)
+                return null;
+            
+            if (instance is T)
                 return instance as T;
 
             return instance.GetComponent<T>();
         }
 
-        public static async UniTask<T> SpawnAsync<T>(string resourceName, Transform parent = null) where T : Component
+        private static PoolReference SpawnInternal(Pool pool, Transform parent)
         {
-            PoolReference instance = await SpawnInternal(resourceName, parent, true);
-            if(instance is T)
-                return instance as T;
-
-            return instance.GetComponent<T>();
-        }
-
-        private static async UniTask<PoolReference> SpawnInternal(string resourceName, Transform parent, bool isAsync)
-        {
-            if(poolTable.TryGetValue(resourceName, out Pool pool) == false)
+            if(pool == null)
             {
-                ResourceHandle resourceHandle = isAsync ? await ResourceManager.LoadResourceHandleAsync<GameObject>(resourceName) : ResourceManager.LoadResourceHandle<GameObject>(resourceName);
-                if(resourceHandle == null)
-                {
-                    Debug.LogWarning($"[Pool] Resource not found. : {resourceName}");
-                    return null;
-                }
-
-                GameObject resource = resourceHandle.Get<GameObject>();
-                PoolReference poolReference = resource.GetComponent<PoolReference>();
-                if(poolReference == null)
-                {
-                    Debug.LogWarning($"[Pool] Current resource is not a PoolReference. : {resourceName}");
-                    return null;
-                }
-
-                poolReference.InitializeResource(resourceHandle);
-
-                pool = new Pool(poolReference);
-                poolTable.Add(resourceName, pool);
+                Debug.LogWarning($"[PoolManager::SpawnInternal] Pool not found.");
+                return null;
             }
-
-            if (isAsync)
-                await UniTask.Yield();
 
             PoolReference instance = pool.Spawn();
             if(instance == null)
@@ -85,36 +89,74 @@ namespace H00N.Resources.Pools
             return instance;
         }
 
+        private static Pool GetPool(string resourceName)
+        {
+            if(poolTable.TryGetValue(resourceName, out Pool pool))
+                return pool;
+
+            GameObject resource = ResourceManager.GetResource<GameObject>(resourceName);
+            if(resource == null)
+            {
+                Debug.LogWarning($"[PoolManager::GetPool] Spawn failed. Resource not found. : {resourceName}");
+                return null;
+            }
+
+            if(resource.TryGetComponent<PoolReference>(out PoolReference poolReference) == false)
+            {
+                Debug.LogWarning($"[PoolManager::GetPool] Spawn failed. Current resource is not a PoolReference. : {resourceName}");
+                return null;
+            }
+
+            poolReference.Initialize(resourceName);
+
+            pool = new Pool(poolReference);
+            poolTable.Add(resourceName, pool);
+            
+            return pool;
+        }
+
+        private static Pool GetPool(PoolReference resource)
+        {
+            string resourceName = resource.gameObject.name;
+            if(poolTable.TryGetValue(resourceName, out Pool pool))
+            {
+                if(pool.Resource != resource)
+                {
+                    Debug.LogWarning($"[PoolManager::GetPool] Pool already exists with different resource. : {resourceName}");
+                    return null;
+                }
+
+                return pool;
+            }
+
+            resource.Initialize(resourceName);
+
+            pool = new Pool(resource);
+            poolTable.Add(resourceName, pool);
+            
+            return pool;
+        }
+
         public static void Despawn(IPoolableBehaviour instance) => Despawn(instance.PoolReference);
-        public static void Despawn(PoolReference instance) => DespawnInternal(instance, false).GetAwaiter().GetResult();
-
-        public static UniTask DespawnAsync(IPoolableBehaviour instance) => DespawnAsync(instance.PoolReference);
-        public static async UniTask DespawnAsync(PoolReference instance) => await DespawnInternal(instance, true);
-
-        private static async UniTask DespawnInternal(PoolReference instance, bool isAsync)
+        public static void Despawn(PoolReference instance)
         {
             if(instance == null)
                 return;
 
-            if(instance.Handle == null)
+            if(instance.Key == null)
             {
                 Object.Destroy(instance.gameObject);
                 return;
             }
 
-            string resourceName = instance.Handle.ResourceName;
-            if(poolTable.TryGetValue(resourceName, out Pool pool) == false)
+            if(poolTable.TryGetValue(instance.Key, out Pool pool) == false)
             {
-                Debug.LogWarning($"[Pool] Pool not found. : {resourceName}");
+                Debug.LogWarning($"[PoolManager::Despawn] Pool not found. : {instance.Key}");
                 Object.Destroy(instance.gameObject);
                 return;
             }
 
             pool.Despawn(instance);
-
-            if(isAsync)
-                await UniTask.Yield();
-
             if(instance == null)
                 return;
 

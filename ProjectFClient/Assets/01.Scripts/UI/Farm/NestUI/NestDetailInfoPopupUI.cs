@@ -60,7 +60,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchCloseButton()
         {
-            PoolManager.DespawnAsync(gameObject.GetComponent<PoolReference>()).Forget();
+            PoolManager.Despawn(gameObject.GetComponent<PoolReference>());
         }
 
         private async void HatchEgg()

@@ -106,7 +106,7 @@ namespace ProjectF.UI.Adventure
             _lootItemScrollGroup.Active();
             _progressTimerGroup.DeActive();
 
-            _lootItemScrollGroup.lootItemIconUIPrefab.Initialize();
+            await _lootItemScrollGroup.lootItemIconUIPrefab.InitializeAsync();
 
             var req = new AdventureResultRequest(_adventureData.adventureAreaID);
             var response = await NetworkManager.Instance.SendWebRequestAsync<AdventureResultResponse>(req);
@@ -125,8 +125,8 @@ namespace ProjectF.UI.Adventure
 
             foreach (var data in response.materialLootInfo)
             {
-                var lootItemIcon = await PoolManager.SpawnAsync<AdventureLootItemIcon>(_lootItemScrollGroup.lootItemIconUIPrefab.Key, _lootItemScrollGroup.content);
-                lootItemIcon.Initialize(ResourceUtility.GetMaterialIcon(data.materialItemID), data.itemCount);
+                var lootItemIcon = PoolManager.Spawn<AdventureLootItemIcon>(_lootItemScrollGroup.lootItemIconUIPrefab, _lootItemScrollGroup.content);
+                lootItemIcon.Initialize(ResourceUtility.GetMaterialIconKey(data.materialItemID), data.itemCount);
                 lootItemIcon.StretchRect();
 
                 if (materialStorage.ContainsKey(data.materialItemID))
@@ -141,8 +141,8 @@ namespace ProjectF.UI.Adventure
 
             foreach (var data in response.seedLootInfo)
             {
-                var lootItemIcon = await PoolManager.SpawnAsync<AdventureLootItemIcon>(_lootItemScrollGroup.lootItemIconUIPrefab.Key, _lootItemScrollGroup.content);
-                lootItemIcon.Initialize(ResourceUtility.GetMaterialIcon(data.seedItemID), data.itemCount);
+                var lootItemIcon = PoolManager.Spawn<AdventureLootItemIcon>(_lootItemScrollGroup.lootItemIconUIPrefab, _lootItemScrollGroup.content);
+                lootItemIcon.Initialize(ResourceUtility.GetMaterialIconKey(data.seedItemID), data.itemCount);
                 lootItemIcon.StretchRect();
 
                 if (seedStorage.ContainsKey(data.seedItemID))
@@ -177,7 +177,7 @@ namespace ProjectF.UI.Adventure
 
             _lootItemScrollGroup.content.DespawnAllChildren();
             _isCompleteExplore = false;
-            PoolManager.DespawnAsync(this);
+            PoolManager.Despawn(this);
         }
 
         private void InitializeProgressTimer(double remainSeconds)

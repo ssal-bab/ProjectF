@@ -289,7 +289,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &7460405792487722878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,8 +725,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   fsmParams:
-  - reference: {fileID: 11400000, guid: 3fffd54a7560a49f08c8efd9c57f4983, type: 2}
-    key: TestFarmerAIData
+  - {fileID: 11400000, guid: 3fffd54a7560a49f08c8efd9c57f4983, type: 2}
   defaultState: {fileID: 5539106908786647209}
   anyState: {fileID: 3004217099311616207}
 --- !u!114 &7788120830297592507
@@ -1098,7 +1096,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &7526131875614264799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1135,8 +1132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf619e9acccce45799627f43644c4acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 1
-  drawSelected: 0
 --- !u!1 &4560555851426329988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,7 +1196,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &8978182072658774382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1275,7 +1269,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &7804418014898188392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1289,6 +1282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   liftState: {fileID: 9058461102853766911}
+  seedPrefab: {fileID: 8631039644349771730, guid: c74668a1357174d258f84fb34bdc7183, type: 3}
 --- !u!1 &4997295820878600907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,7 +1491,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &209009090561967871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1572,7 +1565,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &3932647227359541190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1765,8 +1757,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: "Deactive \uC0C1\uD0DC\uB85C \uD734\uC2DD\uC774 \uC644\uB8CC\uB420
-    \uB54C\uAE4C\uC9C0 \uAE30\uB2E4\uB9B0\uB2E4."
 --- !u!114 &8543076445625077371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2072,7 +2062,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &1470543724363314831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2205,7 +2194,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: "CurrentState\uC758 Update \uC774\uD6C4\uC5D0 Update \uB41C\uB2E4."
 --- !u!114 &2931869278313861189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2285,7 +2273,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &2862264535839346018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2374,7 +2361,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &6688436420607527562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2462,7 +2448,6 @@ MonoBehaviour:
   onStateExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  description: 
 --- !u!114 &6880587672173454900
 MonoBehaviour:
   m_ObjectHideFlags: 0

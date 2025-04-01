@@ -117,7 +117,7 @@ namespace ProjectF.UI.Farms
         public void OnTouchCloseButton()
         {
             Release();
-            PoolManager.DespawnAsync(this);
+            PoolManager.Despawn(this);
         }
 
         protected override void Release()

@@ -7,6 +7,7 @@ namespace H00N.Resources.Pools
     {
         private Queue<PoolReference> pool = new Queue<PoolReference>();
         private PoolReference resource = null;
+        public PoolReference Resource => resource;
 
         public Pool(PoolReference resource)
         {
@@ -26,13 +27,13 @@ namespace H00N.Resources.Pools
 
         public PoolReference Spawn()
         {
-            PoolReference instance = null;
+            PoolReference instance;
             if(pool.Count > 0)
                 instance = pool.Dequeue();
             else
                 instance = Object.Instantiate(resource);
             
-            instance.InitializeResource(resource.Handle);
+            instance.Initialize(resource.Key);
             instance.Spawn();
             return instance;
         }

@@ -38,15 +38,15 @@ namespace ProjectF.UI.Farms
         private void ResetUI()
         {
             iconImage.color = new Color(0, 0, 0, 0);
-            iconBackgroundImage.sprite = ResourceUtility.GetCropGradeIcon((int)ECropGrade.None);
+            new SetSprite(iconBackgroundImage, ResourceUtility.GetCropGradeIconKey((int)ECropGrade.None));
             countText.text = "";
             priceText.text = "";
         }
 
         private void RefreshUI(CropTableRow tableRow, int count)
         {
-            iconImage.sprite = ResourceUtility.GetCropIcon(tableRow.id);
-            iconBackgroundImage.sprite = ResourceUtility.GetCropGradeIcon((int)grade);
+            new SetSprite(iconImage, ResourceUtility.GetCropIconKey(tableRow.id));
+            new SetSprite(iconBackgroundImage, ResourceUtility.GetCropGradeIconKey((int)grade));
             countText.text = $"{count} {ResourceUtility.GetCropNameLocalKey(tableRow.id)}s";            
             priceText.text = (tableRow.basePrice * count).ToString();
         }

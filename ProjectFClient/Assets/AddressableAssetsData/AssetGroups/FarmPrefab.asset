@@ -16,43 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: dd4465aefa56b4a68a1ed07e4645b9e5
-  m_SerializeEntries:
-  - m_GUID: 813420fe0dbdf4ceb963362113d62b6d
-    m_Address: Crop
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bd10d336b1cb542f696ddb4ce735b2ad
-    m_Address: Egg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0102eb81489c242258d60b93426dcfaf
-    m_Address: FieldGroup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e71173b04d9154fe3a54558aba6185db
-    m_Address: Field
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3755b23da82b942e984ef523cde6f1aa
-    m_Address: Farmer
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c74668a1357174d258f84fb34bdc7183
-    m_Address: Seed
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
   m_SchemaSet:

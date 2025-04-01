@@ -23,12 +23,12 @@ namespace ProjectF.UI.Farms
         [SerializeField] GameObject upgradeCompleteButtonObject = null;
         [SerializeField] AddressableAsset<NestUpgradePopupUI> upgradePopupUIPrefab = null;
 
-        public new void Initialize()
+        public new async void Initialize()
         {
             base.Initialize();
 
             RefreshUI();
-            upgradePopupUIPrefab.Initialize();
+            await upgradePopupUIPrefab.InitializeAsync();
         }
 
         private void RefreshUI()
@@ -46,7 +46,7 @@ namespace ProjectF.UI.Farms
             upgradeButtonObject.SetActive(!getFacilityTableRow.isMaxLevel);
             upgradeCompleteButtonObject.SetActive(getFacilityTableRow.isMaxLevel);
 
-            nestIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
+            new SetSprite(nestIconImage, ResourceUtility.GetStorageIconKey(tableRow.id));
             nameText.text = $"Lv.{tableRow.level} 둥지{tableRow.level}"; // 나중에 localizing 적용해야 함
 
             eggSliderUI.RefreshUI(tableRow.eggStoreLimit, nestData.hatchingEggList.Count);
@@ -63,7 +63,7 @@ namespace ProjectF.UI.Farms
                 return;
             }
 
-            NestUpgradePopupUI upgradePopupUI = PoolManager.Spawn<NestUpgradePopupUI>(upgradePopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            NestUpgradePopupUI upgradePopupUI = PoolManager.Spawn<NestUpgradePopupUI>(upgradePopupUIPrefab, GameDefine.ContentsPopupFrame);
             upgradePopupUI.StretchRect();
             upgradePopupUI.Initialize(UpgradeNest);
         }

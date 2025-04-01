@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Built-In Farm Assets
+  m_EditorClassIdentifier: 
+  m_GroupName: Built-In Farm Assets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 22bfe9affa3974dfea10f3fcd37da8bd
+  m_SerializeEntries:
+  - m_GUID: 813420fe0dbdf4ceb963362113d62b6d
+    m_Address: Crop
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd10d336b1cb542f696ddb4ce735b2ad
+    m_Address: Egg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0102eb81489c242258d60b93426dcfaf
+    m_Address: FieldGroup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e71173b04d9154fe3a54558aba6185db
+    m_Address: Field
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3755b23da82b942e984ef523cde6f1aa
+    m_Address: Farmer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c74668a1357174d258f84fb34bdc7183
+    m_Address: Seed
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b31b038228b9d4ecc8a38a8ccf878bf9, type: 2}
+    - {fileID: 11400000, guid: fff356c5ed330426089ab6f78015feed, type: 2}

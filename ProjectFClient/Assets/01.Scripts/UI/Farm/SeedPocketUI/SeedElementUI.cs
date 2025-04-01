@@ -39,7 +39,7 @@ namespace ProjectF.UI.Farms
         {
             UserData mainUser = GameInstance.MainUser;
             ownCountText.text = mainUser.seedPocketData.seedStorage[cropID].ToNumberString();
-            iconImage.sprite = ResourceUtility.GetSeedIcon(cropID);
+            new SetSprite(iconImage, ResourceUtility.GetSeedIconKey(cropID));
         }
 
         public void OnTouchAddButton()

@@ -37,7 +37,7 @@ namespace ProjectF.Farms
         private void UpdateVisual(int level)
         {
             FieldGroupTableRow tableRow = DataTableManager.GetTable<FieldGroupTable>().GetRowByLevel(level);
-            spriteRenderer.sprite = ResourceUtility.GetFieldGroupIcon(tableRow.id);
+            new SetSprite(spriteRenderer, ResourceUtility.GetFieldGroupIconKey(tableRow.id));
         }
     }
 }

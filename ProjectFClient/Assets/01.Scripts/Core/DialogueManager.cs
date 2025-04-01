@@ -5,6 +5,7 @@ using ProjectF.UI.Quests;
 using UnityEngine;
 using System;
 using ProjectF.Dialogues;
+using H00N.Resources;
 
 namespace ProjectF
 {
@@ -23,8 +24,9 @@ namespace ProjectF
             StartDialogue(speakerType, DialogueParse(dialogueTexts), onEndAction);
         }
 
-        public void StartDialogue(ESpeakerType speakerType, List<string> dialogueTexts, Action onEndAction)
+        public async void StartDialogue(ESpeakerType speakerType, List<string> dialogueTexts, Action onEndAction)
         {
+            await ResourceManager.LoadResourceAsync("DialoguePopupUI");
             DialoguePopupUI dialogueUI = PoolManager.Spawn<DialoguePopupUI>("DialoguePopupUI", GameDefine.MainPopupFrame);
             dialogueUI.StretchRect();
             dialogueUI.Initialize();

@@ -85,7 +85,7 @@ namespace ProjectF.UI.Quests
         {
             //speakerNameText.SetText(ResourceUtility.GetDialogueSpeakerNameLocakKey(speakerType));
             speakerNameText.SetText(speakerType.ToString());
-            speakerImage.sprite = ResourceUtility.GetDialogueSpeakerImage((int)speakerType);
+            new SetSprite(speakerImage, ResourceUtility.GetDialogueSpeakerImageKey((int)speakerType));
             speakerImage.SetNativeSize();
             float ratio = GameDefine.DialogueSpeakerImageSizeWidth / speakerImage.rectTransform.sizeDelta.x;
             speakerImage.rectTransform.sizeDelta = new Vector2(
@@ -99,7 +99,7 @@ namespace ProjectF.UI.Quests
             additiveEndDialogueAction = null;
 
             Release();
-            PoolManager.DespawnAsync(this);
+            PoolManager.Despawn(this);
         }
 
         protected override void Release()

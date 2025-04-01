@@ -26,7 +26,7 @@ namespace ProjectF.UI.Farms
 
         private void RefreshUI()
         {
-            iconImage.sprite = ResourceUtility.GetSeedIcon(cropQueueSlot.cropID);
+            new SetSprite(iconImage, ResourceUtility.GetSeedIconKey(cropQueueSlot.cropID));
             UpdateUI();
         }
 

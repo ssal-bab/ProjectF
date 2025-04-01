@@ -32,7 +32,7 @@ namespace ProjectF.UI.Adventure
         public void Initialize(FarmerData data, Action<string> registerExploreFarmer, Action<string> unRegisterExploreFarmer, 
                                AddressableAsset<ExploreFarmerInfoPopupUI> popupUI)
         {
-            _farmerProfile.sprite = ResourceUtility.GetFarmerIcon(data.farmerID);
+            new SetSprite(_farmerProfile, ResourceUtility.GetFarmerIconKey(data.farmerID));
             _farmerNameText.text = data.nickname;
 
             var statTable = DataTableManager.GetTable<FarmerStatTable>();
@@ -43,7 +43,7 @@ namespace ProjectF.UI.Adventure
             foreach(var group in _statGroupArr)
             {
                 EFarmerStatType type = group.statType;
-                group.statIcon.sprite = ResourceUtility.GetFarmerStatIcon((int)type);
+                new SetSprite(group.statIcon, ResourceUtility.GetFarmerStatIconKey((int)type));
                 group.valueText.text = statDictionary[type].ToString();
             }
 
@@ -62,9 +62,9 @@ namespace ProjectF.UI.Adventure
             _exploreFarmerInfoPopupUIPrefab = popupUI;
         }
 
-        public async void OnTouchFarmerInfoButton()
+        public void OnTouchFarmerInfoButton()
         {
-            var popup = await PoolManager.SpawnAsync<ExploreFarmerInfoPopupUI>(_exploreFarmerInfoPopupUIPrefab.Key, GameDefine.MainPopupFrame);
+            var popup = PoolManager.Spawn<ExploreFarmerInfoPopupUI>(_exploreFarmerInfoPopupUIPrefab, GameDefine.MainPopupFrame);
             popup.Initialize(_farmerData, _onRegisterExploreFarmer);
             popup.StretchRect();
         }

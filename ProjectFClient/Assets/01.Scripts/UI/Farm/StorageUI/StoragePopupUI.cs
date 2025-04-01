@@ -44,7 +44,7 @@ namespace ProjectF.UI.Farms
         public void OnTouchCloseButton()
         {
             Release();
-            PoolManager.DespawnAsync(this);
+            PoolManager.Despawn(this);
         }
 
         private void SetView(EStorageViewType viewType)

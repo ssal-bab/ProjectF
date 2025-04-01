@@ -24,7 +24,7 @@ namespace ProjectF.SubCharacters
             subCharacters = new();
             foreach(ESubCharacterType type in Enum.GetValues(typeof(ESubCharacterType)))
             {
-                SubCharacter subChar = new SubCharacter(ResourceManager.LoadResource<SubCharacterSO>($"SubCharacterData_{type}"));
+                SubCharacter subChar = new SubCharacter(ResourceManager.GetResource<SubCharacterSO>($"SubCharacterData_{type}"));
                 subCharacters.Add(type, subChar);
             }
         }

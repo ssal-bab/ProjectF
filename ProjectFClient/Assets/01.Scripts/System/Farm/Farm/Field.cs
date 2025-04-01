@@ -1,5 +1,5 @@
 using System;
-using DocumentFormat.OpenXml.Office2010.Excel;
+using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
 using ProjectF.Networks;
@@ -11,6 +11,8 @@ namespace ProjectF.Farms
 {
     public class Field : FarmerTargetableBehaviour
     {
+        [SerializeField] PoolReference cropPrefab = null;
+
         public event Action<EFieldState> OnStateChangedEvent = null;
         public event Action<int> OnGrowUpEvent = null;
 
@@ -40,7 +42,7 @@ namespace ProjectF.Farms
             return FieldState != EFieldState.Growing;
         }
 
-        public void Initialize(int fieldGroupID, FieldData fieldData)
+        public async void Initialize(int fieldGroupID, FieldData fieldData)
         {
             this.fieldGroupID = fieldGroupID;
             fieldID = fieldData.fieldID;
@@ -50,7 +52,7 @@ namespace ProjectF.Farms
             // 이미 심어져 있는 식물이 있는 경우 (작물 정보, 성장 상태)를 복원한다
             if(fieldData.currentCropID != -1)
             {
-                currentCropData = ResourceUtility.GetCropData(fieldData.currentCropID);
+                currentCropData = await ResourceManager.LoadResourceAsync<CropSO>(ResourceUtility.GetCropSOKey(fieldData.currentCropID));
                 Growth = fieldData.currentGrowth;
                 OnGrowUpEvent?.Invoke(Growth / currentCropData.TableRow.growthStep);
             }
@@ -72,7 +74,7 @@ namespace ProjectF.Farms
             if (response.result != ENetworkResult.Success)
                 return;
 
-            currentCropData = ResourceUtility.GetCropData(response.cropID);
+            currentCropData = await ResourceManager.LoadResourceAsync<CropSO>(ResourceUtility.GetCropSOKey(response.cropID));
             Growth = -1;
 
             ChangeState(EFieldState.Dried);
@@ -114,7 +116,7 @@ namespace ProjectF.Farms
             Vector3 randomOffset = Random.insideUnitCircle * 3f;
             Vector3 itemPosition = TargetPosition + randomOffset;
 
-            Crop crop = PoolManager.Spawn<Crop>("Crop");
+            Crop crop = PoolManager.Spawn<Crop>(cropPrefab);
             crop.transform.position = itemPosition;
             crop.Initialize(productCropID, cropGrade, cropCount);
         }

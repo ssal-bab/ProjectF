@@ -22,7 +22,7 @@ namespace ProjectF.Farms
         private void UpdateVisual(int level)
         {
             StorageTableRow tableRow = DataTableManager.GetTable<StorageTable>().GetRowByLevel(level);
-            spriteRenderer.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
+            new SetSprite(spriteRenderer, ResourceUtility.GetStorageIconKey(tableRow.id));
         }
 
         public bool ConsumeCrop(int id, ECropGrade grade, int amount)

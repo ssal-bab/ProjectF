@@ -7,9 +7,6 @@ namespace H00N.Resources
 {
     public class AddressableResourceLoader : IResourceLoader
     {
-        public ResourceHandle LoadResource<T>(string resourceName) where T : Object
-            => LoadResourceInternal<T>(resourceName, false).GetAwaiter().GetResult();
-
         public async UniTask<ResourceHandle> LoadResourceAsync<T>(string resourceName) where T : Object
             => await LoadResourceInternal<T>(resourceName, true);
 

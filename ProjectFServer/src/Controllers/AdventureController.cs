@@ -38,5 +38,13 @@ namespace ProjectF.Networks.Controllers
             await processor.ProcessAsync();
             return processor.Response;
         }
+
+        [HttpPost(ReceiveAdventureResultRequest.POST)]
+        public async Task<ActionResult<ReceiveAdventureResultResponse>> ReceiveAdventureResultRequestPost([FromBody]ReceiveAdventureResultRequest req)
+        {
+            var processor = new ReceiveAdventureResultProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
     }
 }

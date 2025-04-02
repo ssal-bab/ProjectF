@@ -8,7 +8,7 @@ namespace ProjectF.UI.Adventure
 {
     public class AdventureLootItemIcon : PoolableBehaviourUI
     {
-        [SerializeField] private Image _itemIcon;
+        [SerializeField] private Image _itemIcon; 
         [SerializeField] private TextMeshProUGUI _countText;
 
         public void Initialize(string iconResourceKey, int count)

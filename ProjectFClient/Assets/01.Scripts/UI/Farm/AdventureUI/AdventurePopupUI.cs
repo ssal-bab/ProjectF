@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using H00N.DataTables;
+using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
@@ -118,6 +119,7 @@ namespace ProjectF.UI.Adventure
         public void OnTouchCloseButton()
         {
             base.Release();
+            _farmerListContent.DespawnAllChildren();
             PoolManager.DespawnAsync(this);
         }
     }

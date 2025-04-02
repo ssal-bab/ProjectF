@@ -1,25 +1,24 @@
-using System.Collections.Generic;
+using ProjectF.Datas;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
-using ProjectF.Datas;
 
 namespace ProjectFServer.Networks.Packets
 {
-    public class AdventureResultRequest : RequestPacket
+    public class ReceiveAdventureResultRequest : RequestPacket
     {
         public override string Route => NetworkDefine.ADVENTURE_ROUTE;
 
-        public const string POST = "AdventureResult";
+        public const string POST = "ReceiveAdventureResult";
         public override string Post => POST;
 
         public int areaID = 0;
-        public AdventureResultRequest(int areaID)
+        public ReceiveAdventureResultRequest(int areaID)
         {
             this.areaID = areaID;
         }
     }
 
-    public class AdventureResultResponse : ResponsePacket
+    public class ReceiveAdventureResultResponse : ResponsePacket
     {
         public AdventureResultPack resultPack;
     }

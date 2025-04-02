@@ -38,7 +38,7 @@ namespace ProjectF.UI.Adventure
             var isCompleteExplore = response.isCompleteExplore;
             
             _progressText.text = ResourceUtility.GetAdventureProgressStateKey(isCompleteExplore);
-            _areaVisual.sprite = ResourceUtility.GetAdventureAreaImage(adventureData.adventureAreaID);
+            //_areaVisual.sprite = ResourceUtility.GetAdventureAreaImageKey(adventureData.adventureAreaID);
             _areaNameText.text = ResourceUtility.GetAdventureAreaName(adventureData.adventureAreaID);
 
             if (isCompleteExplore)
@@ -62,7 +62,7 @@ namespace ProjectF.UI.Adventure
             base.Release();
             
             _lootItemScrollGroup.Release();
-            PoolManager.DespawnAsync(this);
+            PoolManager.Despawn(this);
         }
     }
 }

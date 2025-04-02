@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a44f11bc7ee3c429c9a12f45e68eadc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseURL: http://seh00n.iptime.org:5192
+  baseURL: https://localhost:5192
   ongoingSceneName: FarmWorkspace
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

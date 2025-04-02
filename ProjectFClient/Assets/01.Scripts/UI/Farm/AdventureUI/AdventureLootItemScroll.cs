@@ -20,7 +20,7 @@ namespace ProjectF.UI.Adventure
         public async void Initialize(AdventureData adventureData)
         {
             this.adventureData = adventureData;
-            lootItemIconUIPrefab.Initialize();
+            await lootItemIconUIPrefab.InitializeAsync();
 
             var req = new AdventureResultRequest(adventureData.adventureAreaID);
             var response = await NetworkManager.Instance.SendWebRequestAsync<AdventureResultResponse>(req);
@@ -33,15 +33,15 @@ namespace ProjectF.UI.Adventure
 
             foreach (var data in response.resultPack.materialLootInfo)
             {
-                var lootItemIcon = await PoolManager.SpawnAsync<AdventureLootItemIcon>(lootItemIconUIPrefab.Key, content);
-                lootItemIcon.Initialize(ResourceUtility.GetMaterialIcon(data.rewardItemID), data.rewardItemAmount);
+                var lootItemIcon = PoolManager.Spawn(lootItemIconUIPrefab, content);
+                lootItemIcon.Initialize(ResourceUtility.GetMaterialIconKey(data.rewardItemID), data.rewardItemAmount);
                 lootItemIcon.StretchRect();
             }
 
             foreach (var data in response.resultPack.seedLootInfo)
             {
-                var lootItemIcon = await PoolManager.SpawnAsync<AdventureLootItemIcon>(lootItemIconUIPrefab.Key, content);
-                lootItemIcon.Initialize(ResourceUtility.GetMaterialIcon(data.rewardItemID), data.rewardItemAmount);
+                var lootItemIcon = PoolManager.Spawn(lootItemIconUIPrefab, content);
+                lootItemIcon.Initialize(ResourceUtility.GetMaterialIconKey(data.rewardItemID), data.rewardItemAmount);
                 lootItemIcon.StretchRect();
             }
         }

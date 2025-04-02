@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using H00N.DataTables;
+using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
@@ -33,7 +34,7 @@ namespace ProjectF.UI.Adventure
             var adventureTable = DataTableManager.GetTable<AdventureTable>();
             var adventureRow = adventureTable.GetRow(data.adventureAreaID);
 
-            new SetSprite(_areaVisual, ResourceUtility.GetAdventureAreaImageKey(data.adventureAreaID));
+            _areaVisual.sprite = ResourceUtility.GetAdventureAreaImage(data.adventureAreaID);
             _areaNameText.text = adventureRow.nameLocalKey;
 
             RegisterLootItemIcon();
@@ -46,28 +47,28 @@ namespace ProjectF.UI.Adventure
             var lootRow = lootTable.GetRow(_adventureData.adventureAreaID);
 
             #region RegisterVisual
-            new SetSprite(_lootItemVisualArr[0], ResourceUtility.GetMaterialIconKey(lootRow.item1));
-            new SetSprite(_lootItemVisualArr[1], ResourceUtility.GetMaterialIconKey(lootRow.item2));
-            new SetSprite(_lootItemVisualArr[2], ResourceUtility.GetMaterialIconKey(lootRow.item3));
-            new SetSprite(_lootItemVisualArr[3], ResourceUtility.GetMaterialIconKey(lootRow.item4));
+            _lootItemVisualArr[0].sprite = ResourceUtility.GetMaterialIcon(lootRow.item1);
+            _lootItemVisualArr[1].sprite = ResourceUtility.GetMaterialIcon(lootRow.item2);
+            _lootItemVisualArr[2].sprite = ResourceUtility.GetMaterialIcon(lootRow.item3);
+            _lootItemVisualArr[3].sprite = ResourceUtility.GetMaterialIcon(lootRow.item4);
 
-            new SetSprite(_lootItemVisualArr[4], ResourceUtility.GetSeedIconKey(lootRow.seed1));
-            new SetSprite(_lootItemVisualArr[5], ResourceUtility.GetSeedIconKey(lootRow.seed2));
-            new SetSprite(_lootItemVisualArr[6], ResourceUtility.GetSeedIconKey(lootRow.seed3));
+            _lootItemVisualArr[4].sprite = ResourceUtility.GetSeedIcon(lootRow.seed1);
+            _lootItemVisualArr[5].sprite = ResourceUtility.GetSeedIcon(lootRow.seed2);
+            _lootItemVisualArr[6].sprite = ResourceUtility.GetSeedIcon(lootRow.seed3);
             #endregion
         }
 
         private async void SpawnExploreFarmerElement()
         {
-            await _farmerElementUIPrefab.InitializeAsync();
-            await _farmerPopupUIPrefab.InitializeAsync();
+            _farmerElementUIPrefab.Initialize();
+            _farmerPopupUIPrefab.Initialize();
 
             // 탐험 중이면 선택 못하게 해야함. 그건 Element 내부에서 처리
             var farmerData = GameInstance.MainUser.farmerData;
             Debug.Log(farmerData.farmerList.Values.Count);
             foreach (var data in farmerData.farmerList.Values)
             {
-                var element = PoolManager.Spawn<ExploreFarmerInfoElementUI>(_farmerElementUIPrefab, _farmerListContent);
+                var element = await PoolManager.SpawnAsync<ExploreFarmerInfoElementUI>(_farmerElementUIPrefab.Key, _farmerListContent);
                 element.Initialize(data, RegisterExploreFarmer, UnRegisterExploreFarmer, _farmerPopupUIPrefab);
                 element.StretchRect();
                 element.RectTransform.sizeDelta = new Vector2(0, 120);
@@ -118,7 +119,8 @@ namespace ProjectF.UI.Adventure
         public void OnTouchCloseButton()
         {
             base.Release();
-            PoolManager.Despawn(this);
+            _farmerListContent.DespawnAllChildren();
+            PoolManager.DespawnAsync(this);
         }
     }
 }

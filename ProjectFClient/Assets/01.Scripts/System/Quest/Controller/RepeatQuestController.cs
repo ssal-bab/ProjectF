@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using H00N.DataTables;
 using ProjectF.Datas;
 using ProjectF.DataTables;
@@ -34,15 +35,21 @@ namespace ProjectF
                         tableRow = DataTableManager.GetTable<AdventureRepeatQuestTable>().GetRow(pair.Value.questID);
                         break;
                 }
-                repeatQuestDatas.Add(pair.Key, new RepeatQuest(tableRow, pair.Key));
 
-                MakeQuest(repeatQuestDatas[pair.Key], !repeatQuestData.repeatQuestDatas[pair.Key].started, true);
+                MakeQuest(pair.Key, tableRow, pair.Value);
             }
         }
 
         public override void Release()
         {
             repeatQuestDatas.Clear();
+        }
+
+        public RepeatQuest MakeQuest(ERepeatQuestType questType, RepeatQuestTableRow tableRow, RepeatQuestData questData)
+        {
+            repeatQuestDatas.Add(questType, new RepeatQuest(tableRow, questData, questType));
+
+            return repeatQuestDatas[questType];
         }
     }
 }

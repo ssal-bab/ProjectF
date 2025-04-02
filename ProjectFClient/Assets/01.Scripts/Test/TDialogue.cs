@@ -17,38 +17,38 @@ namespace ProjectF
         }
 
         // Update is called once per frame
-        void Update()
-        {
-            if(Input.touchCount == 1) {
-            Touch touch = Input.GetTouch(0);
+    //     void Update()
+    //     {
+    //         if(Input.touchCount == 1) {
+    //         Touch touch = Input.GetTouch(0);
 
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    if(Time.time - lastTouchTime < 0.5f) // 더블터치 판정
-                    {
-                        UserActionObserver.Invoke(EActionType.OwnCrop);
-                        UserActionObserver.Invoke(EActionType.PlantSeed);
-                        UserActionObserver.Invoke(EActionType.HarvestCrop);
-                    }
+    //         switch (touch.phase)
+    //         {
+    //             case TouchPhase.Began:
+    //                 if(Time.time - lastTouchTime < 0.5f) // 더블터치 판정
+    //                 {
+    //                     UserActionObserver.Invoke(EActionType.OwnCrop);
+    //                     UserActionObserver.Invoke(EActionType.PlantSeed);
+    //                     UserActionObserver.Invoke(EActionType.HarvestCrop);
+    //                 }
                         
-                    break;
+    //                 break;
 
-                case TouchPhase.Moved:
-                    break;
+    //             case TouchPhase.Moved:
+    //                 break;
 
-                case TouchPhase.Ended:
-                    lastTouchTime = Time.time;
-                    break;
-            }
-            }
+    //             case TouchPhase.Ended:
+    //                 lastTouchTime = Time.time;
+    //                 break;
+    //         }
+    //         }
 
-        if(Input.GetKeyDown(KeyCode.A))
-            {
-                UserActionObserver.Invoke(EActionType.OwnCrop);
-                UserActionObserver.Invoke(EActionType.PlantSeed);
-                UserActionObserver.Invoke(EActionType.HarvestCrop);
-            }
-    }
+    //     if(Input.GetKeyDown(KeyCode.A))
+    //         {
+    //             UserActionObserver.Invoke(EActionType.OwnCrop);
+    //             UserActionObserver.Invoke(EActionType.PlantSeed);
+    //             UserActionObserver.Invoke(EActionType.HarvestCrop);
+    //         }
+    // }
 }
 }

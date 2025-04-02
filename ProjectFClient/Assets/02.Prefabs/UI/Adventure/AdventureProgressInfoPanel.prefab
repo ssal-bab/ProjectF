@@ -32,11 +32,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5026405794736766212}
-  m_Father: {fileID: 1219139219997145326}
+  m_Father: {fileID: 4113931930085801778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -433}
+  m_AnchoredPosition: {x: 0, y: -171}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2285615103609350334
@@ -121,6 +121,59 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1049447432397958567
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4113931930085801778}
+  - component: {fileID: 3393557092873827111}
+  m_Layer: 5
+  m_Name: ProgressTimerGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4113931930085801778
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049447432397958567}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3737961479912282539}
+  - {fileID: 7183467197883923123}
+  m_Father: {fileID: 9176104904037173209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3393557092873827111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049447432397958567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b8899ec95f2074fb8182f653e3cf56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressTimer: {fileID: 8220679501669636911}
+  adventureCancleButton: {fileID: 921364040352325220}
+  timerText: {fileID: 2588352144296320030}
 --- !u!1 &1185224634556942561
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,11 +206,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2967592051877645493}
-  m_Father: {fileID: 1219139219997145326}
+  m_Father: {fileID: 1394024816530352321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -433}
+  m_AnchoredPosition: {x: 0, y: -171}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &804925301226349263
@@ -242,8 +295,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8462949672377582208}
-        m_TargetAssemblyTypeName: ProjectF.UI.Adventure.AdventureProgressInfoPanel,
+      - m_Target: {fileID: 2353340951357185535}
+        m_TargetAssemblyTypeName: ProjectF.UI.Adventure.AdventureLootItemScroll,
           ProjectF-Assembly
         m_MethodName: OnTouchRecieveButton
         m_Mode: 1
@@ -389,6 +442,61 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2157677484119126638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1394024816530352321}
+  - component: {fileID: 2353340951357185535}
+  m_Layer: 5
+  m_Name: LootItemScrollGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1394024816530352321
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157677484119126638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2434096644492400686}
+  - {fileID: 8592378269700142998}
+  m_Father: {fileID: 9176104904037173209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2353340951357185535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157677484119126638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2896301c76a562b43be894a5833db33d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootItemScroll: {fileID: 8382868092395860295}
+  recieveButton: {fileID: 1185224634556942561}
+  content: {fileID: 2840668971343521884}
+  lootItemIconUIPrefab:
+    key: AdventureLootItemIconUI
 --- !u!1 &2347274173370550231
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +562,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '06 : 59 : 04'
+  m_text: Loading..
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3f44914054d8f4a0cb282bd2d63077ef, type: 2}
   m_sharedMaterial: {fileID: -5530600204233613474, guid: 3f44914054d8f4a0cb282bd2d63077ef, type: 2}
@@ -976,8 +1084,6 @@ RectTransform:
   - {fileID: 1370763760841399339}
   - {fileID: 1295842326602223967}
   - {fileID: 9176104904037173209}
-  - {fileID: 8592378269700142998}
-  - {fileID: 7183467197883923123}
   - {fileID: 3509939742422049482}
   m_Father: {fileID: 7952749466063792621}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1438,7 +1544,7 @@ MonoBehaviour:
       - m_Target: {fileID: 8462949672377582208}
         m_TargetAssemblyTypeName: ProjectF.UI.Adventure.AdventureProgressInfoPanel,
           ProjectF-Assembly
-        m_MethodName: OnTouchRecieveButton
+        m_MethodName: OnTouchCloseButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1476,8 +1582,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2434096644492400686}
-  - {fileID: 3737961479912282539}
+  - {fileID: 1394024816530352321}
+  - {fileID: 4113931930085801778}
   m_Father: {fileID: 1219139219997145326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1615,17 +1721,8 @@ MonoBehaviour:
   _progressText: {fileID: 7995349898547353746}
   _areaVisual: {fileID: 4424737421361629091}
   _areaNameText: {fileID: 2376689458575725701}
-  _lootItemScrollGroup:
-    lootItemScroll: {fileID: 8382868092395860295}
-    recieveButton: {fileID: 1185224634556942561}
-    content: {fileID: 2840668971343521884}
-    lootItemIconUIPrefab:
-      reference: {fileID: 1058732789744467849, guid: 402689fbbe958d84990fef1afe27c11e, type: 3}
-      key: AdventureLootItemIconUI
-  _progressTimerGroup:
-    progressTimer: {fileID: 8220679501669636911}
-    adventureCancleButton: {fileID: 921364040352325220}
-    timerText: {fileID: 2588352144296320030}
+  _lootItemScrollGroup: {fileID: 2353340951357185535}
+  _progressTimerGroup: {fileID: 3393557092873827111}
 --- !u!114 &7958477490682497726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1738,13 +1835,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8220679501669636911}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9012896888611172661}
-  m_Father: {fileID: 9176104904037173209}
+  m_Father: {fileID: 4113931930085801778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1890,13 +1987,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8382868092395860295}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6927062820489290606}
-  m_Father: {fileID: 9176104904037173209}
+  m_Father: {fileID: 1394024816530352321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ProjectF.Datas;
 using ProjectF.Dialogues;
@@ -12,7 +13,6 @@ namespace ProjectF
         private static void InitializeLocalizedStringKeyUtility()
         {
             LocalizedStringKeyCache = new Dictionary<string, Dictionary<int, string>>();
-
         }
 
         public static string GetCropNameLocalKey(int id) => GetLocalKey("CropName", id);
@@ -22,8 +22,9 @@ namespace ProjectF
         public static string GetQusetDescriptionLocalKey(EActionType type) => GetLocalKey("QuestType", (int)type);
         public static string GetStatDescriptionLocakKey(EFarmerStatType type) => GetLocalKey("StatType", (int)type);
         public static string GetDialogueSpeakerNameLocakKey(ESpeakerType speakerType) => GetLocalKey("SpeakerName", (int)speakerType);
-
         public static string GetDialogueLocakKey(string situation, ESpeakerType speakerType) => GetLocalKey(situation, speakerType);
+        public static string GetAdventureProgressStateKey(bool value) => GetLocalKey("AdventureProgress", Convert.ToInt16(value));
+        public static string GetAdventureAreaName(int id) => GetLocalKey("AdventureAreaName", Convert.ToInt16(id));
 
         private static string GetLocalKey(string prefix, int id)
         {

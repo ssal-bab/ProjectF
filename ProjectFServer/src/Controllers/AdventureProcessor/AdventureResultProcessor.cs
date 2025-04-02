@@ -106,6 +106,11 @@ namespace ProjectF.Networks.Controllers
                     }
 
                     userData.adventureData.inExploreFarmerList.Remove(request.areaID);
+
+                    new UpdateRepeatQuestProgress(userData, ERepeatQuestType.Adventure, EActionType.AdventureComplete, 1);
+                    new UpdateRepeatQuestProgress(userData, ERepeatQuestType.Adventure, EActionType.TargetAdventureComplete, 1, request.areaID);
+
+                    await userDataInfo.WriteAsync();
                 }
             }
 

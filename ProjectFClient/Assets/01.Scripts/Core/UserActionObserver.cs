@@ -20,25 +20,31 @@ namespace ProjectF
 
         public static void RegistObserver(EActionType actionType, Action action)
         {
-            OnUserAction.Add(actionType, action);
+            if(!OnUserAction.ContainsKey(actionType))
+                OnUserAction[actionType] = null;
+
+            OnUserAction[actionType] += action;
         }
 
         public static void UnregistObserver(EActionType actionType, Action action)
         {
+            if(!OnUserAction.ContainsKey(actionType))
+                return;
+
             OnUserAction[actionType] -= action;
         }
 
         public static void RegistTargetObserver(EActionType actionType, int targetID, Action action)
         {
-            if(OnUserTargetAction[actionType] == null)
-                OnUserTargetAction[actionType] = new();
+            if(!OnUserTargetAction.ContainsKey(actionType))
+                OnUserTargetAction.Add(actionType, new());
 
             OnUserTargetAction[actionType].Add(targetID, action);
         }
 
         public static void UnregistTargetObserver(EActionType actionType, int targetID, Action action)
         {
-            if(OnUserTargetAction[actionType] == null)
+            if(!OnUserTargetAction.ContainsKey(actionType))
                 return;
 
             OnUserTargetAction[actionType][targetID] -= action;
@@ -46,11 +52,19 @@ namespace ProjectF
 
         public static void Invoke(EActionType actionType)
         {
+            if(!OnUserAction.ContainsKey(actionType))
+                return;
+
             OnUserAction[actionType]?.Invoke();
         }
 
         public static void TargetInvoke(EActionType actionType, int targetID)
         {
+            if(!OnUserTargetAction.ContainsKey(actionType))
+                return;
+            if(OnUserTargetAction[actionType].ContainsKey(targetID))
+                return;
+
             OnUserTargetAction[actionType][targetID]?.Invoke();
         }
 

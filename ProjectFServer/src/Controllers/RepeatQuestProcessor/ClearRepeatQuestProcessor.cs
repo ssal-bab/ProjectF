@@ -27,7 +27,7 @@ namespace ProjectF.Networks.Controllers
             RepeatQuestTableRow repeatQuestTableRow = new GetRepeatQuestTableRow(request.repeatQuestType, repeatQuestData.questID).tableRow;
             if(repeatQuestTableRow == null)
                 return ErrorPacket(ENetworkResult.DataNotFound);
-            repeatQuestData.currentProgress = 100;
+            
             if(repeatQuestData.currentProgress < new CalculateRepeatQuestTargetValue(repeatQuestTableRow, repeatQuestData.repeatCount).targetValue)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 

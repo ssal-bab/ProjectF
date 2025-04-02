@@ -64,7 +64,7 @@ namespace ProjectF.UI.Adventure
 
         public void OnTouchFarmerInfoButton()
         {
-            var popup = PoolManager.Spawn<ExploreFarmerInfoPopupUI>(_exploreFarmerInfoPopupUIPrefab, GameDefine.MainPopupFrame);
+            var popup = PoolManager.Spawn(_exploreFarmerInfoPopupUIPrefab, GameDefine.MainPopupFrame);
             popup.Initialize(_farmerData, _onRegisterExploreFarmer);
             popup.StretchRect();
         }

@@ -2929,7 +2929,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   farmerListPopupUIPrefab:
-    reference: {fileID: 1584100801661564534, guid: 318a916b86f7d144ba82eb5fb5adfa9f, type: 3}
     key: FarmerListPopupUI
 --- !u!4 &442596689
 Transform:
@@ -4338,11 +4337,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb9233bf0f9eb14b845c5f37a9405ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adpopup:
-    reference: {fileID: 6192694397450024789, guid: 89bebedc43c66a54c9de1e2528e72ab5, type: 3}
+  adventurePopupUI:
     key: AdventurePopupUI
-  adprogresspanel:
-    reference: {fileID: 8462949672377582208, guid: 3f73544670d8dff49bfce8844017af68, type: 3}
+  adventureProgressPopupUI:
     key: AdventureProgressInfoPanel
 --- !u!4 &1120376111
 Transform:
@@ -5822,7 +5819,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   farmerPrefab:
-    reference: {fileID: 1108552843209832873, guid: 3755b23da82b942e984ef523cde6f1aa, type: 3}
     key: Farmer
 --- !u!114 &1696150776
 MonoBehaviour:
@@ -6114,8 +6110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7754bbeb39640e8a9c7182b0067198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 1
-  drawSelected: 0
   spriteRenderer: {fileID: 1630834093}
   entranceTransform: {fileID: 31239951}
 --- !u!114 &1763031320
@@ -6130,11 +6124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b21dad88cc724a59a5d76e45b958ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 1
-  drawSelected: 0
   entranceTransform: {fileID: 31239951}
   farmerPrefab:
-    reference: {fileID: 1108552843209832873, guid: 3755b23da82b942e984ef523cde6f1aa, type: 3}
     key: Farmer
 --- !u!1 &1774988274
 GameObject:

@@ -15,7 +15,7 @@ namespace ProjectF.UI.Adventure
     {
         [SerializeField] private AddressableAsset<AdventurePopupUI> adventurePopupUI;
         [SerializeField] private AddressableAsset<AdventureProgressInfoPanel> adventureProgressPopupUI;
-        public async Task OpenUI()
+        public async void OpenUI()
         {
             await adventurePopupUI.InitializeAsync();
             await adventureProgressPopupUI.InitializeAsync();

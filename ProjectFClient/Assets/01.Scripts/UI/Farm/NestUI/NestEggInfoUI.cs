@@ -26,10 +26,10 @@ namespace ProjectF.UI.Farms
 
         private const float UPDATE_DELAY_SECONDS = 0.01f;
 
-        public void Initialize(EggHatchingData eggHatchingData)
+        public async void Initialize(EggHatchingData eggHatchingData)
         {
             base.Initialize();
-            emptyImage.Initialize();
+            await emptyImage.InitializeAsync();
             StopAllCoroutines();
 
             if (eggHatchingData == null)
@@ -45,7 +45,7 @@ namespace ProjectF.UI.Farms
                 return;
             }
 
-            eggIconImage.sprite = ResourceUtility.GetEggIcon(tableRow.id);
+            new SetSprite(eggIconImage, ResourceUtility.GetEggIconKey(tableRow.id));
 
             TimeSpan elapsedTimeSpan = GameInstance.ServerTime - eggHatchingData.hatchingStartTime;
             float remainTime = (float)(tableRow.hatchingTime - elapsedTimeSpan.TotalSeconds);

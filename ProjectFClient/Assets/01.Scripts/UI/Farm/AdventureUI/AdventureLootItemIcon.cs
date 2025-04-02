@@ -11,9 +11,9 @@ namespace ProjectF.UI.Adventure
         [SerializeField] private Image _itemIcon;
         [SerializeField] private TextMeshProUGUI _countText;
 
-        public void Initialize(Sprite iconVisual, int count)
+        public void Initialize(string iconResourceKey, int count)
         {
-            _itemIcon.sprite = iconVisual;
+            new SetSprite(_itemIcon, iconResourceKey);
             _countText.text = count.ToString();
         }
     }

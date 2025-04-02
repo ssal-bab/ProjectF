@@ -22,7 +22,7 @@ namespace ProjectF.UI.Farms
 
         private void RefreshUI(MaterialTableRow tableRow, int count)
         {
-            itemIconImage.sprite = ResourceUtility.GetMaterialIcon(tableRow.id);
+            new SetSprite(itemIconImage, ResourceUtility.GetMaterialIconKey(tableRow.id));
             itemCountText.text = count.ToString();
         }
 

@@ -22,22 +22,23 @@ namespace ProjectF.UI.Farms
             scrollView.content.DespawnAllChildren();
         }
 
-        public new void Initialize()
+        public new async void Initialize()
         {
             base.Initialize();
 
+            await elementPrefab.InitializeAsync();
             UserNestData nestData = GameInstance.MainUser.nestData;
             GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(nestData.level);
             if (getFacilityTableRow.currentTableRow == null)
                 return;
 
-            RefreshUIAsync(getFacilityTableRow.currentTableRow, nestData.hatchingEggList);
+            RefreshUI(getFacilityTableRow.currentTableRow, nestData.hatchingEggList);
         }
 
-        private async void RefreshUIAsync(NestTableRow tableRow, List<EggHatchingData> hatchingEggList)
+        private void RefreshUI(NestTableRow tableRow, List<EggHatchingData> hatchingEggList)
         {
             scrollView.verticalNormalizedPosition = 1;
-            await SetUpSlotElementUI(tableRow);
+            SetUpSlotElementUI(tableRow);
 
             for(int i = 0; i < slotElementUIList.Count; ++i)
             {
@@ -49,7 +50,7 @@ namespace ProjectF.UI.Farms
             }
         }
 
-        private async UniTask SetUpSlotElementUI(NestTableRow tableRow)
+        private void SetUpSlotElementUI(NestTableRow tableRow)
         {
             int createCount = tableRow.eggStoreLimit - slotElementUIList.Count;
             if (createCount <= 0)
@@ -59,7 +60,7 @@ namespace ProjectF.UI.Farms
 
             for(int i = 0; i < createCount; ++i)
             {
-                NestSlotElementUI ui = await PoolManager.SpawnAsync<NestSlotElementUI>(elementPrefab.Key, scrollView.content);
+                NestSlotElementUI ui = PoolManager.Spawn<NestSlotElementUI>(elementPrefab, scrollView.content);
                 ui.InitializeTransform();
                 slotElementUIList.Add(ui);
             }

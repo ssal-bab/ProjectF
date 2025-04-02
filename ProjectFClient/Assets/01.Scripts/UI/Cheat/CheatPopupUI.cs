@@ -15,10 +15,10 @@ namespace ProjectF.UI.Cheats
     {
         [SerializeField] AddressableAsset<CheatInputPopupUI> cheatInputPopupUIPrefab = null;
 
-        public new void Initialize()
+        public new async void Initialize()
         {
             base.Initialize();
-            cheatInputPopupUIPrefab.Initialize();
+            await cheatInputPopupUIPrefab.InitializeAsync();
         }
         
         public void OnTouchCloseButton()

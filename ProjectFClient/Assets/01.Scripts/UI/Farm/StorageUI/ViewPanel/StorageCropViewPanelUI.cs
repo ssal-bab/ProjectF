@@ -19,12 +19,6 @@ namespace ProjectF.UI.Farms
         [SerializeField] ToggleUI orderToggleUI = null; // true => asc / false => desc
         [SerializeField] ToggleUI filterToggleUI = null; // true => all / false => own
 
-        protected override void Awake()
-        {
-            base.Awake();
-            elementPrefab.Initialize();
-        }
-
         public override void Initialize()
         {
             base.Initialize();
@@ -46,23 +40,25 @@ namespace ProjectF.UI.Farms
             scrollView.gameObject.SetActive(false);
             scrollView.content.DespawnAllChildren();
 
+            await elementPrefab.InitializeAsync();
+
             UserData mainUser = GameInstance.MainUser;
             foreach(var category in mainUser.storageData.cropStorage)
             {
                 foreach(var item in category.Value)
-                    await AddToContainerAsync(category.Key, item.Key, item.Value);
+                    AddToContainerAsync(category.Key, item.Key, item.Value);
             }
 
             scrollView.verticalNormalizedPosition = 1;
             scrollView.gameObject.SetActive(true);
         }
 
-        private async UniTask AddToContainerAsync(int id, ECropGrade grade, int count)
+        private void AddToContainerAsync(int id, ECropGrade grade, int count)
         {
             if (filterToggleUI.ToggleValue == false && count <= 0)
                 return;
 
-            StorageCropElementUI ui = await PoolManager.SpawnAsync<StorageCropElementUI>(elementPrefab.Key);
+            StorageCropElementUI ui = PoolManager.Spawn<StorageCropElementUI>(elementPrefab);
             ui.transform.SetParent(scrollView.content);
             if (orderToggleUI.ToggleValue == false)
                 ui.transform.SetAsFirstSibling();

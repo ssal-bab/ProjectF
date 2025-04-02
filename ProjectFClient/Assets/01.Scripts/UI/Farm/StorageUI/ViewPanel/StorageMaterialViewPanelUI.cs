@@ -13,33 +13,29 @@ namespace ProjectF.UI.Farms
         [SerializeField] ScrollRect scrollView = null;
         [SerializeField] AddressableAsset<StorageMaterialElementUI> elementPrefab = null;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            elementPrefab.Initialize();
-        }
-
-        public override void Initialize()
+        public override async void Initialize()
         {
             base.Initialize();
-            RefreshUIAsync(GameInstance.MainUser.storageData.materialStorage);
+
+            await elementPrefab.InitializeAsync();
+            RefreshUI(GameInstance.MainUser.storageData.materialStorage);
         }
 
-        private async void RefreshUIAsync(Dictionary<int, int> storageData)
+        private void RefreshUI(Dictionary<int, int> storageData)
         {
             scrollView.gameObject.SetActive(false);
             scrollView.content.DespawnAllChildren();
 
             foreach(var category in storageData)
-                await AddToContainerAsync(category.Key, category.Value);
+                AddToContainer(category.Key, category.Value);
 
             scrollView.verticalNormalizedPosition = 1;
             scrollView.gameObject.SetActive(true);
         }
 
-        private async UniTask AddToContainerAsync(int id, int count)
+        private void AddToContainer(int id, int count)
         {
-            StorageMaterialElementUI ui = await PoolManager.SpawnAsync<StorageMaterialElementUI>(elementPrefab.Key);
+            StorageMaterialElementUI ui = PoolManager.Spawn<StorageMaterialElementUI>(elementPrefab);
             ui.transform.SetParent(scrollView.content);
             ui.Initialize(id, count);
             ui.StretchRect();

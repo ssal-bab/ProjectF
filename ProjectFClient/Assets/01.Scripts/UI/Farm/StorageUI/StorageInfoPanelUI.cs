@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
@@ -29,7 +30,7 @@ namespace ProjectF.UI.Farms
             base.Initialize();
 
             RefreshUI();
-            upgradePopupUIPrefab.Initialize();
+            upgradePopupUIPrefab.InitializeAsync().Forget();
         }
 
         public new void Release()
@@ -53,7 +54,7 @@ namespace ProjectF.UI.Farms
             upgradeButtonObject.SetActive(!getFacilityTableRow.isMaxLevel);
             upgradeCompleteButtonObject.SetActive(getFacilityTableRow.isMaxLevel);
 
-            storageIconImage.sprite = ResourceUtility.GetStorageIcon(tableRow.id);
+            new SetSprite(storageIconImage, ResourceUtility.GetStorageIconKey(tableRow.id));
             nameText.text = $"Lv.{tableRow.level} 적재소{tableRow.level}"; // 나중에 localizing 적용해야 함
             StartCoroutine(this.LoopRoutine(COUNT_UPDATE_DELAY, () => UpdateCountInfo(storageData, tableRow)));
         }
@@ -64,8 +65,10 @@ namespace ProjectF.UI.Farms
             sliderUI.RefreshUI(tableRow.storeLimit, usedCount);
         }
 
-        public void OnTouchUpgradeButton()
+        public async void OnTouchUpgradeButton()
         {
+            await upgradePopupUIPrefab.InitializeAsync();
+
             int currentLevel = GameInstance.MainUser.storageData.level;
             GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(currentLevel);
             if(getFacilityTableRow.isMaxLevel)
@@ -74,7 +77,7 @@ namespace ProjectF.UI.Farms
                 return;
             }
 
-            StorageUpgradePopupUI upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab.Key, GameDefine.ContentsPopupFrame);
+            StorageUpgradePopupUI upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab, GameDefine.ContentsPopupFrame);
             upgradePopupUI.StretchRect();
             upgradePopupUI.Initialize(UpgradeStorage);
         }

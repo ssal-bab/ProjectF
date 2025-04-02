@@ -50,10 +50,10 @@ namespace ProjectF.UI.Farms
             if (currentTableRow == null || nextTableRow == null)
                 return;
 
-            currentIconImage.sprite = ResourceUtility.GetNestIcon(currentTableRow.id);
+            new SetSprite(currentIconImage, ResourceUtility.GetNestIconKey(currentTableRow.id));
             currentLevelText.text = $"Lv. {currentLevel}";
 
-            nextIconImage.sprite = ResourceUtility.GetNestIcon(nextTableRow.id);
+            new SetSprite(nextIconImage, ResourceUtility.GetNestIconKey(nextTableRow.id));
             nextLevelText.text = $"Lv. {currentLevel + 1}";
 
             // 로컬라이징 적용 해야한다.
@@ -67,7 +67,7 @@ namespace ProjectF.UI.Farms
         public void OnTouchCloseButton()
         {
             Release();
-            PoolManager.DespawnAsync(this);
+            PoolManager.Despawn(this);
         }
 
         public void OnTouchUpgradeButton()

@@ -40,7 +40,7 @@ namespace ProjectF.UI.Farms
 
         private void RefreshUI(FarmerTableRow farmerTableRow, FarmerStatTableRow farmerStatTableRow)
         {
-            farmerIconImage.sprite = ResourceUtility.GetFarmerIcon(farmerTableRow.id);
+            new SetSprite(farmerIconImage, ResourceUtility.GetFarmerIconKey(farmerTableRow.id));
             farmerNameInputField.text = farmerTableRow.nameLocalKey;
             staminaStatUI.Initialize(EFarmerStatType.Health, farmerStatTableRow.health.baseValue);
             moveSpeedStatUI.Initialize(EFarmerStatType.MoveSpeed, farmerStatTableRow.moveSpeed.baseValue);
@@ -60,7 +60,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchCloseButton()
         {
-            PoolManager.DespawnAsync(GetComponent<PoolReference>()).Forget();
+            PoolManager.Despawn(GetComponent<PoolReference>());
         }
 
         public void OnChangeName(string name)

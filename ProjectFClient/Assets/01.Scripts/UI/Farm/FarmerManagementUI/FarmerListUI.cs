@@ -18,10 +18,10 @@ namespace ProjectF.UI.Farms
 
         private List<FarmerInfoElementUI> infoElementList = new();
 
-        public void Initialize(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
+        public async void Initialize(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
         {
             base.Initialize();
-            farmerInfoUIPrefab.Initialize();
+            await farmerInfoUIPrefab.InitializeAsync();
 
             currentOrderType = GameSetting.LastFarmerOrderType;
             currentClasification = GameSetting.LastFarmerClassificationType;
@@ -31,15 +31,15 @@ namespace ProjectF.UI.Farms
 
         public void RefreshUISelf(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
         {
-            RefreshUIAsync(farmerRegisterSalesAction, farmerUnRegisterSalesAction);
+            RefreshUI(farmerRegisterSalesAction, farmerUnRegisterSalesAction);
         }
 
-        public async void RefreshUIAsync(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
+        public void RefreshUI(Action<string, int> farmerRegisterSalesAction, Action<string> farmerUnRegisterSalesAction)
         {
             var userFarmerData = GameInstance.MainUser.farmerData;
             foreach(var farmerData in userFarmerData.farmerList.Values)
             {
-                var farmerInfoElement = await PoolManager.SpawnAsync<FarmerInfoElementUI>(farmerInfoUIPrefab.Key, farmerInfoContent);
+                var farmerInfoElement = PoolManager.Spawn<FarmerInfoElementUI>(farmerInfoUIPrefab, farmerInfoContent);
                 farmerInfoElement.Initialize(farmerData);
                 farmerInfoElement.RegisterFarmerSalesAction(farmerRegisterSalesAction, farmerUnRegisterSalesAction);
                 farmerInfoElement.StretchRect();

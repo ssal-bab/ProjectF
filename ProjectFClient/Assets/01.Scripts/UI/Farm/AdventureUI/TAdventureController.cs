@@ -14,10 +14,11 @@ namespace ProjectF.UI.Adventure
     {
         [SerializeField] private AddressableAsset<AdventurePopupUI> adpopup;
         [SerializeField] private AddressableAsset<AdventureProgressInfoPanel> adprogresspanel;
+
         public async void OpenUI()
         {
-            adpopup.Initialize();
-            adprogresspanel.Initialize();
+            await adpopup.InitializeAsync();
+            await adprogresspanel.InitializeAsync();
 
             AdventureTable table = DataTableManager.GetTable<AdventureTable>();
             int id = table.GetRow(0).id;
@@ -27,13 +28,13 @@ namespace ProjectF.UI.Adventure
 
             if (!GameInstance.MainUser.adventureData.inAdventureAreaList.ContainsKey(id))
             {
-                var ui = await PoolManager.SpawnAsync<AdventurePopupUI>(adpopup.Key, GameDefine.MainPopupFrame);
+                var ui = PoolManager.Spawn<AdventurePopupUI>(adpopup, GameDefine.MainPopupFrame);
                 ui.StretchRect();
                 ui.Initialize(data);
             }
             else
             {
-                var ui = await PoolManager.SpawnAsync<AdventureProgressInfoPanel>(adprogresspanel.Key, GameDefine.MainPopupFrame);
+                var ui = PoolManager.Spawn<AdventureProgressInfoPanel>(adprogresspanel, GameDefine.MainPopupFrame);
                 ui.StretchRect();
                 ui.Initialize(data);
             }

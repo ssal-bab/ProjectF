@@ -30,7 +30,7 @@ namespace ProjectF.UI.Adventure
             _farmerData = data;
 
             _farmerNameText.text = data.nickname;
-            _farmerProfile.sprite = ResourceUtility.GetFarmerIcon(data.farmerID);
+            new SetSprite(_farmerProfile, ResourceUtility.GetFarmerIconKey(data.farmerID));
 
             var statTable = DataTableManager.GetTable<FarmerStatTable>();
             var tableRow = statTable.GetRow(data.farmerID);
@@ -54,7 +54,7 @@ namespace ProjectF.UI.Adventure
         public void OnTouchCloseButton()
         {
             Release();
-            PoolManager.DespawnAsync(this);
+            PoolManager.Despawn(this);
         }
 
         protected override void Release()

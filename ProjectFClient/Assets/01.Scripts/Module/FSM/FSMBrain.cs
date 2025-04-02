@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using H00N.Resources;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,7 +11,7 @@ namespace H00N.FSM
         public UnityEvent<FSMState, FSMState> OnStateChangedEvent = null;
 
         [Space(15f)]
-        [SerializeField] List<AddressableAsset<FSMParamSO>> fsmParams = null;
+        [SerializeField] List<FSMParamSO> fsmParams = null;
         private Dictionary<Type, FSMParamSO> fsmParamDictionary = null;
 
         [Space(15f)]
@@ -25,14 +24,11 @@ namespace H00N.FSM
         {
             fsmParamDictionary = new Dictionary<Type, FSMParamSO>();
             fsmParams.ForEach(i => {
-                i.Initialize();
-                FSMParamSO paramSO = i.Asset;
-
-                Type type = paramSO.GetType();
+                Type type = i.GetType();
                 if (fsmParamDictionary.ContainsKey(type))
                     return;
 
-                fsmParamDictionary.Add(type, Instantiate(paramSO));
+                fsmParamDictionary.Add(type, Instantiate(i));
             });
 
             List<FSMState> states = new List<FSMState>();

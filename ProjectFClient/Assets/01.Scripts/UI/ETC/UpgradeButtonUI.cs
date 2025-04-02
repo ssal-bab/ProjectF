@@ -41,7 +41,7 @@ namespace ProjectF.UI
         {
             upgradePossible = GameInstance.MainUser.monetaData.gold >= targetGold;
             
-            buttonImage.sprite = ResourceManager.LoadResource<Sprite>(buttonImageOption[upgradePossible].Key);
+            buttonImage.sprite = ResourceManager.GetResource<Sprite>(buttonImageOption[upgradePossible].Key);
             goldText.text = ColorTag(DefaultColorOption[upgradePossible], targetGold);
         }
     }

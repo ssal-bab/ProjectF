@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.UI.Farms;
@@ -13,12 +12,14 @@ namespace ProjectF
 
         private void Start()
         {
-            farmerListPopupUIPrefab.Initialize();
+            farmerListPopupUIPrefab.InitializeAsync().Forget();
         }
 
-        public void OpenFarmerListPopupUI()
+        public async void OpenFarmerListPopupUI()
         {
-            var farmerListPopupUI = PoolManager.Spawn<FarmerListPopupUI>(farmerListPopupUIPrefab.Key, GameDefine.MainPopupFrame);
+            await UniTask.WaitUntil(() => farmerListPopupUIPrefab.Initialized);
+
+            var farmerListPopupUI = PoolManager.Spawn<FarmerListPopupUI>(farmerListPopupUIPrefab, GameDefine.MainPopupFrame);
             farmerListPopupUI.StretchRect();
             farmerListPopupUI.Initialize();
         }

@@ -292,8 +292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73742023fb305472f8fd44f064802e18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldID: 0
-  testData: {fileID: 0}
+  cropPrefab: {fileID: 9010209165303727367, guid: 813420fe0dbdf4ceb963362113d62b6d, type: 3}
+  Growth: 0
+  FieldState: 1
 --- !u!114 &3658245375159977351
 MonoBehaviour:
   m_ObjectHideFlags: 0

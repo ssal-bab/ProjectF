@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using ProjectF.Datas;
 using ProjectF.DataTables;
 
-namespace ProjectF.Datas
+namespace ProjectF
 {
     public struct CalculateRepeatQuestReward
     {

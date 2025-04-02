@@ -1,7 +1,7 @@
 using System;
 using ProjectF.DataTables;
 
-namespace ProjectF.Datas
+namespace ProjectF
 {
     public struct CalculateRepeatQuestTargetValue
     {

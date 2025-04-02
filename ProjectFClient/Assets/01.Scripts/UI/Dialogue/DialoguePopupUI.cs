@@ -70,7 +70,7 @@ namespace ProjectF.UI.Quests
         {
             if(!isTexting)
             {
-                TMPUtility.DOText(dialogueText, text, 0.05f);
+                TMPExtension.DOText(dialogueText, text, 0.05f);
             }
             else
             {

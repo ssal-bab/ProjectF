@@ -41,6 +41,8 @@ namespace ProjectF.Networks.Controllers
                 fieldData.currentCropID = -1;
                 fieldData.currentGrowth = 0;
                 fieldData.fieldState = EFieldState.Fallow;
+                new UpdateRepeatQuestProgress(userData, ERepeatQuestType.Farm, EActionType.HarvestCrop, cropCount);
+                new UpdateRepeatQuestProgress(userData, ERepeatQuestType.Farm, EActionType.HarvestTargetCrop, cropCount, productCropID);
                 await userDataInfo.WriteAsync();
             }
             

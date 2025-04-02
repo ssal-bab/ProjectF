@@ -17,7 +17,7 @@ namespace ProjectF
         void Start()
         {
             button.onClick.AddListener(StartQuest);
-            QuestManager.Instance.OnAddWaitingQuest += OnAddWaitingQuest;
+            //QuestManager.Instance.OnAddWaitingQuest += OnAddWaitingQuest;
         }
 
         private void OnDestroy()
@@ -32,19 +32,19 @@ namespace ProjectF
 
         private void StartQuest()
         {
-            if(QuestManager.Instance.waitingQuestCount <= 0)
-                return;
+            // if(QuestManager.Instance.waitingQuestCount <= 0)
+            //     return;
 
-            DialogueManager.Instance.StartDialogue(Dialogues.ESpeakerType.Admin,
-             $"[{QuestManager.Instance.waitingQuests.Peek().Description}]", OnStartQuest);
+            // DialogueManager.Instance.StartDialogue(Dialogues.ESpeakerType.Admin,
+            //  $"[{QuestManager.Instance.waitingQuests.Peek().Description}]", OnStartQuest);
 
         }
 
         private void OnStartQuest()
         {
-            QuestManager.Instance.StartQuestInWaitingQuest();
-            if(QuestManager.Instance.waitingQuestCount <= 0)
-                notify.gameObject.SetActive(false);
+            // QuestManager.Instance.StartQuestInWaitingQuest();
+            // if(QuestManager.Instance.waitingQuestCount <= 0)
+            //     notify.gameObject.SetActive(false);
         }
 
     }

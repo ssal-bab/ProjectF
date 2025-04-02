@@ -46,6 +46,10 @@ namespace ProjectF.Networks.Controllers
             {
                 userData.nestData.hatchingEggList.RemoveAt(request.eggIndex);
                 userData.farmerData.farmerList.Add(farmerData.farmerUUID, farmerData);
+
+                new UpdateRepeatQuestProgress(userData, ERepeatQuestType.Adventure, EActionType.HarvestCrop, 1);
+                new UpdateRepeatQuestProgress(userData, ERepeatQuestType.Adventure, EActionType.HarvestTargetCrop, 1, request.eggIndex);
+
                 await userDataInfo.WriteAsync();
             }
 

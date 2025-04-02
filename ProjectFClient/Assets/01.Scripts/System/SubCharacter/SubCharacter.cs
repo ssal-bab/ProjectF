@@ -63,9 +63,9 @@ namespace ProjectF.SubCharacters
             icon.Button.onClick.RemoveListener(MakeQuest);
             icon.Button.onClick.AddListener(ClearQuset);
 
-            SubCharacterManager.Instance.StartDialogue(Data.CharacterType, null, () => {
-                QuestManager.Instance.MakeQuest(quest);
-            });
+            // SubCharacterManager.Instance.StartDialogue(Data.CharacterType, null, () => {
+            //     QuestManager.Instance.MakeQuest(quest);
+            // });
         }
 
         private void OnCanClearQuest(Quest quest)
@@ -77,18 +77,16 @@ namespace ProjectF.SubCharacters
         {
             if(currentQuest == null)
                 return;
-            if(!currentQuest.CanClear)
-                return;
 
             icon.SetMessage(qusetQueue.Count > 0 ? "!" : "");
 
-            SubCharacterManager.Instance.StartDialogue(Data.CharacterType, null, () => {
-                QuestManager.Instance.ClearQuest(currentQuest);
-                currentQuest = null;
-            });
+            // SubCharacterManager.Instance.StartDialogue(Data.CharacterType, null, () => {
+            //     QuestManager.Instance.ClearQuest(currentQuest);
+            //     currentQuest = null;
+            //});
 
-            icon.Button.onClick.RemoveListener(ClearQuset);
-            icon.Button.onClick.AddListener(MakeQuest);
+            // icon.Button.onClick.RemoveListener(ClearQuset);
+            // icon.Button.onClick.AddListener(MakeQuest);
         }
     }
 }

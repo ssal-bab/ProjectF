@@ -16,6 +16,8 @@ namespace ProjectF
         private static GameManager instance = null;
         public static GameManager Instance => instance;
 
+        private RepeatQuestController repeatQuestController;
+
         private void Awake()
         {
             if(instance != null)
@@ -43,7 +45,8 @@ namespace ProjectF
 
         public void OnLoginGameServer()
         {
-            new QuestManager().Initialize();
+            repeatQuestController = new RepeatQuestController();
+            repeatQuestController.Initialize();
         }
 
         private void OnApplicationQuit()
@@ -55,7 +58,6 @@ namespace ProjectF
 
             FarmManager.Instance.Release();
             NetworkManager.Instance.Release();
-            QuestManager.Instance.Release();
             DialogueManager.Instance.Release();
             //SubCharacterManager.Instance.Release();
         }

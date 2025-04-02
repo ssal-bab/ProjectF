@@ -20,14 +20,11 @@ namespace ProjectF.Networks.Controllers
 
             if(userData.repeatQuestData.repeatQuestDatas.TryGetValue(request.repeatQuestType, out RepeatQuestData repeatQuestData) == false)
                 return ErrorPacket(ENetworkResult.DataNotFound);
-
-            if(repeatQuestData.started == false)
-                return ErrorPacket(ENetworkResult.Error);
-
+                
             RepeatQuestTableRow repeatQuestTableRow = new GetRepeatQuestTableRow(request.repeatQuestType, repeatQuestData.questID).tableRow;
             if(repeatQuestTableRow == null)
                 return ErrorPacket(ENetworkResult.DataNotFound);
-            repeatQuestData.currentProgress = 100;
+            
             if(repeatQuestData.currentProgress < new CalculateRepeatQuestTargetValue(repeatQuestTableRow, repeatQuestData.repeatCount).targetValue)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
@@ -47,7 +44,6 @@ namespace ProjectF.Networks.Controllers
                 if(nextRepeatQuestTableRow.id == 0)
                     repeatQuestData.repeatCount += 1;
 
-                repeatQuestData.started = false;
                 repeatQuestData.questID = nextRepeatQuestTableRow.id;
                 repeatQuestData.currentProgress = 0;
                 repeatQuestData.actionTargetID = new SelectQuestActionTargetID(nextRepeatQuestTableRow.actionType, userData).actionTargetID;

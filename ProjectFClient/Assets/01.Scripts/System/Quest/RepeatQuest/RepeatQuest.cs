@@ -11,42 +11,17 @@ namespace ProjectF.Quests
         private ERepeatQuestType repeatQuestType;
         public ERepeatQuestType RepeatQuestType => repeatQuestType;
 
-        private EActionType actionType;
-
-        private int targetID;
-
-        public RepeatQuest(RepeatQuestTableRow tableRow, ERepeatQuestType repeatQuestType) : base(tableRow)
+        public RepeatQuest(RepeatQuestTableRow tableRow, RepeatQuestData questData,  ERepeatQuestType repeatQuestType) : base(tableRow, questData)
         {
             this.repeatQuestType = repeatQuestType;
-            this.actionType = tableRow.actionType;
-            targetID = -1;
+
             SetDescription();
         }
 
-        public RepeatQuest(RepeatQuestTableRow tableRow, ERepeatQuestType repeatQuestType, int targetID) : base(tableRow)
+        protected override async void CheckClear()
         {
-            this.repeatQuestType = repeatQuestType;
-            this.targetID = targetID;
-            this.actionType = tableRow.actionType;
-            SetDescription();
-        }
+            Debug.Log($"check clear quest : {repeatQuestType}{QuestData.questID}");
 
-        public override void StartQuest()
-        {
-            base.StartQuest();
-
-            if(targetID == -1)
-            {
-                UserActionObserver.RegistObserver(actionType, CheckClear);
-            }
-            else
-            {
-                UserActionObserver.RegistTargetObserver(actionType, targetID, CheckClear);
-            }
-        }
-
-        private async void CheckClear()
-        {
             ClearRepeatQuestRequest req = new ClearRepeatQuestRequest(repeatQuestType);
             ClearRepeatQuestResponse res = await NetworkManager.Instance.SendWebRequestAsync<ClearRepeatQuestResponse>(req);
             if(res.result != ENetworkResult.Success)
@@ -56,20 +31,17 @@ namespace ProjectF.Quests
                 
             Debug.Log($"clear repeat quest : {repeatQuestType}");
 
-            RepeatQuestTableRow tableRow = this.TableRow as RepeatQuestTableRow;
-            if(targetID == -1)
-                UserActionObserver.UnregistObserver(tableRow.actionType, CheckClear);
+            if(!TableRow.actionType.ToString().Contains("Target"))
+                UserActionObserver.UnregistObserver(TableRow.actionType, CheckClear);
             else
-                UserActionObserver.UnregistTargetObserver(tableRow.actionType, targetID, CheckClear);
+                UserActionObserver.UnregistTargetObserver(TableRow.actionType, QuestData.actionTargetID, CheckClear);
 
             new ApplyReward(GameInstance.MainUser, res.rewardData);
-
-            OnCanClear();
         }
 
         protected override void SetDescription()
         {
-            switch(actionType)
+            switch(TableRow.actionType)
                 {
                     case EActionType.OwnCrop:
                     description = $"작물을 {TableRow.targetValue}개 획득하시오.";

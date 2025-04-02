@@ -30,6 +30,7 @@ namespace ProjectF
         // 서버 커넥션 확인
         public async UniTask CheckServerConnection()
         {
+            baseURL = baseURL.Trim();
             ServerConnection serverConnection = new ServerConnection(baseURL);
             serverConnection.CheckConnection();
 

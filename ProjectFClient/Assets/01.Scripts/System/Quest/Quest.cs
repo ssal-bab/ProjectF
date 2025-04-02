@@ -10,8 +10,8 @@ namespace ProjectF.Quests
         private QuestTableRow tableRow;
         public QuestTableRow TableRow => tableRow;
 
-        protected bool canClear = false;
-        public bool CanClear => canClear;
+        private QuestData questData;
+        public QuestData QuestData => questData;
 
         protected string description;
         public string Description => description;
@@ -20,21 +20,28 @@ namespace ProjectF.Quests
         public event Action<Quest> OnCanClearQuestEvent;
         public event Action<Quest> OnClearQuestEvent;
 
-        public Quest(QuestTableRow tableRow)
+        public Quest(QuestTableRow tableRow, QuestData questData)
         {
             this.tableRow = tableRow;
+            this.questData = questData;
         }
 
         public virtual void StartQuest()
         {
-            
+            if(!TableRow.actionType.ToString().Contains("Target"))
+            {
+                UserActionObserver.RegistObserver(TableRow.actionType, CheckClear);
+            }
+            else
+            {
+                UserActionObserver.RegistTargetObserver(TableRow.actionType, questData.actionTargetID, CheckClear);
+            }
+
+            CheckClear();
         }
 
-        protected virtual bool CheckQuestClear()
-        {
-            return canClear;
-        }
-
+        protected abstract void CheckClear();
+        
         public virtual void OnMakeQuest() 
         {
             OnMakeQuestEvent?.Invoke(this);
@@ -45,25 +52,12 @@ namespace ProjectF.Quests
         //퀘스트 정보 갱신으로 사용하는 업데이트
         protected virtual void UpdateQuest()
         {
-            if(canClear)
-            {
-                Debug.Log($"Can clear quset : {GetType()}");
-                OnCanClearQuestEvent?.Invoke(this);
-                QuestManager.Instance.ClearQuest(this);
-            }
-        }
-
-        protected void OnCanClear()
-        {
-            canClear = true;
-            Debug.Log($"Can clear quset : {GetType()}");
-            OnCanClearQuestEvent?.Invoke(this);
-            QuestManager.Instance.ClearQuest(this);
-        }
-
-        public virtual void OnClearQuest() 
-        {
-            OnClearQuestEvent?.Invoke(this);
+            // if(canClear)
+            // {
+            //     Debug.Log($"Can clear quset : {GetType()}");
+            //     OnCanClearQuestEvent?.Invoke(this);
+            //     QuestManager.Instance.ClearQuest(this);
+            // }
         }
 
         protected abstract void SetDescription();

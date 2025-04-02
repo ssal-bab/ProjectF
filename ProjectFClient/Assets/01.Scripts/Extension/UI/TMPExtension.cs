@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProjectF
 {
-    public static class TMPUtility
+    public static class TMPExtension
     {
         public static Coroutine DOText(this TextMeshProUGUI tmp, string text, float textDelay)
         {

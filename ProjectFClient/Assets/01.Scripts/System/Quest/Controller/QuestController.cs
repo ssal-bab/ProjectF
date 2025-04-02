@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using ProjectF.Datas;
+using ProjectF.DataTables;
 using ProjectF.Quests;
-using UnityEngine;
 
 namespace ProjectF
 {
@@ -9,17 +8,5 @@ namespace ProjectF
     {
         public abstract void Initialize();
         public abstract void Release();
-
-        public virtual void MakeQuest(Quest quest, bool startByUser, bool clearByUser)
-        {
-            if(startByUser)
-            {
-                QuestManager.Instance.AddWaitingQuest(quest);
-            }
-            else
-            {
-                quest.StartQuest();
-            }
-        }
     }
 }

@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # === 설정값 ===
-REMOTE_USER=seh00n
-REMOTE_HOST=seh00n.iptime.org
-REMOTE_PORT=10802
+SSH_CONFIG_PATH=./.ssh/config
+SERVER_NAME=ProjectFServer
 REMOTE_PATH=/home/$REMOTE_USER/ProjectFServer
 SERVICE_NAME=ProjectFServer
 PROJECT_PATH=./ProjectFServer.csproj     # 프로젝트 파일 경로
@@ -20,7 +19,7 @@ fi
 
 # === 2. 파일 복사 ===
 echo "[DeployServer::CopyFile] copying files to remote server..."
-rsync -avz -e "ssh -p $REMOTE_PORT" "$PUBLISH_DIR"/ "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH"
+rsync -avz -e "ssh -F $SSH_CONFIG_PATH" "$PUBLISH_DIR"/ "$SERVER_NAME:$REMOTE_PATH"
 
 if [ $? -ne 0 ]; then
     echo "[DeployServer::CopyFile] rsync failed."
@@ -29,7 +28,7 @@ fi
 
 # === 3. 서비스 재시작 ===
 echo "[DeployServer::RestartService] Restarting service on remote server..."
-ssh -tt -p $REMOTE_PORT $REMOTE_USER@$REMOTE_HOST "sudo systemctl restart $SERVICE_NAME"
+ssh -tt -F $SSH_CONFIG_PATH $SERVER_NAME "sudo systemctl restart $SERVICE_NAME"
 
 if [ $? -eq 0 ]; then
     echo "[DeployServer::RestartService] Deployment complete! Service restarted successfully."
@@ -39,4 +38,4 @@ fi
 
 # === 4. 로그 보기 ===
 echo "[DeployServer::ShowLog] Showing latest service logs (Ctrl+C to exit)"
-ssh -tt -p $REMOTE_PORT $REMOTE_USER@$REMOTE_HOST "sudo journalctl -u $SERVICE_NAME -n 30 -f"
+ssh -tt -F $SSH_CONFIG_PATH $SERVER_NAME "sudo journalctl -u $SERVICE_NAME -n 30 -f"

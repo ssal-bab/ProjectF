@@ -82,7 +82,16 @@
         {
             "label": "Deploy Development Server",
             "type": "shell",
-            "command": "./BuildScripts/DeployServer.sh",
+            "windows": {
+                "command": [
+                    // "./BuildScripts/DeployServer.ps1"
+                ]
+            },
+            "osx": {
+                "command": [
+                    "./BuildScripts/DeployServer.sh"
+                ]
+            },
             "problemMatcher": [],
             "group": {
               "kind": "build",

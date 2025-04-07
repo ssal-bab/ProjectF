@@ -1,6 +1,7 @@
 using ProjectF.Datas;
 using UnityEngine;
 using ProjectF.UI.Farms;
+using ProjectF.Networks;
 
 namespace ProjectF
 {
@@ -21,6 +22,12 @@ namespace ProjectF
         public static EFarmerClassificationType LastFarmerClassificationType {
             get => (EFarmerClassificationType)PlayerPrefs.GetInt(FARMER_CLASSIFICATION_TYPE_SAVE_KEY, DataDefine.NO_CLASSIFICATION_TYPE);
             set => PlayerPrefs.SetInt(FARMER_CLASSIFICATION_TYPE_SAVE_KEY, (int)value);
+        }
+
+        private const string LAST_SERVER_CONNECTION_KEY = "last_server_connection";
+        public static EServerConnectionType LastServerConnection {
+            get => (EServerConnectionType)PlayerPrefs.GetInt(LAST_SERVER_CONNECTION_KEY, (int)EServerConnectionType.Development);
+            set => PlayerPrefs.SetInt(LAST_SERVER_CONNECTION_KEY, (int)value);
         }
 
         public static void ResetGameSetting()

@@ -12,6 +12,24 @@
             ],
             "problemMatcher": "$msCompile"
         },
+        // {
+        //     "label": "ServerPublish-linux-arm64",
+        //     "command": "dotnet",
+        //     "type": "process",
+        //     "args": [
+        //         "publish",
+        //         "-c",
+        //         "release",
+        //         "-r",
+        //         "linux-arm64",
+        //         "--self-contained",
+        //         "false",
+        //         "${workspaceFolder}/ProjectFServer.csproj",
+        //         "/property:GenerateFullPaths=true",
+        //         "/consoleloggerparameters:NoSummary"
+        //     ],
+        //     "problemMatcher": "$msCompile"
+        // },
         {
             "label": "PublishSharedCode",
             "type": "shell",
@@ -49,6 +67,27 @@
                 "isDefault": true
             },
             "problemMatcher": []
+        },
+        // {
+        //     "label": "Publish-linux-arm64",
+        //     "dependsOn": [
+        //         "ServerPublish-linux-arm64"
+        //     ],
+        //     "group": {
+        //         "kind": "build",
+        //         "isDefault": true
+        //     },
+        //     "problemMatcher": []
+        // }
+        {
+            "label": "Deploy Development Server",
+            "type": "shell",
+            "command": "./BuildScripts/DeployServer.sh",
+            "problemMatcher": [],
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            }
         }
     ]
 }

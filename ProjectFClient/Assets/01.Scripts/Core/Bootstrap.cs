@@ -9,7 +9,7 @@ namespace ProjectF
 {
     public class Bootstrap : MonoBehaviour
     {
-        [SerializeField] string baseURL = "https://localhost:7161";
+        // [SerializeField] string baseURL = "https://localhost:7161";
         [SerializeField] string ongoingSceneName = "Intro";
 
         private async void Start()
@@ -29,9 +29,9 @@ namespace ProjectF
 
         // 서버 커넥션 확인
         public async UniTask CheckServerConnection()
-        {
-            baseURL = baseURL.Trim();
-            ServerConnection serverConnection = new ServerConnection(baseURL);
+        { 
+            string serverConnectionString = new GetServerConnectionString(GameSetting.LastServerConnection).serverConnection;
+            ServerConnection serverConnection = new ServerConnection(serverConnectionString);
             serverConnection.CheckConnection();
 
             await UniTask.WaitUntil(() => serverConnection.IsConnectionAlive);

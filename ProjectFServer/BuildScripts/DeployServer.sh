@@ -3,10 +3,15 @@
 # === 설정값 ===
 SSH_CONFIG_PATH=./.ssh/config
 SERVER_NAME=ProjectFServer
+REMOTE_USER=seh00n
 REMOTE_PATH=/home/$REMOTE_USER/ProjectFServer
 SERVICE_NAME=ProjectFServer
 PROJECT_PATH=./ProjectFServer.csproj     # 프로젝트 파일 경로
 PUBLISH_DIR=./publish  # publish task가 여기에 생성한다고 가정
+
+# === 0. Prepare Build Folder ===
+echo "[DeployServer::PrepareBuildFolder] clean build folder..."
+rm -rf $PUBLISH_DIR
 
 # === 1. Publish ===
 echo "[DeployServer::PublishProject] publishing project..."
@@ -28,7 +33,7 @@ fi
 
 # === 3. 서비스 재시작 ===
 echo "[DeployServer::RestartService] Restarting service on remote server..."
-ssh -tt -F $SSH_CONFIG_PATH $SERVER_NAME "sudo systemctl restart $SERVICE_NAME"
+ssh -F $SSH_CONFIG_PATH $SERVER_NAME "sudo systemctl restart $SERVICE_NAME"
 
 if [ $? -eq 0 ]; then
     echo "[DeployServer::RestartService] Deployment complete! Service restarted successfully."
@@ -38,4 +43,4 @@ fi
 
 # === 4. 로그 보기 ===
 echo "[DeployServer::ShowLog] Showing latest service logs (Ctrl+C to exit)"
-ssh -tt -F $SSH_CONFIG_PATH $SERVER_NAME "sudo journalctl -u $SERVICE_NAME -n 30 -f"
+ssh -F $SSH_CONFIG_PATH $SERVER_NAME "sudo journalctl -u $SERVICE_NAME -n 30"

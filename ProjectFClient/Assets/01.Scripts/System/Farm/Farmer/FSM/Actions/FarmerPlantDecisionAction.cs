@@ -40,8 +40,9 @@ namespace ProjectF.Farms.AI
                 return;
             }
 
-            int cropID = currentFarm.CropQueue.DequeueCropData();
-            aiData.targetCropID = cropID;
+            // 여기서는 사용된 척만 하고 실제 Dequeue 되는 곳은 심을 때여야 한다.
+            // int cropID = currentFarm.CropQueue.DequeueCropData();
+            // aiData.targetCropID = cropID;
 
             aiData.PushTarget(currentFarm.Storage);
             brain.ChangeState(moveState);

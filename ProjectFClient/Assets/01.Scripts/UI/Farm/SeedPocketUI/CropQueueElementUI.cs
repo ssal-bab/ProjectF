@@ -1,4 +1,5 @@
 using System;
+using ProjectF.Datas;
 using ProjectF.Farms;
 using TMPro;
 using UnityEngine;

@@ -9,6 +9,7 @@ namespace ProjectF.Networks
         public const string NEST_ROUTE = "Nest";
         public const string CHEAT_ROUTE = "Cheat";
         public const string REPEAT_QUEST_ROUTE = "RepeatQuest";
+        public const string SEED_POCKET_ROUTE = "SeedPocket";
         public const string ADVENTURE_ROUTE = "Adventure";
     }
 }

@@ -19,6 +19,9 @@ namespace ProjectF.Datas
 
                 seedData.seedStorage.Add(tableRow.id, 0);
             }
+
+            // seedData.cropQueue ??= new CropQueue();
+            seedData.cropQueue ??= new List<CropQueueSlot>();
         }
     }
 }

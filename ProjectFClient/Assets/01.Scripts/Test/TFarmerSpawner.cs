@@ -46,7 +46,7 @@ namespace ProjectF.Tests
             await ResourceManager.LoadResourceAsync("SeedPocketPopupUI");
             SeedPocketPopupUI seedPocketPopupUI = PoolManager.Spawn<SeedPocketPopupUI>("SeedPocketPopupUI", GameDefine.MainPopupFrame);
             seedPocketPopupUI.StretchRect();
-            seedPocketPopupUI.Initialize(FarmManager.Instance.MainFarm);
+            seedPocketPopupUI.Initialize();
         }
 
         public async void OpenCheatPopup()

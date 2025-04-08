@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +23,11 @@ namespace ProjectF.Farms
         private CropQueue cropQueue = null;
         public CropQueue CropQueue => cropQueue;
 
-        private void Awake()
-        {
-            cropQueue = new CropQueue();
-        }
-
         private async void Start()
         {
             UserData mainUser = GameInstance.MainUser;
+            SetCropQueue(mainUser.seedPocketData.cropQueue);
+
             for (int i = 0; i < fieldGroups.Count; ++i)
             {
                 FieldGroup fieldGroup = fieldGroups[i];
@@ -59,6 +57,11 @@ namespace ProjectF.Farms
                     fieldData.fieldState = field.FieldState;
                 }
             }
+        }
+
+        public void SetCropQueue(List<CropQueueSlot> cropQueue)
+        {
+            this.cropQueue = new CropQueue(cropQueue);
         }
 
         public IEnumerator<Field> GetEnumerator() => fieldGroups.SelectMany(i => i.Fields).GetEnumerator();

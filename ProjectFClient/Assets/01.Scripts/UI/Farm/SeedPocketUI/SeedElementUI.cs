@@ -18,11 +18,15 @@ namespace ProjectF.UI.Farms
         // <cropID>
         private Action<int> onTouchAddCallback = null;
 
-        public void Initialize(int cropID, Action<int> onTouchAddCallback)
+        // <cropID, seedCount>
+        private Func<int, int> getSeedCountCallback = null;
+
+        public void Initialize(int cropID, Func<int, int> getSeedCountCallback, Action<int> onTouchAddCallback)
         {
             base.Initialize();
             this.cropID = cropID;
             this.onTouchAddCallback = onTouchAddCallback;
+            this.getSeedCountCallback = getSeedCountCallback;
 
             RefreshUI();
         }
@@ -37,8 +41,7 @@ namespace ProjectF.UI.Farms
 
         private void UpdateUI()
         {
-            UserData mainUser = GameInstance.MainUser;
-            ownCountText.text = mainUser.seedPocketData.seedStorage[cropID].ToNumberString();
+            ownCountText.text = getSeedCountCallback.Invoke(cropID).ToNumberString();
             new SetSprite(iconImage, ResourceUtility.GetSeedIconKey(cropID));
         }
 

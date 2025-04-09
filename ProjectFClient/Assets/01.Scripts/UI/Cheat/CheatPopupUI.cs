@@ -49,6 +49,19 @@ namespace ProjectF.UI.Cheats
             });
         }
 
+        public void OnTouchModifySeed()
+        {
+            PassValueCheat("ModifySeed", "씨앗 변경", (response1, response2) => {
+                if(int.TryParse(response1, out int id) == false)
+                    return;
+
+                if(int.TryParse(response2, out int count) == false)
+                    return;
+
+                GameInstance.MainUser.seedPocketData.seedStorage[id] += count;
+            });
+        }
+
         private void PassValueCheat(string command, string description, Action<string> callback)
         {
             CheatInputPopupUI inputPopupUI = PoolManager.Spawn(cheatInputPopupUIPrefab, GameDefine.TopPopupFrame);
@@ -65,6 +78,29 @@ namespace ProjectF.UI.Cheats
                 }
 
                 callback?.Invoke(response);
+            });
+        }
+
+        private void PassValueCheat(string command, string description, Action<string, string> callback)
+        {
+            CheatInputPopupUI inputPopupUI = PoolManager.Spawn(cheatInputPopupUIPrefab, GameDefine.TopPopupFrame);
+            inputPopupUI.StretchRect();
+            inputPopupUI.Initialize(description, async (input1, input2) => {
+                if(int.TryParse(input1, out int value1) == false)
+                    return;
+
+                if(int.TryParse(input2, out int value2) == false)
+                    return;
+
+                string response = await RequestCheatAsync(command, value1.ToString(), value2.ToString());
+                if (string.IsNullOrEmpty(response))
+                {
+                    Debug.Log($"Response in null. value1 : {value1}, value2 : {value2}");
+                    return;
+                }
+
+                string[] responses = JsonConvert.DeserializeObject<string[]>(response);
+                callback?.Invoke(responses[0], responses[1]);
             });
         }
 

@@ -16,7 +16,8 @@ namespace ProjectF.Networks.Controllers
         
         private static readonly Dictionary<string, Func<DBManager, IDistributedLockFactory, CheatRequest, Task<string>>> cheatTable = new Dictionary<string, Func<DBManager, IDistributedLockFactory, CheatRequest, Task<string>>>() {
             ["AddEgg"] = ProcessCommand_AddEgg,
-            ["ModifyGold"] = ProcessCommand_ModifyGold
+            ["ModifyGold"] = ProcessCommand_ModifyGold,
+            ["ModifySeed"] = ProcessCommand_ModifySeed
         };
 
         protected override async Task<CheatResponse> ProcessInternal()
@@ -48,7 +49,6 @@ namespace ProjectF.Networks.Controllers
                 await userDataInfo.WriteAsync();
             }
 
-
             return Newtonsoft.Json.JsonConvert.SerializeObject(userData.nestData.hatchingEggList);
         }
 
@@ -64,6 +64,21 @@ namespace ProjectF.Networks.Controllers
             }
 
             return value.ToString();
+        }
+
+        private static async Task<string> ProcessCommand_ModifySeed(DBManager dbManager, IDistributedLockFactory redLockFactory, CheatRequest request)
+        {
+            UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
+            UserData userData = userDataInfo.Data;
+            int id = int.Parse(request.option[0]);
+            int value = int.Parse(request.option[1]);
+            using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
+            {
+                userData.seedPocketData.seedStorage[id] += value;
+                await userDataInfo.WriteAsync();
+            }
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(new string[] { id.ToString(), value.ToString() });
         }
     }
 }

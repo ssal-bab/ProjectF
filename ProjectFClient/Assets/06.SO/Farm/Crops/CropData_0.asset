@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   cropPlantSprites:
-  - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 21300000, guid: cd4c738df27ee4838a6222b391053932, type: 3}
-  - {fileID: 21300000, guid: 28fd2353d1eb74a799de6469b405689b, type: 3}
+  - {fileID: 21300000, guid: f62ccbb48001b4d8db57fa08ff83dbce, type: 3}
+  - {fileID: 21300000, guid: 7095ab3651c16422184988be8b6b8a56, type: 3}
+  - {fileID: 21300000, guid: 9f4a9a3196ebf45a58af818abe105165, type: 3}
+  - {fileID: 21300000, guid: ee32b043de0ee4e87ba761abc3ad82a7, type: 3}
+  - {fileID: 21300000, guid: eb1559273a825498b873471a9f50481b, type: 3}

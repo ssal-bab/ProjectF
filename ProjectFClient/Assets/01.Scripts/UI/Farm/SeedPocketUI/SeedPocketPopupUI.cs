@@ -83,10 +83,10 @@ namespace ProjectF.UI.Farms
             if(GetSeedCount(cropID) <= 0)
                 return;
 
+            CropQueueSlot lastSlot = deltaQueue.LastSlot();
             RecordAction(ECropQueueActionType.Enqueue, cropID, cropID, 1);
             deltaQueue.EnqueueCrop(cropID);
 
-            CropQueueSlot lastSlot = deltaQueue.LastSlot();
             if(lastSlot != null && lastSlot.cropID == cropID)
                 return;
 
@@ -108,9 +108,9 @@ namespace ProjectF.UI.Farms
             
             tempSeedUsedInfo.TryGetValue(cropID, out int seedUsedCount);
             if (actionType == ECropQueueActionType.Enqueue)
-                tempSeedUsedInfo[cropID] = seedUsedCount - count;
-            else if(actionType == ECropQueueActionType.Remove)
                 tempSeedUsedInfo[cropID] = seedUsedCount + count;
+            else if(actionType == ECropQueueActionType.Remove)
+                tempSeedUsedInfo[cropID] = seedUsedCount - count;
         }
 
         public async void OnTouchCloseButton()

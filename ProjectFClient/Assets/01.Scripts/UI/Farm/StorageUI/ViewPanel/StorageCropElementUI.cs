@@ -11,7 +11,7 @@ namespace ProjectF.UI.Farms
     public class StorageCropElementUI : PoolableBehaviourUI
     {
         [SerializeField] Image iconImage = null;
-        [SerializeField] Image iconBackgroundImage = null;
+        [SerializeField] Image gradeIconImage = null;
         [SerializeField] TMP_Text countText = null;
         [SerializeField] TMP_Text priceText = null;
 
@@ -38,7 +38,7 @@ namespace ProjectF.UI.Farms
         private void ResetUI()
         {
             iconImage.color = new Color(0, 0, 0, 0);
-            new SetSprite(iconBackgroundImage, ResourceUtility.GetCropGradeIconKey((int)ECropGrade.None));
+            new SetSprite(gradeIconImage, ResourceUtility.GetCropGradeIconKey((int)ECropGrade.None));
             countText.text = "";
             priceText.text = "";
         }
@@ -46,7 +46,7 @@ namespace ProjectF.UI.Farms
         private void RefreshUI(CropTableRow tableRow, int count)
         {
             new SetSprite(iconImage, ResourceUtility.GetCropIconKey(tableRow.id));
-            new SetSprite(iconBackgroundImage, ResourceUtility.GetCropGradeIconKey((int)grade));
+            new SetSprite(gradeIconImage, ResourceUtility.GetCropGradeIconKey((int)grade));
             countText.text = $"{count} {ResourceUtility.GetCropNameLocalKey(tableRow.id)}s";            
             priceText.text = (tableRow.basePrice * count).ToString();
         }

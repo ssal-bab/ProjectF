@@ -22,10 +22,10 @@ namespace ProjectF
         public static string GetMaterialIconKey(int id) => GetSpriteResourceKey("MaterialIcon", id);
         public static string GetSeedIconKey(int id) => GetSpriteResourceKey("SeedIcon", id);
         public static string GetFarmerIconKey(int id) => GetSpriteResourceKey("FarmerIcon", id);
-        public static string GetCropGradeIconKey(int id) => GetSpriteResourceKey("CropGradeIcon", id);
         public static string GetFarmerStatIconKey(int id) => GetSpriteResourceKey("FarmerStatIcon", id);
         public static string GetDialogueSpeakerImageKey(int id) => GetSpriteResourceKey("DialogueSpeakerImage", id);
         public static string GetAdventureAreaImageKey(int id) => GetSpriteResourceKey("AdventureAreaImage", id);
+        public static string GetCropGradeIconKey(int id) => id == 0 ? null : GetSpriteResourceKey("CropGradeIcon", id);
 
         private static string GetSpriteResourceKey(string prefix, int id)
         {

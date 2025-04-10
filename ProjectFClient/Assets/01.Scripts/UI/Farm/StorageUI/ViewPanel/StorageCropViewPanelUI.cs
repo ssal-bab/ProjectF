@@ -1,8 +1,11 @@
+using System;
 using Cysharp.Threading.Tasks;
+using H00N.DataTables;
 using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
+using ProjectF.DataTables;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 using UnityEngine;
@@ -42,11 +45,15 @@ namespace ProjectF.UI.Farms
 
             await elementPrefab.InitializeAsync();
 
-            UserData mainUser = GameInstance.MainUser;
-            foreach(var category in mainUser.storageData.cropStorage)
+            UserStorageData storageData = GameInstance.MainUser.storageData;
+            CropTable cropTable = DataTableManager.GetTable<CropTable>();
+            foreach(var cropTableRow in cropTable)
             {
-                foreach(var item in category.Value)
-                    AddToContainerAsync(category.Key, item.Key, item.Value);
+                if(storageData.cropStorage.TryGetValue(cropTableRow.id, out var category) == false)
+                    continue;
+
+                foreach(ECropGrade cropGrade in EnumHelper.GetValues<ECropGrade>())
+                    AddToContainerAsync(cropTableRow.id, cropGrade, category[cropGrade]);
             }
 
             scrollView.verticalNormalizedPosition = 1;
@@ -58,8 +65,8 @@ namespace ProjectF.UI.Farms
             if (filterToggleUI.ToggleValue == false && count <= 0)
                 return;
 
-            StorageCropElementUI ui = PoolManager.Spawn<StorageCropElementUI>(elementPrefab);
-            ui.transform.SetParent(scrollView.content);
+            StorageCropElementUI ui = PoolManager.Spawn<StorageCropElementUI>(elementPrefab, scrollView.content);
+            ui.InitializeTransform();
             if (orderToggleUI.ToggleValue == false)
                 ui.transform.SetAsFirstSibling();
 

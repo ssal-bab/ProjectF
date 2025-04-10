@@ -24,6 +24,7 @@ namespace ProjectF
             if(image == null)
                 return;
 
+            image.gameObject.SetActive(resource != null);
             image.sprite = resource;
         }
 
@@ -35,6 +36,7 @@ namespace ProjectF
             if(spriteRenderer == null)
                 return;
 
+            spriteRenderer.gameObject.SetActive(resource != null);
             spriteRenderer.sprite = resource;
         }
     }

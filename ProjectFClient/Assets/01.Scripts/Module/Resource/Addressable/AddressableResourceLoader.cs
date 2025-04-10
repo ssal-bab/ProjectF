@@ -1,7 +1,9 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Object = UnityEngine.Object;
 
 namespace H00N.Resources
 {
@@ -12,23 +14,27 @@ namespace H00N.Resources
 
         private async UniTask<ResourceHandle> LoadResourceInternal<T>(string resourceName, bool isAsync) where T : Object
         {
-            AsyncOperationHandle<T> requestHandle = Addressables.LoadAssetAsync<T>(resourceName);
+            try {
+                AsyncOperationHandle<T> requestHandle = Addressables.LoadAssetAsync<T>(resourceName);
 
-            if(isAsync)
-                await requestHandle.Task;
-            else
-                requestHandle.WaitForCompletion();
+                if(isAsync)
+                    await requestHandle.Task;
+                else
+                    requestHandle.WaitForCompletion();
 
-            if(requestHandle.Status != AsyncOperationStatus.Succeeded)
-            {
-                Debug.LogWarning($"[Addressable] Failed to load resource. : {resourceName}");
+                if(requestHandle.Status != AsyncOperationStatus.Succeeded)
+                {
+                    Debug.LogWarning($"[Addressable] Failed to load resource. : {resourceName}");
+                    return null;
+                }
+                
+                ResourceHandle resourceHandle = new ResourceHandle(resourceName, requestHandle.Result);
+                return resourceHandle;
+            } 
+            catch(Exception err) {
+                Debug.LogWarning(err);
                 return null;
             }
-            
-            ResourceHandle resourceHandle = new ResourceHandle(resourceName, requestHandle.Result);
-            // Addressables.Release(requestHandle);
-
-            return resourceHandle;
         }
     }
 }

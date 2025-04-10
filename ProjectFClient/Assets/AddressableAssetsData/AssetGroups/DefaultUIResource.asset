@@ -131,20 +131,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ab51a29eecf724f759a48a93f0fd2d99
-    m_Address: CropGradeIcon_1
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c238d23911865467fa41776871caaa25
-    m_Address: CropGradeIcon_3
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 40593d239238949fe83022434d3cadf8
-    m_Address: CropGradeIcon_2
+    m_Address: CropGradeBackground_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9aba9d48dc568482c94ce471e828f9d5
+    m_Address: CropGradeBackground_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab51a29eecf724f759a48a93f0fd2d99
+    m_Address: CropGradeBackground_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
@@ -311,14 +311,38 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9aba9d48dc568482c94ce471e828f9d5
-    m_Address: CropGradeIcon_0
+  - m_GUID: c238d23911865467fa41776871caaa25
+    m_Address: CropGradeBackground_3
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 30d9180aac53041389dcbffc23d2e09a
     m_Address: Icon_Notification
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f94578f1afd084cacbf0566865f10229
+    m_Address: CropGradeIcon_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8aac58a19580f4631b2f14cc8bcf2cfe
+    m_Address: CropGradeIcon_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1bf61a6676bb04871960134dbdce0ce6
+    m_Address: CropGradeIcon_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7cc451c237fa6401d9e625edd5775408
+    m_Address: Slot_Crop
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

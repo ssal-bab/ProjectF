@@ -35,10 +35,9 @@ namespace ProjectF.UI.Farms
 
         private void AddToContainer(int id, int count)
         {
-            StorageMaterialElementUI ui = PoolManager.Spawn<StorageMaterialElementUI>(elementPrefab);
-            ui.transform.SetParent(scrollView.content);
+            StorageMaterialElementUI ui = PoolManager.Spawn<StorageMaterialElementUI>(elementPrefab, scrollView.content);
+            ui.InitializeTransform();
             ui.Initialize(id, count);
-            ui.StretchRect();
         }
     }
 }

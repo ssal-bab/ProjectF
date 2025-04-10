@@ -35,6 +35,9 @@ namespace H00N.Resources
 
         public static T GetResource<T>(string resourceName) where T : Object
         {
+            if(string.IsNullOrEmpty(resourceName))
+                return null;
+
             if (resourceCache.TryGetValue(resourceName, out ResourceHandle resourceHandle) == false)
             {
                 Debug.LogWarning($"[ResourceManager::GerResource] Resource handle does not exist. Load resource handle before access resource. ResourceName : {resourceName}");
@@ -60,6 +63,9 @@ namespace H00N.Resources
         public static UniTask<Object> LoadResourceAsync(string resourceName) => LoadResourceAsync<Object>(resourceName);
         public static async UniTask<T> LoadResourceAsync<T>(string resourceName) where T : Object
         {
+            if(string.IsNullOrEmpty(resourceName))
+                return null;
+
             ResourceHandle resourceHandle = await LoadResourceHandleAsync<T>(resourceName);
             if(resourceHandle == null)
                 return null;
@@ -76,7 +82,10 @@ namespace H00N.Resources
 
         private static async UniTask<ResourceHandle> LoadResourceHandleAsync<T>(string resourceName) where T : Object
         {
-            if(resourceCache.TryGetValue(resourceName, out ResourceHandle resourceHandle))
+            if (string.IsNullOrEmpty(resourceName))
+                return null;
+
+            if (resourceCache.TryGetValue(resourceName, out ResourceHandle resourceHandle))
                 return resourceHandle;
 
             if(loadingResourceKeys.Contains(resourceName))
@@ -104,7 +113,10 @@ namespace H00N.Resources
 
         public static void ReleaseResource(string resourceName)
         {
-            if(resourceCache.TryGetValue(resourceName, out ResourceHandle handle) == false)
+            if (string.IsNullOrEmpty(resourceName))
+                return;
+
+            if (resourceCache.TryGetValue(resourceName, out ResourceHandle handle) == false)
                 return;
 
             if(handle == null)
@@ -115,6 +127,9 @@ namespace H00N.Resources
 
         public static async UniTask<T> LoadResourceWithoutCahingAsync<T>(string resourceName) where T : Object
         {
+            if(string.IsNullOrEmpty(resourceName))
+                return null;
+
             ResourceHandle handle = await resourceLoader.LoadResourceAsync<T>(resourceName);
             if(handle == null)
             {

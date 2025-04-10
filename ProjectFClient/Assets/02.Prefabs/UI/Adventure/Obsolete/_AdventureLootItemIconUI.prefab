@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 5099837573958385379}
   - component: {fileID: 1058732789744467849}
   m_Layer: 5
-  m_Name: AdventureLootItemIconUI
+  m_Name: _AdventureLootItemIconUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

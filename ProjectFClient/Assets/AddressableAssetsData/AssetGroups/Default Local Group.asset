@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: a05ce335f6a4c46b3b20cbc1f6b2980d
   m_SerializeEntries:
   - m_GUID: 402689fbbe958d84990fef1afe27c11e
-    m_Address: AdventureLootItemIconUI
+    m_Address: _AdventureLootItemIconUI
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

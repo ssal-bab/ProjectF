@@ -1642,7 +1642,7 @@ GameObject:
   - component: {fileID: 8580641237281041486}
   - component: {fileID: 8318020117148261288}
   m_Layer: 5
-  m_Name: ExploreFarmerInfoPopupUI
+  m_Name: _ExploreFarmerInfoPopupUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

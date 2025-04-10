@@ -1679,7 +1679,7 @@ GameObject:
   - component: {fileID: 8462949672377582208}
   - component: {fileID: 7958477490682497726}
   m_Layer: 5
-  m_Name: AdventureProgressInfoPanel
+  m_Name: _AdventureProgressInfoPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

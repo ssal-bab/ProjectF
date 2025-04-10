@@ -575,7 +575,7 @@ GameObject:
   - component: {fileID: 1891776891912095715}
   - component: {fileID: 4683113673765044767}
   m_Layer: 5
-  m_Name: ExploreFarmerInfoElementUI
+  m_Name: _ExploreFarmerInfoElementUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

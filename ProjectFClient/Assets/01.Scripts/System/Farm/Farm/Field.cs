@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
@@ -20,6 +21,8 @@ namespace ProjectF.Farms
         public CropSO CurrentCropData => currentCropData;
 
         private int fieldGroupID = 0;
+        public int FieldGroupID => fieldGroupID;
+
         private int fieldID = 0;
         public int FieldID => fieldID;
 
@@ -55,70 +58,11 @@ namespace ProjectF.Farms
                 currentCropData = await ResourceManager.LoadResourceAsync<CropSO>(ResourceUtility.GetCropSOKey(fieldData.currentCropID));
                 Growth = fieldData.currentGrowth;
                 OnGrowUpEvent?.Invoke(Growth / currentCropData.TableRow.growthStep);
+
+                DateManager.Instance.OnTickCycleEvent += HandleTickCycleEvent;
             }
 
             ChangeState(FieldState);
-        }
-
-        public async void Plant(int cropID)
-        {
-            if (requestWaiting)
-                return;
-
-            requestWaiting = true;
-
-            PlantCropRequest request = new PlantCropRequest(fieldGroupID, fieldID, cropID);
-            PlantCropResponse response = await NetworkManager.Instance.SendWebRequestAsync<PlantCropResponse>(request);
-            
-            requestWaiting = false;
-            if (response.result != ENetworkResult.Success)
-                return;
-
-            currentCropData = await ResourceManager.LoadResourceAsync<CropSO>(ResourceUtility.GetCropSOKey(response.cropID));
-            Growth = -1;
-
-            ChangeState(EFieldState.Dried);
-            GrowUp();
-
-            DateManager.Instance.OnTickCycleEvent += HandleTickCycleEvent;
-
-            UserActionObserver.Invoke(EActionType.PlantSeed);
-            UserActionObserver.TargetInvoke(EActionType.PlantTargetSeed, cropID);
-        }
-
-        public async void Harvest(string farmerUUID)
-        {
-            if (requestWaiting)
-                return;
-
-            DateManager.Instance.OnTickCycleEvent -= HandleTickCycleEvent;
-            requestWaiting = true;
-
-            HarvestCropRequest request = new HarvestCropRequest(farmerUUID, fieldGroupID, fieldID);
-            HarvestCropResponse response = await NetworkManager.Instance.SendWebRequestAsync<HarvestCropResponse>(request);
-
-            requestWaiting = false;
-            if (response.result != ENetworkResult.Success)
-                return;
-
-            currentCropData = null;
-            Growth = 0;
-
-            SpawnCrop(response.productCropID, response.cropGrade, response.cropCount);
-            ChangeState(EFieldState.Fallow);
-
-            UserActionObserver.Invoke(EActionType.HarvestCrop);
-            UserActionObserver.TargetInvoke(EActionType.HarvestTargetCrop, response.productCropID);
-        }
-
-        private void SpawnCrop(int productCropID, ECropGrade cropGrade, int cropCount)
-        {
-            Vector3 randomOffset = Random.insideUnitCircle * 3f;
-            Vector3 itemPosition = TargetPosition + randomOffset;
-
-            Crop crop = PoolManager.Spawn<Crop>(cropPrefab);
-            crop.transform.position = itemPosition;
-            crop.Initialize(productCropID, cropGrade, cropCount);
         }
 
         private void HandleTickCycleEvent()

@@ -8,15 +8,27 @@ namespace ProjectF.UI.Cheats
     public class CheatInputPopupUI : PoolableBehaviourUI
     {
         [SerializeField] TMP_Text descriptionText = null;
-        [SerializeField] TMP_InputField inputField = null;
+        [SerializeField] TMP_InputField inputFieldFirstParam = null;
+        [SerializeField] TMP_InputField inputFieldSecondParam = null;
 
-        private Action<string> onConfirmCallback = null;
+        private Action<string> onConfirmCallbackOneParam = null;
+        private Action<string, string> onConfirmCallbackTwoParam = null;
 
         public void Initialize(string description, Action<string> onConfirmCallback)
         {
-            this.onConfirmCallback = onConfirmCallback;
+            onConfirmCallbackOneParam = onConfirmCallback;
             descriptionText.text = description;
-            inputField.text = "";
+            inputFieldFirstParam.text = "";
+            inputFieldSecondParam.gameObject.SetActive(false);
+        }
+
+        public void Initialize(string description, Action<string, string> onConfirmCallback)
+        {
+            onConfirmCallbackTwoParam = onConfirmCallback;
+            descriptionText.text = description;
+            inputFieldFirstParam.text = "";
+            inputFieldSecondParam.text = "";
+            inputFieldSecondParam.gameObject.SetActive(true);
         }
 
         public void OnTouchCloseButton()
@@ -27,7 +39,14 @@ namespace ProjectF.UI.Cheats
 
         public void OnTouchConfirmButton()
         {
-            onConfirmCallback?.Invoke(inputField.text);
+            if(inputFieldSecondParam.gameObject.activeSelf)
+            {
+                onConfirmCallbackTwoParam?.Invoke(inputFieldFirstParam.text, inputFieldSecondParam.text);
+            }
+            else
+            {
+                onConfirmCallbackOneParam?.Invoke(inputFieldFirstParam.text);
+            }
         }
     }
 }

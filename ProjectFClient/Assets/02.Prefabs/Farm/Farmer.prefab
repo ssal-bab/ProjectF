@@ -221,7 +221,6 @@ Transform:
   - {fileID: 3237986571792965483}
   - {fileID: 3737993509000693030}
   - {fileID: 4224413527253058013}
-  - {fileID: 2795412076001405843}
   - {fileID: 9040793016822443342}
   m_Father: {fileID: 4407391656734311983}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -312,65 +311,6 @@ MonoBehaviour:
       m_Calls: []
   fieldCondition: 1
   targetFieldState: 2
---- !u!1 &1728737219997199725
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3966438691938852697}
-  - component: {fileID: 5966161265629206974}
-  - component: {fileID: 8471729128467899069}
-  m_Layer: 0
-  m_Name: Transition_LiftItem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3966438691938852697
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1728737219997199725}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4779805402279889325}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5966161265629206974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1728737219997199725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fbc16cf8c22d4c1e9f8c9f7247cab96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetState: {fileID: 9058461102853766911}
---- !u!114 &8471729128467899069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1728737219997199725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 886bb5f448e614bdbab57bba067040f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isReverse: 0
 --- !u!1 &1915301520925132944
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,7 +869,6 @@ Transform:
   - {fileID: 1890111800146037390}
   - {fileID: 3700855865053803857}
   - {fileID: 3728408450762439668}
-  - {fileID: 3966438691938852697}
   m_Father: {fileID: 3185663310528829691}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5396007691559883034
@@ -1281,7 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ede609f570c94639ba8b13b9e07a725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  liftState: {fileID: 9058461102853766911}
+  moveState: {fileID: 2143547622503454656}
   seedPrefab: {fileID: 8631039644349771730, guid: c74668a1357174d258f84fb34bdc7183, type: 3}
 --- !u!1 &4997295820878600907
 GameObject:
@@ -1427,92 +1366,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isReverse: 0
   targetFeildState: 5
---- !u!1 &6474279905623191825
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2795412076001405843}
-  - component: {fileID: 9058461102853766911}
-  - component: {fileID: 209009090561967871}
-  m_Layer: 0
-  m_Name: LiftItem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2795412076001405843
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6474279905623191825}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1938915970394005276}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9058461102853766911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6474279905623191825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3515528adf73f471f8009033ff01c22f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoTransitioning: 0
-  onStateEnterEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7400255591106639008}
-        m_TargetAssemblyTypeName: ProjectCoin.Farms.FarmerAnimator, Assembly-CSharp
-        m_MethodName: SetLift
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onStateExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &209009090561967871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6474279905623191825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 461921b47c3a84598bd73da63aa44e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onAnimationStartEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onAnimationTriggerEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onAnimationEndEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  moveState: {fileID: 2143547622503454656}
 --- !u!1 &6485909997371008427
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,6 +2322,8 @@ MonoBehaviour:
   onAnimationEndEvent:
     m_PersistentCalls:
       m_Calls: []
+  moveState: {fileID: 2143547622503454656}
+  cropPrefab: {fileID: 9010209165303727367, guid: 813420fe0dbdf4ceb963362113d62b6d, type: 3}
 --- !u!1 &9090657766507960649
 GameObject:
   m_ObjectHideFlags: 0

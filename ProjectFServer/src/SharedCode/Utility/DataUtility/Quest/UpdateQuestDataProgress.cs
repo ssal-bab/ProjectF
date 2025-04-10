@@ -18,6 +18,9 @@ namespace ProjectF
         {
             foreach(ERepeatQuestType repeatQuestType in Enum.GetValues(typeof(ERepeatQuestType)))
             {
+                if(repeatQuestType == ERepeatQuestType.None)
+                    continue;
+
                 if(repeatQuestData.repeatQuestDatas.TryGetValue(repeatQuestType, out RepeatQuestData data) == false)
                     continue;
 

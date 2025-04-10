@@ -11,6 +11,9 @@ namespace ProjectF.Datas
             repeatQuestData.repeatQuestDatas ??= new Dictionary<ERepeatQuestType, RepeatQuestData>();
             foreach(ERepeatQuestType repeatQuestType in Enum.GetValues<ERepeatQuestType>())
             {
+                if(repeatQuestType == ERepeatQuestType.None)
+                    continue;
+
                 if(repeatQuestData.repeatQuestDatas.ContainsKey(repeatQuestType))
                     continue;
 

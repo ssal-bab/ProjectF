@@ -10,13 +10,11 @@ namespace ProjectF.Networks.Packets
 
         public int fieldGroupID = 0;
         public int fieldID = 0;
-        public int cropID = 0;
 
-        public PlantCropRequest(int fieldGroupID, int fieldID,  int cropID)
+        public PlantCropRequest(int fieldGroupID, int fieldID)
         {
             this.fieldGroupID = fieldGroupID;
             this.fieldID = fieldID;
-            this.cropID = cropID;
         }
     }
 

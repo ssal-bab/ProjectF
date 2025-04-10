@@ -6,14 +6,10 @@ namespace ProjectF.Farms.AI
     public class FarmerPlantAction : FarmerAnimationAction
     {
         private Field currentField = null;
-        private int seedCropID = -1;
 
         public override void EnterState()
         {
             base.EnterState();
-
-            seedCropID = aiData.targetCropID;
-            aiData.targetCropID = -1;
 
             currentField = aiData.CurrentTarget as Field;
             if(currentField.FieldState != EFieldState.Empty)
@@ -24,7 +20,12 @@ namespace ProjectF.Farms.AI
         {
             base.OnHandleAnimationTrigger();
             if(currentField.FieldState == EFieldState.Empty)
-                currentField.Plant(seedCropID);
+            {
+                // 이미 데이터상으로는 심어진 상태이다. 데이터를 기반으로 초기화 해준다.
+                FieldData fieldData = new GetFieldData(GameInstance.MainUser.fieldGroupData, currentField.FieldGroupID, currentField.FieldID).fieldData;
+                if(fieldData != null)
+                    currentField.Initialize(currentField.FieldGroupID, fieldData);
+            }
 
             // 여기가 액션의 마지막이다. Target을 클리어한다.
             aiData.ClearTarget();

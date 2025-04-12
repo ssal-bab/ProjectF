@@ -8,8 +8,6 @@ namespace H00N.Resources
     [CustomPropertyDrawer(typeof(AddressableAsset<>))]
     public class AddressableAssetDrawer : PropertyDrawer
     {
-        private Object virtualObject;
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -18,8 +16,8 @@ namespace H00N.Resources
             var keyProperty = property.FindPropertyRelative("key");
             string keyValue = keyProperty.stringValue;
 
-            Object prevValue = AddressableEditorUtils.GetAssetFromKey(keyValue);
             Type genericType = GetGenericType(property);
+            Object prevValue = AddressableEditorUtils.GetAssetFromKey(keyValue, genericType);
             Object currentValue = EditorGUI.ObjectField(position, label, prevValue, genericType, false);
             
             // 값이 변경되었는지 확인

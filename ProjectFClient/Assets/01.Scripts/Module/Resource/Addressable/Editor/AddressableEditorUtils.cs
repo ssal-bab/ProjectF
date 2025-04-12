@@ -1,12 +1,17 @@
+using System;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class AddressableEditorUtils
 {
-    public static Object GetAssetFromKey(string key)
+    public static Object GetAssetFromKey(string key, Type type)
     {
         if(string.IsNullOrEmpty(key))
+            return null;
+
+        if(type.IsSubclassOf(typeof(Object)) == false)
             return null;
 
         // AddressableAssetSettings 인스턴스 가져오기
@@ -23,8 +28,19 @@ public static class AddressableEditorUtils
             {
                 if (entry.address == key)
                 {
-                    // 원본 에셋 반환
-                    return entry.MainAsset;
+                    if (type.IsSubclassOf(typeof(Component)))
+                    {
+                        if(entry.MainAsset is GameObject asset)
+                        {
+                            if(asset.TryGetComponent(type, out Component component))
+                                return component;
+                        }
+                    }
+                    else
+                    {
+                        if(entry.MainAsset.GetType().IsSubclassOf(type))
+                            return entry.MainAsset;
+                    }
                 }
             }
         }

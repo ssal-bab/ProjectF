@@ -16,7 +16,11 @@ namespace ProjectF
         public static Transform MainCanvas {
             get {
                 if(mainCanvas == null)
-                    mainCanvas = GameObject.Find("MainCanvas").transform;
+                {
+                    GameObject mainCanvasObject = GameObject.Find("MainCanvas");
+                    if(mainCanvasObject != null)
+                        mainCanvas = mainCanvasObject.transform;
+                }
 
                 return mainCanvas;
             }
@@ -26,19 +30,27 @@ namespace ProjectF
         public static Transform MainPopupFrame {
             get {
                 if(mainPopupFrame == null)
-                    mainPopupFrame = MainCanvas.Find("MainPopupFrame");
+                {
+                    GameObject mainPopupCanvas = GameObject.Find("MainPopupCanvas");
+                    if(mainPopupCanvas != null)
+                        mainPopupFrame = mainPopupCanvas.transform;
+                }
 
                 return mainPopupFrame;
             }
         }
 
-        private static Transform contentsPopupFrame = null;
-        public static Transform ContentsPopupFrame {
+        private static Transform contentPopupFrame = null;
+        public static Transform ContentPopupFrame {
             get {
-                if(contentsPopupFrame == null)
-                    contentsPopupFrame = MainCanvas.Find("ContentsPopupFrame");
+                if(contentPopupFrame == null)
+                {
+                    GameObject contentPopupCanvas = GameObject.Find("ContentPopupCanvas");
+                    if(contentPopupCanvas != null)
+                        contentPopupFrame = contentPopupCanvas.transform;
+                }
 
-                return contentsPopupFrame;
+                return contentPopupFrame;
             }
         }
 
@@ -46,9 +58,27 @@ namespace ProjectF
         public static Transform TopPopupFrame {
             get {
                 if(topPopupFrame == null)
-                    topPopupFrame = MainCanvas.Find("TopPopupFrame");
+                {
+                    GameObject topPopupCanvas = GameObject.Find("TopPopupCanvas");
+                    if(topPopupCanvas != null)
+                        topPopupFrame = topPopupCanvas.transform;
+                }
 
                 return topPopupFrame;
+            }
+        }
+
+        private static Transform highestPopupFrame = null;
+        public static Transform HighestPopupFrame {
+            get {
+                if(highestPopupFrame == null)
+                {
+                    GameObject highestPopupCanvas = GameObject.Find("HighestPopupCanvas");
+                    if(highestPopupCanvas != null)
+                        highestPopupFrame = highestPopupCanvas.transform;
+                }
+
+                return highestPopupFrame;
             }
         }
     }

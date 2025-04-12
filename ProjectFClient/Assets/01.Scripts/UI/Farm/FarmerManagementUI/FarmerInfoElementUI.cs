@@ -102,7 +102,7 @@ namespace ProjectF.UI.Farms
 
         private void HandleActiveFarmerInfoPopup()
         {
-            var infoUI = PoolManager.Spawn<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab, GameDefine.ContentsPopupFrame);
+            var infoUI = PoolManager.Spawn<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab, GameDefine.MainPopupFrame);
             infoUI.Initialize(farmerData);
             infoUI.StretchRect();
         }

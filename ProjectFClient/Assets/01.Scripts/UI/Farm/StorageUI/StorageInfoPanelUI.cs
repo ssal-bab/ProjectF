@@ -77,7 +77,7 @@ namespace ProjectF.UI.Farms
                 return;
             }
 
-            StorageUpgradePopupUI upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab, GameDefine.ContentsPopupFrame);
+            StorageUpgradePopupUI upgradePopupUI = PoolManager.Spawn<StorageUpgradePopupUI>(upgradePopupUIPrefab, GameDefine.ContentPopupFrame);
             upgradePopupUI.StretchRect();
             upgradePopupUI.Initialize(UpgradeStorage);
         }

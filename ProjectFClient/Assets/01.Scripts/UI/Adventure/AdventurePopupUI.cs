@@ -25,14 +25,14 @@ namespace ProjectF.UI.Adventures
 
         private void OpenUpgradePopupUI(int areaID)
         {
-            AdventureAreaUpgradePopupUI upgradePopupUI = PoolManager.Spawn(upgradePopupUIPrefab, GameDefine.MainPopupFrame);
+            AdventureAreaUpgradePopupUI upgradePopupUI = PoolManager.Spawn(upgradePopupUIPrefab, GameDefine.ContentPopupFrame);
             upgradePopupUI.StretchRect();
             upgradePopupUI.Initialize(areaID);
         }
 
         private void OpenAreaPopupUI(int areaID)
         {
-            AdventureAreaPopupUI areaPopupUI = PoolManager.Spawn(areaPopupUIPrefab, GameDefine.MainPopupFrame);
+            AdventureAreaPopupUI areaPopupUI = PoolManager.Spawn(areaPopupUIPrefab, GameDefine.ContentPopupFrame);
             areaPopupUI.StretchRect();
             areaPopupUI.Initialize(areaID);
         }

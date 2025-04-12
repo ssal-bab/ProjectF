@@ -69,7 +69,7 @@ namespace ProjectF.Tests
         public async void OpenFieldGroupUpgradePopup(int fieldGroupID)
         {
             await ResourceManager.LoadResourceAsync("FieldGroupUpgradePopupUI");
-            FieldGroupUpgradePopupUI fieldGroupUpgradePopupUI = PoolManager.Spawn<FieldGroupUpgradePopupUI>("FieldGroupUpgradePopupUI", GameDefine.MainPopupFrame);
+            FieldGroupUpgradePopupUI fieldGroupUpgradePopupUI = PoolManager.Spawn<FieldGroupUpgradePopupUI>("FieldGroupUpgradePopupUI", GameDefine.ContentPopupFrame);
             fieldGroupUpgradePopupUI.StretchRect();
             fieldGroupUpgradePopupUI.Initialize(UpgradeFieldGroup, fieldGroupID);
 

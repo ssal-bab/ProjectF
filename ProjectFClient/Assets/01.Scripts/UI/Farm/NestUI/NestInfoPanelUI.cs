@@ -63,7 +63,7 @@ namespace ProjectF.UI.Farms
                 return;
             }
 
-            NestUpgradePopupUI upgradePopupUI = PoolManager.Spawn<NestUpgradePopupUI>(upgradePopupUIPrefab, GameDefine.ContentsPopupFrame);
+            NestUpgradePopupUI upgradePopupUI = PoolManager.Spawn<NestUpgradePopupUI>(upgradePopupUIPrefab, GameDefine.ContentPopupFrame);
             upgradePopupUI.StretchRect();
             upgradePopupUI.Initialize(UpgradeNest);
         }

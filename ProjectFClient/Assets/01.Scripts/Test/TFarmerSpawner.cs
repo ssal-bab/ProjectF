@@ -4,6 +4,7 @@ using ProjectF.Datas;
 using ProjectF.Farms;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
+using ProjectF.UI.Adventures;
 using ProjectF.UI.Cheats;
 using ProjectF.UI.Farms;
 using UnityEngine;
@@ -57,10 +58,18 @@ namespace ProjectF.Tests
             cheatPopupUI.Initialize();
         }
 
+        public async void OpenAdventurePopup()
+        {
+            await ResourceManager.LoadResourceAsync("AdventurePopupUI");
+            AdventurePopupUI adventurePopupUI = PoolManager.Spawn<AdventurePopupUI>("AdventurePopupUI", GameDefine.MainPopupFrame);
+            adventurePopupUI.StretchRect();
+            adventurePopupUI.Initialize();
+        }
+
         public async void OpenFieldGroupUpgradePopup(int fieldGroupID)
         {
             await ResourceManager.LoadResourceAsync("FieldGroupUpgradePopupUI");
-            FieldGroupUpgradePopupUI fieldGroupUpgradePopupUI = PoolManager.Spawn<FieldGroupUpgradePopupUI>("FieldGroupUpgradePopupUI", GameDefine.TopPopupFrame);
+            FieldGroupUpgradePopupUI fieldGroupUpgradePopupUI = PoolManager.Spawn<FieldGroupUpgradePopupUI>("FieldGroupUpgradePopupUI", GameDefine.MainPopupFrame);
             fieldGroupUpgradePopupUI.StretchRect();
             fieldGroupUpgradePopupUI.Initialize(UpgradeFieldGroup, fieldGroupID);
 

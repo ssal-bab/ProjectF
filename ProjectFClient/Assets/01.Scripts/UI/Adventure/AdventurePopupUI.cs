@@ -7,22 +7,40 @@ namespace ProjectF.UI.Adventures
 {
     public class AdventurePopupUI : PoolableBehaviourUI
     {
+        [SerializeField] AddressableAsset<AdventureAreaUpgradePopupUI> upgradePopupUIPrefab = null;
         [SerializeField] AddressableAsset<AdventureAreaPopupUI> areaPopupUIPrefab = null;
+        
+        [Space(10f)]
         [SerializeField] List<AdventureAreaElementUI> areaElementUIList = null;
 
         public new async void Initialize()
         {
             base.Initialize();
             await areaPopupUIPrefab.InitializeAsync();
+            await upgradePopupUIPrefab.InitializeAsync();
 
-            foreach(AdventureAreaElementUI elementUI in areaElementUIList)
-                elementUI.Initialize(OpenAdventureAreaPopupUI);
+            foreach (AdventureAreaElementUI elementUI in areaElementUIList)
+                elementUI.Initialize(OpenUpgradePopupUI, OpenAreaPopupUI);
         }
 
-        private void OpenAdventureAreaPopupUI(int areaID)
+        private void OpenUpgradePopupUI(int areaID)
         {
-            AdventureAreaPopupUI areaPopupUI = PoolManager.Spawn(areaPopupUIPrefab);
+            AdventureAreaUpgradePopupUI upgradePopupUI = PoolManager.Spawn(upgradePopupUIPrefab, GameDefine.MainPopupFrame);
+            upgradePopupUI.StretchRect();
+            upgradePopupUI.Initialize(areaID);
+        }
+
+        private void OpenAreaPopupUI(int areaID)
+        {
+            AdventureAreaPopupUI areaPopupUI = PoolManager.Spawn(areaPopupUIPrefab, GameDefine.MainPopupFrame);
+            areaPopupUI.StretchRect();
             areaPopupUI.Initialize(areaID);
+        }
+
+        public void OnTouchCloseButton()
+        {
+            base.Release();
+            PoolManager.Despawn(this);
         }
     }
 }

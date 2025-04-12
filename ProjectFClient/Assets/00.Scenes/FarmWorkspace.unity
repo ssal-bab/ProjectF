@@ -4375,14 +4375,14 @@ PrefabInstance:
     - target: {fileID: 3581654963612102474, guid: 6c3442f7defc64b0ba526699b75bc9da, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1120376110}
+      objectReference: {fileID: 1696150775}
     - target: {fileID: 3581654963612102474, guid: 6c3442f7defc64b0ba526699b75bc9da, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenUI
+      value: OpenAdventurePopup
       objectReference: {fileID: 0}
     - target: {fileID: 3581654963612102474, guid: 6c3442f7defc64b0ba526699b75bc9da, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ProjectF.UI.Adventure.TAdventureController, ProjectF-Assembly
+      value: ProjectF.Tests.TFarmerSpawner, ProjectF-Assembly
       objectReference: {fileID: 0}
     - target: {fileID: 8271263396615202389, guid: 6c3442f7defc64b0ba526699b75bc9da, type: 3}
       propertyPath: m_Sprite
@@ -6038,6 +6038,10 @@ PrefabInstance:
     - target: {fileID: 2592263118329389720, guid: ab46a38f800e741e69b4a12108601f31, type: 3}
       propertyPath: m_Name
       value: AdventurePopupUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2592263118329389720, guid: ab46a38f800e741e69b4a12108601f31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

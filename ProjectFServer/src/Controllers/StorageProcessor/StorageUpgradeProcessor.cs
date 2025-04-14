@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using H00N.DataTables;
 using ProjectF.Datas;
@@ -19,34 +20,29 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
 
-            GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(userData.nestData.level);
-            StorageTableRow tableRow = getFacilityTableRow.currentTableRow;
-            if(tableRow == null)
-                return ErrorPacket(ENetworkResult.Error);
-
-            if(userData.storageData.materialStorage.TryGetValue(tableRow.materialID, out int materialCount) == false)
-                return ErrorPacket(ENetworkResult.Error);
-            
-            if(materialCount < tableRow.materialCount)
+            List<StorageUpgradeCostTableRow> upgradeCostTableRowList = DataTableManager.GetTable<StorageUpgradeCostTable>().GetRowListByLevel(userData.storageData.level);
+            CheckUpgradeCost<StorageUpgradeCostTableRow> checkUpgradeCost = new CheckUpgradeCost<StorageUpgradeCostTableRow>(userData.storageData, upgradeCostTableRowList);
+            if(checkUpgradeCost.upgradePossible == false)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
-             
-            if(userData.monetaData.gold < tableRow.materialCount)
+
+            StorageLevelTableRow levelTableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(userData.nestData.level);
+            if(levelTableRow == null)
+                return ErrorPacket(ENetworkResult.DataNotFound);
+
+            if(userData.monetaData.gold < levelTableRow.gold)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                userData.monetaData.gold -= tableRow.materialCount;
-                userData.storageData.materialStorage[tableRow.materialID] -= tableRow.materialCount;
-                userData.storageData.level += 1;
+                userData.monetaData.gold -= levelTableRow.gold;
+                new ApplyUpgradeCost<StorageUpgradeCostTableRow>(userData.storageData, upgradeCostTableRowList);
+                userData.nestData.level += 1;
 
                 await userDataInfo.WriteAsync();
             }
 
             return new StorageUpgradeResponse() {
                 result = ENetworkResult.Success,
-                usedGold = tableRow.materialCount,
-                usedCostItemID = tableRow.materialID,
-                usedCostItemCount = tableRow.materialCount,
                 currentLevel = userData.storageData.level
             };
         }

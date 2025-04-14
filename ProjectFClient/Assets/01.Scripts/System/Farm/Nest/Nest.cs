@@ -20,7 +20,7 @@ namespace ProjectF.Farms
 
         private void UpdateVisual(int level)
         {
-            NestTableRow tableRow = DataTableManager.GetTable<NestTable>().GetRowByLevel(level);
+            NestLevelTableRow tableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(level);
             new SetSprite(spriteRenderer, ResourceUtility.GetNestIconKey(tableRow.id));
         }
     }

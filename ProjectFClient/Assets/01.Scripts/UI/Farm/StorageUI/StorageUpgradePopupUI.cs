@@ -47,9 +47,9 @@ namespace ProjectF.UI.Farms
         public void RefreshUI()
         {
             int currentLevel = GameInstance.MainUser.storageData.level;
-            GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(currentLevel);
-            StorageTableRow currentTableRow = getFacilityTableRow.currentTableRow;
-            StorageTableRow nextTableRow = getFacilityTableRow.nextTableRow;
+            // GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(currentLevel);
+            StorageLevelTableRow currentTableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(currentLevel);
+            StorageLevelTableRow nextTableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(currentLevel + 1);
             if (currentTableRow == null)
                 return;
 
@@ -63,8 +63,8 @@ namespace ProjectF.UI.Farms
             capacityInfoUI.Initialize("적재량", $"{currentTableRow.storeLimit}", $"{nextTableRow.storeLimit}");
             sellGoldInfoUI.Initialize("판매 이익", $"+{currentTableRow.priceMultiplier}%", $"+{nextTableRow.priceMultiplier}%");
 
-            materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
-            upgradeButtonUI.Initialize(currentTableRow.upgradeGold);
+            // materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
+            upgradeButtonUI.Initialize(currentTableRow.gold);
         }
 
         public void OnTouchCloseButton()

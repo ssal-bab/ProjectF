@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using H00N.DataTables;
 using ProjectF.Datas;
 using ProjectF.DataTables;
 using ProjectF.Networks.DataBases;
@@ -21,24 +23,22 @@ namespace ProjectF.Networks.Controllers
             if(userData.fieldGroupData.fieldGroupDatas.TryGetValue(request.fieldGroupID, out FieldGroupData fieldGroupData) == false)
                 return ErrorPacket(ENetworkResult.Error);
 
-            GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow> getFacilityTableRow = new GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow>(fieldGroupData.level);
-            FieldGroupTableRow tableRow = getFacilityTableRow.currentTableRow;
-            if(tableRow == null)
-                return ErrorPacket(ENetworkResult.Error);
-
-            if(userData.storageData.materialStorage.TryGetValue(tableRow.materialID, out int materialCount) == false)
-                return ErrorPacket(ENetworkResult.Error);
-            
-            if(materialCount < tableRow.materialCount)
+            List<FieldGroupUpgradeCostTableRow> upgradeCostTableRowList = DataTableManager.GetTable<FieldGroupUpgradeCostTable>().GetRowListByLevel(fieldGroupData.level);
+            CheckUpgradeCost<FieldGroupUpgradeCostTableRow> checkUpgradeCost = new CheckUpgradeCost<FieldGroupUpgradeCostTableRow>(userData.storageData, upgradeCostTableRowList);
+            if(checkUpgradeCost.upgradePossible == false)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
-             
-            if(userData.monetaData.gold < tableRow.materialCount)
+
+            FieldGroupLevelTableRow levelTableRow = DataTableManager.GetTable<FieldGroupLevelTable>().GetRowByLevel(fieldGroupData.level);
+            if(levelTableRow == null)
+                return ErrorPacket(ENetworkResult.DataNotFound);
+
+            if(userData.monetaData.gold < levelTableRow.gold)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                userData.monetaData.gold -= tableRow.materialCount;
-                userData.storageData.materialStorage[tableRow.materialID] -= tableRow.materialCount;
+                userData.monetaData.gold -= levelTableRow.gold;
+                new ApplyUpgradeCost<FieldGroupUpgradeCostTableRow>(userData.storageData, upgradeCostTableRowList);
                 fieldGroupData.level += 1;
 
                 await userDataInfo.WriteAsync();
@@ -46,9 +46,6 @@ namespace ProjectF.Networks.Controllers
 
             return new FieldGroupUpgradeResponse() {
                 result = ENetworkResult.Success,
-                usedGold = tableRow.materialCount,
-                usedCostItemID = tableRow.materialID,
-                usedCostItemCount = tableRow.materialCount,
                 upgradedFieldGroupID = fieldGroupData.fieldGroupID,
                 currentLevel = userData.nestData.level
             };

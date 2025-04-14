@@ -16,69 +16,69 @@ namespace ProjectF.Networks.Controllers
 
         protected async override Task<ReceiveAdventureResultResponse> ProcessInternal()
         {
-            UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
-            UserData userData = userDataInfo.Data;
+            // UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
+            // UserData userData = userDataInfo.Data;
 
-            if (userData.adventureData.inAdventureAreaList.ContainsKey(request.areaID) == false)
-            {
-                return ErrorPacket(ENetworkResult.Error);
-            }
+            // if (userData.adventureData.inAdventureAreaList.ContainsKey(request.areaID) == false)
+            // {
+            //     return ErrorPacket(ENetworkResult.Error);
+            // }
 
-            AdventureLootTable lootTable = DataTableManager.GetTable<AdventureLootTable>();
-            AdventureLootTableRow lootRow = lootTable.GetRow(request.areaID);
+            // AdventureLootTable lootTable = DataTableManager.GetTable<AdventureLootTable>();
+            // AdventureLootTableRow lootRow = lootTable.GetRow(request.areaID);
 
-            var resultPack = new GetAdventureResultPack(lootRow, userData).result;
+            // var resultPack = new GetAdventureResultPack(lootRow, userData).result;
 
-            using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
-            {
-                var materialStorage = userData.storageData.materialStorage;
+            // using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
+            // {
+            //     var materialStorage = userData.storageData.materialStorage;
 
-                foreach (var lootInfo in resultPack.materialLootInfo)
-                {
-                    var materialItemID = lootInfo.rewardItemID;
-                    var materialItemCount = lootInfo.rewardItemAmount;
+            //     foreach (var lootInfo in resultPack.materialLootInfo)
+            //     {
+            //         var materialItemID = lootInfo.rewardItemID;
+            //         var materialItemCount = lootInfo.rewardItemAmount;
 
-                    if (materialStorage.ContainsKey(materialItemID))
-                    {
-                        materialStorage[materialItemID] += materialItemCount;
-                    }
-                    else
-                    {
-                        materialStorage.Add(materialItemID, materialItemCount);
-                    }
-                }
+            //         if (materialStorage.ContainsKey(materialItemID))
+            //         {
+            //             materialStorage[materialItemID] += materialItemCount;
+            //         }
+            //         else
+            //         {
+            //             materialStorage.Add(materialItemID, materialItemCount);
+            //         }
+            //     }
 
-                var seedStorage = userData.seedPocketData.seedStorage;
+            //     var seedStorage = userData.seedPocketData.seedStorage;
 
-                foreach (var lootInfo in resultPack.seedLootInfo)
-                {
-                    var seedItemID = lootInfo.rewardItemID;
-                    var seedItemCount = lootInfo.rewardItemAmount;
+            //     foreach (var lootInfo in resultPack.seedLootInfo)
+            //     {
+            //         var seedItemID = lootInfo.rewardItemID;
+            //         var seedItemCount = lootInfo.rewardItemAmount;
 
-                    if (seedStorage.ContainsKey(seedItemID))
-                    {
-                        seedStorage[seedItemID] += seedItemCount;
-                    }
-                    else
-                    {
-                        seedStorage.Add(seedItemID, seedItemCount);
-                    }
-                }
+            //         if (seedStorage.ContainsKey(seedItemID))
+            //         {
+            //             seedStorage[seedItemID] += seedItemCount;
+            //         }
+            //         else
+            //         {
+            //             seedStorage.Add(seedItemID, seedItemCount);
+            //         }
+            //     }
 
-                userData.adventureData.inAdventureAreaList.Remove(request.areaID);
-                var list = userData.adventureData.inExploreFarmerList[request.areaID];
+            //     userData.adventureData.inAdventureAreaList.Remove(request.areaID);
+            //     var list = userData.adventureData.inExploreFarmerList[request.areaID];
 
-                foreach (var farmerUUID in list)
-                {
-                    userData.adventureData.allFarmerinExploreList.Remove(farmerUUID);
-                }
+            //     foreach (var farmerUUID in list)
+            //     {
+            //         userData.adventureData.allFarmerinExploreList.Remove(farmerUUID);
+            //     }
 
-                userData.adventureData.inExploreFarmerList.Remove(request.areaID);
-            }
+            //     userData.adventureData.inExploreFarmerList.Remove(request.areaID);
+            // }
 
             return new ReceiveAdventureResultResponse
             {
-                resultPack = resultPack,
+                // resultPack = resultPack,
                 result = ENetworkResult.Success
             };
         }

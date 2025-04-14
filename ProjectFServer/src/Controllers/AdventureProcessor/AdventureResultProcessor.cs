@@ -19,20 +19,20 @@ namespace ProjectF.Networks.Controllers
 
         protected override async Task<AdventureResultResponse> ProcessInternal()
         {
-            UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
-            UserData userData = userDataInfo.Data;
+            // UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
+            // UserData userData = userDataInfo.Data;
 
-            if (userData.adventureData.inAdventureAreaList.ContainsKey(request.areaID) == false)
-            {
-                return ErrorPacket(ENetworkResult.Error);
-            }
+            // if (userData.adventureData.inAdventureAreaList.ContainsKey(request.areaID) == false)
+            // {
+            //     return ErrorPacket(ENetworkResult.Error);
+            // }
 
-            AdventureLootTable lootTable = DataTableManager.GetTable<AdventureLootTable>();
-            AdventureLootTableRow lootRow = lootTable.GetRow(request.areaID);
+            // AdventureLootTable lootTable = DataTableManager.GetTable<AdventureLootTable>();
+            // AdventureLootTableRow lootRow = lootTable.GetRow(request.areaID);
 
             var respones = new AdventureResultResponse
             {
-                resultPack = new GetAdventureResultPack(lootRow, userData).result,
+                // resultPack = new GetAdventureResultPack(lootRow, userData).result,
                 result = ENetworkResult.Success
             };
 

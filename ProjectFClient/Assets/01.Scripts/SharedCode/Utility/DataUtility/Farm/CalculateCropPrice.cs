@@ -10,7 +10,7 @@ namespace ProjectF.Datas
 
         public CalculateCropPrice(int cropID, int cropCount, int storageLevel)
         {
-            StorageTableRow storageTableRow = DataTableManager.GetTable<StorageTable>().GetRowByLevel(storageLevel);
+            StorageLevelTableRow storageTableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(storageLevel);
             if (storageTableRow == null)
             {
                 cropPrice = -1;

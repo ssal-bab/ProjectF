@@ -15,9 +15,6 @@ namespace ProjectF.Networks.Packets
 
     public class StorageUpgradeResponse : ResponsePacket
     {
-        public int usedGold;
-        public int usedCostItemID;
-        public int usedCostItemCount;
         public int currentLevel;
     }
 }

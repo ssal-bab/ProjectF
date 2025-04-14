@@ -1,6 +1,8 @@
+using H00N.DataTables;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
+using ProjectF.DataTables;
 using ProjectF.Farms;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
@@ -80,8 +82,10 @@ namespace ProjectF.Tests
                     return;
 
                 UserData mainUser = GameInstance.MainUser;
-                mainUser.monetaData.gold -= response.usedGold;
-                mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
+
+                FieldGroupLevelTableRow tableRow = DataTableManager.GetTable<FieldGroupLevelTable>().GetRowByLevel(response.currentLevel - 1);
+                mainUser.monetaData.gold -= tableRow.gold;
+                new ApplyUpgradeCost<FieldGroupUpgradeCostTableRow>(mainUser.storageData, DataTableManager.GetTable<FieldGroupUpgradeCostTable>().GetRowListByLevel(response.currentLevel - 1));
 
                 FieldGroupData fieldGroupData = mainUser.fieldGroupData.fieldGroupDatas[response.upgradedFieldGroupID];
                 fieldGroupData.level = response.currentLevel;

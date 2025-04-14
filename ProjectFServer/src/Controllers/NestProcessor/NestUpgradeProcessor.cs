@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using H00N.DataTables;
 using ProjectF.Datas;
 using ProjectF.DataTables;
 using ProjectF.Networks.DataBases;
@@ -18,24 +20,22 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
 
-            GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(userData.nestData.level);
-            NestTableRow tableRow = getFacilityTableRow.currentTableRow;
-            if(tableRow == null)
-                return ErrorPacket(ENetworkResult.Error);
-
-            if(userData.storageData.materialStorage.TryGetValue(tableRow.materialID, out int materialCount) == false)
-                return ErrorPacket(ENetworkResult.Error);
-            
-            if(materialCount < tableRow.materialCount)
+            List<NestUpgradeCostTableRow> upgradeCostTableRowList = DataTableManager.GetTable<NestUpgradeCostTable>().GetRowListByLevel(userData.nestData.level);
+            CheckUpgradeCost<NestUpgradeCostTableRow> checkUpgradeCost = new CheckUpgradeCost<NestUpgradeCostTableRow>(userData.storageData, upgradeCostTableRowList);
+            if(checkUpgradeCost.upgradePossible == false)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
-             
-            if(userData.monetaData.gold < tableRow.materialCount)
+
+            NestLevelTableRow levelTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(userData.nestData.level);
+            if(levelTableRow == null)
+                return ErrorPacket(ENetworkResult.DataNotFound);
+
+            if(userData.monetaData.gold < levelTableRow.gold)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                userData.monetaData.gold -= tableRow.materialCount;
-                userData.storageData.materialStorage[tableRow.materialID] -= tableRow.materialCount;
+                userData.monetaData.gold -= levelTableRow.gold;
+                new ApplyUpgradeCost<NestUpgradeCostTableRow>(userData.storageData, upgradeCostTableRowList);
                 userData.nestData.level += 1;
 
                 await userDataInfo.WriteAsync();
@@ -43,9 +43,6 @@ namespace ProjectF.Networks.Controllers
 
             return new NestUpgradeResponse() {
                 result = ENetworkResult.Success,
-                usedGold = tableRow.materialCount,
-                usedCostItemID = tableRow.materialID,
-                usedCostItemCount = tableRow.materialCount,
                 currentLevel = userData.nestData.level
             };
         }

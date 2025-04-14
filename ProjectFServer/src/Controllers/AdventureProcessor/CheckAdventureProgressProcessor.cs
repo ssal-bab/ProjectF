@@ -19,31 +19,31 @@ namespace ProjectF.Networks.Controllers
 
         protected override async Task<CheckAdventureProgressResponse> ProcessInternal()
         {
-            UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
-            UserData userData = userDataInfo.Data;
+            // UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
+            // UserData userData = userDataInfo.Data;
 
-            var adventureData = userData.adventureData;
-            if(!adventureData.inAdventureAreaList.ContainsKey(request.areaID))
-            {
-                return ErrorPacket(ENetworkResult.Error);
-            }
+            // var adventureData = userData.adventureData;
+            // if(!adventureData.inAdventureAreaList.ContainsKey(request.areaID))
+            // {
+            //     return ErrorPacket(ENetworkResult.Error);
+            // }
 
-            DateTime adventureStartTime = adventureData.inAdventureAreaList[request.areaID];
+            // DateTime adventureStartTime = adventureData.inAdventureAreaList[request.areaID];
 
-            var lootTable = DataTableManager.GetTable<AdventureLootTable>();
-            var lootRow = lootTable.GetRow(request.areaID);
+            // var lootTable = DataTableManager.GetTable<AdventureLootTable>();
+            // var lootRow = lootTable.GetRow(request.areaID);
 
-            var now = DateTime.Now;
+            // var now = DateTime.Now;
 
-            var difference = now - adventureStartTime;
-            var seconds = difference.TotalSeconds;
+            // var difference = now - adventureStartTime;
+            // var seconds = difference.TotalSeconds;
 
-            bool value = seconds >= lootRow.explorationTime;
+            // bool value = seconds >= lootRow.explorationTime;
 
             return new CheckAdventureProgressResponse() {
                 result = ENetworkResult.Success,
-                isCompleteExplore = value,
-                remainTime = lootRow.explorationTime - seconds
+                // isCompleteExplore = value,
+                // remainTime = lootRow.explorationTime - seconds
             };
         }
     }

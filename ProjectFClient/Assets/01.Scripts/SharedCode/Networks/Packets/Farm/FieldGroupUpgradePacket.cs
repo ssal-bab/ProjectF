@@ -18,9 +18,6 @@ namespace ProjectF.Networks.Packets
 
     public class FieldGroupUpgradeResponse : ResponsePacket
     {
-        public int usedGold;
-        public int usedCostItemID;
-        public int usedCostItemCount;
         public int upgradedFieldGroupID;
         public int currentLevel;
     }

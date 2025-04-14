@@ -36,7 +36,7 @@ namespace ProjectF.Networks.Controllers
         {
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
-            NestTableRow nestTableRow = DataTableManager.GetTable<NestTable>().GetRowByLevel(userData.nestData.level);
+            NestLevelTableRow nestTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(userData.nestData.level);
             if(userData.nestData.hatchingEggList.Count >= nestTableRow.eggStoreLimit)
                 return null;
 

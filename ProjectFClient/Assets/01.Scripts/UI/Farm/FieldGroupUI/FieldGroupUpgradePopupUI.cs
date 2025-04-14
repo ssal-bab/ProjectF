@@ -1,4 +1,5 @@
 using System;
+using H00N.DataTables;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
 using ProjectF.DataTables;
@@ -46,9 +47,9 @@ namespace ProjectF.UI.Farms
         public void RefreshUI()
         {
             int currentLevel = GameInstance.MainUser.fieldGroupData.fieldGroupDatas[fieldGroupID].level;
-            GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow> getFacilityTableRow = new GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow>(currentLevel);
-            FieldGroupTableRow currentTableRow = getFacilityTableRow.currentTableRow;
-            FieldGroupTableRow nextTableRow = getFacilityTableRow.nextTableRow;
+            // GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow> getFacilityTableRow = new GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow>(currentLevel);
+            FieldGroupLevelTableRow currentTableRow = DataTableManager.GetTable<FieldGroupLevelTable>().GetRowByLevel(currentLevel);
+            FieldGroupLevelTableRow nextTableRow = DataTableManager.GetTable<FieldGroupLevelTable>().GetRowByLevel(currentLevel + 1);
             if (currentTableRow == null || nextTableRow == null)
                 return;
 
@@ -59,15 +60,15 @@ namespace ProjectF.UI.Farms
             nextLevelText.text = $"Lv. {currentLevel + 1}";
 
             // 로컬라이징 적용 해야한다.
-            for(int i = 0; i < rarityUpgradeUIList.Length; ++i)
-            {
-                float currentValue = currentTableRow.rateTable[i] / currentTableRow.totalRates * 100f;
-                float nextValue = nextTableRow.rateTable[i] / nextTableRow.totalRates * 100f;
-                rarityUpgradeUIList[i].Initialize((ECropGrade)i, currentValue, nextValue);
-            }
+            // for(int i = 0; i < rarityUpgradeUIList.Length; ++i)
+            // {
+            //     float currentValue = currentTableRow.rateTable[i] / currentTableRow.totalRates * 100f;
+            //     float nextValue = nextTableRow.rateTable[i] / nextTableRow.totalRates * 100f;
+            //     rarityUpgradeUIList[i].Initialize((ECropGrade)i, currentValue, nextValue);
+            // }
 
-            materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
-            upgradeButtonUI.Initialize(currentTableRow.upgradeGold);
+            // materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
+            upgradeButtonUI.Initialize(currentTableRow.gold);
         }
 
         public void OnTouchCloseButton()

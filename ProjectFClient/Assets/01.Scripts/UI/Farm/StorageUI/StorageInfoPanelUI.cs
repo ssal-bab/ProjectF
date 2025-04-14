@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using H00N.DataTables;
 using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
@@ -42,24 +43,26 @@ namespace ProjectF.UI.Farms
         private void RefreshUI()
         {
             UserStorageData storageData = GameInstance.MainUser.storageData;
-            GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(storageData.level);
+            // GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(storageData.level);
             
-            StorageTableRow tableRow = getFacilityTableRow.currentTableRow;
+            StorageLevelTableRow tableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(storageData.level + 1);
             if (tableRow == null)
             {
                 Debug.LogError($"[StorageInfoPanelUI::RefreshUI] tableRow is null. CurrentLevel : {storageData.level}");
                 return;
             }
 
-            upgradeButtonObject.SetActive(!getFacilityTableRow.isMaxLevel);
-            upgradeCompleteButtonObject.SetActive(getFacilityTableRow.isMaxLevel);
+            StorageLevelTableRow nextLevelTableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(storageData.level + 1);
+            bool isMaxLevel = nextLevelTableRow == null;
+            upgradeButtonObject.SetActive(!isMaxLevel);
+            upgradeCompleteButtonObject.SetActive(isMaxLevel);
 
             new SetSprite(storageIconImage, ResourceUtility.GetStorageIconKey(tableRow.id));
             nameText.text = $"Lv.{tableRow.level} 적재소{tableRow.level}"; // 나중에 localizing 적용해야 함
             StartCoroutine(this.LoopRoutine(COUNT_UPDATE_DELAY, () => UpdateCountInfo(storageData, tableRow)));
         }
 
-        private void UpdateCountInfo(UserStorageData storageData, StorageTableRow tableRow)
+        private void UpdateCountInfo(UserStorageData storageData, StorageLevelTableRow tableRow)
         {
             int usedCount = new GetStorageUsedCount(storageData).storageUsedCount;
             sliderUI.RefreshUI(tableRow.storeLimit, usedCount);
@@ -70,8 +73,9 @@ namespace ProjectF.UI.Farms
             await upgradePopupUIPrefab.InitializeAsync();
 
             int currentLevel = GameInstance.MainUser.storageData.level;
-            GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(currentLevel);
-            if(getFacilityTableRow.isMaxLevel)
+
+            StorageLevelTableRow nextLevelTableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(currentLevel + 1);
+            if(nextLevelTableRow == null)
             {
                 Debug.LogError($"[StorageInfoPanelUI::OnTouchUpgradeButton] Already max Level, but trying to open StorageUpgradePopupUI. CurrentLevel : {currentLevel}");
                 return;
@@ -89,8 +93,12 @@ namespace ProjectF.UI.Farms
                 return;
 
             UserData mainUser = GameInstance.MainUser;
-            mainUser.monetaData.gold -= response.usedGold;
-            mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
+
+            StorageLevelTableRow tableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(response.currentLevel - 1);
+            mainUser.monetaData.gold -= tableRow.gold;
+
+            new ApplyUpgradeCost<StorageUpgradeCostTableRow>(mainUser.storageData, DataTableManager.GetTable<StorageUpgradeCostTable>().GetRowListByLevel(response.currentLevel - 1));
+
             mainUser.storageData.level = response.currentLevel;
             mainUser.storageData.OnLevelChangedEvent?.Invoke(mainUser.storageData.level);
 

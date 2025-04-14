@@ -1,3 +1,4 @@
+using H00N.DataTables;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
@@ -34,17 +35,19 @@ namespace ProjectF.UI.Farms
         private void RefreshUI()
         {
             UserNestData nestData = GameInstance.MainUser.nestData;
-            GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(nestData.level);
-
-            NestTableRow tableRow = getFacilityTableRow.currentTableRow;
+            // GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(storageData.level);
+            
+            NestLevelTableRow tableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(nestData.level + 1);
             if (tableRow == null)
             {
                 Debug.LogError($"[NestInfoPanelUI::RefreshUI] tableRow is null. CurrentLevel : {nestData.level}");
                 return;
             }
 
-            upgradeButtonObject.SetActive(!getFacilityTableRow.isMaxLevel);
-            upgradeCompleteButtonObject.SetActive(getFacilityTableRow.isMaxLevel);
+            NestLevelTableRow nextLevelTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(nestData.level + 1);
+            bool isMaxLevel = nextLevelTableRow == null;
+            upgradeButtonObject.SetActive(!isMaxLevel);
+            upgradeCompleteButtonObject.SetActive(isMaxLevel);
 
             new SetSprite(nestIconImage, ResourceUtility.GetStorageIconKey(tableRow.id));
             nameText.text = $"Lv.{tableRow.level} 둥지{tableRow.level}"; // 나중에 localizing 적용해야 함
@@ -56,8 +59,9 @@ namespace ProjectF.UI.Farms
         public void OnTouchUpgradeButton()
         {
             int currentLevel = GameInstance.MainUser.nestData.level;
-            GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(currentLevel);
-            if(getFacilityTableRow.isMaxLevel)
+            // GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(currentLevel);
+            bool isMaxLevel = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(currentLevel + 1) == null;
+            if(isMaxLevel)
             {
                 Debug.LogError($"[NestInfoPanelUI::OnTouchUpgradeButton] Already max Level, but trying to open NestUpgradePopupUI. CurrentLevel : {currentLevel}");
                 return;
@@ -75,10 +79,14 @@ namespace ProjectF.UI.Farms
                 return;
 
             UserData mainUser = GameInstance.MainUser;
-            mainUser.monetaData.gold -= response.usedGold;
-            mainUser.storageData.materialStorage[response.usedCostItemID] -= response.usedCostItemCount;
+
+            NestLevelTableRow tableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(response.currentLevel - 1);
+            mainUser.monetaData.gold -= tableRow.gold;
+
+            new ApplyUpgradeCost<NestUpgradeCostTableRow>(mainUser.storageData, DataTableManager.GetTable<NestUpgradeCostTable>().GetRowListByLevel(response.currentLevel - 1));
+
             mainUser.nestData.level = response.currentLevel;
-            mainUser.nestData.OnLevelChangedEvent?.Invoke(mainUser.nestData.level);
+            mainUser.nestData.OnLevelChangedEvent?.Invoke(mainUser.storageData.level);
 
             if(ui != null)
                 ui.OnTouchCloseButton();

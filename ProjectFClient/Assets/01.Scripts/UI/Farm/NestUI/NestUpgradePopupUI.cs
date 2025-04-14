@@ -1,4 +1,5 @@
 using System;
+using H00N.DataTables;
 using H00N.Resources.Pools;
 using ProjectF.DataTables;
 using TMPro;
@@ -44,9 +45,9 @@ namespace ProjectF.UI.Farms
         public void RefreshUI()
         {
             int currentLevel = GameInstance.MainUser.nestData.level;
-            GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(currentLevel);
-            NestTableRow currentTableRow = getFacilityTableRow.currentTableRow;
-            NestTableRow nextTableRow = getFacilityTableRow.nextTableRow;
+            // GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(currentLevel);
+            NestLevelTableRow currentTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(currentLevel);
+            NestLevelTableRow nextTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(currentLevel + 1);
             if (currentTableRow == null || nextTableRow == null)
                 return;
 
@@ -60,8 +61,8 @@ namespace ProjectF.UI.Farms
             eggInfoUI.Initialize("알 저장 공간", $"{currentTableRow.eggStoreLimit}", $"{nextTableRow.eggStoreLimit}");
             farmerInfoUI.Initialize("최대 일꾼 수", $"{currentTableRow.farmerStoreLimit}", $"{nextTableRow.farmerStoreLimit}");
 
-            materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
-            upgradeButtonUI.Initialize(currentTableRow.upgradeGold);
+            // materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
+            upgradeButtonUI.Initialize(currentTableRow.gold);
         }
 
         public void OnTouchCloseButton()

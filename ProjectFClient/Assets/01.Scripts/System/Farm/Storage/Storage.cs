@@ -21,7 +21,7 @@ namespace ProjectF.Farms
 
         private void UpdateVisual(int level)
         {
-            StorageTableRow tableRow = DataTableManager.GetTable<StorageTable>().GetRowByLevel(level);
+            StorageLevelTableRow tableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(level);
             new SetSprite(spriteRenderer, ResourceUtility.GetStorageIconKey(tableRow.id));
         }
 

@@ -32,8 +32,8 @@ namespace ProjectF.Networks.Controllers
             if(elapsedTime.TotalSeconds < eggTableRow.hatchingTime)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
-            NestTableRow nestTableRow = DataTableManager.GetTable<NestTable>().GetRowByLevel(userData.nestData.level);
-            if(userData.farmerData.farmerList.Count >= nestTableRow.farmerStoreLimit)
+            NestLevelTableRow nestLevelTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(userData.nestData.level);
+            if(userData.farmerData.farmerList.Count >= nestLevelTableRow.farmerStoreLimit)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
             // 알 생성

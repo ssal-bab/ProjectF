@@ -5,6 +5,7 @@ using H00N.DataTables;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ProjectF.Networks.DataBases;
 using StackExchange.Redis.Extensions.Core;
@@ -30,6 +31,12 @@ public class Program
             .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
             .AddNewtonsoftJson(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Include);
 
+        // 로그 세팅
+        builder.Logging.ClearProviders();
+        builder.Logging.AddConsole();   // 콘솔 로그 출력
+        builder.Logging.AddDebug();     // 디버그 창 출력
+        builder.Logging.SetMinimumLevel(LogLevel.Information); // 최소 레벨
+
         // DataTableManager
         // 데이터 데이블이 없으면 서버가 켜져선 안 된다. 에러를 뱉도록 예외처리 하지 않는다.
         string dataTableJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "DataTable", "DataTableJson.json");
@@ -48,6 +55,11 @@ public class Program
         builder.Services.AddSingleton<DBManager>();
 
         WebApplication app = builder.Build();
+
+        var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+        var logger = loggerFactory.CreateLogger("GlobalLogger");
+        H00N.Debug.SetLogger(logger);
+
         app.MapControllers();
         app.UseCors(builder => {
             builder

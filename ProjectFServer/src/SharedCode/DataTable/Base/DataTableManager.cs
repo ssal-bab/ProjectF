@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -60,11 +59,11 @@ namespace H00N.DataTables
                         tableDictionary.Add(dataTableType, dataTable);
 
                     } catch(Exception err) {
-                        Console.WriteLine(err);
+                        Debug.LogError(err);
                     }
                 }
             } catch (Exception err) {
-                Console.WriteLine(err);
+                Debug.LogError(err);
             }
 
             return tableDictionary;

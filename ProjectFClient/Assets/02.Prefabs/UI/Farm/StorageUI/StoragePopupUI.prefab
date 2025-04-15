@@ -1796,7 +1796,7 @@ MonoBehaviour:
   storageInfoPanel: {fileID: 5306245774138501321}
   storageViewPanels:
   - {fileID: 7957653465058893188}
-  - {fileID: 0}
+  - {fileID: 3553220036049294212}
 --- !u!114 &373263341899933986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2777,3 +2777,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4622029919881618686, guid: a0a727c2e28504a36ac1f4d95c9d9717, type: 3}
   m_PrefabInstance: {fileID: 6847495066827119215}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3553220036049294212 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7946780453031938539, guid: a0a727c2e28504a36ac1f4d95c9d9717, type: 3}
+  m_PrefabInstance: {fileID: 6847495066827119215}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 889d568a2b48648c7b4a77c6bb610b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

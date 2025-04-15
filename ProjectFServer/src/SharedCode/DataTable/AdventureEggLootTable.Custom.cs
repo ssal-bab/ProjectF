@@ -35,6 +35,7 @@ namespace ProjectF.DataTables
                 list.Add(tableRow);
             }  
 
+            ratesDataByLevelByID = new Dictionary<int, Dictionary<int, RatesData>>();
             foreach(var id in rowListByLevelByID.Keys)
             {
                 if(ratesDataByLevelByID.TryGetValue(id, out var ratesDataByLevel) == false)

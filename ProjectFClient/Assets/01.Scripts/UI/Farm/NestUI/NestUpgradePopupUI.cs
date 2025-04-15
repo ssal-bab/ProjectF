@@ -8,8 +8,9 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class NestUpgradePopupUI : PoolableBehaviourUI
+    public class NestUpgradePopupUI : UpgradePopupUI
     {
+        [Space(10f)]
         [SerializeField] Image currentIconImage = null;
         [SerializeField] TMP_Text currentLevelText = null;
 
@@ -21,31 +22,20 @@ namespace ProjectF.UI.Farms
         [SerializeField] UpgradeInfoUI eggInfoUI = null;
         [SerializeField] UpgradeInfoUI farmerInfoUI = null;
 
-        [Space(10f)]
-        [SerializeField] CostOptionUI materialOptionUI = null;
-        [SerializeField] UpgradeButtonUI upgradeButtonUI = null;
-
         private Action<NestUpgradePopupUI> upgradeCallback = null;
 
-        public void Initialize(Action<NestUpgradePopupUI> upgradeCallback)
+        public async void Initialize(Action<NestUpgradePopupUI> upgradeCallback)
         {
             base.Initialize();
+            await InitializeUpgradeUI();
 
             this.upgradeCallback = upgradeCallback;
             RefreshUI();
         }
 
-        protected override void Release()
-        {
-            base.Release();
-            materialOptionUI.Release();
-            upgradeButtonUI.Release();
-        }
-
         public void RefreshUI()
         {
             int currentLevel = GameInstance.MainUser.nestData.level;
-            // GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(currentLevel);
             NestLevelTableRow currentTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(currentLevel);
             NestLevelTableRow nextTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(currentLevel + 1);
             if (currentTableRow == null || nextTableRow == null)
@@ -61,8 +51,7 @@ namespace ProjectF.UI.Farms
             eggInfoUI.Initialize("알 저장 공간", $"{currentTableRow.eggStoreLimit}", $"{nextTableRow.eggStoreLimit}");
             farmerInfoUI.Initialize("최대 일꾼 수", $"{currentTableRow.farmerStoreLimit}", $"{nextTableRow.farmerStoreLimit}");
 
-            // materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
-            upgradeButtonUI.Initialize(currentTableRow.gold);
+            RefreshUpgradeUI(currentTableRow, DataTableManager.GetTable<NestUpgradeCostTable>().GetRowListByLevel(currentLevel));
         }
 
         public void OnTouchCloseButton()
@@ -73,10 +62,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchUpgradeButton()
         {
-            if (materialOptionUI.OptionChecked == false)
-                return;
-
-            if (upgradeButtonUI.UpgradePossible == false)
+            if (GetUpgradePossible())
                 return;
 
             upgradeCallback?.Invoke(this);

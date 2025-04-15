@@ -85,8 +85,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6006006032315786484}
   - component: {fileID: 3143892443705690924}
+  - component: {fileID: 5234699715978412408}
   m_Layer: 5
-  m_Name: MaterialOptionUI
+  m_Name: CostOptionUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,6 +130,18 @@ MonoBehaviour:
   iconImage: {fileID: 5052044035334528585}
   countText: {fileID: 3712045658808010166}
   checkObject: {fileID: 255178689586860653}
+--- !u!114 &5234699715978412408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021715325627803363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59731d988eb4d4a4ea734b92a123e5c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2355293180179710158
 GameObject:
   m_ObjectHideFlags: 0

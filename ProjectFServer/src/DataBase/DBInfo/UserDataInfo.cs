@@ -1,4 +1,5 @@
 using System;
+using H00N;
 using ProjectF.Datas;
 using ProjectF.Networks.DataBases.StoredProcedures;
 using StackExchange.Redis.Extensions.Core.Abstractions;
@@ -18,7 +19,7 @@ namespace ProjectF.Networks.DataBases
             await procedure.CallAsync();
 
             if(procedure.Result != ENetworkResult.Success)
-                Console.WriteLine($"Result : {procedure.Result}\nReason : {procedure.Reason}");
+                Debug.LogError($"Result : {procedure.Result}\nReason : {procedure.Reason}");
         }
     }
 }

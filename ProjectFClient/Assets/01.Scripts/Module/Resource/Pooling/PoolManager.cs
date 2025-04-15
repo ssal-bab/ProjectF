@@ -97,13 +97,13 @@ namespace H00N.Resources.Pools
             GameObject resource = ResourceManager.GetResource<GameObject>(resourceName);
             if(resource == null)
             {
-                Debug.LogWarning($"[PoolManager::GetPool] Spawn failed. Resource not found. : {resourceName}");
+                Debug.LogWarning($"[PoolManager::GetPool] Spawn failed. Resource not found. resourceName : {resourceName}");
                 return null;
             }
 
             if(resource.TryGetComponent<PoolReference>(out PoolReference poolReference) == false)
             {
-                Debug.LogWarning($"[PoolManager::GetPool] Spawn failed. Current resource is not a PoolReference. : {resourceName}");
+                Debug.LogWarning($"[PoolManager::GetPool] Spawn failed. Current resource is not a PoolReference. resourceName : {resourceName}");
                 return null;
             }
 
@@ -122,7 +122,7 @@ namespace H00N.Resources.Pools
             {
                 if(pool.Resource != resource)
                 {
-                    Debug.LogWarning($"[PoolManager::GetPool] Pool already exists with different resource. : {resourceName}");
+                    Debug.LogWarning($"[PoolManager::GetPool] Pool already exists with different resource. resourceName : {resourceName}");
                     return null;
                 }
 
@@ -151,7 +151,7 @@ namespace H00N.Resources.Pools
 
             if(poolTable.TryGetValue(instance.Key, out Pool pool) == false)
             {
-                Debug.LogWarning($"[PoolManager::Despawn] Pool not found. : {instance.Key}");
+                Debug.LogWarning($"[PoolManager::Despawn] Pool not found. instance.Key : {instance.Key}");
                 Object.Destroy(instance.gameObject);
                 return;
             }

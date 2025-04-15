@@ -7,7 +7,7 @@ using static ProjectF.GameDefine;
 
 namespace ProjectF.UI
 {
-    public class CostOptionUI : MonoBehaviourUI
+    public class CostOptionUI : PoolableBehaviourUI
     {
         private const float UPDATE_DELAY = 1f;
 

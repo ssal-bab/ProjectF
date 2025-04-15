@@ -61,23 +61,23 @@ namespace H00N.Resources
             // property.propertyPath를 통해 제네릭 타입을 추출
             Type targetType = property.serializedObject.targetObject.GetType();
             string[] pathParts = property.propertyPath.Split('.');
-            Type currentType = targetType;
+            if(pathParts.Length <= 0)
+                return null;
 
-            foreach (var part in pathParts)
-            {
-                if (part == "Array" || part.StartsWith("data["))
-                    continue; // 배열 처리 생략 (필요 시 추가)
-
-                var field = currentType.GetField(part, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            string fieldName = pathParts[^1];
+            while (targetType != null)
+            {               
+                var field = targetType.GetField(fieldName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
                 if (field != null)
                 {
-                    currentType = field.FieldType;
+                    Type currentType = field.FieldType;
                     if (currentType.IsGenericType && currentType.GetGenericTypeDefinition() == typeof(AddressableAsset<>))
-                    {
                         return currentType.GetGenericArguments()[0]; // T 타입 반환
-                    }
                 }
+
+                targetType = targetType.BaseType;
             }
+
             return null;
         }
     }

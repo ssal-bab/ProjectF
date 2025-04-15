@@ -1,7 +1,6 @@
 using System;
 using H00N.DataTables;
 using H00N.Resources.Pools;
-using ProjectF.Datas;
 using ProjectF.DataTables;
 using TMPro;
 using UnityEngine;
@@ -9,8 +8,9 @@ using UnityEngine.UI;
 
 namespace ProjectF.UI.Farms
 {
-    public class FieldGroupUpgradePopupUI : PoolableBehaviourUI
+    public class FieldGroupUpgradePopupUI : UpgradePopupUI
     {
+        [Space(10f)]
         [SerializeField] Image currentIconImage = null;
         [SerializeField] TMP_Text currentLevelText = null;
 
@@ -21,33 +21,22 @@ namespace ProjectF.UI.Farms
         [Space(10f)]
         [SerializeField] RarityUpgradeUI[] rarityUpgradeUIList = new RarityUpgradeUI[4];
 
-        [Space(10f)]
-        [SerializeField] CostOptionUI materialOptionUI = null;
-        [SerializeField] UpgradeButtonUI upgradeButtonUI = null;
-
         private Action<FieldGroupUpgradePopupUI> upgradeCallback = null;
         private int fieldGroupID = 0;
 
-        public void Initialize(Action<FieldGroupUpgradePopupUI> upgradeCallback, int fieldGroupID)
+        public async void Initialize(Action<FieldGroupUpgradePopupUI> upgradeCallback, int fieldGroupID)
         {
             base.Initialize();
+            await InitializeUpgradeUI();
 
             this.upgradeCallback = upgradeCallback;
             this.fieldGroupID = fieldGroupID;
             RefreshUI();
         }
 
-        protected override void Release()
-        {
-            base.Release();
-            materialOptionUI.Release();
-            upgradeButtonUI.Release();
-        }
-
         public void RefreshUI()
         {
             int currentLevel = GameInstance.MainUser.fieldGroupData.fieldGroupDatas[fieldGroupID].level;
-            // GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow> getFacilityTableRow = new GetFacilityTableRow<FieldGroupTable, FieldGroupTableRow>(currentLevel);
             FieldGroupLevelTableRow currentTableRow = DataTableManager.GetTable<FieldGroupLevelTable>().GetRowByLevel(currentLevel);
             FieldGroupLevelTableRow nextTableRow = DataTableManager.GetTable<FieldGroupLevelTable>().GetRowByLevel(currentLevel + 1);
             if (currentTableRow == null || nextTableRow == null)
@@ -67,8 +56,7 @@ namespace ProjectF.UI.Farms
             //     rarityUpgradeUIList[i].Initialize((ECropGrade)i, currentValue, nextValue);
             // }
 
-            // materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
-            upgradeButtonUI.Initialize(currentTableRow.gold);
+            RefreshUpgradeUI(currentTableRow, DataTableManager.GetTable<FieldGroupUpgradeCostTable>().GetRowListByLevel(currentLevel));
         }
 
         public void OnTouchCloseButton()
@@ -79,10 +67,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchUpgradeButton()
         {
-            if (materialOptionUI.OptionChecked == false)
-                return;
-
-            if (upgradeButtonUI.UpgradePossible == false)
+            if (GetUpgradePossible())
                 return;
 
             upgradeCallback?.Invoke(this);

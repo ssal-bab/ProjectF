@@ -5,13 +5,12 @@ using ProjectF.DataTables;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static ProjectF.StringUtility;
-using static ProjectF.GameDefine;
 
 namespace ProjectF.UI.Farms
 {
-    public class StorageUpgradePopupUI : PoolableBehaviourUI
+    public class StorageUpgradePopupUI : UpgradePopupUI
     {
+        [Space(10f)]
         [SerializeField] Image currentIconImage = null;
         [SerializeField] TMP_Text currentLevelText = null;
 
@@ -23,31 +22,20 @@ namespace ProjectF.UI.Farms
         [SerializeField] UpgradeInfoUI capacityInfoUI = null;
         [SerializeField] UpgradeInfoUI sellGoldInfoUI = null;
 
-        [Space(10f)]
-        [SerializeField] CostOptionUI materialOptionUI = null;
-        [SerializeField] UpgradeButtonUI upgradeButtonUI = null;
-
         private Action<StorageUpgradePopupUI> upgradeCallback = null;
 
-        public void Initialize(Action<StorageUpgradePopupUI> upgradeCallback)
+        public async void Initialize(Action<StorageUpgradePopupUI> upgradeCallback)
         {
             base.Initialize();
+            await InitializeUpgradeUI();
 
             this.upgradeCallback = upgradeCallback;
             RefreshUI();
         }
 
-        protected override void Release()
-        {
-            base.Release();
-            materialOptionUI.Release();
-            upgradeButtonUI.Release();
-        }
-
         public void RefreshUI()
         {
             int currentLevel = GameInstance.MainUser.storageData.level;
-            // GetFacilityTableRow<StorageTable, StorageTableRow> getFacilityTableRow = new GetFacilityTableRow<StorageTable, StorageTableRow>(currentLevel);
             StorageLevelTableRow currentTableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(currentLevel);
             StorageLevelTableRow nextTableRow = DataTableManager.GetTable<StorageLevelTable>().GetRowByLevel(currentLevel + 1);
             if (currentTableRow == null)
@@ -64,7 +52,7 @@ namespace ProjectF.UI.Farms
             sellGoldInfoUI.Initialize("판매 이익", $"+{currentTableRow.priceMultiplier}%", $"+{nextTableRow.priceMultiplier}%");
 
             // materialOptionUI.Initialize(currentTableRow.materialID, currentTableRow.materialCount);
-            upgradeButtonUI.Initialize(currentTableRow.gold);
+            RefreshUpgradeUI(currentTableRow, DataTableManager.GetTable<StorageUpgradeCostTable>().GetRowListByLevel(currentLevel));
         }
 
         public void OnTouchCloseButton()
@@ -75,10 +63,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchUpgradeButton()
         {
-            if (materialOptionUI.OptionChecked == false)
-                return;
-
-            if (upgradeButtonUI.UpgradePossible == false)
+            if (GetUpgradePossible())
                 return;
 
             upgradeCallback?.Invoke(this);

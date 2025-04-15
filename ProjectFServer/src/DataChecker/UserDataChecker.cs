@@ -1,3 +1,5 @@
+using H00N;
+
 namespace ProjectF.Datas
 {
     public struct UserDataChecker
@@ -15,7 +17,7 @@ namespace ProjectF.Datas
                 new UserAdventureDataChecker(userData);
             } catch(System.Exception err) 
             {
-                System.Console.WriteLine(err);
+                Debug.LogError(err);
             }
         }
     }

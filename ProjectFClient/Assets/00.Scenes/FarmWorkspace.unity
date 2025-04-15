@@ -3790,30 +3790,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1120376111}
-  - component: {fileID: 1120376110}
   m_Layer: 0
   m_Name: TAdventure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1120376110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120376109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfb9233bf0f9eb14b845c5f37a9405ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  adventurePopupUI:
-    key: _AdventurePopupUI
-  adventureProgressPopupUI:
-    key: _AdventureProgressInfoPanel
+  m_IsActive: 0
 --- !u!4 &1120376111
 Transform:
   m_ObjectHideFlags: 0

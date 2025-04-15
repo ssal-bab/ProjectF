@@ -22,7 +22,7 @@ namespace ProjectF.UI.Farms
         [SerializeField] UpgradeInfoUI farmerInfoUI = null;
 
         [Space(10f)]
-        [SerializeField] MaterialOptionUI materialOptionUI = null;
+        [SerializeField] CostOptionUI materialOptionUI = null;
         [SerializeField] UpgradeButtonUI upgradeButtonUI = null;
 
         private Action<NestUpgradePopupUI> upgradeCallback = null;

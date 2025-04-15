@@ -19,7 +19,7 @@ namespace ProjectF
         public static string GetFieldGroupIconKey(int id) => GetSpriteResourceKey("FieldGroupIcon", id);
         public static string GetEggIconKey(int id) => GetSpriteResourceKey("EggIcon", id);
         public static string GetCropIconKey(int id) => GetSpriteResourceKey("CropIcon", id);
-        public static string GetMaterialIconKey(int id) => GetSpriteResourceKey("MaterialIcon", id);
+        // public static string GetMaterialIconKey(int id) => GetSpriteResourceKey("MaterialIcon", id);
         public static string GetSeedIconKey(int id) => GetSpriteResourceKey("SeedIcon", id);
         public static string GetFarmerIconKey(int id) => GetSpriteResourceKey("FarmerIcon", id);
         public static string GetFarmerStatIconKey(int id) => GetSpriteResourceKey("FarmerStatIcon", id);

@@ -164,9 +164,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4622029919881618686}
   - component: {fileID: 7657119788738084214}
-  - component: {fileID: 1512387950808333281}
+  - component: {fileID: 7946780453031938539}
   m_Layer: 5
-  m_Name: StorageMaterialViewPanel
+  m_Name: StorageSeedViewPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,7 +204,7 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!114 &1512387950808333281
+--- !u!114 &7946780453031938539
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,14 +213,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4216528031168715621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9490f048d3354ed48a0d740f99573f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 889d568a2b48648c7b4a77c6bb610b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 7657119788738084214}
   scrollView: {fileID: 4247264994791237685}
   elementPrefab:
-    reference: {fileID: -3414996477315571113, guid: 22af52feb65d84d51bea465a238d3413, type: 3}
-    key: StorageMaterialElementUI
+    key: StorageSeedElementUI
 --- !u!1 &7336501814519636913
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,26 +7,26 @@ using static ProjectF.GameDefine;
 
 namespace ProjectF.UI
 {
-    public class MaterialOptionUI : MonoBehaviourUI
+    public class CostOptionUI : MonoBehaviourUI
     {
         private const float UPDATE_DELAY = 1f;
 
         [SerializeField] Image iconImage = null;
         [SerializeField] TMP_Text countText = null;
         [SerializeField] GameObject checkObject = null;
-        private int materialID = 0;
+        private int cropID = 0;
         private int targetCount = 0;
 
         private bool optionChecked = false;
         public bool OptionChecked => optionChecked;
 
-        public void Initialize(int materialID, int targetCount)
+        public void Initialize(int cropID, int targetCount)
         {
             base.Initialize();
 
-            this.materialID = materialID;
+            this.cropID = cropID;
             this.targetCount = targetCount;
-            new SetSprite(iconImage, ResourceUtility.GetMaterialIconKey(materialID));
+            new SetSprite(iconImage, ResourceUtility.GetCropIconKey(cropID));
 
             optionChecked = false;
             StartCoroutine(this.LoopRoutine(UPDATE_DELAY, RefreshUI, 0f));
@@ -40,8 +40,11 @@ namespace ProjectF.UI
 
         private void RefreshUI()
         {
-            if(GameInstance.MainUser.storageData.materialStorage.TryGetValue(materialID, out int count) == false)
+            if(GameInstance.MainUser.storageData.cropStorage.TryGetValue(cropID, out var category) == false)
                 return;
+
+            int count = 0;
+            category.Values.ForEach(i => count += i);
 
             optionChecked = count >= targetCount;
             if(checkObject.activeSelf != optionChecked)

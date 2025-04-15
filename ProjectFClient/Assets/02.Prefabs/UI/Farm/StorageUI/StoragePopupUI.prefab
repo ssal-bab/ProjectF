@@ -1796,7 +1796,7 @@ MonoBehaviour:
   storageInfoPanel: {fileID: 5306245774138501321}
   storageViewPanels:
   - {fileID: 7957653465058893188}
-  - {fileID: 5474728634717217166}
+  - {fileID: 0}
 --- !u!114 &373263341899933986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2565,7 +2565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4216528031168715621, guid: a0a727c2e28504a36ac1f4d95c9d9717, type: 3}
       propertyPath: m_Name
-      value: CropStorageMaterialPanel
+      value: CropStorageSeedPanel
       objectReference: {fileID: 0}
     - target: {fileID: 4622029919881618686, guid: a0a727c2e28504a36ac1f4d95c9d9717, type: 3}
       propertyPath: m_Pivot.x
@@ -2777,14 +2777,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4622029919881618686, guid: a0a727c2e28504a36ac1f4d95c9d9717, type: 3}
   m_PrefabInstance: {fileID: 6847495066827119215}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5474728634717217166 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1512387950808333281, guid: a0a727c2e28504a36ac1f4d95c9d9717, type: 3}
-  m_PrefabInstance: {fileID: 6847495066827119215}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9490f048d3354ed48a0d740f99573f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

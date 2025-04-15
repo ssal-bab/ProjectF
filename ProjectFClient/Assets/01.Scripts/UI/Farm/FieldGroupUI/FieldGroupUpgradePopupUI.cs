@@ -22,7 +22,7 @@ namespace ProjectF.UI.Farms
         [SerializeField] RarityUpgradeUI[] rarityUpgradeUIList = new RarityUpgradeUI[4];
 
         [Space(10f)]
-        [SerializeField] MaterialOptionUI materialOptionUI = null;
+        [SerializeField] CostOptionUI materialOptionUI = null;
         [SerializeField] UpgradeButtonUI upgradeButtonUI = null;
 
         private Action<FieldGroupUpgradePopupUI> upgradeCallback = null;

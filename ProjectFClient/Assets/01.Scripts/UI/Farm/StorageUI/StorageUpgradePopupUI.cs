@@ -24,7 +24,7 @@ namespace ProjectF.UI.Farms
         [SerializeField] UpgradeInfoUI sellGoldInfoUI = null;
 
         [Space(10f)]
-        [SerializeField] MaterialOptionUI materialOptionUI = null;
+        [SerializeField] CostOptionUI materialOptionUI = null;
         [SerializeField] UpgradeButtonUI upgradeButtonUI = null;
 
         private Action<StorageUpgradePopupUI> upgradeCallback = null;

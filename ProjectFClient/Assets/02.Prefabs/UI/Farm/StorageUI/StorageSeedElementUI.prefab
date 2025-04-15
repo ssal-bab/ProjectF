@@ -309,10 +309,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3065844063345839914}
-  - component: {fileID: -3414996477315571113}
   - component: {fileID: 236473541859570615}
+  - component: {fileID: 2373818643008486549}
   m_Layer: 5
-  m_Name: StorageMaterialElementUI
+  m_Name: StorageSeedElementUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,21 +340,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 193, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &-3414996477315571113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7891941554013510369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 111cdc6e567094b1f828193e174ba71f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemIconImage: {fileID: 3510231040492266566}
-  itemNameText: {fileID: 0}
-  itemCountText: {fileID: 8538268743070026301}
 --- !u!114 &236473541859570615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,3 +352,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59731d988eb4d4a4ea734b92a123e5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2373818643008486549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7891941554013510369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49a661e1c6a54cf1af8baf14982defd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemIconImage: {fileID: 3510231040492266566}
+  itemCountText: {fileID: 8538268743070026301}

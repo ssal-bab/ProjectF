@@ -5,7 +5,7 @@ namespace ProjectF.Datas
     public struct GetStorageUsedCount
     {
         public int cropStorageUsedCount;
-        public int materialStorageUsedCount;
+        // public int materialStorageUsedCount;
         public int storageUsedCount;
 
 
@@ -18,11 +18,12 @@ namespace ProjectF.Datas
                     cropStorageUsedCount += count;
             }
 
-            materialStorageUsedCount = 0;
-            foreach(int count in userStorageData.materialStorage.Values)
-                materialStorageUsedCount += count;
+            // materialStorageUsedCount = 0;
+            // foreach(int count in userStorageData.materialStorage.Values)
+            //     materialStorageUsedCount += count;
 
-            storageUsedCount = cropStorageUsedCount + materialStorageUsedCount;            
+            // storageUsedCount = cropStorageUsedCount + materialStorageUsedCount;            
+            storageUsedCount = cropStorageUsedCount;
         }
     }
 }

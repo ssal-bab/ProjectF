@@ -10,7 +10,7 @@ namespace ProjectF.Datas
 
         // <id, <grade, count>>
         public Dictionary<int, Dictionary<ECropGrade, int>> cropStorage;
-        public Dictionary<int, int> materialStorage;
+        // public Dictionary<int, int> materialStorage;
 
         [JsonIgnore]
         public Action<int> OnLevelChangedEvent = null;

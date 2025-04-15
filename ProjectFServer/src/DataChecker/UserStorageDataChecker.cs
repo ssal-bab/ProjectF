@@ -22,10 +22,10 @@ namespace ProjectF.Datas
             foreach(CropTableRow tableRow in cropTable)
                 CheckCropStorage(storageData, tableRow);
 
-            storageData.materialStorage ??= new Dictionary<int, int>();
-            MaterialTable materialTable = DataTableManager.GetTable<MaterialTable>();
-            foreach(MaterialTableRow tableRow in materialTable)
-                CheckMaterialStorage(storageData, tableRow);
+            // storageData.materialStorage ??= new Dictionary<int, int>();
+            // MaterialTable materialTable = DataTableManager.GetTable<MaterialTable>();
+            // foreach(MaterialTableRow tableRow in materialTable)
+            //     CheckMaterialStorage(storageData, tableRow);
         }
 
         private void CheckCropStorage(UserStorageData storageData, CropTableRow tableRow)
@@ -42,12 +42,12 @@ namespace ProjectF.Datas
             });
         }
 
-        private void CheckMaterialStorage(UserStorageData storageData, MaterialTableRow tableRow)
-        {
-            if(storageData.materialStorage.ContainsKey(tableRow.id))
-                return;
+        // private void CheckMaterialStorage(UserStorageData storageData, MaterialTableRow tableRow)
+        // {
+        //     if(storageData.materialStorage.ContainsKey(tableRow.id))
+        //         return;
 
-            storageData.materialStorage.Add(tableRow.id, 10);
-        }
+        //     storageData.materialStorage.Add(tableRow.id, 10);
+        // }
     }
 }

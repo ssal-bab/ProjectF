@@ -12,7 +12,7 @@ namespace ProjectF
             [ERewardItemType.FreeGem] = ApplyFreeGemChecker,
             [ERewardItemType.CashGem] = ApplyCashGemChecker,
             [ERewardItemType.Seed] = ApplySeedChecker,
-            [ERewardItemType.Material] = ApplyMaterialChecker,
+            // [ERewardItemType.Material] = ApplyMaterialChecker,
             [ERewardItemType.XP] = ApplyXPChecker,
         };
 
@@ -21,7 +21,7 @@ namespace ProjectF
             [ERewardItemType.FreeGem] = ApplyFreeGem,
             [ERewardItemType.CashGem] = ApplyCashGem,
             [ERewardItemType.Seed] = ApplySeed,
-            [ERewardItemType.Material] = ApplyMaterial,
+            // [ERewardItemType.Material] = ApplyMaterial,
             [ERewardItemType.XP] = ApplyXP,
         };
 
@@ -70,14 +70,14 @@ namespace ProjectF
             userData.seedPocketData.seedStorage[reward.rewardItemID] += reward.rewardItemAmount;
         }
 
-        private static bool ApplyMaterialChecker(UserData userData, RewardData reward) => true;
-        private static void ApplyMaterial(UserData userData, RewardData reward)
-        {
-            if(userData.storageData.materialStorage.ContainsKey(reward.rewardItemID) == false)
-                return;
+        // private static bool ApplyMaterialChecker(UserData userData, RewardData reward) => true;
+        // private static void ApplyMaterial(UserData userData, RewardData reward)
+        // {
+        //     if(userData.storageData.materialStorage.ContainsKey(reward.rewardItemID) == false)
+        //         return;
 
-            userData.storageData.materialStorage[reward.rewardItemID] += reward.rewardItemAmount;
-        }
+        //     userData.storageData.materialStorage[reward.rewardItemID] += reward.rewardItemAmount;
+        // }
 
         private static bool ApplyXPChecker(UserData userData, RewardData reward) => true;
         private static void ApplyXP(UserData userData, RewardData reward)

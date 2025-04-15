@@ -7,7 +7,7 @@ namespace ProjectF.Datas
         FreeGem,
         CashGem,
         Seed,
-        Material,
+        // Material,
         XP
     }
 }

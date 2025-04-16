@@ -63,7 +63,7 @@ namespace ProjectF.UI.Farms
 
         public void OnTouchUpgradeButton()
         {
-            if (GetUpgradePossible())
+            if (GetUpgradePossible() == false)
                 return;
 
             upgradeCallback?.Invoke(this);

@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using H00N.DataTables;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using Newtonsoft.Json;
 using ProjectF.Datas;
+using ProjectF.DataTables;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
+using ProjectF.UI.Farms;
 using UnityEngine;
 
 namespace ProjectF.UI.Cheats
@@ -60,6 +63,34 @@ namespace ProjectF.UI.Cheats
 
                 GameInstance.MainUser.seedPocketData.seedStorage[id] += count;
             });
+        }
+
+        public async void OnTouchOpenFieldGroupUpgradePopupUI()
+        {
+            await ResourceManager.LoadResourceAsync("FieldGroupUpgradePopupUI");
+            FieldGroupUpgradePopupUI fieldGroupUpgradePopupUI = PoolManager.Spawn<FieldGroupUpgradePopupUI>("FieldGroupUpgradePopupUI", GameDefine.ContentPopupFrame);
+            fieldGroupUpgradePopupUI.StretchRect();
+            fieldGroupUpgradePopupUI.Initialize(UpgradeFieldGroup, 0);
+
+            async void UpgradeFieldGroup(FieldGroupUpgradePopupUI ui)
+            {
+                FieldGroupUpgradeResponse response = await NetworkManager.Instance.SendWebRequestAsync<FieldGroupUpgradeResponse>(new FieldGroupUpgradeRequest(0));
+                if (response.result != ENetworkResult.Success)
+                    return;
+
+                UserData mainUser = GameInstance.MainUser;
+
+                FieldGroupLevelTableRow tableRow = DataTableManager.GetTable<FieldGroupLevelTable>().GetRowByLevel(response.currentLevel - 1);
+                mainUser.monetaData.gold -= tableRow.gold;
+                new ApplyUpgradeCost<FieldGroupUpgradeCostTableRow>(mainUser.storageData, DataTableManager.GetTable<FieldGroupUpgradeCostTable>().GetRowListByLevel(response.currentLevel - 1));
+
+                FieldGroupData fieldGroupData = mainUser.fieldGroupData.fieldGroupDatas[response.upgradedFieldGroupID];
+                fieldGroupData.level = response.currentLevel;
+                fieldGroupData.OnLevelChangedEvent?.Invoke(fieldGroupData.level);
+
+                if(ui != null)
+                    ui.OnTouchCloseButton();
+            }
         }
 
         private void PassValueCheat(string command, string description, Action<string> callback)

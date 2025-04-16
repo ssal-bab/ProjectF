@@ -46,6 +46,7 @@ namespace ProjectF.UI
                 foreach(TRow upgradeCostTableRow in upgradeCostTableRowList)
                 {
                     CostOptionUI costOptionUI = PoolManager.Spawn<CostOptionUI>(costOptionUIPrefab, costOptionUIContainer);
+                    costOptionUI.InitializeTransform();
                     costOptionUI.Initialize(upgradeCostTableRow.costItemID, upgradeCostTableRow.costValue);
                     costOptionUIList.Add(costOptionUI);
                 }

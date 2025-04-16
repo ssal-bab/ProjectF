@@ -11,6 +11,9 @@ public static class AddressableEditorUtils
         if(string.IsNullOrEmpty(key))
             return null;
 
+        if(type == null)
+            return null;
+
         if(type.IsSubclassOf(typeof(Object)) == false)
             return null;
 
@@ -38,8 +41,21 @@ public static class AddressableEditorUtils
                     }
                     else
                     {
-                        if(entry.MainAsset.GetType().IsSubclassOf(type))
-                            return entry.MainAsset;
+                        if(type == typeof(Sprite) && entry.MainAsset is Texture2D texture2D)
+                        {
+                            var subAssets = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(texture2D));
+                            foreach (var subAsset in subAssets)
+                            {
+                                if (subAsset is Sprite sprite)
+                                    return sprite;
+                            }
+                        }
+                        else
+                        {
+                            Type assetType = entry.MainAsset.GetType();
+                            if(assetType == type || assetType.IsSubclassOf(type))
+                                return entry.MainAsset;
+                        }
                     }
                 }
             }

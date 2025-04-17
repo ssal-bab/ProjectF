@@ -102,10 +102,9 @@ MonoBehaviour:
     - default
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 38e5df037e5593c4986014b61d4ab9ab
-    m_Address: FarmerInfoUI
+    m_Address: FarmerInfoElementUI
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50739f20e5c6eeb4bb2d7f8a8caee821
     m_Address: FarmerInfoPopupUI

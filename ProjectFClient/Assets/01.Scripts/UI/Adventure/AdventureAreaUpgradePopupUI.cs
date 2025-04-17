@@ -33,7 +33,7 @@ namespace ProjectF.UI.Adventures
 
         public void RefreshUI()
         {
-            int currentLevel = 0; //GameInstance.MainUser.adventureData.;
+            int currentLevel = GameInstance.MainUser.adventureData.adventureAreas[areaID];
             AdventureLevelTableRow currentTableRow = DataTableManager.GetTable<AdventureLevelTable>().GetRow(areaID, currentLevel);
             AdventureLevelTableRow nextTableRow = DataTableManager.GetTable<AdventureLevelTable>().GetRow(areaID, currentLevel + 1);
             if (currentTableRow == null || nextTableRow == null)

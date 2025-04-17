@@ -2,7 +2,7 @@ namespace ProjectF.Networks.Packets
 {
     public class AdventureAreaUpgradeRequest : RequestPacket
     {
-        public override string Route => NetworkDefine.FARM_ROUTE;
+        public override string Route => NetworkDefine.ADVENTURE_ROUTE;
 
         public const string POST = "AdventureAreaUpgrade";
         public override string Post => POST;

@@ -27,7 +27,7 @@ namespace ProjectF.UI.Adventures
         {
             AdventureAreaUpgradePopupUI upgradePopupUI = PoolManager.Spawn(upgradePopupUIPrefab, GameDefine.ContentPopupFrame);
             upgradePopupUI.StretchRect();
-            upgradePopupUI.Initialize(areaID);
+            upgradePopupUI.Initialize(areaID, UpgradeAdventureArea);
         }
 
         private void OpenAreaPopupUI(int areaID)
@@ -41,6 +41,12 @@ namespace ProjectF.UI.Adventures
         {
             base.Release();
             PoolManager.Despawn(this);
+        }
+
+        private async void UpgradeAdventureArea(AdventureAreaUpgradePopupUI ui)
+        {
+            if(ui != null)
+                ui.OnTouchCloseButton();
         }
     }
 }

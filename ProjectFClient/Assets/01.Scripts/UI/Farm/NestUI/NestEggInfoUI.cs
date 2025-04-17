@@ -7,6 +7,7 @@ using ProjectF.DataTables;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static ProjectF.StringUtility;
 
 namespace ProjectF.UI.Farms
 {
@@ -70,7 +71,7 @@ namespace ProjectF.UI.Farms
                 if(currentSeconds != lastTextUpdateSeconds)
                 {
                     lastTextUpdateSeconds = currentSeconds;
-                    remainTimeText.text = StringUtility.GetTimeString(TimeSpan.FromSeconds(lastTextUpdateSeconds), StringUtility.ETimeStringType.HoursMinutesSeconds);
+                    remainTimeText.text = GetTimeString(ETimeStringType.HoursMinutesSeconds, TimeSpan.FromSeconds(lastTextUpdateSeconds));
                 }
 
                 bool hatchingFinish = remainTime <= 0;

@@ -32,12 +32,12 @@ namespace ProjectF.DataTables
             }
         }
 
-        public List<AdventureUpgradeCostTableRow> GetRow(int adventureAreaID, int level)
+        public List<AdventureUpgradeCostTableRow> GetRowList(int adventureAreaID, int level)
         {
             if(rowListByLevelByID.TryGetValue(adventureAreaID, out var rowListByLevel) == false)
                 return null;
 
-            rowListByLevel.TryGetValue(adventureAreaID, out var list);
+            rowListByLevel.TryGetValue(level, out var list);
             return list;
         } 
     }

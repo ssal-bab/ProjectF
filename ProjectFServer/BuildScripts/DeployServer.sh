@@ -41,6 +41,10 @@ else
     echo "[DeployServer::RestartService] service restart failed."
 fi
 
+# === 3^. 서비스 재시작 대기 ===
+echo "[DeployServer::WaitForRestartService] Waiting Server Uptime"
+sleep 10
+
 # === 4. 로그 보기 ===
 echo "[DeployServer::ShowLog] Showing latest service logs (Ctrl+C to exit)"
 ssh -F $SSH_CONFIG_PATH $SERVER_NAME "sudo journalctl -u $SERVICE_NAME -n 30"

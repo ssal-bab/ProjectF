@@ -12,34 +12,10 @@ namespace ProjectF.Networks.Controllers
     {
         public AdventureController(DBManager dbManager, IDistributedLockFactory redLockFactory) : base(dbManager, redLockFactory) { }
 
-        [HttpPost(AdventureStartRequest.POST)]
-        public async Task<ActionResult<AdventureStartResponse>> AdventureStartRequestPost([FromBody]AdventureStartRequest req)
+        [HttpPost(AdventureAreaUpgradeRequest.POST)]
+        public async Task<ActionResult<AdventureAreaUpgradeResponse>> AdventureAreaUpgradeRequestPost([FromBody]AdventureAreaUpgradeRequest req)
         {
-            var processor = new AdventureStartProcessor(dbManager, redLockFactory, req);
-            await processor.ProcessAsync();
-            return processor.Response;
-        }
-
-        [HttpPost(CheckAdventureProgressRequest.POST)]
-        public async Task<ActionResult<CheckAdventureProgressResponse>> CheckAdventureProgressRequestPost([FromBody]CheckAdventureProgressRequest req)
-        {
-            var processor = new CheckAdventureProgressProcessor(dbManager, redLockFactory, req);
-            await processor.ProcessAsync();
-            return processor.Response;
-        }
-
-        [HttpPost(AdventureResultRequest.POST)]
-        public async Task<ActionResult<AdventureResultResponse>> AdventureResultRequestPost([FromBody]AdventureResultRequest req)
-        {
-            var processor = new AdventureResultProcessor(dbManager, redLockFactory, req);
-            await processor.ProcessAsync();
-            return processor.Response;
-        }
-
-        [HttpPost(ReceiveAdventureResultRequest.POST)]
-        public async Task<ActionResult<ReceiveAdventureResultResponse>> ReceiveAdventureResultRequestPost([FromBody]ReceiveAdventureResultRequest req)
-        {
-            var processor = new ReceiveAdventureResultProcessor(dbManager, redLockFactory, req);
+            AdventureAreaUpgradeProcessor processor = new AdventureAreaUpgradeProcessor(dbManager, redLockFactory, req);
             await processor.ProcessAsync();
             return processor.Response;
         }

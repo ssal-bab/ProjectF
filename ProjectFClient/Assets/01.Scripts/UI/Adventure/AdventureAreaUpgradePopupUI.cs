@@ -19,9 +19,9 @@ namespace ProjectF.UI.Adventures
         [SerializeField] UpgradeInfoUI timeInfoUI = null;
 
         private int areaID = -1;
-        private Action<AdventureAreaUpgradePopupUI> upgradeCallback = null;
+        private Action<int, AdventureAreaUpgradePopupUI> upgradeCallback = null;
 
-        public async void Initialize(int areaID, Action<AdventureAreaUpgradePopupUI> upgradeCallback)
+        public async void Initialize(int areaID, Action<int, AdventureAreaUpgradePopupUI> upgradeCallback)
         {
             base.Initialize();
             await InitializeUpgradeUI();
@@ -59,7 +59,7 @@ namespace ProjectF.UI.Adventures
             if (GetUpgradePossible() == false)
                 return;
 
-            upgradeCallback?.Invoke(this);
+            upgradeCallback?.Invoke(areaID, this);
         }
     }
 }

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using ProjectF.Networks;
-using ProjectFServer.Networks.Packets;
+using ProjectF.Networks.Packets;
 using System.Linq;
 using H00N.DataTables;
 using ProjectF.DataTables;

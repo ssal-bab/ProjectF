@@ -1,6 +1,11 @@
 using System.Collections.Generic;
+using H00N.DataTables;
 using H00N.Resources;
 using H00N.Resources.Pools;
+using ProjectF.Datas;
+using ProjectF.DataTables;
+using ProjectF.Networks;
+using ProjectF.Networks.Packets;
 using UnityEngine;
 
 namespace ProjectF.UI.Adventures
@@ -43,8 +48,21 @@ namespace ProjectF.UI.Adventures
             PoolManager.Despawn(this);
         }
 
-        private async void UpgradeAdventureArea(AdventureAreaUpgradePopupUI ui)
+        private async void UpgradeAdventureArea(int areaID, AdventureAreaUpgradePopupUI ui)
         {
+            AdventureAreaUpgradeResponse response = await NetworkManager.Instance.SendWebRequestAsync<AdventureAreaUpgradeResponse>(new AdventureAreaUpgradeRequest(areaID));
+            if (response.result != ENetworkResult.Success)
+                return;
+
+            UserData mainUser = GameInstance.MainUser;
+
+            AdventureLevelTableRow tableRow = DataTableManager.GetTable<AdventureLevelTable>().GetRow(areaID, response.currentLevel - 1);
+            mainUser.monetaData.gold -= tableRow.gold;
+
+            new ApplyUpgradeCost<NestUpgradeCostTableRow>(mainUser.storageData, DataTableManager.GetTable<NestUpgradeCostTable>().GetRowListByLevel(response.currentLevel - 1));
+
+            mainUser.adventureData.adventureAreas[areaID] = response.currentLevel;
+
             if(ui != null)
                 ui.OnTouchCloseButton();
         }

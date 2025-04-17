@@ -20,12 +20,14 @@ namespace ProjectF
             TotalHours,
             TotalMinutes,
             TotalSeconds,
+
+            FlexibleHMS,
+            Flexiblehms,
         }
 
-        public static string GetTimeString(TimeSpan timeSpan, ETimeStringType timeStringType) => GetTimeStringInternal(timeStringType, timeSpan.TotalDays, timeSpan.TotalHours, timeSpan.TotalMinutes, timeSpan.TotalSeconds);
-        public static string GetTimeString(DateTime dateTime, ETimeStringType timeStringType) => GetTimeStringInternal(timeStringType, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
-
-        private static string GetTimeStringInternal(ETimeStringType timeStringType, double totalDays, double totalHours, double totalMinutes, double totalSeconds)
+        public static string GetTimeString(ETimeStringType timeStringType, TimeSpan timeSpan) => GetTimeString(timeStringType, timeSpan.TotalDays, timeSpan.TotalHours, timeSpan.TotalMinutes, timeSpan.TotalSeconds);
+        public static string GetTimeString(ETimeStringType timeStringType, DateTime dateTime) => GetTimeString(timeStringType, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+        public static string GetTimeString(ETimeStringType timeStringType, double totalDays, double totalHours, double totalMinutes, double totalSeconds)
         {
             int days = (int)Math.Floor(totalDays);
             int hours = (int)Math.Floor(totalHours % 24);
@@ -48,8 +50,31 @@ namespace ProjectF
                 ETimeStringType.TotalMinutes => string.Format("{0:F0}", totalMinutes),
                 ETimeStringType.TotalSeconds => string.Format("{0:F0}", totalSeconds),
 
+                ETimeStringType.FlexibleHMS => GetUpperFlexibleTimeString(hours, minutes, seconds),
+                ETimeStringType.Flexiblehms => GetLowerFlexibleTimeString(hours, minutes, seconds),
+
                 _ => "InvalidType",
             };
+        }
+
+        private static string GetUpperFlexibleTimeString(int hours, int minutes, int seconds)
+        {
+            if(hours > 0)
+                return string.Format("{0:F0}H {1:D2}M", hours, minutes);
+            else if(minutes > 0)
+                return string.Format("{0:F0}M {1:D2}S", minutes, seconds);
+            else
+                return string.Format("{0:F0}S", seconds);
+        }
+
+        private static string GetLowerFlexibleTimeString(int hours, int minutes, int seconds)
+        {
+            if(hours > 0)
+                return string.Format("{0:F0}h {1:D2}m", hours, minutes);
+            else if(minutes > 0)
+                return string.Format("{0:F0}m {1:D2}s", minutes, seconds);
+            else
+                return string.Format("{0:F0}s", seconds);
         }
     }
 }

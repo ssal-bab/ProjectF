@@ -21,10 +21,10 @@ namespace ProjectF
         public static string GetRarityNameLocalKey(ERarity rarity) => GetLocalKey("RarityName", (int)rarity);
         public static string GetQusetDescriptionLocalKey(EActionType type) => GetLocalKey("QuestType", (int)type);
         public static string GetStatDescriptionLocakKey(EFarmerStatType type) => GetLocalKey("StatType", (int)type);
-        public static string GetDialogueSpeakerNameLocakKey(ESpeakerType speakerType) => GetLocalKey("SpeakerName", (int)speakerType);
-        public static string GetDialogueLocakKey(string situation, ESpeakerType speakerType) => GetLocalKey(situation, speakerType);
-        public static string GetAdventureProgressStateKey(bool value) => GetLocalKey("AdventureProgress", Convert.ToInt16(value));
-        public static string GetAdventureAreaName(int id) => GetLocalKey("AdventureAreaName", Convert.ToInt16(id));
+        public static string GetAdventureAreaNameLocalKey(int areaID) => GetLocalKey("AdventureAreaName", areaID);
+        // public static string GetDialogueSpeakerNameLocakKey(ESpeakerType speakerType) => GetLocalKey("SpeakerName", (int)speakerType);
+        // public static string GetDialogueLocakKey(string situation, ESpeakerType speakerType) => GetLocalKey(situation, speakerType);
+        // public static string GetAdventureProgressStateKey(bool value) => GetLocalKey("AdventureProgress", Convert.ToInt16(value));
 
         private static string GetLocalKey(string prefix, int id)
         {

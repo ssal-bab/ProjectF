@@ -4,6 +4,7 @@ using H00N.Resources;
 using H00N.Resources.Pools;
 using System.Linq;
 using System;
+using H00N.Extensions;
 
 namespace ProjectF.UI.Farms
 {
@@ -22,6 +23,7 @@ namespace ProjectF.UI.Farms
         {
             base.Initialize();
             await farmerInfoUIPrefab.InitializeAsync();
+            Debug.Log("Initialized");
 
             currentOrderType = GameSetting.LastFarmerOrderType;
             currentClasification = GameSetting.LastFarmerClassificationType;
@@ -39,7 +41,8 @@ namespace ProjectF.UI.Farms
             var userFarmerData = GameInstance.MainUser.farmerData;
             foreach(var farmerData in userFarmerData.farmerList.Values)
             {
-                var farmerInfoElement = PoolManager.Spawn<FarmerInfoElementUI>(farmerInfoUIPrefab, farmerInfoContent);
+                Debug.Log(farmerInfoUIPrefab.Key);
+                var farmerInfoElement = PoolManager.Spawn(farmerInfoUIPrefab, farmerInfoContent);
                 farmerInfoElement.Initialize(farmerData);
                 farmerInfoElement.RegisterFarmerSalesAction(farmerRegisterSalesAction, farmerUnRegisterSalesAction);
                 farmerInfoElement.StretchRect();
@@ -118,6 +121,7 @@ namespace ProjectF.UI.Farms
 
         public new void Release()
         {
+            farmerInfoContent.DespawnAllChildren();
             base.Release();
         }
     }

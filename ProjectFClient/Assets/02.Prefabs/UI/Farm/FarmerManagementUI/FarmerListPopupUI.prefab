@@ -2352,8 +2352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   farmerInfoUIPrefab:
-    reference: {fileID: 148762128076693531, guid: 38e5df037e5593c4986014b61d4ab9ab, type: 3}
-    key: FarmerInfoUI
+    key: FarmerInfoElementUI
   farmerInfoContent: {fileID: 2233617365405585572}
 --- !u!1 &6481715121450938480
 GameObject:

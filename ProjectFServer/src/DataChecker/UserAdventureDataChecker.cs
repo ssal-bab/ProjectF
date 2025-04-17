@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProjectF.Datas
 {
@@ -11,10 +8,8 @@ namespace ProjectF.Datas
         {
             UserAdventureData adventureData = userData.adventureData ??= new UserAdventureData();
             
-            adventureData.adventureList = adventureData.adventureList ??= new();
-            adventureData.inAdventureAreaList = adventureData.inAdventureAreaList ??= new();
-            adventureData.inExploreFarmerList = adventureData.inExploreFarmerList ??= new();
-            adventureData.allFarmerinExploreList = adventureData.allFarmerinExploreList ??= new();
+            adventureData.adventureAreas ??= new Dictionary<int, int>();
+            adventureData.adventureProgressDatas ??= new Dictionary<int, AdventureProgressData>();
         }
     }
 }

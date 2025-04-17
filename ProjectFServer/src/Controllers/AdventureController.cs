@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectF.Networks.DataBases;
 using ProjectF.Networks.Packets;
-using ProjectFServer.Networks.Packets;
 using RedLockNet;
 
 namespace ProjectF.Networks.Controllers
@@ -11,9 +10,7 @@ namespace ProjectF.Networks.Controllers
     [Route(NetworkDefine.ADVENTURE_ROUTE)]
     public class AdventureController : PacketControllerBase
     {
-        public AdventureController(DBManager dbManager, IDistributedLockFactory redLockFactory) : base(dbManager, redLockFactory)
-        {
-        }
+        public AdventureController(DBManager dbManager, IDistributedLockFactory redLockFactory) : base(dbManager, redLockFactory) { }
 
         [HttpPost(AdventureStartRequest.POST)]
         public async Task<ActionResult<AdventureStartResponse>> AdventureStartRequestPost([FromBody]AdventureStartRequest req)

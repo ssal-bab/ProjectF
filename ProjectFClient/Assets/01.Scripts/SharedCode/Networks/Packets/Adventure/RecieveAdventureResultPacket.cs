@@ -2,7 +2,7 @@ using ProjectF.Datas;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 
-namespace ProjectFServer.Networks.Packets
+namespace ProjectF.Networks.Packets
 {
     public class ReceiveAdventureResultRequest : RequestPacket
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 
-namespace ProjectFServer.Networks.Packets
+namespace ProjectF.Networks.Packets
 {
     public class FarmerSalesRequest : RequestPacket
     {

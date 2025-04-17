@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectF.Networks.DataBases;
-using ProjectFServer.Networks.Packets;
+using ProjectF.Networks.Packets;
 using RedLockNet;
 
 namespace ProjectF.Networks.Controllers

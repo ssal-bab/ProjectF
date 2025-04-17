@@ -3,7 +3,7 @@ using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 using ProjectF.Datas;
 
-namespace ProjectFServer.Networks.Packets
+namespace ProjectF.Networks.Packets
 {
     public class AdventureResultRequest : RequestPacket
     {

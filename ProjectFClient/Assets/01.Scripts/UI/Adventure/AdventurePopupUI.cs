@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using H00N.DataTables;
 using H00N.Resources;
@@ -39,7 +40,7 @@ namespace ProjectF.UI.Adventures
         {
             AdventureAreaPopupUI areaPopupUI = PoolManager.Spawn(areaPopupUIPrefab, GameDefine.ContentPopupFrame);
             areaPopupUI.StretchRect();
-            areaPopupUI.Initialize(areaID);
+            areaPopupUI.Initialize(areaID, StartAdventure);
         }
 
         public void OnTouchCloseButton()
@@ -65,6 +66,13 @@ namespace ProjectF.UI.Adventures
 
             if(ui != null)
                 ui.OnTouchCloseButton();
+        }
+
+        private void StartAdventure(int areaID, List<string> farmerList, AdventureAreaPopupUI ui)
+        {
+            
+
+            ui.Initialize(areaID, StartAdventure);
         }
     }
 }

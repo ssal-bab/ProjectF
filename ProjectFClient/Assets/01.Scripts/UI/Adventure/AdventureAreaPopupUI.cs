@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using H00N.DataTables;
 using H00N.Extensions;
@@ -25,18 +26,30 @@ namespace ProjectF.UI.Adventures
         [SerializeField] Transform cropLootElementContainer = null;
         [SerializeField] Transform eggLootElementContainer = null;
 
-        [Space(10f)]
+        [Header("Farmer Info")]
         [SerializeField] List<AdventureFarmerElementUI> farmerElementUIList = null;
 
-        private int areaID = -1;
+        [Header("Button")]
+        [SerializeField] TMP_Text adventureButtonText = null;
 
-        public async void Initialize(int areaID)
+        private int areaID = -1;
+        private Action<int, List<string>, AdventureAreaPopupUI> startAdventureCallback = null;
+
+        public async void Initialize(int areaID, Action<int, List<string>, AdventureAreaPopupUI> startAdventureCallback)
         {
             base.Initialize();
             this.areaID = areaID;
+            this.startAdventureCallback = startAdventureCallback;
 
             await lootElementUIPrefab.InitializeAsync();
             RefreshUI();
+        }
+
+        protected override void Release()
+        {
+            base.Release();
+            cropLootElementContainer.DespawnAllChildren();
+            eggLootElementContainer.DespawnAllChildren();
         }
 
         private void RefreshUI()
@@ -69,10 +82,32 @@ namespace ProjectF.UI.Adventures
                 eggLootElement.Initialize(ELootItemType.Egg, eggLootTableRow.eggID);
             }
 
+            // 만약 탐험중이지 않으면 빈 리스트를 띄우고
+            // 탐험중이라면 탐험중인 농부들을 띄운다.
             for(int i = 0; i < farmerElementUIList.Count; i++)
-            {
                 farmerElementUIList[i].Initialize(areaID, i);
+
+            // 만약 탐험중이지 않으면 탐험 시작을.
+            // 탐험중이라면 탐험 진행도를 띄운다.
+            adventureButtonText.text = "탐험 시작";
+        }
+
+        public void OnTouchCloseButton()
+        {
+            Release();
+            PoolManager.Despawn(this);
+        }
+
+        public void OnTouchStartAdventureButton()
+        {
+            List<string> farmerList = new List<string>();
+            foreach(var farmerElementUI in farmerElementUIList)
+            {
+                if(farmerElementUI.TryGetFarmerID(out string farmerID))
+                    farmerList.Add(farmerID);
             }
+            
+            startAdventureCallback?.Invoke(areaID, farmerList, this);
         }
     }
 }

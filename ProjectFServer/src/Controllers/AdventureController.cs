@@ -19,5 +19,13 @@ namespace ProjectF.Networks.Controllers
             await processor.ProcessAsync();
             return processor.Response;
         }
+
+        [HttpPost(AdventureStartRequest.POST)]
+        public async Task<ActionResult<AdventureStartResponse>> AdventureStartRequestPost([FromBody]AdventureStartRequest req)
+        {
+            AdventureStartProcessor processor = new AdventureStartProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
     }
 }

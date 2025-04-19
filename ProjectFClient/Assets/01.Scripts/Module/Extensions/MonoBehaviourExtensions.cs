@@ -30,5 +30,28 @@ namespace H00N.Extensions
                 callback?.Invoke();
             }
         }
+
+        /// <summary>
+        /// finish loop when callback return true
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="delay"></param>
+        /// <param name="callback">return loop finished</param>
+        /// <param name="startDelay"></param>
+        /// <returns></returns>
+        public static IEnumerator LoopRoutine(this MonoBehaviour self, float delay, Func<bool> callback, float startDelay = 0f)
+        {
+            yield return new WaitForSeconds(startDelay);
+            if(callback.Invoke())
+                yield break;
+
+            YieldInstruction delayYieldInstruction = new WaitForSeconds(delay);
+            while (true)
+            {
+                yield return delayYieldInstruction;
+                if(callback.Invoke())
+                    yield break;
+            }
+        }
     }
 }

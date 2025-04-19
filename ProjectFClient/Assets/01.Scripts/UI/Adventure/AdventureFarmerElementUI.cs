@@ -15,7 +15,7 @@ namespace ProjectF.UI.Adventures
         public bool TryGetFarmerID(out string farmerID)
         {
             farmerID = this.farmerID;
-            return string.IsNullOrEmpty(farmerID);
+            return string.IsNullOrEmpty(farmerID) == false;
         }
     }
 }

@@ -82,14 +82,31 @@ namespace ProjectF.UI.Adventures
                 eggLootElement.Initialize(ELootItemType.Egg, eggLootTableRow.eggID);
             }
 
-            // 만약 탐험중이지 않으면 빈 리스트를 띄우고
-            // 탐험중이라면 탐험중인 농부들을 띄운다.
+            if(mainUser.adventureData.adventureFinishDatas.TryGetValue(areaID, out DateTime startTime))
+                StartCoroutine(this.LoopRoutine(1f, UpdateUI));
+            else
+                adventureButtonText.text = "탐험 시작";
+                
             for(int i = 0; i < farmerElementUIList.Count; i++)
                 farmerElementUIList[i].Initialize(areaID, i);
+        }
 
-            // 만약 탐험중이지 않으면 탐험 시작을.
-            // 탐험중이라면 탐험 진행도를 띄운다.
-            adventureButtonText.text = "탐험 시작";
+        private bool UpdateUI()
+        {
+            UserData mainUser = GameInstance.MainUser;
+            if(mainUser.adventureData.adventureFinishDatas.TryGetValue(areaID, out DateTime finishTime) == false)
+                return true;
+
+            double remainTime = (finishTime - GameInstance.ServerTime).TotalSeconds;
+            if(remainTime < 0)
+            {
+                adventureButtonText.text = "탐험 완료!";
+                return true;
+            }
+            else
+                adventureButtonText.text = $"탐험 중\n({GetTimeString(ETimeStringType.TotalHoursAndMinutesSeconds, 0, 0, 0, remainTime)})";
+
+            return false;
         }
 
         public void OnTouchCloseButton()

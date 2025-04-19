@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using H00N.DataTables;
 using H00N.Resources;
@@ -40,7 +39,7 @@ namespace ProjectF.UI.Adventures
         {
             AdventureAreaPopupUI areaPopupUI = PoolManager.Spawn(areaPopupUIPrefab, GameDefine.ContentPopupFrame);
             areaPopupUI.StretchRect();
-            areaPopupUI.Initialize(areaID, StartAdventure);
+            areaPopupUI.Initialize(areaID, StartAdventureAsync);
         }
 
         public void OnTouchCloseButton()
@@ -68,11 +67,24 @@ namespace ProjectF.UI.Adventures
                 ui.OnTouchCloseButton();
         }
 
-        private void StartAdventure(int areaID, List<string> farmerList, AdventureAreaPopupUI ui)
+        private async void StartAdventureAsync(int areaID, List<string> farmerList, AdventureAreaPopupUI ui)
         {
-            
+            AdventureStartResponse response = await NetworkManager.Instance.SendWebRequestAsync<AdventureStartResponse>(new AdventureStartRequest(areaID, farmerList));
+            if (response.result != ENetworkResult.Success)
+                return;
 
-            ui.Initialize(areaID, StartAdventure);
+            UserAdventureData adventureData = GameInstance.MainUser.adventureData;
+            adventureData.adventureFinishDatas[areaID] = response.finishTime;
+            foreach(var farmerID in farmerList)
+            {
+                adventureData.adventureFarmerDatas[farmerID] = new AdventureFarmerData() {
+                    farmerUUID = farmerID,
+                    areaID = areaID
+                };
+            }
+
+            if(ui != null)
+                ui.Initialize(areaID, StartAdventureAsync);
         }
     }
 }

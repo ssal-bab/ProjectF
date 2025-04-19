@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace ProjectF.Datas
@@ -9,7 +10,14 @@ namespace ProjectF.Datas
             UserAdventureData adventureData = userData.adventureData ??= new UserAdventureData();
             
             adventureData.adventureAreas ??= new Dictionary<int, int>();
-            adventureData.adventureProgressDatas ??= new Dictionary<int, AdventureProgressData>();
+            adventureData.adventureFinishDatas ??= new Dictionary<int, DateTime>();
+
+            adventureData.adventureFarmerDatas ??= new Dictionary<string, AdventureFarmerData>();
+            foreach(string farmerUUID in adventureData.adventureFarmerDatas.Keys)
+            {
+                if(userData.farmerData.farmerList.ContainsKey(farmerUUID) == false)
+                    adventureData.adventureFarmerDatas.Remove(farmerUUID);
+            }
         }
     }
 }

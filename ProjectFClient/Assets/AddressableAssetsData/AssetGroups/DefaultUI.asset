@@ -104,7 +104,8 @@ MonoBehaviour:
   - m_GUID: 38e5df037e5593c4986014b61d4ab9ab
     m_Address: FarmerInfoElementUI
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - default
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50739f20e5c6eeb4bb2d7f8a8caee821
     m_Address: FarmerInfoPopupUI
@@ -204,6 +205,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 24f8226cfb71247e48e8c043307d1a61
     m_Address: CostOptionUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9aaa1556c95345b283d18f75cfd8b97
+    m_Address: AdventureLootElementUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 65ecfd44790724d37af008dbae91cdfc
+    m_Address: AdventureFarmerElementUI
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

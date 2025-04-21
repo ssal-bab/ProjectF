@@ -15,9 +15,12 @@ namespace ProjectF.UI.Farms
     {
         [SerializeField] AddressableAsset<CropQueueElementUI> cropQueueElementUIPrefab;
         [SerializeField] ScrollRect cropQueueScrollView = null;
+        [SerializeField] GameObject cropQueueEmptyObject = null;
 
+        [Space(10f)]
         [SerializeField] AddressableAsset<SeedElementUI> seedElementUIPrefab;
         [SerializeField] ScrollRect seedScrollView = null;
+        [SerializeField] GameObject seedEmptyObject = null;
 
         private CropQueue deltaQueue = null;
         private List<CropQueueActionData> cropQueueActionDataList = null;
@@ -55,6 +58,8 @@ namespace ProjectF.UI.Farms
                 ui.Initialize(deltaQueue.LastSlot(), RemoveFromCropQueue);
             }
 
+            cropQueueEmptyObject.SetActive(cropQueue.Count <= 0);
+
             UserData mainUser = GameInstance.MainUser;
             seedScrollView.content.DespawnAllChildren();
             foreach(int cropID in mainUser.seedPocketData.seedStorage.Keys)
@@ -63,6 +68,8 @@ namespace ProjectF.UI.Farms
                 ui.InitializeTransform();
                 ui.Initialize(cropID, GetSeedCount, AddToCropQueue);
             }
+
+            seedEmptyObject.SetActive(mainUser.seedPocketData.seedStorage.Count <= 0);
         }
 
         private void RemoveFromCropQueue(CropQueueElementUI ui, CropQueueSlot cropQueueSlot)

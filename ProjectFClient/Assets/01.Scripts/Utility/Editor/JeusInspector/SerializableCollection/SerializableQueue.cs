@@ -1,19 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using PlasticPipe.Tube;
 using UnityEngine;
 
-[Serializable]
-public class SerializableStack<T> : Stack<T>, ISerializationCallbackReceiver
+namespace JeusInspector.Collections
+{
+    [Serializable]
+public class SerializableQueue<T> : Queue<T>, ISerializationCallbackReceiver
 {
     [SerializeField] private List<T> list = new();
 
     public void OnBeforeSerialize()
     {
         list.Clear();
-        foreach(T elem in this)
+        foreach (T item in this)
         {
-            list.Add(elem);
+            list.Insert(0, item);
         }
     }
 
@@ -22,7 +25,9 @@ public class SerializableStack<T> : Stack<T>, ISerializationCallbackReceiver
         Clear();
         for(int i = list.Count - 1; i >= 0; i--)
         {
-            Push(list[i]);
+            Enqueue(list[i]);
         }
     }
+}
+
 }

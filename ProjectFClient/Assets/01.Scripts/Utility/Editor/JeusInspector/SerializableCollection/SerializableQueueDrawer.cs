@@ -3,7 +3,9 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(SerializableQueue<>), true)]
+namespace JeusInspector.Collections
+{
+    [CustomPropertyDrawer(typeof(SerializableQueue<>), true)]
 public class SerializableQueueDrawer : PropertyDrawer
 {
     private bool foldout = true;
@@ -21,6 +23,7 @@ public class SerializableQueueDrawer : PropertyDrawer
          var listProp = property.FindPropertyRelative("list");
         return EditorGUI.GetPropertyHeight(listProp, label, true);
     }
+}
 }
 
 #endif

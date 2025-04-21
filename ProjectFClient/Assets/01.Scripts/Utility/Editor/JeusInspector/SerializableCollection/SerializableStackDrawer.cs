@@ -4,7 +4,9 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
-[CustomPropertyDrawer(typeof(SerializableStack<>), true)]
+namespace JeusInspector.Collections
+{
+    [CustomPropertyDrawer(typeof(SerializableStack<>), true)]
 public class SerializableStackDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -20,6 +22,7 @@ public class SerializableStackDrawer : PropertyDrawer
         var listProp = property.FindPropertyRelative("list");
         return EditorGUI.GetPropertyHeight(listProp, label, true);
     }
+}
 }
 
 #endif

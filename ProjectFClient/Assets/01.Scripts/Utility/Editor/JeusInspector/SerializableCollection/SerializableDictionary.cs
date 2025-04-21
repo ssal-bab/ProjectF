@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
+namespace JeusInspector.Collections
+{
+    [Serializable]
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
     [SerializeField] private List<TKey> keys = new();
@@ -38,4 +40,5 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
                 Add(keys[i], values[i]);
         }
     }
+}
 }

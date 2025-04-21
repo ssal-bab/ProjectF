@@ -6,7 +6,9 @@ using System;
 using System.Reflection;
 using Unity.VisualScripting;
 
-[CustomPropertyDrawer(typeof(SerializableDictionary<,>), true)]
+namespace JeusInspector.Collections
+{
+    [CustomPropertyDrawer(typeof(SerializableDictionary<,>), true)]
 public class SerializableDictionaryDrawer : PropertyDrawer
 {
     private bool foldout = true;
@@ -107,6 +109,7 @@ public class SerializableDictionaryDrawer : PropertyDrawer
 
         EditorGUI.indentLevel--;
     }
+}
 }
 
 #endif

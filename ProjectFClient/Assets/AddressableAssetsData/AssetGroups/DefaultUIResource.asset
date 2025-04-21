@@ -59,8 +59,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4c1d4f9d370974263a37dda7562401dc
-    m_Address: Bg_Deco
+  - m_GUID: 4c02748a6482b496c9f8a638c684c2e8
+    m_Address: Bg_Wood
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
@@ -275,8 +275,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4c02748a6482b496c9f8a638c684c2e8
-    m_Address: Bg_Wood
+  - m_GUID: 4c1d4f9d370974263a37dda7562401dc
+    m_Address: Bg_Deco
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

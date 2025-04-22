@@ -104,7 +104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2997937957727615967
 RectTransform:
   m_ObjectHideFlags: 0
@@ -719,8 +719,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBD80\uD654"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f44914054d8f4a0cb282bd2d63077ef, type: 2}
-  m_sharedMaterial: {fileID: -5530600204233613474, guid: 3f44914054d8f4a0cb282bd2d63077ef, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1b1de163cc1a44562adb9659a52bb331, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 8bf2bf5f4aa0a47f38a45a07284a6ae1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -744,8 +744,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 47.5
-  m_fontSizeBase: 47.5
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -754,7 +754,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -4
+  m_characterSpacing: -1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1071,7 +1071,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eggIconImage: {fileID: 9098227601728112414}
   emptyImage:
-    reference: {fileID: 21300000, guid: 71cf49284a6de40e38f6116dd239c9a4, type: 3}
     key: Egg_Empty
   hatchingFinishGroupObject: {fileID: 2578380389393728446}
   remainTimeGroupObject: {fileID: 4022792423483771218}
@@ -1144,8 +1143,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 00:32:27
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f44914054d8f4a0cb282bd2d63077ef, type: 2}
-  m_sharedMaterial: {fileID: -5530600204233613474, guid: 3f44914054d8f4a0cb282bd2d63077ef, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1b1de163cc1a44562adb9659a52bb331, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 8bf2bf5f4aa0a47f38a45a07284a6ae1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1169,17 +1168,17 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.5
-  m_fontSizeBase: 37.5
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -4
+  m_characterSpacing: -3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

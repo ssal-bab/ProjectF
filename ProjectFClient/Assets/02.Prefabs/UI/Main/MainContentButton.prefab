@@ -200,8 +200,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC801\uC7AC\uC18C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f44914054d8f4a0cb282bd2d63077ef, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 4df8fb629271c4916b95cdd63f84f74c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1b1de163cc1a44562adb9659a52bb331, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0120812da932c4a66a8798822f1b0803, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -225,18 +225,18 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52
+  m_fontSize: 56
   m_fontSizeBase: 52
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -7
-  m_wordSpacing: -20
+  m_characterSpacing: 0
+  m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0

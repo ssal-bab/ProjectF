@@ -1,27 +1,27 @@
-using System.Collections.Generic;
 using ProjectF.Datas;
 
 namespace ProjectF.Networks.Packets
 {
-    public class AdventureReceiveRewardRequest : RequestPacket
+    public class AdventureFinishRequest : RequestPacket
     {
         public override string Route => NetworkDefine.ADVENTURE_ROUTE;
 
-        public const string POST = "AdventureReceiveReward";
+        public const string POST = "AdventureFinish";
         public override string Post => POST;
 
         public int areaID;
 
-        public AdventureReceiveRewardRequest(int areaID) 
+        public AdventureFinishRequest(int areaID) 
         { 
             this.areaID = areaID;
         }
     }
 
-    public class AdventureReceiveRewardResponse : ResponsePacket
+    public class AdventureFinishResponse : ResponsePacket
     {
         public RewardData xpReward;
         public RewardData goldReward;
-        public List<List<RewardData>> rewardList;
+        public string adventureRewardUUID;
+        public AdventureRewardData rewardData;
     }
 }

@@ -8,36 +8,42 @@ namespace ProjectF.UI.Adventures
         [SerializeField] int areaID = -1;
         [SerializeField] GameObject menuObject = null;
 
-        private Action<int> upgradeMenuCallback = null;
-        private Action<int> adventureMenuCallback = null;
+        private Action<int> upgradePopupCallback = null;
+        private Action<int> adventureAreaPopupCallback = null;
+        private Action<int> adventureFinishCallback = null;
 
-        public void Initialize(Action<int> upgradeMenuCallback, Action<int> adventureMenuCallback)
+        public void Initialize(Action<int> upgradePopupCallback, Action<int> adventureAreaPopupCallback, Action<int> adventureFinishCallback)
         {
             base.Initialize();
-            this.upgradeMenuCallback = upgradeMenuCallback;
-            this.adventureMenuCallback = adventureMenuCallback;
-
+            this.upgradePopupCallback = upgradePopupCallback;
+            this.adventureAreaPopupCallback = adventureAreaPopupCallback;
+            this.adventureFinishCallback = adventureFinishCallback;
             menuObject.SetActive(false);
         }
 
-        public void OnTouchOpenMenuButton()
+        public void OnTouchThis()
         {
-            menuObject.SetActive(true);
+            // 탐험 완료 확인
+            bool isAdventureFinished = true;
+            if(isAdventureFinished)
+                adventureFinishCallback?.Invoke(areaID);
+            else
+                menuObject.SetActive(true);
         }
 
-        public void OnTouchCloseMeneButton()
+        public void OnTouchCloseMenuButton()
         {
             menuObject.SetActive(false);
         }
 
         public void OnTouchUpgradeButton()
         {
-            upgradeMenuCallback?.Invoke(areaID);
+            upgradePopupCallback?.Invoke(areaID);
         }
 
         public void OnTouchAdventureButton()
         {
-            adventureMenuCallback?.Invoke(areaID);
+            adventureAreaPopupCallback?.Invoke(areaID);
         }
     }
 }

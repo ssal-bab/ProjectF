@@ -376,6 +376,10 @@ MonoBehaviour:
     key: AdventureAreaUpgradePopupUI
   areaPopupUIPrefab:
     key: AdventureAreaPopupUI
+  reportPopupUIPrefab:
+    key: AdventureRewardPopupUI
+  rewardBoxPopupUIPrefab:
+    key: 
   areaElementUIList:
   - {fileID: 1770218217673836978}
 --- !u!114 &5651861597254827953

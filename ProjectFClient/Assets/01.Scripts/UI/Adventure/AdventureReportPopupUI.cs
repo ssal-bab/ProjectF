@@ -3,13 +3,12 @@ using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
 using ProjectF.Networks.Packets;
-using ProjectF.UI.Adventures;
 using TMPro;
 using UnityEngine;
 
-namespace ProjectF.UI.Adventuress
+namespace ProjectF.UI.Adventures
 {
-    public class AdventureRewardPopupUI : PoolableBehaviourUI
+    public class AdventureReportPopupUI : PoolableBehaviourUI
     {
         [SerializeField] TMP_Text titleText = null;
 
@@ -25,25 +24,25 @@ namespace ProjectF.UI.Adventuress
         [SerializeField] Transform cropLootContainer = null;
         [SerializeField] Transform eggLootContainer = null;
 
-        public void Initialize(int areaID, List<string> farmerList, AdventureReceiveRewardResponse rewardData)
+        public void Initialize(AdventureFinishResponse adventureFinishData)
         {
             base.Initialize();
 
             // 일회용 UI이기 때문에 별도로 데이터를 저장하지 않고 바로 표시한다.
-            titleText.text = ResourceUtility.GetAdventureAreaNameLocalKey(areaID);
+            titleText.text = ResourceUtility.GetAdventureAreaNameLocalKey(adventureFinishData.rewardData.areaID);
 
             for(int i = 0; i < farmerElementUIList.Count; ++i)
             {
                 string farmerID = string.Empty;
-                if(i < farmerList.Count)
-                    farmerID = farmerList[i];
+                if(i < adventureFinishData.rewardData.farmerList.Count)
+                    farmerID = adventureFinishData.rewardData.farmerList[i];
 
                 farmerElementUIList[i].Initialize(farmerID);
             }
 
-            xpText.text = rewardData.xpReward.rewardItemAmount.ToString();
-            goldText.text = rewardData.goldReward.rewardItemAmount.ToString();
-            foreach(List<RewardData> reward in rewardData.rewardList)
+            xpText.text = adventureFinishData.xpReward.rewardItemAmount.ToString();
+            goldText.text = adventureFinishData.goldReward.rewardItemAmount.ToString();
+            foreach(List<RewardData> reward in adventureFinishData.rewardData.rewardList.Values)
             {
                 foreach(RewardData rewardElement in reward)
                 {
@@ -61,6 +60,12 @@ namespace ProjectF.UI.Adventuress
                     }
                 }
             }
+        }
+
+        public void OnTouchCloseButton()
+        {
+            base.Release();
+            PoolManager.Despawn(this);
         }
     }
 }

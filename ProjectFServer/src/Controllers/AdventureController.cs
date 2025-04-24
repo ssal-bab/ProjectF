@@ -31,5 +31,21 @@ namespace ProjectF.Networks.Controllers
             await processor.ProcessAsync();
             return processor.Response;
         }
+
+        [HttpPost(AdventureFinishRequest.POST)]
+        public async Task<ActionResult<AdventureFinishResponse>> AdventureFinishRequestPost([FromBody]AdventureFinishRequest req)
+        {
+            AdventureFinishProcessor processor = new AdventureFinishProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
+
+        [HttpPost(AdventureRewardReceiveRequest.POST)]
+        public async Task<ActionResult<AdventureRewardReceiveResponse>> AdventureRewardReceiveRequestPost([FromBody]AdventureRewardReceiveRequest req)
+        {
+            AdventureRewardReceiveProcessor processor = new AdventureRewardReceiveProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
     }
 }

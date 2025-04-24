@@ -523,7 +523,7 @@ MonoBehaviour:
       - m_Target: {fileID: -1449280010175735901}
         m_TargetAssemblyTypeName: ProjectF.UI.Adventures.AdventureAreaElementUI,
           ProjectF-Assembly
-        m_MethodName: OnTouchOpenMenuButton
+        m_MethodName: OnTouchThis
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

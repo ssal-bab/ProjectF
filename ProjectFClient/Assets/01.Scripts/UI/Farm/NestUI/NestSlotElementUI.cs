@@ -38,7 +38,7 @@ namespace ProjectF.UI.Farms
                 return;
 
             Debug.Log($"Farmer wad born. ID : {response.farmerRewardData.rewardUUID}");
-            new ApplyReward(GameInstance.MainUser, GameInstance.ServerTime, response.farmerRewardData);
+            new ApplyReward(GameInstance.MainUser, response.rewardApplyTime, response.farmerRewardData);
             GameInstance.MainUser.nestData.hatchingEggDatas.Remove(eggUUID);
 
             Farm farm = FarmManager.Instance.MainFarm;

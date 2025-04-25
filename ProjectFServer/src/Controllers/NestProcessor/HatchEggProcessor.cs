@@ -59,7 +59,8 @@ namespace ProjectF.Networks.Controllers
 
             return new HatchEggResponse() {
                 result = ENetworkResult.Success,
-                farmerRewardData = farmerRewardData
+                farmerRewardData = farmerRewardData,
+                rewardApplyTime = ServerInstance.ServerTime
             };
         }
     }

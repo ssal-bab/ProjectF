@@ -1,3 +1,4 @@
+using System;
 using ProjectF.Datas;
 
 namespace ProjectF.Networks.Packets
@@ -20,5 +21,6 @@ namespace ProjectF.Networks.Packets
     public class HatchEggResponse : ResponsePacket
     {
         public RewardData farmerRewardData;
+        public DateTime rewardApplyTime;
     }
 }

@@ -23,7 +23,7 @@ namespace ProjectF.Datas
             foreach(string adventureRewardKey in adventureData.adventureRewardDatas.Keys)
             {
                 AdventureRewardData adventureRewardData = adventureData.adventureRewardDatas[adventureRewardKey];
-                if(adventureRewardData.farmerList.Count <= 0)
+                if(adventureRewardData.rewardList.Count <= 0)
                     adventureData.adventureRewardDatas.Remove(adventureRewardKey);
             }
         }

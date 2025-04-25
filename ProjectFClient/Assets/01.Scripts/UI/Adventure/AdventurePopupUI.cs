@@ -104,6 +104,9 @@ namespace ProjectF.UI.Adventures
             if (response.result != ENetworkResult.Success)
                 return;
 
+            new ApplyReward(GameInstance.MainUser, response.rewardReceiveTime, response.xpReward);
+            new ApplyReward(GameInstance.MainUser, response.rewardReceiveTime, response.goldReward);
+
             UserAdventureData adventureData = GameInstance.MainUser.adventureData;
             foreach(string farmerUUID in response.rewardData.farmerList)
                 adventureData.adventureFarmerDatas.Remove(farmerUUID);

@@ -1,3 +1,4 @@
+using ProjectF.Datas;
 using ProjectF.Farms;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
@@ -25,7 +26,11 @@ namespace ProjectF.UI.Farms
             if(string.IsNullOrEmpty(eggUUID))
                 return;
 
-            if(GameInstance.MainUser.nestData.hatchingEggDatas.ContainsKey(eggUUID) == false)
+            UserNestData nestData = GameInstance.MainUser.nestData;
+            if(nestData.hatchingEggDatas.TryGetValue(eggUUID, out EggHatchingData hatchingData) == false)
+                return;
+
+            if(hatchingData.hatchingFinishTime > GameInstance.ServerTime)
                 return;
 
             HatchEgg();

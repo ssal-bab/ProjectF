@@ -66,5 +66,11 @@ namespace ProjectF.UI.Adventures
             ui.Release();
             PoolManager.Despawn(ui);
         }
+
+        public void OnTouchCloseButton()
+        {
+            base.Release();
+            PoolManager.Despawn(this);
+        }
     }
 }

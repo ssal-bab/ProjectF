@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProjectF.Datas;
 using ProjectF.Networks.DataBases;
@@ -20,11 +21,13 @@ namespace ProjectF.Networks.Controllers
             if(userData.adventureData.adventureRewardDatas.TryGetValue(request.adventureRewardUUID, out AdventureRewardData adventureRewardData) == false)
                 return ErrorPacket(ENetworkResult.InvalidAccess);
 
-            if(adventureRewardData.rewardList.ContainsKey(request.index) == false)
+            if(adventureRewardData.rewardList.TryGetValue(request.index, out List<RewardData> rewardData) == false)
                 return ErrorPacket(ENetworkResult.InvalidAccess);
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
+                new ApplyReward(userData, ServerInstance.ServerTime, rewardData);
+
                 adventureRewardData.rewardList.Remove(request.index);
                 if(adventureRewardData.rewardList.Count <= 0)
                     userData.adventureData.adventureRewardDatas.Remove(request.adventureRewardUUID);

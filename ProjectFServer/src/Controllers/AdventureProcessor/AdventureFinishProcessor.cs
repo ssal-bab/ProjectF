@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using H00N.DataTables;
 using ProjectF.Datas;
+using ProjectF.DataTables;
 using ProjectF.Networks.DataBases;
 using ProjectF.Networks.Packets;
 using RedLockNet;
@@ -20,6 +22,9 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
 
+            if(userData.adventureData.adventureAreas.TryGetValue(request.areaID, out int level) == false)
+                return ErrorPacket(ENetworkResult.InvalidAccess);
+
             if(userData.adventureData.adventureFinishDatas.TryGetValue(request.areaID, out DateTime finishTime) == false)
                 return ErrorPacket(ENetworkResult.InvalidAccess);
 
@@ -32,10 +37,22 @@ namespace ProjectF.Networks.Controllers
             adventureRewardData.rewardUUID = adventureRewardUUID;
             adventureRewardData.areaID = request.areaID;
             adventureRewardData.farmerList = userData.adventureData.adventureFarmerDatas.Where(i => i.Value.areaID == request.areaID).Select(i => i.Value.farmerUUID).ToList();
-            adventureRewardData.rewardList = new Dictionary<int, List<RewardData>>(); // 나중에 채운다
+            adventureRewardData.rewardList = new Dictionary<int, List<RewardData>>();
+            adventureRewardData.rewardList[0] = CalculateCropRewardData(userData, adventureRewardData.farmerList, request.areaID, level);
+
+            int eggCount = new Random().Next(0, 3); // 나중엔 테이블로 빼야됨.
+            for(int i = 0; i < eggCount; i++)
+                adventureRewardData.rewardList[i + 1] = CalculateEggRewardData(request.areaID, level);
+
+            // 이것도 테이블로 빼야함
+            RewardData xpReward = new RewardData(ERewardItemType.XP, 0, 1000, null);
+            RewardData goldReward = new RewardData(ERewardItemType.Gold, 0, 1000, null);
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
+                new ApplyReward(userData, ServerInstance.ServerTime, xpReward);
+                new ApplyReward(userData, ServerInstance.ServerTime, goldReward);
+                
                 foreach(string farmerUUID in adventureRewardData.farmerList)
                     userData.adventureData.adventureFarmerDatas.Remove(farmerUUID);
 
@@ -47,9 +64,50 @@ namespace ProjectF.Networks.Controllers
 
             return new AdventureFinishResponse() {
                 result = ENetworkResult.Success,
+                xpReward = xpReward,
+                goldReward = goldReward,
                 adventureRewardUUID = adventureRewardUUID,
                 rewardData = adventureRewardData,
+                rewardReceiveTime = ServerInstance.ServerTime,
             };
+        }
+
+        private static List<RewardData> CalculateCropRewardData(UserData userData, List<string> farmerUUIDList, int areaID, int level)
+        {
+            float cropLootFactor = 0f;
+            foreach(string farmerUUID in farmerUUIDList)
+            {
+                if(userData.farmerData.farmerDatas.TryGetValue(farmerUUID, out FarmerData farmerData) == false)
+                    continue;
+
+                cropLootFactor += farmerData.level;
+            }
+
+            Random random = new Random();
+            List<AdventureCropLootTableRow> cropLootTableRowList = DataTableManager.GetTable<AdventureCropLootTable>().GetRowList(areaID, level);
+            List<RewardData> cropRewardData = new List<RewardData>();
+            foreach(AdventureCropLootTableRow cropLootTableRow in cropLootTableRowList)
+            {
+                int cropCount = random.Next(cropLootTableRow.minValue, cropLootTableRow.maxValue + 1);
+                cropCount += (int)(cropCount * cropLootFactor);
+
+                cropRewardData.Add(new RewardData(ERewardItemType.Seed, cropLootTableRow.cropID, cropCount, null));
+            }
+
+            return cropRewardData;
+        }
+
+        private static List<RewardData> CalculateEggRewardData(int areaID, int level)
+        {
+            List<AdventureEggLootTableRow> eggLootTableRowList = DataTableManager.GetTable<AdventureEggLootTable>().GetRowList(areaID, level);
+            RatesData eggLootRatesData = DataTableManager.GetTable<AdventureEggLootTable>().GetRatesData(areaID, level);
+            int eggIndex = new GetValueByRates(eggLootRatesData).randomIndex;
+
+            List<RewardData> eggRewardData = new List<RewardData>() {
+                new RewardData(ERewardItemType.Egg, eggLootTableRowList[eggIndex].eggID, 1, Guid.NewGuid().ToString()),
+            };
+            
+            return eggRewardData;
         }
     }
 }

@@ -25,10 +25,10 @@ namespace ProjectF.UI.Adventures
         [SerializeField] Transform cropLootContainer = null;
         [SerializeField] Transform eggLootContainer = null;
 
-        public void Initialize(AdventureFinishResponse adventureFinishData)
+        public async void Initialize(AdventureFinishResponse adventureFinishData)
         {
             base.Initialize();
-
+            await lootElementUIPrefab.InitializeAsync();
             // 일회용 UI이기 때문에 별도로 데이터를 저장하지 않고 바로 표시한다.
             titleText.text = ResourceUtility.GetAdventureAreaNameLocalKey(adventureFinishData.rewardData.areaID);
 

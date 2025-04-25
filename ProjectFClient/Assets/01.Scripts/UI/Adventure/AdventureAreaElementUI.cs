@@ -23,12 +23,16 @@ namespace ProjectF.UI.Adventures
 
         public void OnTouchThis()
         {
-            // 탐험 완료 확인
-            bool isAdventureFinished = true;
-            if(isAdventureFinished)
-                adventureFinishCallback?.Invoke(areaID);
-            else
+            if(GameInstance.MainUser.adventureData.adventureFinishDatas.TryGetValue(areaID, out DateTime finishTime) == false)
+            {
                 menuObject.SetActive(true);
+                return;
+            }
+
+            if(finishTime > GameInstance.ServerTime)
+                menuObject.SetActive(true);
+            else        
+                adventureFinishCallback?.Invoke(areaID);
         }
 
         public void OnTouchCloseMenuButton()

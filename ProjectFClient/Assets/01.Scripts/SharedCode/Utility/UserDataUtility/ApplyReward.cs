@@ -130,9 +130,6 @@ namespace ProjectF
             if(string.IsNullOrEmpty(reward.rewardUUID))
                 return;
 
-            if(userData.nestData.hatchingEggDatas.ContainsKey(reward.rewardUUID) == false)
-                return;
-
             EggTableRow eggTableRow = DataTableManager.GetTable<EggTable>().GetRow(reward.rewardItemID);
             if(eggTableRow == null)
                 return;
@@ -153,9 +150,6 @@ namespace ProjectF
         private void ApplyFarmer(RewardData reward)
         {
             if(string.IsNullOrEmpty(reward.rewardUUID))
-                return;
-
-            if(userData.farmerData.farmerDatas.ContainsKey(reward.rewardUUID) == false)
                 return;
 
             userData.farmerData.farmerDatas.Add(reward.rewardUUID, new FarmerData() {

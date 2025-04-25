@@ -37,6 +37,9 @@ namespace ProjectF.Networks.Controllers
 
             // 알 생성
             List<FarmerTableRow> farmerTableRowList = DataTableManager.GetTable<FarmerTable>().GetFarmerList(eggTableRow.rarity);
+            if(farmerTableRowList == null || farmerTableRowList.Count <= 0)
+                return ErrorPacket(ENetworkResult.DataNotFound);
+
             int index = new Random().Next(0, farmerTableRowList.Count);
             FarmerTableRow farmerTableRow = farmerTableRowList[index];
             RewardData farmerRewardData = new RewardData(ERewardItemType.Farmer, farmerTableRow.id, 1, Guid.NewGuid().ToString());

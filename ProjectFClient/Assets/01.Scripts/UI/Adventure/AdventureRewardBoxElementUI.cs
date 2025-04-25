@@ -22,9 +22,11 @@ namespace ProjectF.UI.Adventures
         private int rewardIndex;
         private Action<string, int, AdventureRewardBoxElementUI> receiveRewardCallback;
 
-        public void Initialize(AdventureRewardData adventureRewardData, int rewardIndex, Action<string, int, AdventureRewardBoxElementUI> receiveRewardCallback)
+        public async void Initialize(AdventureRewardData adventureRewardData, int rewardIndex, Action<string, int, AdventureRewardBoxElementUI> receiveRewardCallback)
         {
             base.Initialize();
+            await lootElementUIPrefab.InitializeAsync();
+        
             this.adventureRewardData = adventureRewardData;
             this.rewardIndex = rewardIndex;
             this.receiveRewardCallback = receiveRewardCallback;
@@ -62,7 +64,7 @@ namespace ProjectF.UI.Adventures
 
         public void OnTouchReceiveButton()
         {
-            receiveRewardCallback(adventureRewardData.rewardUUID, rewardIndex, this);
+            receiveRewardCallback?.Invoke(adventureRewardData.rewardUUID, rewardIndex, this);
         }
     }
 }

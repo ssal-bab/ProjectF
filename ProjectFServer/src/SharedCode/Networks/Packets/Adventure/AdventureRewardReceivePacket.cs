@@ -21,6 +21,6 @@ namespace ProjectF.Networks.Packets
 
     public class AdventureRewardReceiveResponse : ResponsePacket
     {
-        public DateTime receiveTime;
+        public DateTime rewardApplyTime;
     }
 }

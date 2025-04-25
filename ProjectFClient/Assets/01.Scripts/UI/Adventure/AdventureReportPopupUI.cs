@@ -55,13 +55,13 @@ namespace ProjectF.UI.Adventures
                     {
                         AdventureLootElementUI cropLootElement = PoolManager.Spawn(lootElementUIPrefab, cropLootContainer);
                         cropLootElement.InitializeTransform();
-                        cropLootElement.Initialize(ELootItemType.Crop, rewardElement.rewardItemID);
+                        cropLootElement.Initialize(ELootItemType.Crop, rewardElement.rewardItemID, rewardElement.rewardItemAmount);
                     }
                     else if(rewardElement.rewardItemType == ERewardItemType.Egg)
                     {
                         AdventureLootElementUI eggLootElement = PoolManager.Spawn(lootElementUIPrefab, eggLootContainer);
                         eggLootElement.InitializeTransform();
-                        eggLootElement.Initialize(ELootItemType.Egg, rewardElement.rewardItemID);
+                        eggLootElement.Initialize(ELootItemType.Egg, rewardElement.rewardItemID, rewardElement.rewardItemAmount);
                     }
                 }
             }

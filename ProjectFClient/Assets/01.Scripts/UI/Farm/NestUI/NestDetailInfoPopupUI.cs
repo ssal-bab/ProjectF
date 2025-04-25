@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
@@ -13,22 +14,25 @@ namespace ProjectF.UI.Farms
         [SerializeField] NestEggInfoUI eggInfoUI = null;
         [SerializeField] TMP_Text indexText = null;
 
-        private UserNestData userNestData = null;
         private int currentIndex = 0;
+        private string eggUUID = null;
+        private Action<int> shiftCallback = null;
 
-        public void Initialize(UserNestData nestData, int index)
+        public void Initialize(int currentIndex, string eggUUID, Action<int> shiftCallback)
         {
             base.Initialize();
 
-            userNestData = nestData;
-            currentIndex = index;
-            
+            this.currentIndex = currentIndex;
+            this.eggUUID = eggUUID;
+            this.shiftCallback = shiftCallback;
+
             RefreshUI();
         }
 
         private void RefreshUI()
         {
-            int listCount = userNestData.hatchingEggList.Count;
+            UserNestData userNestData = GameInstance.MainUser.nestData;
+            int listCount = userNestData.hatchingEggDatas.Count;
             if(listCount <= 0)
             {
                 OnTouchCloseButton();
@@ -38,7 +42,7 @@ namespace ProjectF.UI.Farms
             currentIndex %= listCount;
             indexText.text = $"{currentIndex + 1} / {listCount}";
 
-            EggHatchingData hatchingData = userNestData.hatchingEggList[currentIndex];
+            EggHatchingData hatchingData = userNestData.hatchingEggDatas[eggUUID];
             eggInfoUI.Initialize(hatchingData);
         }
 
@@ -47,10 +51,13 @@ namespace ProjectF.UI.Farms
             if(direction != -1 && direction != 1)
                 return;
 
-            int listCount = userNestData.hatchingEggList.Count;
-            currentIndex = (listCount + currentIndex + direction) % listCount;
+            shiftCallback?.Invoke(direction);
 
-            RefreshUI();
+            // int listCount = GameInstance.MainUser.nestData.hatchingEggDatas.Count;
+            // currentIndex = (listCount + currentIndex + direction) % listCount;
+
+
+            // RefreshUI();
         }
 
         public void OnTouchHatchButton()
@@ -65,12 +72,12 @@ namespace ProjectF.UI.Farms
 
         private async void HatchEgg()
         {
-            HatchEggResponse response = await NetworkManager.Instance.SendWebRequestAsync<HatchEggResponse>(new HatchEggRequest(currentIndex));
+            HatchEggResponse response = await NetworkManager.Instance.SendWebRequestAsync<HatchEggResponse>(new HatchEggRequest(eggUUID));
             if(response.result != ENetworkResult.Success)
                 return;
 
-            Debug.Log($"Farmer wad born. ID : {response.farmerData.farmerUUID}");
-            GameInstance.MainUser.farmerData.farmerList.Add(response.farmerData.farmerUUID, response.farmerData);
+            Debug.Log($"Farmer wad born. ID : {response.farmerRewardData.rewardUUID}");
+            new ApplyReward(GameInstance.MainUser, GameInstance.ServerTime, response.farmerRewardData);
             RefreshUI();
         }
     }

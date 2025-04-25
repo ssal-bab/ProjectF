@@ -28,30 +28,36 @@ namespace ProjectF.UI.Farms
             base.Initialize();
 
             await elementPrefab.InitializeAsync();
-            UserNestData nestData = GameInstance.MainUser.nestData;
             // GetFacilityTableRow<NestTable, NestTableRow> getFacilityTableRow = new GetFacilityTableRow<NestTable, NestTableRow>(nestData.level);
             // if (getFacilityTableRow.currentTableRow == null)
             //     return;
 
+
+            RefreshUI();
+        }
+
+        private void RefreshUI()
+        {
+            UserNestData nestData = GameInstance.MainUser.nestData;
             NestLevelTableRow tableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(nestData.level);
             if(tableRow == null)
                 return;
 
-            RefreshUI(tableRow, nestData.hatchingEggList);
-        }
-
-        private void RefreshUI(NestLevelTableRow tableRow, List<EggHatchingData> hatchingEggList)
-        {
             scrollView.verticalNormalizedPosition = 1;
             SetUpSlotElementUI(tableRow);
 
-            for(int i = 0; i < slotElementUIList.Count; ++i)
+            int index = 0;
+            foreach(string eggUUID in nestData.hatchingEggDatas.Keys)
             {
-                NestSlotElementUI ui = slotElementUIList[i];
-                if(hatchingEggList.Count > i)
-                    ui.Initialize(i);
-                else
-                    ui.Initialize(-1);
+                NestSlotElementUI ui = slotElementUIList[index];
+                ui.Initialize(eggUUID);
+                index++;
+            }
+
+            for(; index < slotElementUIList.Count; ++index)
+            {
+                NestSlotElementUI ui = slotElementUIList[index];
+                ui.Initialize(null);
             }
         }
 

@@ -1,3 +1,5 @@
+using System;
+
 namespace ProjectF.Networks.Packets
 {
     public class AdventureRewardReceiveRequest : RequestPacket
@@ -19,6 +21,6 @@ namespace ProjectF.Networks.Packets
 
     public class AdventureRewardReceiveResponse : ResponsePacket
     {
-
+        public DateTime receiveTime;
     }
 }

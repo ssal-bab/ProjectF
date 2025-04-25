@@ -8,24 +8,24 @@ namespace ProjectF.UI.Farms
     public class NestSlotElementUI : MonoBehaviourUI
     {
         [SerializeField] NestEggInfoUI eggInfoUI = null;
-        private int index = 0;
+        private string eggUUID = null;
 
-        public void Initialize(int index = -1)
+        public void Initialize(string eggUUID)
         {
             base.Initialize();
-            this.index = index;
-            if(index == -1)
+            this.eggUUID = eggUUID;
+            if(string.IsNullOrEmpty(eggUUID))
                 eggInfoUI.Initialize(null);
             else
-                eggInfoUI.Initialize(GameInstance.MainUser.nestData.hatchingEggList[index]);
+                eggInfoUI.Initialize(GameInstance.MainUser.nestData.hatchingEggDatas[eggUUID]);
         }
 
         public void OnTouchButton()
         {
-            if(index == -1)
+            if(string.IsNullOrEmpty(eggUUID))
                 return;
 
-            if(GameInstance.MainUser.nestData.hatchingEggList.Count <= index)
+            if(GameInstance.MainUser.nestData.hatchingEggDatas.ContainsKey(eggUUID) == false)
                 return;
 
             HatchEgg();
@@ -33,18 +33,18 @@ namespace ProjectF.UI.Farms
 
         private async void HatchEgg()
         {
-            HatchEggResponse response = await NetworkManager.Instance.SendWebRequestAsync<HatchEggResponse>(new HatchEggRequest(index));
+            HatchEggResponse response = await NetworkManager.Instance.SendWebRequestAsync<HatchEggResponse>(new HatchEggRequest(eggUUID));
             if(response.result != ENetworkResult.Success)
                 return;
 
-            Debug.Log($"Farmer wad born. ID : {response.farmerData.farmerUUID}");
-            GameInstance.MainUser.nestData.hatchingEggList.RemoveAt(response.hatchedEggIndex);
-            GameInstance.MainUser.farmerData.farmerList.Add(response.farmerData.farmerUUID, response.farmerData);
+            Debug.Log($"Farmer wad born. ID : {response.farmerRewardData.rewardUUID}");
+            new ApplyReward(GameInstance.MainUser, GameInstance.ServerTime, response.farmerRewardData);
+            GameInstance.MainUser.nestData.hatchingEggDatas.Remove(eggUUID);
 
             Farm farm = FarmManager.Instance.MainFarm;
-            farm.FarmerQuarters.AddFarmers(response.farmerData.farmerUUID);
+            farm.FarmerQuarters.AddFarmers(response.farmerRewardData.rewardUUID);
 
-            Initialize(-1);
+            Initialize(null);
         }
     }
 }

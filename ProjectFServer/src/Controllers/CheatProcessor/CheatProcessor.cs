@@ -37,19 +37,17 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
             NestLevelTableRow nestTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(userData.nestData.level);
-            if(userData.nestData.hatchingEggList.Count >= nestTableRow.eggStoreLimit)
+            if(userData.nestData.hatchingEggDatas.Count >= nestTableRow.eggStoreLimit)
                 return null;
 
+            RewardData rewardData = new RewardData(ERewardItemType.Egg, 0, 1, Guid.NewGuid().ToString());
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                userData.nestData.hatchingEggList.Add(new EggHatchingData() {
-                    eggID = 0,
-                    hatchingStartTime = ServerInstance.ServerTime
-                });
+                new ApplyReward(userData, ServerInstance.ServerTime, rewardData);
                 await userDataInfo.WriteAsync();
             }
 
-            return Newtonsoft.Json.JsonConvert.SerializeObject(userData.nestData.hatchingEggList);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(userData.nestData.hatchingEggDatas);
         }
 
         private static async Task<string> ProcessCommand_ModifyGold(DBManager dbManager, IDistributedLockFactory redLockFactory, CheatRequest request)

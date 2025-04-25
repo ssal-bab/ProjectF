@@ -1,128 +1,128 @@
-using System;
-using H00N.Resources.Pools;
-using ProjectF.Farms;
-using TMPro;
-using UnityEngine;
-using ProjectF.DataTables;
-using ProjectF.Networks;
-using H00N.DataTables;
-using ProjectF.Datas;
-using ProjectF.Networks.Packets;
+// using System;
+// using H00N.Resources.Pools;
+// using ProjectF.Farms;
+// using TMPro;
+// using UnityEngine;
+// using ProjectF.DataTables;
+// using ProjectF.Networks;
+// using H00N.DataTables;
+// using ProjectF.Datas;
+// using ProjectF.Networks.Packets;
 
-namespace ProjectF.UI.Farms
-{
-    [Serializable]
-    public class FarmerStatInfo
-    {
-        public EFarmerStatType statType;
-        public TextMeshProUGUI statText;
-        public string unit;
-    }
+// namespace ProjectF.UI.Farms
+// {
+//     [Serializable]
+//     public class FarmerStatInfo
+//     {
+//         public EFarmerStatType statType;
+//         public TextMeshProUGUI statText;
+//         public string unit;
+//     }
 
-    public class FarmerInfoPopupUI : PoolableBehaviourUI
-    {
-        private const int STAT_COUNT = 4;
-        private FarmerData currentFarmerData;
-        private Farmer currentFarmer;
-        [SerializeField] private TextMeshProUGUI farmerLevelText;
-        [SerializeField] private TextMeshProUGUI priceText;
-        [SerializeField] private FarmerStatInfo[] farmerStatInfoArr = new FarmerStatInfo[STAT_COUNT];
+//     public class FarmerInfoPopupUI : PoolableBehaviourUI
+//     {
+//         private const int STAT_COUNT = 4;
+//         private FarmerData currentFarmerData;
+//         private Farmer currentFarmer;
+//         [SerializeField] private TextMeshProUGUI farmerLevelText;
+//         [SerializeField] private TextMeshProUGUI priceText;
+//         [SerializeField] private FarmerStatInfo[] farmerStatInfoArr = new FarmerStatInfo[STAT_COUNT];
 
-        public void Initialize(FarmerData farmerData)
-        {
-            base.Initialize();
+//         public void Initialize(FarmerData farmerData)
+//         {
+//             base.Initialize();
 
-            currentFarmerData = farmerData;
+//             currentFarmerData = farmerData;
             
-            var farm = FarmManager.Instance.MainFarm;
-            currentFarmer = farm.FarmerQuarters.GetFarmerByUUID(farmerData.farmerUUID);
+//             var farm = FarmManager.Instance.MainFarm;
+//             currentFarmer = farm.FarmerQuarters.GetFarmerByUUID(farmerData.farmerUUID);
 
-            RefreshUI(farmerData);
-        }
+//             RefreshUI(farmerData);
+//         }
 
-        public void RefreshUI(FarmerData farmerData)
-        {
-            // MaxLevel인지지 판단 필요
-            int currentLevel = farmerData.level;
-            int nextLevel = farmerData.level + 1;
+//         public void RefreshUI(FarmerData farmerData)
+//         {
+//             // MaxLevel인지지 판단 필요
+//             int currentLevel = farmerData.level;
+//             int nextLevel = farmerData.level + 1;
             
-            farmerLevelText.text = $"{currentLevel} {StringUtility.ColorTag(GameDefine.AbleBehavioutColor, $">> {nextLevel}")}";
+//             farmerLevelText.text = $"{currentLevel} {StringUtility.ColorTag(GameDefine.AbleBehavioutColor, $">> {nextLevel}")}";
 
-            var statTable = DataTableManager.GetTable<FarmerStatTable>();
-            var tableRow = statTable.GetRow(farmerData.farmerID);
+//             var statTable = DataTableManager.GetTable<FarmerStatTable>();
+//             var tableRow = statTable.GetRow(farmerData.farmerID);
 
-            var currentLevelStatDictionary = new GetFarmerStat(tableRow, currentLevel).statDictionary;
-            var nextLevelStatDictionary = new GetFarmerStat(tableRow, nextLevel).statDictionary;
+//             var currentLevelStatDictionary = new GetFarmerStat(tableRow, currentLevel).statDictionary;
+//             var nextLevelStatDictionary = new GetFarmerStat(tableRow, nextLevel).statDictionary;
 
-            foreach(var info in farmerStatInfoArr)
-            {
-                var type = info.statType;
+//             foreach(var info in farmerStatInfoArr)
+//             {
+//                 var type = info.statType;
 
-                int currentValue = new CalculateFarmerProductivity(type, currentLevelStatDictionary[type]).value;
-                int nextValue = new CalculateFarmerProductivity(type, nextLevelStatDictionary[type]).value;
+//                 int currentValue = new CalculateFarmerProductivity(type, currentLevelStatDictionary[type]).value;
+//                 int nextValue = new CalculateFarmerProductivity(type, nextLevelStatDictionary[type]).value;
 
-                string preview = $"{currentValue}{info.unit} {StringUtility.ColorTag(GameDefine.AbleBehavioutColor, $">> {nextValue}{info.unit}")}";
+//                 string preview = $"{currentValue}{info.unit} {StringUtility.ColorTag(GameDefine.AbleBehavioutColor, $">> {nextValue}{info.unit}")}";
 
-                info.statText.text = $"{ResourceUtility.GetStatDescriptionLocakKey(type)} {preview}";
-            }
+//                 info.statText.text = $"{ResourceUtility.GetStatDescriptionLocakKey(type)} {preview}";
+//             }
 
-            var farmerLevelupGoldTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
-            int price = new CalculateFarmerLevelupGold(farmerLevelupGoldTable, farmerData.rarity, currentLevel).value;
+//             var farmerLevelupGoldTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
+//             int price = new CalculateFarmerLevelupGold(farmerLevelupGoldTable, farmerData.rarity, currentLevel).value;
 
-            int haveMoney = GameInstance.MainUser.monetaData.gold;
+//             int haveMoney = GameInstance.MainUser.monetaData.gold;
 
-            string color = haveMoney >= price ? GameDefine.AbleBehavioutColor : GameDefine.UnAbleBehaviourColor;
+//             string color = haveMoney >= price ? GameDefine.AbleBehavioutColor : GameDefine.UnAbleBehaviourColor;
             
-            priceText.text = $"<color=#{color}>{price}</color> / {haveMoney}";
-        }
+//             priceText.text = $"<color=#{color}>{price}</color> / {haveMoney}";
+//         }
 
-        public async void ChangeFarmerLevel()
-        {
-            if(!GameInstance.MainUser.farmerData.farmerList.ContainsKey(currentFarmerData.farmerUUID))
-            {
-                Debug.LogError("일꾼을 찾을 수 없습니다.");
-                return;
-            }
+//         public async void ChangeFarmerLevel()
+//         {
+//             if(!GameInstance.MainUser.farmerData.farmerList.ContainsKey(currentFarmerData.farmerUUID))
+//             {
+//                 Debug.LogError("일꾼을 찾을 수 없습니다.");
+//                 return;
+//             }
 
-            var levelupGoldTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
-            var farmerRarity = currentFarmerData.rarity;
-            var level = currentFarmerData.level;
+//             var levelupGoldTable = DataTableManager.GetTable<FarmerLevelupGoldTable>();
+//             var farmerRarity = currentFarmerData.rarity;
+//             var level = currentFarmerData.level;
 
-            int price = new CalculateFarmerLevelupGold(levelupGoldTable, farmerRarity, level).value;
+//             int price = new CalculateFarmerLevelupGold(levelupGoldTable, farmerRarity, level).value;
 
-            if(GameInstance.MainUser.monetaData.gold < price)
-            {
-                Debug.LogError("골드가 충분하지 않습니다.");
-                return;
-            }
+//             if(GameInstance.MainUser.monetaData.gold < price)
+//             {
+//                 Debug.LogError("골드가 충분하지 않습니다.");
+//                 return;
+//             }
 
-            var req = new FarmerLevelupRequest(currentFarmerData.farmerUUID);
-            var response = await NetworkManager.Instance.SendWebRequestAsync<FarmerLevelupResponse>(req);
+//             var req = new FarmerLevelupRequest(currentFarmerData.farmerUUID);
+//             var response = await NetworkManager.Instance.SendWebRequestAsync<FarmerLevelupResponse>(req);
 
-            if(response.result != ENetworkResult.Success) 
-            {
-                Debug.LogError("Critical Error!");
-                return;
-            }
+//             if(response.result != ENetworkResult.Success) 
+//             {
+//                 Debug.LogError("Critical Error!");
+//                 return;
+//             }
 
-            GameInstance.MainUser.monetaData.gold -= price;
-            currentFarmerData.level += 1;
+//             GameInstance.MainUser.monetaData.gold -= price;
+//             currentFarmerData.level += 1;
 
-            FarmerStatTable statTable = DataTableManager.GetTable<FarmerStatTable>();
-            FarmerStatTableRow statRow = statTable.GetRow(currentFarmerData.farmerID);
+//             FarmerStatTable statTable = DataTableManager.GetTable<FarmerStatTable>();
+//             FarmerStatTableRow statRow = statTable.GetRow(currentFarmerData.farmerID);
 
-            currentFarmer.Stat.SetData(statRow, currentFarmerData.level + 1);
-        }
+//             currentFarmer.Stat.SetData(statRow, currentFarmerData.level + 1);
+//         }
 
-        public void OnTouchCloseButton()
-        {
-            Release();
-            PoolManager.Despawn(this);
-        }
+//         public void OnTouchCloseButton()
+//         {
+//             Release();
+//             PoolManager.Despawn(this);
+//         }
 
-        protected override void Release()
-        {
-            base.Release();
-        }
-    }
-}
+//         protected override void Release()
+//         {
+//             base.Release();
+//         }
+//     }
+// }

@@ -48,8 +48,7 @@ namespace ProjectF.UI.Farms
 
             new SetSprite(eggIconImage, ResourceUtility.GetEggIconKey(tableRow.id));
 
-            TimeSpan elapsedTimeSpan = GameInstance.ServerTime - eggHatchingData.hatchingStartTime;
-            float remainTime = (float)(tableRow.hatchingTime - elapsedTimeSpan.TotalSeconds);
+            float remainTime = (float)(eggHatchingData.hatchingFinishTime - GameInstance.ServerTime).TotalSeconds;
             bool hatchingFinish = remainTime <= 0;
             SetUI(hatchingFinish);
 

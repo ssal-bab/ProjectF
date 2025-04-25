@@ -25,7 +25,7 @@ namespace ProjectF.Networks.Controllers
             if(fieldGroupData.fieldDatas.TryGetValue(request.fieldID, out FieldData fieldData) == false)
                 return ErrorPacket(ENetworkResult.DataNotFound);
 
-            if(userData.farmerData.farmerList.TryGetValue(request.farmerUUID, out FarmerData farmerData) == false)
+            if(userData.farmerData.farmerDatas.TryGetValue(request.farmerUUID, out FarmerData farmerData) == false)
                 return ErrorPacket(ENetworkResult.DataNotFound);
 
             int productCropID = fieldData.currentCropID;

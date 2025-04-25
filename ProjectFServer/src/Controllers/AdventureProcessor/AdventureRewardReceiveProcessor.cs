@@ -34,6 +34,7 @@ namespace ProjectF.Networks.Controllers
 
             return new AdventureRewardReceiveResponse() {
                 result = ENetworkResult.Success,
+                receiveTime = ServerInstance.ServerTime,
             };
         }
     }

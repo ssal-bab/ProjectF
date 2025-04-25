@@ -9,17 +9,16 @@ namespace ProjectF.Networks.Packets
         public const string POST = "HatchEgg";
         public override string Post => POST;
 
-        public int eggIndex;
+        public string eggUUID;
 
-        public HatchEggRequest(int eggIndex) 
+        public HatchEggRequest(string eggUUID) 
         { 
-            this.eggIndex = eggIndex;
+            this.eggUUID = eggUUID;
         }
     }
 
     public class HatchEggResponse : ResponsePacket
     {
-        public int hatchedEggIndex;
-        public FarmerData farmerData;
+        public RewardData farmerRewardData;
     }
 }

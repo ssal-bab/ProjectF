@@ -15,7 +15,7 @@ namespace ProjectF.Datas
             adventureData.adventureFarmerDatas ??= new Dictionary<string, AdventureFarmerData>();
             foreach(string farmerUUID in adventureData.adventureFarmerDatas.Keys)
             {
-                if(userData.farmerData.farmerList.ContainsKey(farmerUUID) == false)
+                if(userData.farmerData.farmerDatas.ContainsKey(farmerUUID) == false)
                     adventureData.adventureFarmerDatas.Remove(farmerUUID);
             }
 

@@ -7,7 +7,7 @@ namespace ProjectF.Datas
     public class UserNestData
     {
         public int level = 0;
-        public List<EggHatchingData> hatchingEggList = null;
+        public Dictionary<string, EggHatchingData> hatchingEggDatas = null;
 
         [JsonIgnore]
         public Action<int> OnLevelChangedEvent = null;

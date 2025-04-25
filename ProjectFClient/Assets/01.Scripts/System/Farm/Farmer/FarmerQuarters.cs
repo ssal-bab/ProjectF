@@ -29,8 +29,8 @@ namespace ProjectF.Farms
             cagedFarmerList = new List<Farmer>();
             farmerList = new Dictionary<string, Farmer>();
 
-            Dictionary<string, FarmerData> userFarmerList = GameInstance.MainUser.farmerData.farmerList;
-            string[] farmerUUIDList = userFarmerList.Keys.ToArray();
+            Dictionary<string, FarmerData> userFarmerDatas = GameInstance.MainUser.farmerData.farmerDatas;
+            string[] farmerUUIDList = userFarmerDatas.Keys.ToArray();
             AddFarmers(farmerUUIDList);
 
             StartCoroutine(this.LoopRoutine(FARMER_REST_UPDATE_DELAY, RestFarmer));
@@ -57,13 +57,13 @@ namespace ProjectF.Farms
 
         private async void UncageAllFarmerAsync(params string[] farmerUUIDList)
         {
-            Dictionary<string, FarmerData> userFarmerList = GameInstance.MainUser.farmerData.farmerList;
+            Dictionary<string, FarmerData> userFarmerDatas = GameInstance.MainUser.farmerData.farmerDatas;
             foreach(string farmerUUID in farmerUUIDList)
             {
                 if(farmerList.TryGetValue(farmerUUID, out Farmer farmer) == false)
                     continue;
 
-                if(userFarmerList.TryGetValue(farmerUUID, out FarmerData farmerData) == false)
+                if(userFarmerDatas.TryGetValue(farmerUUID, out FarmerData farmerData) == false)
                     continue;
 
                 farmer.gameObject.SetActive(true);

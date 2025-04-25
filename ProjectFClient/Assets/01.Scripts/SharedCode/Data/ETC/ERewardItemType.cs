@@ -8,6 +8,7 @@ namespace ProjectF.Datas
         CashGem,
         Seed,
         Egg,
+        Farmer,
         // Material,
         XP
     }

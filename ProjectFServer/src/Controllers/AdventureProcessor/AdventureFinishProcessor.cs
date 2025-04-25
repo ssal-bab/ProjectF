@@ -29,6 +29,7 @@ namespace ProjectF.Networks.Controllers
             // 보상 수령 가능
             string adventureRewardUUID = Guid.NewGuid().ToString();
             AdventureRewardData adventureRewardData = new AdventureRewardData();
+            adventureRewardData.rewardUUID = adventureRewardUUID;
             adventureRewardData.areaID = request.areaID;
             adventureRewardData.farmerList = userData.adventureData.adventureFarmerDatas.Where(i => i.Value.areaID == request.areaID).Select(i => i.Value.farmerUUID).ToList();
             adventureRewardData.rewardList = new Dictionary<int, List<RewardData>>(); // 나중에 채운다

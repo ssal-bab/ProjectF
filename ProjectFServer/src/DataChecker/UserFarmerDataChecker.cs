@@ -8,7 +8,7 @@ namespace ProjectF.Datas
         {
             UserFarmerData farmerData = userData.farmerData ??= new UserFarmerData();
             
-            farmerData.farmerList ??= new Dictionary<string, FarmerData>();
+            farmerData.farmerDatas ??= new Dictionary<string, FarmerData>();
         }
     }
 }

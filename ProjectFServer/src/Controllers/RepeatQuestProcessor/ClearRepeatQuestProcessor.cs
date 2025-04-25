@@ -38,7 +38,7 @@ namespace ProjectF.Networks.Controllers
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                new ApplyReward(userData, reward);
+                new ApplyReward(userData, ServerInstance.ServerTime, reward);
 
                 // id가 0이라면 사이클을 돌았다는 것. repeatCount를 1 늘려준다.
                 if(nextRepeatQuestTableRow.id == 0)

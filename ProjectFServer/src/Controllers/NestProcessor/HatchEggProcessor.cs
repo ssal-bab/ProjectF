@@ -20,32 +20,38 @@ namespace ProjectF.Networks.Controllers
             // TwoWayWrite도 매번하는 게 아니라 n분마다 한 번으로 제한해야 한다.
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
-            if(userData.nestData.hatchingEggList.Count <= request.eggIndex)
+
+            if(userData.nestData.hatchingEggDatas.TryGetValue(request.eggUUID, out EggHatchingData hatchingData) == false)
                 return ErrorPacket(ENetworkResult.DataNotFound);
 
-            EggHatchingData hatchingData = userData.nestData.hatchingEggList[request.eggIndex];
             EggTableRow eggTableRow = DataTableManager.GetTable<EggTable>().GetRow(hatchingData.eggID);
             if(eggTableRow == null)
                 return ErrorPacket(ENetworkResult.DataNotFound);
 
-            TimeSpan elapsedTime = ServerInstance.ServerTime - hatchingData.hatchingStartTime;
-            if(elapsedTime.TotalSeconds < eggTableRow.hatchingTime)
+            if(ServerInstance.ServerTime < hatchingData.hatchingFinishTime)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
             NestLevelTableRow nestLevelTableRow = DataTableManager.GetTable<NestLevelTable>().GetRowByLevel(userData.nestData.level);
-            if(userData.farmerData.farmerList.Count >= nestLevelTableRow.farmerStoreLimit)
+            if(userData.farmerData.farmerDatas.Count >= nestLevelTableRow.farmerStoreLimit)
                 return ErrorPacket(ENetworkResult.DataNotEnough);
 
             // 알 생성
-            List<FarmerTableRow> farmerList = DataTableManager.GetTable<FarmerTable>().GetFarmerList(eggTableRow.rarity);
-            int index = new Random().Next(0, farmerList.Count);
-            FarmerTableRow farmerTableRow = farmerList[index];
-            FarmerData farmerData = new GenerateFarmerData(farmerTableRow).farmerData;
+            List<FarmerTableRow> farmerTableRowList = DataTableManager.GetTable<FarmerTable>().GetFarmerList(eggTableRow.rarity);
+            int index = new Random().Next(0, farmerTableRowList.Count);
+            FarmerTableRow farmerTableRow = farmerTableRowList[index];
+            RewardData farmerRewardData = new RewardData(ERewardItemType.Farmer, farmerTableRow.id, 1, Guid.NewGuid().ToString());
 
             using (IRedLock userDataLock = await userDataInfo.LockAsync(redLockFactory))
             {
-                userData.nestData.hatchingEggList.RemoveAt(request.eggIndex);
-                userData.farmerData.farmerList.Add(farmerData.farmerUUID, farmerData);
+                userData.nestData.hatchingEggDatas.Remove(request.eggUUID);
+                new ApplyReward(userData, ServerInstance.ServerTime, new List<RewardData>() { farmerRewardData });
+                userData.farmerData.farmerDatas.Add(farmerRewardData.rewardUUID, new FarmerData() {
+                    farmerUUID = farmerRewardData.rewardUUID,
+                    farmerID = farmerTableRow.id,
+                    level = 1,
+                    nickname = "",
+                });
+
                 new UpdateAllQuestDataProgress(userData, EActionType.HatchEgg, DataDefine.NONE_TARGET, 1);
                 new UpdateAllQuestDataProgress(userData, EActionType.HatchTargetEgg, eggTableRow.id, 1);
                 await userDataInfo.WriteAsync();
@@ -53,8 +59,7 @@ namespace ProjectF.Networks.Controllers
 
             return new HatchEggResponse() {
                 result = ENetworkResult.Success,
-                hatchedEggIndex = request.eggIndex,
-                farmerData = farmerData
+                farmerRewardData = farmerRewardData
             };
         }
     }

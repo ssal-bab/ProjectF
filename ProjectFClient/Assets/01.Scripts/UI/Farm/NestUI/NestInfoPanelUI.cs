@@ -52,8 +52,8 @@ namespace ProjectF.UI.Farms
             new SetSprite(nestIconImage, ResourceUtility.GetStorageIconKey(tableRow.id));
             nameText.text = $"Lv.{tableRow.level} 둥지{tableRow.level}"; // 나중에 localizing 적용해야 함
 
-            eggSliderUI.RefreshUI(tableRow.eggStoreLimit, nestData.hatchingEggList.Count);
-            farmerSliderUI.RefreshUI(tableRow.farmerStoreLimit, GameInstance.MainUser.farmerData.farmerList.Count);
+            eggSliderUI.RefreshUI(tableRow.eggStoreLimit, nestData.hatchingEggDatas.Count);
+            farmerSliderUI.RefreshUI(tableRow.farmerStoreLimit, GameInstance.MainUser.farmerData.farmerDatas.Count);
         }
 
         public void OnTouchUpgradeButton()

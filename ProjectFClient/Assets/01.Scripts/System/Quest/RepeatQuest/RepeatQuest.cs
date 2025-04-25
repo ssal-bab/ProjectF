@@ -36,7 +36,7 @@ namespace ProjectF.Quests
             else
                 UserActionObserver.UnregistTargetObserver(TableRow.actionType, QuestData.actionTargetID, CheckClear);
 
-            new ApplyReward(GameInstance.MainUser, res.rewardData);
+            // new ApplyReward(GameInstance.MainUser, res.rewardData);
         }
 
         protected override void SetDescription()

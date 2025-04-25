@@ -377,7 +377,7 @@ MonoBehaviour:
   areaPopupUIPrefab:
     key: AdventureAreaPopupUI
   reportPopupUIPrefab:
-    key: AdventureRewardPopupUI
+    key: AdventureReportPopupUI
   rewardBoxPopupUIPrefab:
     key: 
   areaElementUIList:

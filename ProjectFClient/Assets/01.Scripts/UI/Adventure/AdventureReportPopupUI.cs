@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
@@ -42,6 +43,10 @@ namespace ProjectF.UI.Adventures
 
             xpText.text = adventureFinishData.xpReward.rewardItemAmount.ToString();
             goldText.text = adventureFinishData.goldReward.rewardItemAmount.ToString();
+
+            cropLootContainer.DespawnAllChildren();
+            eggLootContainer.DespawnAllChildren();
+
             foreach(List<RewardData> reward in adventureFinishData.rewardData.rewardList.Values)
             {
                 foreach(RewardData rewardElement in reward)

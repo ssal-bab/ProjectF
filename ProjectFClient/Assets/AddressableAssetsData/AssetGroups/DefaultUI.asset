@@ -222,7 +222,7 @@ MonoBehaviour:
     - default
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 00c3c01933d12427180129ef53b73137
-    m_Address: AdventureRewardPopupUI
+    m_Address: AdventureReportPopupUI
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

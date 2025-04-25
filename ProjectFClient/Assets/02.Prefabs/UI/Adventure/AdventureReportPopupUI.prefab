@@ -2241,7 +2241,7 @@ GameObject:
   - component: {fileID: 2411450154066004731}
   - component: {fileID: 1613250078333610998}
   m_Layer: 5
-  m_Name: AdventureRewardPopupUI
+  m_Name: AdventureReportPopupUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

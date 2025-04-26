@@ -19,6 +19,7 @@ namespace ProjectF.UI.Adventures
 
         [Space(10f)]
         [SerializeField] List<AdventureAreaElementUI> areaElementUIList = null;
+        private Dictionary<int, AdventureAreaElementUI> areaElementUIs = null;
 
         public new async void Initialize()
         {
@@ -28,8 +29,13 @@ namespace ProjectF.UI.Adventures
             await reportPopupUIPrefab.InitializeAsync();
             await rewardBoxPopupUIPrefab.InitializeAsync();
 
+            areaElementUIs ??= new Dictionary<int, AdventureAreaElementUI>();
+            areaElementUIs.Clear();
             foreach (AdventureAreaElementUI elementUI in areaElementUIList)
+            {
+                areaElementUIs.Add(elementUI.AreaID, elementUI);
                 elementUI.Initialize(OpenUpgradePopupUI, OpenAreaPopupUI, FinishAdventureAsync);
+            }
         }
 
         private void OpenUpgradePopupUI(int areaID)
@@ -71,8 +77,11 @@ namespace ProjectF.UI.Adventures
             mainUser.monetaData.gold -= tableRow.gold;
 
             new ApplyUpgradeCost<NestUpgradeCostTableRow>(mainUser.storageData, DataTableManager.GetTable<NestUpgradeCostTable>().GetRowListByLevel(response.currentLevel - 1));
-
             mainUser.adventureData.adventureAreas[areaID] = response.currentLevel;
+
+            // 언락했다.
+            if(response.currentLevel == 1)
+                areaElementUIs[areaID].Initialize(OpenUpgradePopupUI, OpenAreaPopupUI, FinishAdventureAsync);
 
             if(ui != null)
                 ui.OnTouchCloseButton();

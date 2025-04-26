@@ -48,13 +48,6 @@ namespace ProjectF.Networks.Controllers
             {
                 userData.nestData.hatchingEggDatas.Remove(request.eggUUID);
                 new ApplyReward(userData, ServerInstance.ServerTime, new List<RewardData>() { farmerRewardData });
-                userData.farmerData.farmerDatas.Add(farmerRewardData.rewardUUID, new FarmerData() {
-                    farmerUUID = farmerRewardData.rewardUUID,
-                    farmerID = farmerTableRow.id,
-                    level = 1,
-                    nickname = "",
-                });
-
                 new UpdateAllQuestDataProgress(userData, EActionType.HatchEgg, DataDefine.NONE_TARGET, 1);
                 new UpdateAllQuestDataProgress(userData, EActionType.HatchTargetEgg, eggTableRow.id, 1);
                 await userDataInfo.WriteAsync();

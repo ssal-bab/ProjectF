@@ -40,7 +40,7 @@ namespace ProjectF.Networks.Controllers
             adventureRewardData.rewardList = new Dictionary<int, List<RewardData>>();
             adventureRewardData.rewardList[0] = CalculateCropRewardData(userData, adventureRewardData.farmerList, request.areaID, level);
 
-            int eggCount = new Random().Next(0, 3); // 나중엔 테이블로 빼야됨.
+            int eggCount = new Random().Next(0, DataTableManager.GetTable<GameConfigTable>().AdventureEggLootMaxCount + 1);
             for(int i = 0; i < eggCount; i++)
                 adventureRewardData.rewardList[i + 1] = CalculateEggRewardData(request.areaID, level);
 

@@ -72,19 +72,25 @@ namespace ProjectF.Networks.Controllers
             };
         }
 
-        private static List<RewardData> CalculateCropRewardData(UserData userData, List<string> farmerUUIDList, int areaID, int level)
+        private static List<RewardData> CalculateCropRewardData(UserData userData, List<string> farmerUUIDList, int areaID, int areaLevel)
         {
+            AdventureSkillTable adventureSkillTable = DataTableManager.GetTable<AdventureSkillTable>();
+
             float cropLootFactor = 0f;
             foreach(string farmerUUID in farmerUUIDList)
             {
                 if(userData.farmerData.farmerDatas.TryGetValue(farmerUUID, out FarmerData farmerData) == false)
                     continue;
 
-                cropLootFactor += farmerData.level;
+                FarmerStatTableRow statTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(farmerData.farmerID);
+                float adventureSkillLevel = new CalculateStat(statTableRow.farmingSkill, farmerData.level).currentStat;
+                AdventureSkillTableRow adventureSkillTableRow = adventureSkillTable.GetRowByLevel((int)adventureSkillLevel);
+
+                cropLootFactor += adventureSkillTableRow.additionalLootRate;
             }
 
             Random random = new Random();
-            List<AdventureCropLootTableRow> cropLootTableRowList = DataTableManager.GetTable<AdventureCropLootTable>().GetRowList(areaID, level);
+            List<AdventureCropLootTableRow> cropLootTableRowList = DataTableManager.GetTable<AdventureCropLootTable>().GetRowList(areaID, areaLevel);
             List<RewardData> cropRewardData = new List<RewardData>();
             foreach(AdventureCropLootTableRow cropLootTableRow in cropLootTableRowList)
             {
@@ -97,10 +103,10 @@ namespace ProjectF.Networks.Controllers
             return cropRewardData;
         }
 
-        private static List<RewardData> CalculateEggRewardData(int areaID, int level)
+        private static List<RewardData> CalculateEggRewardData(int areaID, int areaLevel)
         {
-            List<AdventureEggLootTableRow> eggLootTableRowList = DataTableManager.GetTable<AdventureEggLootTable>().GetRowList(areaID, level);
-            RatesData eggLootRatesData = DataTableManager.GetTable<AdventureEggLootTable>().GetRatesData(areaID, level);
+            List<AdventureEggLootTableRow> eggLootTableRowList = DataTableManager.GetTable<AdventureEggLootTable>().GetRowList(areaID, areaLevel);
+            RatesData eggLootRatesData = DataTableManager.GetTable<AdventureEggLootTable>().GetRatesData(areaID, areaLevel);
             int eggIndex = new GetValueByRates(eggLootRatesData).randomIndex;
 
             List<RewardData> eggRewardData = new List<RewardData>() {

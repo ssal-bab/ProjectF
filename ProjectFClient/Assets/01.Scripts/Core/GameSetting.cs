@@ -19,18 +19,6 @@ namespace ProjectF
             set => PlayerPrefs.SetString(SELECTABLE_LOGING_USER_IDS_SAVE_KEY, value);
         }
 
-        private const string FARMER_ORDER_TYPE_SAVE_KEY = "saved_order_type";
-        public static EOrderType LastFarmerOrderType {
-            get => (EOrderType)PlayerPrefs.GetInt(FARMER_ORDER_TYPE_SAVE_KEY, DataDefine.NO_ORDER_TYPE);
-            set => PlayerPrefs.SetInt(FARMER_ORDER_TYPE_SAVE_KEY, (int)value);
-        }
-        
-        private const string FARMER_CLASSIFICATION_TYPE_SAVE_KEY = "saved_classification_type";
-        public static EFarmerClassificationType LastFarmerClassificationType {
-            get => (EFarmerClassificationType)PlayerPrefs.GetInt(FARMER_CLASSIFICATION_TYPE_SAVE_KEY, DataDefine.NO_CLASSIFICATION_TYPE);
-            set => PlayerPrefs.SetInt(FARMER_CLASSIFICATION_TYPE_SAVE_KEY, (int)value);
-        }
-
         private const string LAST_SERVER_CONNECTION_KEY = "last_server_connection";
         public static EServerConnectionType LastServerConnection {
             get => (EServerConnectionType)PlayerPrefs.GetInt(LAST_SERVER_CONNECTION_KEY, (int)EServerConnectionType.Development);

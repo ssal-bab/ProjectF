@@ -16,13 +16,13 @@ namespace ProjectF.DataTables
             rowByLevelByID = new Dictionary<int, Dictionary<int, AdventureLevelTableRow>>();
             foreach (AdventureLevelTableRow tableRow in this)
             {
-                if(rowByLevelByID.TryGetValue(tableRow.adventureAreaID, out Dictionary<int, AdventureLevelTableRow> randomIndexowByLevel) == false)
+                if(rowByLevelByID.TryGetValue(tableRow.adventureAreaID, out Dictionary<int, AdventureLevelTableRow> rowByLevel) == false)
                 {
-                    randomIndexowByLevel = new Dictionary<int, AdventureLevelTableRow>();
-                    rowByLevelByID.Add(tableRow.adventureAreaID, randomIndexowByLevel);
+                    rowByLevel = new Dictionary<int, AdventureLevelTableRow>();
+                    rowByLevelByID.Add(tableRow.adventureAreaID, rowByLevel);
                 }
 
-                randomIndexowByLevel[tableRow.level] = tableRow;
+                rowByLevel[tableRow.level] = tableRow;
             }
         }
 

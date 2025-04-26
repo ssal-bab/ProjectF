@@ -30,8 +30,8 @@ namespace ProjectF.Networks.Controllers
 
             int productCropID = fieldData.currentCropID;
 
-            FarmerStatTableRow farmerStatTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(farmerData.farmerID);
-            int cropCount = new CalculateFarmerHarvestCount(farmerStatTableRow, farmerData.level).harvestCount; // 나중엔 cropCount를 request.farmerUUID의 레벨에 따라 다르게 줘야 한다.
+            FarmerLevelTableRow farmerLevelTableRow = DataTableManager.GetTable<FarmerLevelTable>().GetRow(farmerData.farmerID, farmerData.level);
+            int cropCount = new CalculateFarmerHarvestCount(farmerLevelTableRow, farmerData.level).harvestCount; // 나중엔 cropCount를 request.farmerUUID의 레벨에 따라 다르게 줘야 한다.
             
             // FieldGroupLevelTableRow fieldGroupTableRow = DataTableManager.GetTable<FieldGroupLevelTable>().GetRowByLevel(fieldGroupData.level);
             int cropGradeValue = 0; //new GetValueByRates(fieldGroupTableRow.rateTable, fieldGroupTableRow.totalRates).randomIndex;

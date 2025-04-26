@@ -82,9 +82,8 @@ namespace ProjectF.Networks.Controllers
                 if(userData.farmerData.farmerDatas.TryGetValue(farmerUUID, out FarmerData farmerData) == false)
                     continue;
 
-                FarmerStatTableRow statTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(farmerData.farmerID);
-                float adventureSkillLevel = new CalculateStat(statTableRow.farmingSkill, farmerData.level).currentStat;
-                AdventureSkillTableRow adventureSkillTableRow = adventureSkillTable.GetRowByLevel((int)adventureSkillLevel);
+                FarmerLevelTableRow levelTableRow = DataTableManager.GetTable<FarmerLevelTable>().GetRow(farmerData.farmerID, farmerData.level);
+                AdventureSkillTableRow adventureSkillTableRow = adventureSkillTable.GetRowByLevel(levelTableRow.adventureSkill);
 
                 cropLootFactor += adventureSkillTableRow.additionalLootRate;
             }

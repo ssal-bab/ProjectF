@@ -8,10 +8,9 @@ namespace ProjectF
     {
         public int harvestCount;
 
-        public CalculateFarmerHarvestCount(FarmerStatTableRow statTableRow, int level)
+        public CalculateFarmerHarvestCount(FarmerLevelTableRow levelTableRow, int level)
         {
-            float farmingSkill = new CalculateStat(statTableRow.farmingSkill, level).currentStat;
-            int harvestMaxCount = (int)(farmingSkill / DataTableManager.GetTable<FarmerConfigTable>().FarmingSkillFactor) + 1;
+            int harvestMaxCount = (int)(levelTableRow.farmingSkill / DataTableManager.GetTable<FarmerConfigTable>().FarmingSkillFactor) + 1;
             harvestCount = new Random().Next(1, harvestMaxCount + 1);
         }
     }

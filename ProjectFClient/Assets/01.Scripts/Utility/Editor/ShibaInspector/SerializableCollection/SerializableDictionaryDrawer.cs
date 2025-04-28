@@ -6,7 +6,7 @@ using System;
 using System.Reflection;
 using Unity.VisualScripting;
 
-namespace JeusInspector.Collections
+namespace ShibaInspector.Collections
 {
     [CustomPropertyDrawer(typeof(SerializableDictionary<,>), true)]
 public class SerializableDictionaryDrawer : PropertyDrawer

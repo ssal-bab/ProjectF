@@ -2,24 +2,25 @@
 
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
 
-namespace JeusInspector.Collections
+namespace ShibaInspector.Collections
 {
-    [CustomPropertyDrawer(typeof(SerializableStack<>), true)]
-public class SerializableStackDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(SerializableQueue<>), true)]
+public class SerializableQueueDrawer : PropertyDrawer
 {
+    private bool foldout = true;
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         var listProp = property.FindPropertyRelative("list");
 
-        label.text += " (stack)";
+        label.text += " (queue)";
         EditorGUI.PropertyField(position, listProp, label, true);
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        var listProp = property.FindPropertyRelative("list");
+         var listProp = property.FindPropertyRelative("list");
         return EditorGUI.GetPropertyHeight(listProp, label, true);
     }
 }

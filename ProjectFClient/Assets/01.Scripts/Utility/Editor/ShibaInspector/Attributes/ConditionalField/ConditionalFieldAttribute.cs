@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace JeusInspector.Attributes
+namespace ShibaInspector.Attributes
 {
     public class ConditionalFieldAttribute : PropertyAttribute
     {

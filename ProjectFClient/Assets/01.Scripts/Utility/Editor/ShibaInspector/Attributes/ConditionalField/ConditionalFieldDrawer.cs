@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace JeusInspector.Attributes
+namespace ShibaInspector.Attributes
 {
     [CustomPropertyDrawer(typeof(ConditionalFieldAttribute))]
     public class ConditionalFieldDrawer : PropertyDrawer

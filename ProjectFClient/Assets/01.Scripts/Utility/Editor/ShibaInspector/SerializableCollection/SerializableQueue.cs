@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using PlasticPipe.Tube;
 using UnityEngine;
 
-namespace JeusInspector.Collections
+namespace ShibaInspector.Collections
 {
     [Serializable]
 public class SerializableQueue<T> : Queue<T>, ISerializationCallbackReceiver

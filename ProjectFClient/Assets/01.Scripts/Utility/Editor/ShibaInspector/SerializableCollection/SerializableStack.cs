@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JeusInspector.Collections
+namespace ShibaInspector.Collections
 {
     [Serializable]
 public class SerializableStack<T> : Stack<T>, ISerializationCallbackReceiver

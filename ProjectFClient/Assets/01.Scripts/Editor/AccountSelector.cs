@@ -82,13 +82,9 @@ public class AccountSelector : EditorWindow
             }
             
             // 드롭다운 UI를 통해 선택한 인덱스(필터링된 배열 기준)를 받아옴
-            localSelectedIndex = EditorGUILayout.Popup("Options", localSelectedIndex, filteredOptions.ToArray());
+            localSelectedIndex = EditorGUILayout.Popup("Accounts", localSelectedIndex, filteredOptions.ToArray());
             // 원본 배열의 인덱스 값으로 업데이트
             selectedIndex = filteredIndices[localSelectedIndex];
-        }
-        else
-        {
-            EditorGUILayout.LabelField("검색된 결과가 없습니다.");
         }
 
         // 선택 저장 버튼
@@ -98,21 +94,21 @@ public class AccountSelector : EditorWindow
             GameSetting.LastLoginUserID = stringOptions[selectedIndex];
             Debug.Log("Selected Account: " + stringOptions[selectedIndex]);
         }
-        EditorGUILayout.Space();
+        EditorGUILayout.Space(20);
 
         // 선택 저장 버튼
         if (GUILayout.Button("Add Current Account"))
         {
             SaveOptions(GameSetting.LastLoginUserID);
         }
-        EditorGUILayout.Space();
+        //EditorGUILayout.Space();
 
         // --- 새 옵션 추가 UI ---
         EditorGUILayout.BeginHorizontal();
         {
-            newOptionText = EditorGUILayout.TextField("새 옵션", newOptionText);
+            newOptionText = EditorGUILayout.TextField(newOptionText);
             GUI.enabled = !string.IsNullOrEmpty(newOptionText);
-            if (GUILayout.Button("옵션 추가", GUILayout.Width(80)))
+            if (GUILayout.Button("Add Account", GUILayout.Width(120)))
             {
                 // 중복 방지
                 if (!stringOptions.Contains(newOptionText))
@@ -120,32 +116,24 @@ public class AccountSelector : EditorWindow
                     SaveOptions(newOptionText);
                     newOptionText = "";
                 }
-                else
-                {
-                    Debug.LogWarning($"이미 같은 옵션이 존재합니다: {newOptionText}");
-                }
             }
             GUI.enabled = true;
         }
         EditorGUILayout.EndHorizontal();
-        EditorGUILayout.Space();
+        //EditorGUILayout.Space();
 
         // --- 새 옵션 추가 UI ---
         EditorGUILayout.BeginHorizontal();
         {
-            deleteOptionText = EditorGUILayout.TextField("삭제 옵션", deleteOptionText);
+            deleteOptionText = EditorGUILayout.TextField(deleteOptionText);
             GUI.enabled = !string.IsNullOrEmpty(deleteOptionText);
-            if (GUILayout.Button("옵션 삭제", GUILayout.Width(80)))
+            if (GUILayout.Button("Remove Account", GUILayout.Width(120)))
             {
                 // 중복 방지
                 if (stringOptions.Contains(deleteOptionText))
                 {
                     DeleteOptions(deleteOptionText);
                     deleteOptionText = "";
-                }
-                else
-                {
-                    Debug.LogWarning($"없는 옵션입니다 : {deleteOptionText}");
                 }
             }
             GUI.enabled = true;

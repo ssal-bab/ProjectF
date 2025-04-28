@@ -4,7 +4,7 @@ using UnityEditor;
 using System.Reflection;
 using System.Linq;
 
-namespace JeusInspector.Attributes
+namespace ShibaInspector.Attributes
 {
     // 모든 MonoBehaviour에 적용
     [CustomEditor(typeof(MonoBehaviour), true)]

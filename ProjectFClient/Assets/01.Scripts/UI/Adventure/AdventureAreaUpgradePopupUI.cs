@@ -15,7 +15,12 @@ namespace ProjectF.UI.Adventures
         [SerializeField] TMP_Text areaNameText = null;
         [SerializeField] Image areaImage = null;
 
-        [Space(10f)]
+        [Header("Unlock Group")]
+        [SerializeField] GameObject unlockGroupObject = null;
+        [SerializeField] TMP_Text descriptionText = null;
+
+        [Header("Upgrade Group")]
+        [SerializeField] GameObject upgradeGroupObject = null;
         [SerializeField] UpgradeInfoUI timeInfoUI = null;
 
         private int areaID = -1;
@@ -33,7 +38,7 @@ namespace ProjectF.UI.Adventures
 
         public void RefreshUI()
         {
-            int currentLevel = GameInstance.MainUser.adventureData.adventureAreas[areaID];
+            GameInstance.MainUser.adventureData.adventureAreas.TryGetValue(areaID, out int currentLevel);
             AdventureLevelTableRow currentTableRow = DataTableManager.GetTable<AdventureLevelTable>().GetRow(areaID, currentLevel);
             AdventureLevelTableRow nextTableRow = DataTableManager.GetTable<AdventureLevelTable>().GetRow(areaID, currentLevel + 1);
             if (currentTableRow == null || nextTableRow == null)

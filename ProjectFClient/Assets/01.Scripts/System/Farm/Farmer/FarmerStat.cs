@@ -35,12 +35,12 @@ namespace ProjectF.Farms
             statDictionary = new Dictionary<EFarmerStatType, Stat>();
         }
 
-        public void SetData(FarmerStatTableRow tableRow, int level)
+        public void SetData(FarmerLevelTableRow tableRow)
         {
-            UpdateStat(EFarmerStatType.MoveSpeed, new CalculateStat(tableRow.moveSpeed, level).currentStat);
-            UpdateStat(EFarmerStatType.Health, new CalculateStat(tableRow.health, level).currentStat);
-            UpdateStat(EFarmerStatType.FarmingSkill, new CalculateStat(tableRow.farmingSkill, level).currentStat);
-            UpdateStat(EFarmerStatType.AdventureSkill, new CalculateStat(tableRow.adventureSkill, level).currentStat);
+            UpdateStat(EFarmerStatType.MoveSpeed, tableRow.moveSpeed);
+            UpdateStat(EFarmerStatType.Health, tableRow.health);
+            UpdateStat(EFarmerStatType.FarmingSkill, tableRow.farmingSkill);
+            UpdateStat(EFarmerStatType.AdventureSkill, tableRow.adventureSkill);
             SetHP(this[EFarmerStatType.Health], false);
             OnStatChangedEvent?.Invoke();
         }

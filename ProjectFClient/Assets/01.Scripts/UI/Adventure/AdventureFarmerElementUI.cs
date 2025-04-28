@@ -12,6 +12,15 @@ namespace ProjectF.UI.Adventures
             base.Initialize();
         }
 
+        public void Initialize(string farmerID)
+        {
+            base.Initialize();
+            this.farmerID = farmerID;
+
+            if(string.IsNullOrEmpty(farmerID))
+                gameObject.SetActive(false);
+        }
+
         public bool TryGetFarmerID(out string farmerID)
         {
             farmerID = this.farmerID;

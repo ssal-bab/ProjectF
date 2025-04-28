@@ -12,6 +12,10 @@ namespace ProjectF.Networks.Controllers
     {
         public AdventureController(DBManager dbManager, IDistributedLockFactory redLockFactory) : base(dbManager, redLockFactory) { }
 
+        // 탐험 시작 => 종료 시간 설정
+        // 탐험 종료 => 보상 설정, 보관함에 보상 추가
+        // 탐험 보상 수령 => 보관함에서 보상 삭제, 보상 적용
+
         [HttpPost(AdventureAreaUpgradeRequest.POST)]
         public async Task<ActionResult<AdventureAreaUpgradeResponse>> AdventureAreaUpgradeRequestPost([FromBody]AdventureAreaUpgradeRequest req)
         {
@@ -24,6 +28,22 @@ namespace ProjectF.Networks.Controllers
         public async Task<ActionResult<AdventureStartResponse>> AdventureStartRequestPost([FromBody]AdventureStartRequest req)
         {
             AdventureStartProcessor processor = new AdventureStartProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
+
+        [HttpPost(AdventureFinishRequest.POST)]
+        public async Task<ActionResult<AdventureFinishResponse>> AdventureFinishRequestPost([FromBody]AdventureFinishRequest req)
+        {
+            AdventureFinishProcessor processor = new AdventureFinishProcessor(dbManager, redLockFactory, req);
+            await processor.ProcessAsync();
+            return processor.Response;
+        }
+
+        [HttpPost(AdventureRewardReceiveRequest.POST)]
+        public async Task<ActionResult<AdventureRewardReceiveResponse>> AdventureRewardReceiveRequestPost([FromBody]AdventureRewardReceiveRequest req)
+        {
+            AdventureRewardReceiveProcessor processor = new AdventureRewardReceiveProcessor(dbManager, redLockFactory, req);
             await processor.ProcessAsync();
             return processor.Response;
         }

@@ -14,18 +14,28 @@ namespace ProjectF.UI.Adventures
     {
         [SerializeField] AddressableAsset<AdventureAreaUpgradePopupUI> upgradePopupUIPrefab = null;
         [SerializeField] AddressableAsset<AdventureAreaPopupUI> areaPopupUIPrefab = null;
-        
+        [SerializeField] AddressableAsset<AdventureReportPopupUI> reportPopupUIPrefab = null;
+        [SerializeField] AddressableAsset<AdventureRewardBoxPopupUI> rewardBoxPopupUIPrefab = null;
+
         [Space(10f)]
         [SerializeField] List<AdventureAreaElementUI> areaElementUIList = null;
+        private Dictionary<int, AdventureAreaElementUI> areaElementUIs = null;
 
         public new async void Initialize()
         {
             base.Initialize();
             await areaPopupUIPrefab.InitializeAsync();
             await upgradePopupUIPrefab.InitializeAsync();
+            await reportPopupUIPrefab.InitializeAsync();
+            await rewardBoxPopupUIPrefab.InitializeAsync();
 
+            areaElementUIs ??= new Dictionary<int, AdventureAreaElementUI>();
+            areaElementUIs.Clear();
             foreach (AdventureAreaElementUI elementUI in areaElementUIList)
-                elementUI.Initialize(OpenUpgradePopupUI, OpenAreaPopupUI);
+            {
+                areaElementUIs.Add(elementUI.AreaID, elementUI);
+                elementUI.Initialize(OpenUpgradePopupUI, OpenAreaPopupUI, FinishAdventureAsync);
+            }
         }
 
         private void OpenUpgradePopupUI(int areaID)
@@ -40,6 +50,13 @@ namespace ProjectF.UI.Adventures
             AdventureAreaPopupUI areaPopupUI = PoolManager.Spawn(areaPopupUIPrefab, GameDefine.ContentPopupFrame);
             areaPopupUI.StretchRect();
             areaPopupUI.Initialize(areaID, StartAdventureAsync);
+        }
+
+        public void OnTouchRewardBoxButton()
+        {
+            AdventureRewardBoxPopupUI rewardBoxPopupUI = PoolManager.Spawn(rewardBoxPopupUIPrefab, GameDefine.ContentPopupFrame);
+            rewardBoxPopupUI.StretchRect();
+            rewardBoxPopupUI.Initialize();
         }
 
         public void OnTouchCloseButton()
@@ -60,8 +77,11 @@ namespace ProjectF.UI.Adventures
             mainUser.monetaData.gold -= tableRow.gold;
 
             new ApplyUpgradeCost<NestUpgradeCostTableRow>(mainUser.storageData, DataTableManager.GetTable<NestUpgradeCostTable>().GetRowListByLevel(response.currentLevel - 1));
-
             mainUser.adventureData.adventureAreas[areaID] = response.currentLevel;
+
+            // 언락했다.
+            if(response.currentLevel == 1)
+                areaElementUIs[areaID].Initialize(OpenUpgradePopupUI, OpenAreaPopupUI, FinishAdventureAsync);
 
             if(ui != null)
                 ui.OnTouchCloseButton();
@@ -85,6 +105,27 @@ namespace ProjectF.UI.Adventures
 
             if(ui != null)
                 ui.Initialize(areaID, StartAdventureAsync);
+        }
+
+        private async void FinishAdventureAsync(int areaID)
+        {
+            AdventureFinishResponse response = await NetworkManager.Instance.SendWebRequestAsync<AdventureFinishResponse>(new AdventureFinishRequest(areaID));
+            if (response.result != ENetworkResult.Success)
+                return;
+
+            new ApplyReward(GameInstance.MainUser, response.rewardReceiveTime, response.xpReward);
+            new ApplyReward(GameInstance.MainUser, response.rewardReceiveTime, response.goldReward);
+
+            UserAdventureData adventureData = GameInstance.MainUser.adventureData;
+            foreach(string farmerUUID in response.rewardData.farmerList)
+                adventureData.adventureFarmerDatas.Remove(farmerUUID);
+
+            adventureData.adventureFinishDatas.Remove(areaID);
+            adventureData.adventureRewardDatas.Add(response.adventureRewardUUID, response.rewardData);
+
+            AdventureReportPopupUI reportPopupUI = PoolManager.Spawn(reportPopupUIPrefab, GameDefine.ContentPopupFrame);
+            reportPopupUI.StretchRect();
+            reportPopupUI.Initialize(response);
         }
     }
 }

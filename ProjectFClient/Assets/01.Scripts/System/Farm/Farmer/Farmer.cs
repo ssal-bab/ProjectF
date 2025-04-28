@@ -67,9 +67,9 @@ namespace ProjectF.Farms
         {
             FarmerUUID = farmerData.farmerUUID;
 
-            FarmerStatTableRow statTableRow = DataTableManager.GetTable<FarmerStatTable>().GetRow(farmerData.farmerID);
+            FarmerLevelTableRow tableRow = DataTableManager.GetTable<FarmerLevelTable>().GetRow(farmerData.farmerID);
             Stat ??= new FarmerStat();
-            Stat.SetData(statTableRow, farmerData.level);
+            Stat.SetData(tableRow);
             unitMovement.SetMaxSpeed(Stat[EFarmerStatType.MoveSpeed]);
         }
 

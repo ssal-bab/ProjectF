@@ -9,7 +9,7 @@ using ProjectF.Datas;
 using ProjectF.DataTables;
 using ProjectF.Networks;
 using ProjectF.Networks.Packets;
-using ProjectF.UI.Farms;
+using ProjectF.UI.FieldGroups;
 using UnityEngine;
 
 namespace ProjectF.UI.Cheats
@@ -35,11 +35,11 @@ namespace ProjectF.UI.Cheats
             if(string.IsNullOrEmpty(response))
                 return;
 
-            List<EggHatchingData> hatchingEggList = JsonConvert.DeserializeObject<List<EggHatchingData>>(response);
-            if(hatchingEggList == null)
+            Dictionary<string, EggHatchingData> hatchingEggDatas = JsonConvert.DeserializeObject<Dictionary<string, EggHatchingData>>(response);
+            if(hatchingEggDatas == null)
                 return;
 
-            GameInstance.MainUser.nestData.hatchingEggList = hatchingEggList;
+            GameInstance.MainUser.nestData.hatchingEggDatas = hatchingEggDatas;
         }
 
         public void OnTouchModifyGoldButton()

@@ -20,9 +20,7 @@ namespace ProjectF.Networks.Controllers
             UserDataInfo userDataInfo = await dbManager.GetUserDataInfo(request.userID);
             UserData userData = userDataInfo.Data;
 
-            if(userData.adventureData.adventureAreas.TryGetValue(request.areaID, out int level) == false)
-                return ErrorPacket(ENetworkResult.DataNotFound);
-
+            userData.adventureData.adventureAreas.TryGetValue(request.areaID, out int level);
             List<AdventureUpgradeCostTableRow> upgradeCostTableRowList = DataTableManager.GetTable<AdventureUpgradeCostTable>().GetRowList(request.areaID, level);
             CheckUpgradeCost<AdventureUpgradeCostTableRow> checkUpgradeCost = new CheckUpgradeCost<AdventureUpgradeCostTableRow>(userData.storageData, upgradeCostTableRowList);
             if(checkUpgradeCost.upgradePossible == false)

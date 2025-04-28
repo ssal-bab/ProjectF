@@ -32,7 +32,7 @@ namespace ProjectF.Networks.Controllers
             foreach(string farmerUUID in request.farmerList)
             {
                 // 이미 탐험을 진행중이면 오류를 반환한다.
-                if(userData.farmerData.farmerList.ContainsKey(farmerUUID))
+                if(userData.farmerData.farmerDatas.ContainsKey(farmerUUID))
                     return ErrorPacket(ENetworkResult.InvalidAccess);
 
                 // 실제 보유하고 있는 농부인지 확인을 해야하지만. 굳이 여기서 하지는 않는다. 보상을 지급하려 할 때 없는 농부면 제외하고 보상을 주면 된다.

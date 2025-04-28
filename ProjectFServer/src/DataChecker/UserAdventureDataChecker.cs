@@ -15,8 +15,16 @@ namespace ProjectF.Datas
             adventureData.adventureFarmerDatas ??= new Dictionary<string, AdventureFarmerData>();
             foreach(string farmerUUID in adventureData.adventureFarmerDatas.Keys)
             {
-                if(userData.farmerData.farmerList.ContainsKey(farmerUUID) == false)
+                if(userData.farmerData.farmerDatas.ContainsKey(farmerUUID) == false)
                     adventureData.adventureFarmerDatas.Remove(farmerUUID);
+            }
+
+            adventureData.adventureRewardDatas ??= new Dictionary<string, AdventureRewardData>();
+            foreach(string adventureRewardKey in adventureData.adventureRewardDatas.Keys)
+            {
+                AdventureRewardData adventureRewardData = adventureData.adventureRewardDatas[adventureRewardKey];
+                if(adventureRewardData.rewardList.Count <= 0)
+                    adventureData.adventureRewardDatas.Remove(adventureRewardKey);
             }
         }
     }

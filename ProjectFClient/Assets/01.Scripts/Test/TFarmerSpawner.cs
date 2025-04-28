@@ -8,7 +8,10 @@ using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 using ProjectF.UI.Adventures;
 using ProjectF.UI.Cheats;
-using ProjectF.UI.Farms;
+using ProjectF.UI.FieldGroups;
+using ProjectF.UI.Nests;
+using ProjectF.UI.SeedPockets;
+using ProjectF.UI.Storages;
 using UnityEngine;
 
 namespace ProjectF.Tests

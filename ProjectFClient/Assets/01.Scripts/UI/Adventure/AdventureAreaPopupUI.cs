@@ -70,7 +70,7 @@ namespace ProjectF.UI.Adventures
             {
                 AdventureLootElementUI cropLootElement = PoolManager.Spawn(lootElementUIPrefab, cropLootElementContainer);
                 cropLootElement.InitializeTransform();
-                cropLootElement.Initialize(ELootItemType.Crop, cropLootTableRow.cropID);
+                cropLootElement.Initialize(ELootItemType.Crop, cropLootTableRow.cropID, -1);
             }
 
             List<AdventureEggLootTableRow> eggLootTableRowList = DataTableManager.GetTable<AdventureEggLootTable>().GetRowList(areaID, level);
@@ -79,7 +79,7 @@ namespace ProjectF.UI.Adventures
             {
                 AdventureLootElementUI eggLootElement = PoolManager.Spawn(lootElementUIPrefab, eggLootElementContainer);
                 eggLootElement.InitializeTransform();
-                eggLootElement.Initialize(ELootItemType.Egg, eggLootTableRow.eggID);
+                eggLootElement.Initialize(ELootItemType.Egg, eggLootTableRow.eggID, -1);
             }
 
             if(mainUser.adventureData.adventureFinishDatas.TryGetValue(areaID, out DateTime startTime))

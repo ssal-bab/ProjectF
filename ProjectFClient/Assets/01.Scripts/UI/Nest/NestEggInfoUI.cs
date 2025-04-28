@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static ProjectF.StringUtility;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Nests
 {
     public class NestEggInfoUI : MonoBehaviourUI
     {

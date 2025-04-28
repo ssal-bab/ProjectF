@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Nests
 {
     public class NestUpgradePopupUI : UpgradePopupUI
     {

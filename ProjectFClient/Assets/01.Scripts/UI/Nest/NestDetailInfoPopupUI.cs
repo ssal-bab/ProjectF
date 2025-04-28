@@ -7,7 +7,7 @@ using ProjectF.Networks.Packets;
 using TMPro;
 using UnityEngine;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Nests
 {
     public class NestDetailInfoPopupUI : MonoBehaviourUI
     {

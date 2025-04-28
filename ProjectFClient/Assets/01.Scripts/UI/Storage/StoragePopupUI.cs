@@ -2,7 +2,7 @@ using H00N.Extensions;
 using H00N.Resources.Pools;
 using UnityEngine;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Storages
 {
     public class StoragePopupUI : PoolableBehaviourUI
     {

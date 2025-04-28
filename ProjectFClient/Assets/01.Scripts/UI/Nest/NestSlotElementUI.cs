@@ -4,7 +4,7 @@ using ProjectF.Networks;
 using ProjectF.Networks.Packets;
 using UnityEngine;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Nests
 {
     public class NestSlotElementUI : MonoBehaviourUI
     {

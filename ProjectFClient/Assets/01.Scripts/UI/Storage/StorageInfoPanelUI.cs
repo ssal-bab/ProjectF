@@ -11,7 +11,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Storages
 {
     public class StorageInfoPanelUI : MonoBehaviourUI
     {

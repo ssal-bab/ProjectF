@@ -1,6 +1,5 @@
 using ProjectF.Datas;
 using UnityEngine;
-using ProjectF.UI.Farms;
 using ProjectF.Networks;
 
 namespace ProjectF

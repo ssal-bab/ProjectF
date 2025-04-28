@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Storages
 {
     public abstract class StorageViewPanelUI : MonoBehaviourUI
     {

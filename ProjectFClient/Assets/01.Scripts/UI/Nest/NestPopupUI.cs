@@ -1,7 +1,7 @@
 using H00N.Resources.Pools;
 using UnityEngine;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Nests
 {
     public class NestPopupUI : PoolableBehaviourUI
     {

@@ -9,7 +9,7 @@ using ProjectF.DataTables;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectF.UI.Farms
+namespace ProjectF.UI.Nests
 {
     public class NestSlotListPanelUI : MonoBehaviourUI
     {

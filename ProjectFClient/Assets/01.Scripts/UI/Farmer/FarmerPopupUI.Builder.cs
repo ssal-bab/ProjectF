@@ -1,0 +1,51 @@
+using H00N.Resources;
+using H00N.Resources.Pools;
+using UnityEngine;
+
+namespace ProjectF.UI.Farmers
+{
+    public partial class FarmerPopupUI
+    {
+        public class Builder
+        {
+            private AddressableAsset<FarmerPopupUI> prefab = null;
+            
+            private string title = "일꾼";
+            private Color selectedColor = Color.white;
+            private bool sellButtonActive = true;
+
+            public Builder(AddressableAsset<FarmerPopupUI> prefab)
+            {
+                this.prefab = prefab;
+            }
+
+            public Builder SetTitle(string title)
+            {
+                this.title = title;
+                return this;
+            }
+
+            public Builder SetSelectedColor(Color selectedColor)
+            {
+                this.selectedColor = selectedColor;
+                return this;
+            }
+
+            public Builder SetSellButton(bool sellButtonActive)
+            {
+                this.sellButtonActive = sellButtonActive;
+                return this;
+            }
+
+            public FarmerPopupUI Build()
+            {
+                FarmerPopupUI ui = PoolManager.Spawn<FarmerPopupUI>(prefab);
+                ui.selectedColor = selectedColor;
+                ui.Initialize();
+                ui.titleText.SetText(title);
+                ui.sellButtonObject.SetActive(sellButtonActive);
+                return ui;
+            }
+        }
+    }
+}

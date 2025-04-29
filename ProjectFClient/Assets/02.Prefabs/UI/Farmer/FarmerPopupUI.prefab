@@ -1781,6 +1781,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleText: {fileID: 5046980294977298811}
   selectModeButtonObject: {fileID: 6938647699570206}
+  farmerInfoPopupUIPrefab:
+    key: FarmerInfoPopupUI
   farmerElementUIPrefab:
     key: FarmerElementUI
   container: {fileID: 863542237267265179}

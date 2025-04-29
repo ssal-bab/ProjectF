@@ -28,6 +28,7 @@ namespace ProjectF
         public static string GetDialogueSpeakerImageKey(int id) => GetSpriteResourceKey("DialogueSpeakerImage", id);
         public static string GetAdventureAreaImageKey(int id) => GetSpriteResourceKey("AdventureAreaImage", id);
         public static string GetCropGradeIconKey(int id) => id == 0 ? null : GetSpriteResourceKey("CropGradeIcon", id);
+        public static string GetFarmerMonetaIconKey(int id) => id == 0 ? null : GetSpriteResourceKey("FarmerMonetaIcon", id);
 
         private static string GetSpriteResourceKey(string prefix, int id)
         {

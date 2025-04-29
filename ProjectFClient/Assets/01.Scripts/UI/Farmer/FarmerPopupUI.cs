@@ -59,12 +59,19 @@ namespace ProjectF.UI.Farmers
 
             FarmerInfoPopupUI infoPopupUI = PoolManager.Spawn<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab, container);
             infoPopupUI.StretchRect();
-            infoPopupUI.Initialize(ui.FarmerUUID, SellFarmer);
+            infoPopupUI.Initialize(ui.FarmerUUID, SellFarmer, UpgradeFarmer);
         }
 
         private async void SellFarmer(string farmerUUID, FarmerInfoPopupUI infoPopupUI)
         {
             // Sell
+            RefreshUI();
+            PoolManager.Despawn(infoPopupUI);
+        }
+
+        private async void UpgradeFarmer(string farmerUUID, FarmerInfoPopupUI infoPopupUI)
+        {
+            // Upgrade
             RefreshUI();
             PoolManager.Despawn(infoPopupUI);
         }

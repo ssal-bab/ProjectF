@@ -239,6 +239,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1a1bbc98b63b84c26ba45991209567a3
+    m_Address: FarmerElementUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 381c9a52a663248309bd77bf27e559cf, type: 2}
   m_SchemaSet:

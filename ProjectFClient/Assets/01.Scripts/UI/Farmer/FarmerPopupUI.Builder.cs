@@ -12,7 +12,7 @@ namespace ProjectF.UI.Farmers
             
             private string title = "일꾼";
             private Color selectedColor = Color.white;
-            private bool sellButtonActive = true;
+            private bool selectModeButtonActive = true;
 
             public Builder(AddressableAsset<FarmerPopupUI> prefab)
             {
@@ -31,9 +31,9 @@ namespace ProjectF.UI.Farmers
                 return this;
             }
 
-            public Builder SetSellButton(bool sellButtonActive)
+            public Builder SetSelectModeButton(bool selectModeButtonActive)
             {
-                this.sellButtonActive = sellButtonActive;
+                this.selectModeButtonActive = selectModeButtonActive;
                 return this;
             }
 
@@ -43,7 +43,7 @@ namespace ProjectF.UI.Farmers
                 ui.selectedColor = selectedColor;
                 ui.Initialize();
                 ui.titleText.SetText(title);
-                ui.sellButtonObject.SetActive(sellButtonActive);
+                ui.selectModeButtonObject.SetActive(selectModeButtonActive);
                 return ui;
             }
         }

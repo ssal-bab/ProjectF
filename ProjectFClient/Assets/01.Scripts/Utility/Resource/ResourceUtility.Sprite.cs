@@ -14,6 +14,8 @@ namespace ProjectF
             SpriteResourceKeyCache = new Dictionary<string, Dictionary<int, string>>();
         }
 
+        public const string GOLD_ICON_KEY = "GoldIcon";
+
         public static string GetNestIconKey(int id) => GetSpriteResourceKey("NestIcon", id);
         public static string GetStorageIconKey(int id) => GetSpriteResourceKey("StorageIcon", id);
         public static string GetFieldGroupIconKey(int id) => GetSpriteResourceKey("FieldGroupIcon", id);

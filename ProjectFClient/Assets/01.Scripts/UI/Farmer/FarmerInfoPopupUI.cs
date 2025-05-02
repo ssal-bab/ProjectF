@@ -53,7 +53,7 @@ namespace ProjectF.UI.Farmers
                 statElementUIList[statType].Initialize();
 
             upgradeButtonUI.Initialize(ResourceUtility.GetFarmerMonetaIconKey(tableRow.id), levelTableRow.upgradeMonetaCost, () => {
-                GameInstance.MainUser.farmerData.farmerMonetaStrage.TryGetValue(tableRow.id, out int moneta);
+                GameInstance.MainUser.farmerData.farmerMonetaStroage.TryGetValue(tableRow.id, out int moneta);
                 return moneta >= levelTableRow.upgradeMonetaCost;
             });
         }

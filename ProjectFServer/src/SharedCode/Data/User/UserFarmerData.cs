@@ -5,6 +5,6 @@ namespace ProjectF.Datas
     public class UserFarmerData
     {
         public Dictionary<string, FarmerData> farmerDatas = null;
-        public Dictionary<int, int> farmerMonetaStrage = null;
+        public Dictionary<int, int> farmerMonetaStroage = null;
     }
 }

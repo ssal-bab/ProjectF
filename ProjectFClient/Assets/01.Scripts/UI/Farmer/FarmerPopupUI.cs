@@ -1,9 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using DocumentFormat.OpenXml.Office.Drawing;
 using H00N.Extensions;
 using H00N.Resources;
 using H00N.Resources.Pools;
 using ProjectF.Datas;
+using ProjectF.Networks;
+using ProjectF.Networks.Packets;
 using TMPro;
 using UnityEngine;
 
@@ -25,7 +31,7 @@ namespace ProjectF.UI.Farmers
 
         private Color selectedColor = Color.white;
 
-        public new async void Initialize()
+        private new async void Initialize()
         {
             base.Initialize();
             selectMode = false;
@@ -59,17 +65,24 @@ namespace ProjectF.UI.Farmers
 
             FarmerInfoPopupUI infoPopupUI = PoolManager.Spawn<FarmerInfoPopupUI>(farmerInfoPopupUIPrefab, container);
             infoPopupUI.StretchRect();
-            infoPopupUI.Initialize(ui.FarmerUUID, SellFarmer, UpgradeFarmer);
+            infoPopupUI.Initialize(ui.FarmerUUID, OnTouchSellFarmer, OnTouchUpgradeFarmer);
         }
 
-        private async void SellFarmer(string farmerUUID, FarmerInfoPopupUI infoPopupUI)
+        private async void OnTouchSellFarmer(string farmerUUID, FarmerInfoPopupUI infoPopupUI)
         {
-            // Sell
+            UserAdventureData adventureData = GameInstance.MainUser.adventureData;
+            if(adventureData.adventureFarmerDatas.ContainsKey(farmerUUID))
+            {
+                // 탐험중입니다. 토스트 메세지.
+                return;
+            }
+
+            await SellFarmers(new List<string> { farmerUUID });
             RefreshUI();
             PoolManager.Despawn(infoPopupUI);
         }
 
-        private async void UpgradeFarmer(string farmerUUID, FarmerInfoPopupUI infoPopupUI)
+        private async void OnTouchUpgradeFarmer(string farmerUUID, FarmerInfoPopupUI infoPopupUI)
         {
             // Upgrade
             RefreshUI();
@@ -81,9 +94,31 @@ namespace ProjectF.UI.Farmers
             SetSelectMode(!selectMode);
         }
 
-        public void OnTouchConfirmButton()
+        public async void OnTouchConfirmButton()
         {
-            confirmCallback?.Invoke(selectedFarmerElementUIList);
+            if (confirmCallback == null)
+            {
+                List<string> farmerList = new List<string>();
+                UserAdventureData adventureData = GameInstance.MainUser.adventureData;
+                foreach (var farmerElementUI in selectedFarmerElementUIList)
+                {
+                    if (adventureData.adventureFarmerDatas.ContainsKey(farmerElementUI.FarmerUUID))
+                    {
+                        // 탐험중입니다. 토스트 메세지.
+                        return;
+                    }
+
+                    farmerList.Add(farmerElementUI.FarmerUUID);
+                }
+
+                await SellFarmers(farmerList);
+                RefreshUI();
+            }
+            else
+            {
+                confirmCallback?.Invoke(selectedFarmerElementUIList);
+            }
+
             SetSelectMode(false);
         }
 
@@ -106,6 +141,28 @@ namespace ProjectF.UI.Farmers
         {
             base.Release();
             PoolManager.Despawn(this);
+        }
+
+        private async UniTask SellFarmers(List<string> farmerList)
+        {
+            FarmerSellResponse response = await NetworkManager.Instance.SendWebRequestAsync<FarmerSellResponse>(new FarmerSellRequest(farmerList));
+            if(response.result == ENetworkResult.Success)
+                return;
+
+            UserFarmerData farmerData = GameInstance.MainUser.farmerData;
+            foreach(var monetaData in response.earnedMoneta)
+            {
+                farmerData.farmerMonetaStroage.TryGetValue(monetaData.Key, out int moneta);
+                farmerData.farmerMonetaStroage[monetaData.Key] = moneta + monetaData.Value;
+            }
+
+            foreach(var farmerUUID in farmerList)
+            {
+                if(farmerData.farmerDatas.ContainsKey(farmerUUID) == false)
+                    continue;
+
+                farmerData.farmerDatas.Remove(farmerUUID);
+            }
         }
     }
 }

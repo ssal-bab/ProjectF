@@ -19,7 +19,7 @@ namespace ProjectF.UI.Farmers
             private string title = "일꾼";
             private Color selectedColor = Color.white;
             private bool selectModeButtonActive = true;
-            private Action<List<string>> confirmCallback = null;
+            private Action<List<FarmerElementUI>> confirmCallback = null;
 
             public Builder(AddressableAsset<FarmerPopupUI> prefab)
             {
@@ -48,7 +48,7 @@ namespace ProjectF.UI.Farmers
                 return this;
             }
 
-            public Builder SetConfirmCallback(Action<List<string>> confirmCallback)
+            public Builder SetConfirmCallback(Action<List<FarmerElementUI>> confirmCallback)
             {
                 this.confirmCallback = confirmCallback;
                 return this;

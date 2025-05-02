@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 namespace ProjectF.Networks.Packets
-
+{
     public class FarmerSellRequest : RequestPacket
     {
         public override string Route => NetworkDefine.FARMER_ROUTE;

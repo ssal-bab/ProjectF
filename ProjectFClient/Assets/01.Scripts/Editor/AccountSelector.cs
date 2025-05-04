@@ -1,25 +1,15 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using ProjectF.Networks;
-using ProjectF;
 using System;
-using Newtonsoft.Json;
+using ShibaInspector.EidtorWindow;
+using ShibaInspector.Attributes;
+using ProjectF;
 
-public class AccountSelector : EditorWindow
+public class AccountSelector : ShibaMenuEditorWindow
 {
     // 드롭다운에 표시할 문자열 배열
     private List<string> stringOptions;
-    
-    // 드롭다운에서 선택된 인덱스 (원본 배열 기준)
-    private int selectedIndex = 0;
-    
-    // 검색어를 입력받기 위한 변수
-    private string searchText = "";
-
-    private string newOptionText = "";
-
-    private string deleteOptionText = "";
 
     [Serializable]
     private class OptionListWrapper { public List<string> options; }
@@ -32,142 +22,190 @@ public class AccountSelector : EditorWindow
     public static void ShowWindow()
     {
         EditorWindow window = GetWindow(typeof(AccountSelector), false, "Account Selector");
+        window.minSize = new Vector2(500.0f, 300.0f);
         window.Show();
     }
 
     // 에디터 창이 활성화될 때 이전에 저장된 옵션 불러오기
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         stringOptions = new();
 
         OptionListWrapper wrapper = JsonUtility.FromJson<OptionListWrapper>(EditorPrefs.GetString(OPTIONS_KEY, ""));
         stringOptions = wrapper.options;
+
+        AddMenu("Select", new SelectContent(stringOptions));
+        AddMenu("Regist", new RegistContent(stringOptions));
+        AddMenu("Unregist", new UnregistContent(stringOptions));
     }
 
-    // 에디터 창 GUI 그리기
-    private void OnGUI()
+    [Serializable]
+    public class SelectContent
     {
-        // 검색어 입력 필드 추가
-        searchText = EditorGUILayout.TextField("Search", searchText);
+        private int selectedIndex = 0;
+    
+        // 검색어를 입력받기 위한 변수
+        private string searchText = "";
 
-        // 검색어에 따라 옵션 필터링
-        List<int> filteredIndices = new List<int>();    // 원본 배열의 인덱스와 매핑
-        List<string> filteredOptions = new List<string>(); // 실제 드롭다운에 표시할 옵션
+        private List<string> stringOptions;
 
-        for (int i = 0; i < stringOptions.Count; i++)
+        public SelectContent(List<string> stringOptions)
         {
-            // 검색어가 비어있거나, 옵션에 검색어가 포함되어 있으면 추가
-            if (string.IsNullOrEmpty(searchText) || stringOptions[i].ToLower().Contains(searchText.ToLower()))
-            {
-                filteredIndices.Add(i);
-                filteredOptions.Add(stringOptions[i]);
-            }
+            this.stringOptions = stringOptions;
         }
 
-        // 필터링된 결과가 있을 경우에만 드롭다운 표시
-        if (filteredOptions.Count > 0)
+        [OnGUI]
+        public void OnGUI()
         {
-            int localSelectedIndex = 0;
-            // 현재 선택된 옵션(원본 배열 기준)이 필터링 결과에 포함되어 있는지 확인
-            int indexInFiltered = filteredIndices.IndexOf(selectedIndex);
-            if (indexInFiltered != -1)
+            // 검색어 입력 필드 추가
+            searchText = EditorGUILayout.TextField("Search", searchText);
+
+            // 검색어에 따라 옵션 필터링
+            List<int> filteredIndices = new List<int>();    // 원본 배열의 인덱스와 매핑
+            List<string> filteredOptions = new List<string>(); // 실제 드롭다운에 표시할 옵션
+
+            for (int i = 0; i < stringOptions.Count; i++)
             {
-                localSelectedIndex = indexInFiltered;
+                // 검색어가 비어있거나, 옵션에 검색어가 포함되어 있으면 추가
+                if (string.IsNullOrEmpty(searchText) || stringOptions[i].ToLower().Contains(searchText.ToLower()))
+                {
+                    filteredIndices.Add(i);
+                    filteredOptions.Add(stringOptions[i]);
+                }
             }
-            else
+
+            // 필터링된 결과가 있을 경우에만 드롭다운 표시
+            if (filteredOptions.Count > 0)
             {
-                // 현재 선택된 옵션이 필터링 결과에 없으면 첫 번째 옵션을 기본 선택
-                localSelectedIndex = 0;
-                selectedIndex = filteredIndices[0];
-            }
+                int localSelectedIndex = 0;
+                // 현재 선택된 옵션(원본 배열 기준)이 필터링 결과에 포함되어 있는지 확인
+                int indexInFiltered = filteredIndices.IndexOf(selectedIndex);
+                if (indexInFiltered != -1)
+                {
+                    localSelectedIndex = indexInFiltered;
+                }
+                else
+                {
+                    // 현재 선택된 옵션이 필터링 결과에 없으면 첫 번째 옵션을 기본 선택
+                    localSelectedIndex = 0;
+                    selectedIndex = filteredIndices[0];
+                }
             
-            // 드롭다운 UI를 통해 선택한 인덱스(필터링된 배열 기준)를 받아옴
-            localSelectedIndex = EditorGUILayout.Popup("Accounts", localSelectedIndex, filteredOptions.ToArray());
-            // 원본 배열의 인덱스 값으로 업데이트
-            selectedIndex = filteredIndices[localSelectedIndex];
+                // 드롭다운 UI를 통해 선택한 인덱스(필터링된 배열 기준)를 받아옴
+                localSelectedIndex = EditorGUILayout.Popup("Accounts", localSelectedIndex, filteredOptions.ToArray());
+                // 원본 배열의 인덱스 값으로 업데이트
+                selectedIndex = filteredIndices[localSelectedIndex];
+            }
         }
 
-        // 선택 저장 버튼
-        if (GUILayout.Button("Select"))
+        [Button]
+        public void Select()
         {
-            // EditorPrefs에 선택한 옵션 저장 (에디터 재실행 후에도 데이터 유지)
             GameSetting.LastLoginUserID = stringOptions[selectedIndex];
             Debug.Log("Selected Account: " + stringOptions[selectedIndex]);
         }
-        EditorGUILayout.Space(20);
+    }
 
-        // 선택 저장 버튼
-        if (GUILayout.Button("Add Current Account"))
+    public class RegistContent
+    {
+        private string newOptionText = "";
+        private List<string> stringOptions;
+
+        public RegistContent(List<string> stringOptions)
+        {
+            this.stringOptions = stringOptions;
+        }
+
+        [OnGUI]
+        public void OnGUI()
+        {
+            EditorGUILayout.BeginHorizontal();
+            {
+                newOptionText = EditorGUILayout.TextField(newOptionText);
+                GUI.enabled = !string.IsNullOrEmpty(newOptionText);
+                if (GUILayout.Button("Add Account", GUILayout.Width(120)))
+                {
+                    // 중복 방지
+                    if (!stringOptions.Contains(newOptionText))
+                    {
+                        SaveOptions(newOptionText);
+                        newOptionText = "";
+                    }
+                }
+                GUI.enabled = true;
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        [Button]
+        public void RegistCurrentAccount()
         {
             SaveOptions(GameSetting.LastLoginUserID);
         }
-        //EditorGUILayout.Space();
 
-        // --- 새 옵션 추가 UI ---
-        EditorGUILayout.BeginHorizontal();
+        private void SaveOptions(string newOption)
         {
-            newOptionText = EditorGUILayout.TextField(newOptionText);
-            GUI.enabled = !string.IsNullOrEmpty(newOptionText);
-            if (GUILayout.Button("Add Account", GUILayout.Width(120)))
+            if(stringOptions.Contains(newOption))
             {
-                // 중복 방지
-                if (!stringOptions.Contains(newOptionText))
-                {
-                    SaveOptions(newOptionText);
-                    newOptionText = "";
-                }
+                Debug.LogError($"Already Regist Account : {newOption}");
+                return;
             }
-            GUI.enabled = true;
-        }
-        EditorGUILayout.EndHorizontal();
-        //EditorGUILayout.Space();
 
-        // --- 새 옵션 추가 UI ---
-        EditorGUILayout.BeginHorizontal();
-        {
-            deleteOptionText = EditorGUILayout.TextField(deleteOptionText);
-            GUI.enabled = !string.IsNullOrEmpty(deleteOptionText);
-            if (GUILayout.Button("Remove Account", GUILayout.Width(120)))
-            {
-                // 중복 방지
-                if (stringOptions.Contains(deleteOptionText))
-                {
-                    DeleteOptions(deleteOptionText);
-                    deleteOptionText = "";
-                }
-            }
-            GUI.enabled = true;
+            stringOptions.Add(newOption);
+
+            var wrapper = new OptionListWrapper { options = stringOptions };
+            var json = JsonUtility.ToJson(wrapper);
+            EditorPrefs.SetString(OPTIONS_KEY, json);
         }
-        EditorGUILayout.EndHorizontal();
     }
 
-    private void SaveOptions(string newOption)
+    public class UnregistContent
     {
-        if(stringOptions.Contains(newOption))
+        private string deleteOptionText = "";
+
+        private List<string> stringOptions;
+
+        public UnregistContent(List<string> stringOptions)
         {
-            Debug.LogError($"Already Regist Account : {newOption}");
-            return;
+            this.stringOptions = stringOptions;
         }
 
-        stringOptions.Add(newOption);
-
-        var wrapper = new OptionListWrapper { options = stringOptions };
-        var json = JsonUtility.ToJson(wrapper);
-        EditorPrefs.SetString(OPTIONS_KEY, json);   
-    }
-
-    private void DeleteOptions(string targetOption)
-    {
-        if(!stringOptions.Contains(targetOption))
+        [OnGUI]
+        public void OnGUI()
         {
-            Debug.LogError($"Not Regist Account : {targetOption}");
-            return;
+            EditorGUILayout.BeginHorizontal();
+            {
+                deleteOptionText = EditorGUILayout.TextField(deleteOptionText);
+                GUI.enabled = !string.IsNullOrEmpty(deleteOptionText);
+                if (GUILayout.Button("Remove Account", GUILayout.Width(120)))
+                {
+                    // 중복 방지
+                    if (stringOptions.Contains(deleteOptionText))
+                    {
+                        DeleteOptions(deleteOptionText);
+                        deleteOptionText = "";
+                    }
+                }
+                GUI.enabled = true;
+            }
+            EditorGUILayout.EndHorizontal();
         }
 
-        stringOptions.Remove(targetOption);
+        private void DeleteOptions(string targetOption)
+        {
+            if(!stringOptions.Contains(targetOption))
+            {
+                Debug.LogError($"Not Regist Account : {targetOption}");
+                return;
+            }
 
-        var wrapper = new OptionListWrapper { options = stringOptions };
-        var json = JsonUtility.ToJson(wrapper);
-        EditorPrefs.SetString(OPTIONS_KEY, json);   
+            stringOptions.Remove(targetOption);
+
+            var wrapper = new OptionListWrapper { options = stringOptions };
+            var json = JsonUtility.ToJson(wrapper);
+            EditorPrefs.SetString(OPTIONS_KEY, json);   
+        }
     }
 }

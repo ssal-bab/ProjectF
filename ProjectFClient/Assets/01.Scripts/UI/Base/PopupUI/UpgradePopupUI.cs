@@ -52,7 +52,7 @@ namespace ProjectF.UI
                 }
             }
 
-            upgradeButtonUI.Initialize(levelTableRow.gold);
+            upgradeButtonUI.Initialize(ResourceUtility.GOLD_ICON_KEY, levelTableRow.gold, () => levelTableRow.gold >= GameInstance.MainUser.monetaData.gold);
         }
 
         protected bool GetUpgradePossible()

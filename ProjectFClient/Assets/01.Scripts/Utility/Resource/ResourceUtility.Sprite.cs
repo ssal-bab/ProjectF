@@ -14,6 +14,8 @@ namespace ProjectF
             SpriteResourceKeyCache = new Dictionary<string, Dictionary<int, string>>();
         }
 
+        public const string GOLD_ICON_KEY = "GoldIcon";
+
         public static string GetNestIconKey(int id) => GetSpriteResourceKey("NestIcon", id);
         public static string GetStorageIconKey(int id) => GetSpriteResourceKey("StorageIcon", id);
         public static string GetFieldGroupIconKey(int id) => GetSpriteResourceKey("FieldGroupIcon", id);
@@ -26,6 +28,7 @@ namespace ProjectF
         public static string GetDialogueSpeakerImageKey(int id) => GetSpriteResourceKey("DialogueSpeakerImage", id);
         public static string GetAdventureAreaImageKey(int id) => GetSpriteResourceKey("AdventureAreaImage", id);
         public static string GetCropGradeIconKey(int id) => id == 0 ? null : GetSpriteResourceKey("CropGradeIcon", id);
+        public static string GetFarmerMonetaIconKey(int id) => id == 0 ? null : GetSpriteResourceKey("FarmerMonetaIcon", id);
 
         private static string GetSpriteResourceKey(string prefix, int id)
         {

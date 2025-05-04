@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static ProjectF.StringUtility;
 using static ProjectF.GameDefine;
+using System;
 
 namespace ProjectF.UI
 {
@@ -15,19 +16,25 @@ namespace ProjectF.UI
         private const float UPDATE_DELAY = 1f;
 
         [SerializeField] OptOption<AddressableAsset<Sprite>> buttonImageOption = null;
+        [SerializeField] Image iconImage = null;
         [SerializeField] Image buttonImage = null;
         [SerializeField] TMP_Text goldText = null;
 
-        private int targetGold = 0;
+        private int costItemValue = 0;
+        private Func<bool> upgradePossibleFactory = null;
+
         private bool upgradePossible = false;
         public bool UpgradePossible => upgradePossible;
 
-        public async void Initialize(int targetGold)
+        public async void Initialize(string costItemIconKey, int costItemValue, Func<bool> upgradePossibleFactory)
         {
-            this.targetGold = targetGold;
+            this.costItemValue = costItemValue;
+            this.upgradePossibleFactory = upgradePossibleFactory;
             upgradePossible = false;
 
+            new SetSprite(iconImage, costItemIconKey);
             await UniTask.WhenAll(buttonImageOption[true].InitializeAsync(), buttonImageOption[false].InitializeAsync());
+            StopAllCoroutines();
             StartCoroutine(this.LoopRoutine(UPDATE_DELAY, RefreshUI, 0f));
         }
 
@@ -39,10 +46,9 @@ namespace ProjectF.UI
 
         private void RefreshUI()
         {
-            upgradePossible = GameInstance.MainUser.monetaData.gold >= targetGold;
-            
+            upgradePossible = upgradePossibleFactory.Invoke();
             buttonImage.sprite = ResourceManager.GetResource<Sprite>(buttonImageOption[upgradePossible].Key);
-            goldText.text = ColorTag(DefaultColorOption[upgradePossible], targetGold);
+            goldText.text = ColorTag(DefaultColorOption[upgradePossible], costItemValue);
         }
     }
 }

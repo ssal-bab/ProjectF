@@ -1,7 +1,7 @@
 using System;
 using H00N.DataTables;
 using H00N.Resources.Pools;
-using JeusInspector.Collections;
+using ShibaInspector.Collections;
 using ProjectF.Datas;
 using ProjectF.DataTables;
 using TMPro;

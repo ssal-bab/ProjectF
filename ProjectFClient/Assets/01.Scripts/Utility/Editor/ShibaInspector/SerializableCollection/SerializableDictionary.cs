@@ -5,39 +5,43 @@ using UnityEngine;
 namespace ShibaInspector.Collections
 {
     [Serializable]
-public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
+public class SerializableDictionary<TKey, TValue> : ISerializationCallbackReceiver
 {
-    [SerializeField] private List<TKey> keys = new();
-    [SerializeField] private List<TValue> values = new();
+    [SerializeField] 
+    [HideInInspector]
+    public List<TKey> keys = new();
+    [SerializeField] 
+    [HideInInspector]
+    public List<TValue> values = new();
 
-    [SerializeField] private bool shouldApply;
-    [SerializeField] private bool notApplied;
+    public Dictionary<TKey, TValue>  myDictionary = new Dictionary<TKey, TValue>();
+
+    public TValue this[TKey key]
+    {
+        get{ return myDictionary[key]; }
+        set{ myDictionary[key] = value; }
+    }
 
     public void OnBeforeSerialize()
     {
-        if(shouldApply == false)
-            return;
-
         keys.Clear();
         values.Clear();
-
-        foreach(var pair in this)
+        // For each key/value pair in the dictionary, add the key to the keys list and the value to the values list
+        foreach (var kvp in myDictionary)
         {
-            keys.Add(pair.Key);
-            values.Add(pair.Value);
+            keys.Add(kvp.Key);
+            values.Add(kvp.Value);
         }
-
-        shouldApply = false;
     }
 
     public void OnAfterDeserialize()
     {
-        Clear();
-        
-        for(int i = 0; i < keys.Count; i++)
+        myDictionary = new Dictionary<TKey, TValue>();
+
+        // Loop through the list of keys and values and add each key/value pair to the dictionary
+        for (int i = 0; i != Math.Min(keys.Count, values.Count); i++)
         {
-            if(!ContainsKey(keys[i]))
-                Add(keys[i], values[i]);
+            myDictionary.Add(keys[i], values[i]);
         }
     }
 }

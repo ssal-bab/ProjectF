@@ -49,7 +49,7 @@ namespace ProjectF.UI.Farmers
             new SetSprite(iconImage, ResourceUtility.GetFarmerIconKey(tableRow.id));
             nameText.text = $"Lv.{farmerData.level} {farmerData.nickname ?? ResourceUtility.GetFarmerNameLocalKey(tableRow.id)}";
             
-            foreach(EFarmerStatType statType in statElementUIList.Keys)
+            foreach(EFarmerStatType statType in statElementUIList.keys)
                 statElementUIList[statType].Initialize();
 
             upgradeButtonUI.Initialize(ResourceUtility.GetFarmerMonetaIconKey(tableRow.id), levelTableRow.upgradeMonetaCost, () => {

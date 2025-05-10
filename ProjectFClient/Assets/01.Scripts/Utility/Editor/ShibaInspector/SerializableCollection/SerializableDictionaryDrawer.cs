@@ -39,11 +39,6 @@ public class SerializableDictionaryDrawer : PropertyDrawer
     {
         var keys = property.FindPropertyRelative("keys");
         var values = property.FindPropertyRelative("values");
-        var shouldApply = property.FindPropertyRelative("shouldApply");
-        var notApplied = property.FindPropertyRelative("notApplied");
-
-        if(notApplied.boolValue == true)
-            label.text += " *";
 
         foldout = EditorGUI.Foldout(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), foldout, label, true);
         position.y += EditorGUIUtility.singleLineHeight;
@@ -76,8 +71,6 @@ public class SerializableDictionaryDrawer : PropertyDrawer
                 keys.DeleteArrayElementAtIndex(i);
                 values.DeleteArrayElementAtIndex(i);
 
-                notApplied.boolValue = true;
-
                 break;
             }
 
@@ -94,21 +87,47 @@ public class SerializableDictionaryDrawer : PropertyDrawer
             keys.InsertArrayElementAtIndex(index);
             values.InsertArrayElementAtIndex(index);
 
-            notApplied.boolValue = true;
+            var keyProp = keys.GetArrayElementAtIndex(index);
+    var valueProp = values.GetArrayElementAtIndex(index);
+
+    ResetProperty(keyProp);
+    ResetProperty(valueProp);
 
             property.serializedObject.ApplyModifiedProperties();
         }
 
-        // Apply Button
-        Rect applyBtnRect = new Rect(position.x + half + 5, position.y, half - 35, EditorGUIUtility.singleLineHeight);
-        if (GUI.Button(applyBtnRect, "Apply"))
-        {
-            shouldApply.boolValue = true;
-            notApplied.boolValue = false;
-        }
-
         EditorGUI.indentLevel--;
     }
+
+    private void ResetProperty(SerializedProperty prop)
+{
+    switch (prop.propertyType)
+    {
+        case SerializedPropertyType.Integer:
+            prop.intValue = 0;
+            break;
+        case SerializedPropertyType.Boolean:
+            prop.boolValue = false;
+            break;
+        case SerializedPropertyType.Float:
+            prop.floatValue = 0f;
+            break;
+        case SerializedPropertyType.String:
+            prop.stringValue = string.Empty;
+            break;
+        case SerializedPropertyType.ObjectReference:
+            prop.objectReferenceValue = null;
+            break;
+        case SerializedPropertyType.Generic:
+            if (!string.IsNullOrEmpty(prop.managedReferenceFullTypename))
+                prop.boxedValue = null; // 또는 초기화 인스턴스를 지정하고 싶다면 CreateInstanceFromTypename 사용
+            break;
+        default:
+            // 필요 시 더 추가
+            break;
+    }
+}
+
 }
 }
 
